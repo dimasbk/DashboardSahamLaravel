@@ -12,4 +12,12 @@ class PortofolioJualModel extends Model
         ->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
         ->get();
     }
+
+    public function getData($user_id){
+        return DB::table('tb_portofolio_jual')
+            ->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
+            ->where('user_id', $user_id)
+            ->get();
+
+    }
 }

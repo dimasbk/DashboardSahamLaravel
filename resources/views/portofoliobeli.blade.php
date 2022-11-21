@@ -28,10 +28,14 @@
               <a class="nav-link active" href="#">Beli</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/portofoliojual">Jual</a>
+              <a class="nav-link" href="/portofoliojual/{{Auth::id()}}">Jual</a>
             </li>
           </ul>
-          <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalContactForm">Buat Data Portofolio</a>
+
+          <div class="container">
+            <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalContactForm">Buat Data Portofolio</a>
+          </div>
+          
 
           <div class="table-responsive">
     
@@ -75,12 +79,12 @@
           <div class="modal-content">
             <div class="alert alert-danger" style="display:none"></div>
               <div class="modal-header text-center">
-                <h4 class="modal-title w-100 font-weight-bold">Input Data Portofolio Beli</h4>
+                <h4 class="modal-title w-100 font-weight-bold">Input Data Portofolio Jual</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <form id="form_beli" name="formbeli"  method="post">
+              <form id="form_jual" name="formjual"  method="post">
                 @csrf
                 <div class="modal-body mx-3">
                   <div class="md-form mb-5">
