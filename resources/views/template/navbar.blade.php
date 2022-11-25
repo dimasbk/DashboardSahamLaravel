@@ -14,7 +14,7 @@
           <li class="nav-item">
             <a href="/portofoliobeli/{{Auth::id()}}" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
-              <p>Portofolio Beli</p>
+              <p>Portofolio</p>
             </a>
           </li>
           <li class="nav-item">
@@ -24,7 +24,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{asset('template')}}/index3.html" class="nav-link">
+            <a href="#" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
               <p>Report dan Rekapitulasi</p>
             </a>

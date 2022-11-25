@@ -30,7 +30,7 @@ class PortofolioBeliController extends Controller
 
     }
 
-    public function getData($user_id){
+    public function getData1($user_id){
 
         $dataporto = [
             'portobeli'=>$this->PortofolioBeliModel->getData($user_id),
@@ -47,6 +47,15 @@ class PortofolioBeliController extends Controller
         return view('portofoliobeli', $data);
         //return view('portofoliobeli', compact(['dataporto'=>$dataporto],['emiten'=>$emiten],['jenis_saham'=>$jenis_saham])); 
 
+    }
+    public function getdata($user_id){
+        $dataporto = PortofolioBeliModel::where('user_id', $user_id)->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')->get();
+        $emiten = SahamModel::all();
+        $jenis_saham = JenisSahamModel::all();
+
+        $data = compact(['dataporto'],['emiten'],['jenis_saham']);
+        //dd($data);
+        return view('portofoliobeli', $data);
     }
 
     public function insertData(Request $request){

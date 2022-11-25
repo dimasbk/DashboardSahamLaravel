@@ -49,8 +49,7 @@
               </thead>
               <tbody>
               <?php $i = 1 ?>
-                @foreach ($dataporto as $data)
-                  @foreach ($data as $item)
+                  @foreach ($dataporto as $item)
                   <tr scope = "row">
                       <td>{{$i }}</td>
                       <?php $i++ ?>
@@ -61,7 +60,7 @@
                       <td>{{$item -> fee_jual_persen}}</td>
                   </tr>
                   @endforeach
-                @endforeach
+               
               </tbody>
             </table>
           </div>
@@ -80,18 +79,18 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <form id="form_jual" name="formjual"  method="post">
+              <form action="/portofoliojual/addjual" id="form_jual" name="formjual"  method="post">
                 @csrf
                 <div class="modal-body mx-3">
                   <div class="md-form mb-5">
                     <label data-error="wrong" data-success="right" for="form34">Emiten Saham</label><br>
                     <select name="id_saham" id="id_saham" class="category">
                       <option disable selected @error('id_saham') is-invalid @enderror>--Pilih Saham--</option>
-                      @foreach($emiten as $data)
-                        @foreach($data as $item)
+                     
+                        @foreach($emiten as $item)
                           <option value="{{ $item->id_saham}}">{{ $item->nama_saham}}</option>
                         @endforeach
-                      @endforeach
+                     
                     </select>
                   </div>
 
@@ -99,11 +98,11 @@
                     <label data-error="wrong" data-success="right" for="form29">Jenis Saham</label><br>
                     <select name="id_jenis_saham" id="id_jenis_saham" class="category">
                       <option disable selected>--Pilih Jenis--</option>
-                      @foreach($jenis_saham as $data)
-                        @foreach($data as $item)
+
+                        @foreach($jenis_saham as $item)
                           <option value="{{ $item->id_jenis_saham}}">{{ $item->jenis_saham}}</option>
                         @endforeach
-                      @endforeach
+
                     </select>
                   </div>
 

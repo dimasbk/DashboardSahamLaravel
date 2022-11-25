@@ -22,7 +22,8 @@ Route::get('/portofoliobeli/{user_id}', [PortofolioBeliController::class, 'getDa
 Route::post('/portofoliobeli/addbeli', [PortofolioBeliController::class, 'insertData']);
 
 
-Route::get('/portofoliojual/{user_id}', [PortofolioJualController::class, 'getData']);
+Route::get('/portofoliojual/{user_id}', [PortofolioJualController::class, 'getdata']);
+Route::post('/portofoliojual/addjual', [PortofolioJualController::class, 'insertData']);
 
 Auth::routes();
 
