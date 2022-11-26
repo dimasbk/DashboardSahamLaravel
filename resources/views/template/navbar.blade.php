@@ -24,7 +24,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="/reportbeli/{{Auth::id()}}" class="nav-link">
               <i class="far fa-circle nav-icon"></i>
               <p>Report dan Rekapitulasi</p>
             </a>

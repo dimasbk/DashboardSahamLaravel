@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PortofolioBeliController;
 use App\Http\Controllers\PortofolioJualController;
-
+use App\Http\Controllers\ReportBeliController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +24,8 @@ Route::post('/portofoliobeli/addbeli', [PortofolioBeliController::class, 'insert
 
 Route::get('/portofoliojual/{user_id}', [PortofolioJualController::class, 'getdata']);
 Route::post('/portofoliojual/addjual', [PortofolioJualController::class, 'insertData']);
+
+Route::get('/reportbeli/{user_id}', [ReportBeliController::class, 'getData']);
 
 Auth::routes();
 
