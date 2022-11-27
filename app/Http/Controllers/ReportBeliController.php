@@ -15,14 +15,13 @@ class ReportBeliController extends Controller
     }
 
     public function getData($user_id){
-        $beli = PortofolioBeliModel::where('user_id', $user_id)
+        $beli = PortofolioBeliModel::where('tb_portofolio_beli.user_id', $user_id)
             ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
-            ->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
-            ->get()
-            ->sum();
-        //$saham = $dataporto->id_saham;
+            ->join('tb_portofolio_jual', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
+            ->get()->toArray();
+
+
         
         
-        dd($beli);
     }   
 }

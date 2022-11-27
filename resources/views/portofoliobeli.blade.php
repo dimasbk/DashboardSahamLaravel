@@ -35,10 +35,7 @@
           <div class="container">
             <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalContactForm">Buat Data Portofolio</a>
           </div>
-          
-
           <div class="table-responsive">
-    
             <table class="table custom-table">
               <thead>
                 <tr>
@@ -55,6 +52,7 @@
                 
                   @foreach ($dataporto as $item)
                   <tr scope = "row">
+                      <td style="display:none;">{{$item->id_portofolio_beli}}</td>
                       <td>{{$i }}</td>
                       <?php $i++ ?>
                       <td>{{$item -> nama_saham}}</td>
@@ -62,6 +60,8 @@
                       <td>{{$item -> tanggal_beli}}</td>
                       <td>{{$item -> harga_beli}}</td>
                       <td>{{$item -> fee_beli_persen}}</td>
+                      <td><button onclick="location.href='/portofoliobeli/edit/{{$item->id_portofolio_beli}}'" class="btn btn-success" type="button"><i class="fas fa-edit"></i></button></td>
+
                   </tr>
                   @endforeach
                 
@@ -84,7 +84,7 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <form action="/portofoliobeli/addbeli" id="form_jual" name="formjual"  method="post">
+              <form action="/portofoliobeli/addbeli" id="form_beli" name="formbeli"  method="post">
                 @csrf
                 <div class="modal-body mx-3">
                   <div class="md-form mb-5">
@@ -146,37 +146,6 @@
         <script src="{{asset('style')}}/table/js/bootstrap.min.js"></script>
         <script src="{{asset('style')}}/table/js/main.js"></script>
 
-        <script>
-          $(document).ready(function () {
-            $.ajaxSetup({
-              headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-              }
-            });
-            $("btn_send").submit(function (event) {
-              var formData = {
-                id_saham: $("#id_saham").val(),
-                id_jenis_saham: $("#id_jenis_saham").val(),
-                volume: $("#volume").val(),
-                tanggal_beli: $("#tanggal_beli").val(),
-                harga_beli: $("#harga_beli").val(),
-                fee_beli_persen: $("#fee_beli_persen").val(),
-              };
-
-              $.ajax({
-                type: "POST",
-                url: "/portofoliobeli/addbeli",
-                data: formData,
-                dataType: "json",
-                encode: true,
-              }).done(function (data) {
-                console.log(data);
-              });
-
-              event.preventDefault();
-            });
-          });
-        </script>
 </body>
 
 @endsection

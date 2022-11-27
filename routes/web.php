@@ -20,10 +20,13 @@ use App\Http\Controllers\ReportBeliController;
 Route::resource('portobeli',PortofolioBeliController::class);
 Route::get('/portofoliobeli/{user_id}', [PortofolioBeliController::class, 'getData']);
 Route::post('/portofoliobeli/addbeli', [PortofolioBeliController::class, 'insertData']);
+Route::get('/portofoliobeli/edit/{user_id}', [PortofolioBeliController::class, 'getEdit']);
+Route::post('/portofoliobeli/editbeli', [PortofolioBeliController::class, 'editData']);
 
 
 Route::get('/portofoliojual/{user_id}', [PortofolioJualController::class, 'getdata']);
 Route::post('/portofoliojual/addjual', [PortofolioJualController::class, 'insertData']);
+
 
 Route::get('/reportbeli/{user_id}', [ReportBeliController::class, 'getData']);
 

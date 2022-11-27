@@ -30,24 +30,6 @@ class PortofolioBeliController extends Controller
 
     }
 
-    public function getData1($user_id){
-
-        $dataporto = [
-            'portobeli'=>$this->PortofolioBeliModel->getData($user_id),
-        ];
-        $emiten = [
-            'emiten'=>$this->SahamModel->allData(),
-        ];
-        $jenis_saham = [
-            'jenis_saham'=>$this->JenisSahamModel->allData(),
-        ];
-        $data = compact(['dataporto'],['emiten'],['jenis_saham']);
-        //dd($data);
-
-        return view('portofoliobeli', $data);
-        //return view('portofoliobeli', compact(['dataporto'=>$dataporto],['emiten'=>$emiten],['jenis_saham'=>$jenis_saham])); 
-
-    }
     public function getdata($user_id){
         $dataporto = PortofolioBeliModel::where('user_id', $user_id)->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')->get();
         $emiten = SahamModel::all();
@@ -61,7 +43,7 @@ class PortofolioBeliController extends Controller
     public function insertData(Request $request){
 
         $id = Auth::id();
-        $data = [
+        $insert = PortofolioBeliModel::create([
             'id_saham' => $request->id_saham,
             'user_id' => $id,
             'jenis_saham' => $request->id_jenis_saham,
@@ -69,16 +51,46 @@ class PortofolioBeliController extends Controller
             'tanggal_beli' => $request->tanggal_beli,
             'harga_beli' => $request->harga_beli,
             'fee_beli_persen' => $request->fee_beli_persen,
+        ]);
 
-        ]; 
-
-        //dd($data);
+        dd($insert);
         //dd($request);
-        $this->PortofolioBeliModel->insertData($data);
-        if($data){
+
+        if($insert){
             return redirect()->action(
             [PortofolioBeliController::class, 'getData'], ['user_id' => $id]
         );
         }
     }
+
+    public function getEdit($id_portofolio_beli){
+        $dataporto = PortofolioBeliModel::where('id_portofolio_beli', $id_portofolio_beli)->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')->get();
+        $emiten = SahamModel::all();
+        $jenis_saham = JenisSahamModel::all();
+
+        $data = compact(['dataporto'],['emiten'],['jenis_saham']);
+        //dd($data);
+        return view('editportofoliobeli', $data);
+    }
+
+    public function editData(Request $request){
+
+        $dataporto = PortofolioBeliModel::where('id_portofolio_beli', $request->id_portofolio_beli)->firstOrFail();
+        $id = Auth::id();
+        //dd($dataporto);
+        
+        
+        $dataporto->id_saham = $request->id_saham;
+        $dataporto->user_id = $id;
+        $dataporto->jenis_saham = $request->id_jenis_saham;
+        $dataporto->volume = $request->volume;
+        $dataporto->tanggal_beli = $request->tanggal_beli;
+        $dataporto->harga_beli = $request->harga_beli;
+        $dataporto->fee_beli_persen = $request->fee_beli_persen;
+        $dataporto->save();
+        
+
+        return redirect()->to('portofoliobeli/'.$id);
+    }
+
 }
