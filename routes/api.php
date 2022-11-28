@@ -34,10 +34,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/portofoliobeli', [PortofolioBeliAPIController::class, 'allData']);
     Route::get('/portofoliobeli/{user_id}', [PortofolioBeliAPIController::class, 'getData']);
     Route::post('/portofoliobeli/addbeli', [PortofolioBeliAPIController::class, 'insertData']);
+    Route::post('/portofoliobeli/editbeli', [PortofolioBeliAPIController::class, 'editData']);
+    Route::get('/portofoliobeli/delete/{id_portofolio_beli}', [PortofolioBeliAPIController::class, 'deleteData']);
 
     Route::get('/portofoliojual', [PortofolioJualAPIController::class, 'index']);
     Route::get('/portofoliojual/{user_id}', [PortofolioJualAPIController::class, 'getdata']);
     Route::post('/portofoliojual/addjual', [PortofolioJualAPIController::class, 'insertData']);
+    Route::post('/portofoliojual/editjual', [PortofolioJualAPIController::class, 'editData']);
+    Route::get('/portofoliojual/delete/{id_portofolio_jual}', [PortofolioJualAPIController::class, 'deleteData']);
 
     // API route for logout user
     Route::post('/logout', [AuthController::class, 'logout']);

@@ -1,7 +1,7 @@
 @extends('template.master')
 
 @section('content')
-<form action="/portofoliobeli/editbeli" id="form_beli" name="formbeli"  method="post">
+<form action="/portofoliojual/editjual" id="form_jual" name="formjual"  method="post">
     @csrf
 
     <div class="modal-body mx-3">
@@ -23,7 +23,7 @@
                 <option disable selected>--Pilih Jenis--</option>
                         
                 @foreach($jenis_saham as $item)
-                    <option value="{{ $item->id_jenis_saham}}">{{ $item->jenis_saham}}</option>
+                    <option value="{{ $item->id_jenis_saham}}">{{$item->jenis_saham}}</option>
                 @endforeach
                      
             </select>
@@ -31,7 +31,7 @@
         
         <div>
             @foreach ($dataporto as $item)
-            <input name="id_portofolio_beli" type="hidden" id="id_portofolio_beli" value="{{$item->id_portofolio_beli}}" class="form-control validate">
+            <input name="id_portofolio_jual" type="hidden" id="id_portofolio_beli" value="{{$item->id_portofolio_beli}}" class="form-control validate">
             @endforeach
         </div>
         <div class="md-form mb-5">
@@ -42,22 +42,22 @@
         </div>
 
         <div class="md-form mb-5">
-            <label data-error="wrong" data-success="right" for="form32">Tanggal Beli</label>
+            <label data-error="wrong" data-success="right" for="form32">Tanggal Jual</label>
             @foreach ($dataporto as $item)
-            <input name="tanggal_beli" type="date" id="tanggal_beli" value="{{$item->tanggal_beli}}" class="form-control validate">
+            <input name="tanggal_jual" type="date" id="tanggal_jual" value="{{$item->tanggal_jual}}" class="form-control validate">
             @endforeach
         </div>
 
         <div class="md-form mb-5">
-            <label data-error="wrong" data-success="right" for="form32">Harga Beli</label>
+            <label data-error="wrong" data-success="right" for="form32">Harga Jual</label>
             @foreach ($dataporto as $item)
-            <input name="harga_beli" type="number" id="harga_beli" value="{{$item->harga_beli}}" class="form-control validate">
+            <input name="harga_beli" type="number" id="harga_jual" value="{{$item->harga_jual}}" class="form-control validate">
             @endforeach
         </div>
         <div class="md-form mb-5">
-            <label data-error="wrong" data-success="right" for="form32">Fee Beli</label>
+            <label data-error="wrong" data-success="right" for="form32">Fee Jual</label>
             @foreach ($dataporto as $item)
-            <input name="fee_beli_persen" type="number" id="fee_beli_persen" value="{{$item->fee_beli_persen}}" class="form-control validate">
+            <input name="fee_beli_persen" type="number" id="fee_beli_persen" value="{{$item->fee_jual_persen}}" class="form-control validate">
             @endforeach
             <label data-error="wrong" data-success="right" for="form32">%</label>
         </div>

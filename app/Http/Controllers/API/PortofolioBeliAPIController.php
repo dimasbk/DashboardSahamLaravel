@@ -55,4 +55,30 @@ class PortofolioBeliAPIController extends Controller
             return response()->json(['messsage'=>'Berhasil', 'data'=>$insert ]);
         }
     }
+    public function editData(Request $request){
+
+        $dataporto = PortofolioBeliModel::where('id_portofolio_beli', $request->id_portofolio_beli)->firstOrFail();
+        $id = Auth::id();
+        //dd($dataporto);
+        
+        
+        $dataporto->id_saham = $request->id_saham;
+        $dataporto->user_id = $id;
+        $dataporto->jenis_saham = $request->id_jenis_saham;
+        $dataporto->volume = $request->volume;
+        $dataporto->tanggal_beli = $request->tanggal_beli;
+        $dataporto->harga_beli = $request->harga_beli;
+        $dataporto->fee_beli_persen = $request->fee_beli_persen;
+        $dataporto->save();
+        
+
+        return response()->json(['messsage'=>'Data Berhasil di Update' ]);
+    }
+
+    public function deleteData($id_portofolio_jual){
+        $dataporto = PortofolioBeliModel::where('id_portofolio_beli', $id_portofolio_beli)->firstOrFail();
+        $dataporto->delete();
+        $id = Auth::id();
+        return response()->json(['messsage'=>'Data Berhasil di Delete' ]);
+    }
 }

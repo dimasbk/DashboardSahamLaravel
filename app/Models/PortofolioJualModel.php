@@ -13,5 +13,6 @@ class PortofolioJualModel extends Model
         'id_saham', 'user_id', 'jenis_saham', 'volume', 'tanggal_jual', 'harga_jual', 'fee_jual_persen'
     ];
     public $timestamps = false;
+    protected $primaryKey = 'id_portofolio_jual';
 
 }

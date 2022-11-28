@@ -93,4 +93,11 @@ class PortofolioBeliController extends Controller
         return redirect()->to('portofoliobeli/'.$id);
     }
 
+    public function deleteData($id_portofolio_beli){
+        $dataporto = PortofolioBeliModel::where('id_portofolio_beli', $id_portofolio_beli)->firstOrFail();
+        $dataporto->delete();
+        $id = Auth::id();
+        return redirect()->to('portofoliobeli/'.$id);
+    }
+
 }

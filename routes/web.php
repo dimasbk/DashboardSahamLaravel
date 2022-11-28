@@ -20,12 +20,16 @@ use App\Http\Controllers\ReportBeliController;
 Route::resource('portobeli',PortofolioBeliController::class);
 Route::get('/portofoliobeli/{user_id}', [PortofolioBeliController::class, 'getData']);
 Route::post('/portofoliobeli/addbeli', [PortofolioBeliController::class, 'insertData']);
-Route::get('/portofoliobeli/edit/{user_id}', [PortofolioBeliController::class, 'getEdit']);
+Route::get('/portofoliobeli/edit/{id_portofolio_beli}', [PortofolioBeliController::class, 'getEdit']);
 Route::post('/portofoliobeli/editbeli', [PortofolioBeliController::class, 'editData']);
+Route::get('/portofoliobeli/delete/{id_portofolio_beli}', [PortofolioBeliController::class, 'deleteData']);
 
 
 Route::get('/portofoliojual/{user_id}', [PortofolioJualController::class, 'getdata']);
 Route::post('/portofoliojual/addjual', [PortofolioJualController::class, 'insertData']);
+Route::get('/portofoliojual/edit/{id_portofolio_jual}', [PortofolioJualController::class, 'getEdit']);
+Route::post('/portofoliojual/editjual', [PortofolioJualController::class, 'editData']);
+Route::get('/portofoliojual/delete/{id_portofolio_jual}', [PortofolioJualController::class, 'deleteData']);
 
 
 Route::get('/reportbeli/{user_id}', [ReportBeliController::class, 'getData']);

@@ -60,18 +60,35 @@
                       <td>{{$item -> tanggal_beli}}</td>
                       <td>{{$item -> harga_beli}}</td>
                       <td>{{$item -> fee_beli_persen}}</td>
-                      <td><button onclick="location.href='/portofoliobeli/edit/{{$item->id_portofolio_beli}}'" class="btn btn-success" type="button"><i class="fas fa-edit"></i></button></td>
-
+                      <td>
+                        <button onclick="location.href='/portofoliobeli/edit/{{$item->id_portofolio_beli}}'" class="btn btn-success" type="button"><i class="fas fa-edit"></i></button>
+                        <button data-toggle="modal" data-target="#deletemodal" type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                      </td>
+                      <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="deletemodalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="deletemodalLabel">WARNING!</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <h3>Apakah Anda Yakin Untuk Menghapus Data?</h3>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              <button onclick="location.href='/portofoliobeli/delete/{{$item->id_portofolio_beli}}'" type="button" class="btn btn-primary">Delete Data</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                   </tr>
                   @endforeach
-                
               </tbody>
             </table>
           </div>
-    
-    
         </div>
-    
       </div>
 
       <div class="modal fade" id="modalContactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -138,6 +155,8 @@
             </div>
           </div>
         </div>
+        <!-- Modal -->
+        
         
         
     

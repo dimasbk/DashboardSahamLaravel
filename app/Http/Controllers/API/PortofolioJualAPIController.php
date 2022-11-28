@@ -56,7 +56,34 @@ class PortofolioJualAPIController extends Controller
         //$this->PortofolioJualModel->insertData($data);
         if($insert){
             $insert->save();
-            return response()->json(['messsage'=>'Berhasil', 'data'=>$insert ]);
+            return response()->json(['messsage'=>'Data Berhasil Masuk', 'data'=>$insert ]);
         }
+    }
+
+    public function editData(Request $request){
+
+        $dataporto = PortofolioJualModel::where('id_portofolio_jual', $request->id_portofolio_jual)->firstOrFail();
+        $id = Auth::id();
+        //dd($dataporto);
+        
+        
+        $dataporto->id_saham = $request->id_saham;
+        $dataporto->user_id = $id;
+        $dataporto->jenis_saham = $request->id_jenis_saham;
+        $dataporto->volume = $request->volume;
+        $dataporto->tanggal_jual = $request->tanggal_jual;
+        $dataporto->harga_jual = $request->harga_jual;
+        $dataporto->fee_jual_persen = $request->fee_jual_persen;
+        $dataporto->save();
+        
+
+        return response()->json(['messsage'=>'Data Berhasil di Update' ]);
+    }
+
+    public function deleteData($id_portofolio_jual){
+        $dataporto = PortofolioJualModel::where('id_portofolio_jual', $id_portofolio_jual)->firstOrFail();
+        $dataporto->delete();
+        $id = Auth::id();
+        return response()->json(['messsage'=>'Data Berhasil di Delete' ]);
     }
 }
