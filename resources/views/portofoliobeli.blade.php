@@ -22,7 +22,7 @@
     <div class="content">
     
         <div class="container">
-          <h2 class="mb-5">Tabel Portofolio Beli</h2>
+          <h2 class="mb-5">Tabel Report Portofolio Beli</h2>
           <ul class="nav nav-tabs">
             <li class="nav-item">
               <a class="nav-link active" href="#">Beli</a>
@@ -41,10 +41,8 @@
                 <tr>
                     <th scope="col">No </th>
                     <th scope="col">Nama Emiten</th>
-                    <th scope="col">Volume Beli</th>
-                    <th scope="col">Tanggal Beli</th>
-                    <th scope="col">Harga Beli</th>
-                    <th scope="col">Fee Beli(%)</th>
+                    <th scope="col">Volume Total</th>
+                    <th scope="col">Total Beli Bersih</th>
                 </tr>
               </thead>
               <tbody>
