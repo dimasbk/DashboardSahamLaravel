@@ -21,13 +21,13 @@
 <body>
   <div class="content">
     <div class="container">
-      <h2 class="mb-5">Tabel Report Portofolio Beli</h2>
+      <h2 class="mb-5">Tabel Report Portofolio Jual</h2>
       <ul class="nav nav-tabs">
         <li class="nav-item">
-          <a class="nav-link active" href="#">Beli</a>
+          <a class="nav-link " href="/reportbeli/{{Auth::id()}}">Beli</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/reportjual/{{Auth::id()}}">Jual</a>
+          <a class="nav-link active" href="#">Jual</a>
         </li>
       </ul>
       <div class="table-responsive">
@@ -48,7 +48,7 @@
               <td>{{$item -> tahun}}</td>
               <td>
                 
-                <button onclick="location.href='/reportbeli/detail/{{Auth::id()}}/{{$item->tahun}}'" type="button" class="btn btn-primary"><i class="far fa-table"></i></button>
+                <button onclick="location.href='/reportjual/detail/{{Auth::id()}}/{{$item->tahun}}'" type="button" class="btn btn-primary"><i class="far fa-table"></i></button>
               </td>
             </tr>
             @endforeach

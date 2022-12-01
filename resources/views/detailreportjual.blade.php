@@ -2,6 +2,7 @@
 
 
 @section('content')
+
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8">
@@ -21,35 +22,27 @@
 <body>
   <div class="content">
     <div class="container">
-      <h2 class="mb-5">Tabel Report Portofolio Beli</h2>
-      <ul class="nav nav-tabs">
-        <li class="nav-item">
-          <a class="nav-link active" href="#">Beli</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/reportjual/{{Auth::id()}}">Jual</a>
-        </li>
-      </ul>
+      <h2 class="mb-5">Tabel Report Portofolio</h2>
+      <button onclick="location.href='/reportjual/{{Auth::id()}}'" class="btn btn-info btn-lg previous">Kembali</button>
       <div class="table-responsive">
         <table class="table custom-table">
           <thead>
             <tr>
               <th scope="col">No </th>
-              <th scope="col">Tahun</th>
-              <th scope="col">Detail</th>
+              <th scope="col">Nama Emiten </th>
+              <th scope="col">Total Volume </th>
+              <th scope="col">Total Jual Bersih</th>
             </tr>
           </thead>
           <tbody>
             <?php $i = 1 ?>
-            @foreach ($tahun as $item)
+            @foreach ($jual as $item)
             <tr scope = "row">
               <td>{{$i }}</td>
               <?php $i++ ?>
-              <td>{{$item -> tahun}}</td>
-              <td>
-                
-                <button onclick="location.href='/reportbeli/detail/{{Auth::id()}}/{{$item->tahun}}'" type="button" class="btn btn-primary"><i class="far fa-table"></i></button>
-              </td>
+              <td>{{$item -> nama_saham}}</td>
+              <td>{{$item -> total_volume}}</td>
+              <td>{{$item -> jual_bersih}}</td>
             </tr>
             @endforeach
           </tbody>

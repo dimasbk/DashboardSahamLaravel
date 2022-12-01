@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PortofolioBeliController;
 use App\Http\Controllers\PortofolioJualController;
 use App\Http\Controllers\ReportBeliController;
+use App\Http\Controllers\ReportJualController;
 use App\Http\Controllers\FundamentalController;
+
 
 
 /*
@@ -34,8 +36,12 @@ Route::post('/portofoliojual/editjual', [PortofolioJualController::class, 'editD
 Route::get('/portofoliojual/delete/{id_portofolio_jual}', [PortofolioJualController::class, 'deleteData']);
 
 
-Route::get('/reportbeli/edit/{user_id}/{tahun}', [ReportBeliController::class, 'getData']);
+Route::get('/reportbeli/detail/{user_id}/{tahun}', [ReportBeliController::class, 'getData']);
 Route::get('/reportbeli/{user_id}', [ReportBeliController::class, 'getYear']);
+
+Route::get('/reportjual/detail/{user_id}/{tahun}', [ReportJualController::class, 'getData']);
+Route::get('/reportjual/{user_id}', [ReportJualController::class, 'getYear']);
+
 
 Route::get('/fundamental', [FundamentalController::class, 'index']);
 

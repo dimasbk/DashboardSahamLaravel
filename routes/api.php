@@ -6,6 +6,7 @@ use App\Http\Controllers\PortofolioJualController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\PortofolioJualAPIController;
 use App\Http\Controllers\API\PortofolioBeliAPIController;
+use App\Http\Controllers\API\ReportAPIController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/portofoliojual/addjual', [PortofolioJualAPIController::class, 'insertData']);
     Route::post('/portofoliojual/editjual', [PortofolioJualAPIController::class, 'editData']);
     Route::get('/portofoliojual/delete/{id_portofolio_jual}', [PortofolioJualAPIController::class, 'deleteData']);
+
+    Route::get('/reportbeli/detail/{user_id}/{tahun}', [ReportAPIController::class, 'getBelireport']);
+
+    Route::get('/reportjual/detail/{user_id}/{tahun}', [ReportAPIController::class, 'getJualreport']);
+
 
     // API route for logout user
     Route::post('/logout', [AuthController::class, 'logout']);
