@@ -41,17 +41,19 @@ class ReportJualController extends Controller
         $jual = PortofolioJualModel::selectRaw("SUM(tb_portofolio_jual.`harga_jual` - (tb_portofolio_jual.`harga_jual`*tb_portofolio_jual.`fee_jual_persen`/100)) AS jual_bersih")
             ->selectRaw('SUM(tb_portofolio_jual.`volume`) AS total_volume')
             ->selectRaw('tb_saham.`nama_saham`')
+            ->selectRaw('DATE_FORMAT(tb_portofolio_jual.`tanggal_jual`, "%M")')
             ->where('tb_portofolio_jual.user_id', $user_id)
             ->whereRaw('YEAR(tb_portofolio_jual.`tanggal_jual`) = ' . $tahun)
             ->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
             ->groupBy("tb_saham.nama_saham")
+            ->groupBy(DB::raw('DATE_FORMAT(tb_portofolio_jual.`tanggal_jual`, "%M")'))
             ->get();
             
         //dd($jual);
         $data = compact(['jual']);
-        //dd($data);
+        dd($data);
 
-        return view('detailreportjual', $data);
+        //return view('detailreportjual', $data);
         
     }  
 }

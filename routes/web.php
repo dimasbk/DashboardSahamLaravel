@@ -6,6 +6,8 @@ use App\Http\Controllers\PortofolioJualController;
 use App\Http\Controllers\ReportBeliController;
 use App\Http\Controllers\ReportJualController;
 use App\Http\Controllers\FundamentalController;
+use App\Http\Controllers\StockAPIController;
+
 
 
 
@@ -43,7 +45,18 @@ Route::get('/reportjual/detail/{user_id}/{tahun}', [ReportJualController::class,
 Route::get('/reportjual/{user_id}', [ReportJualController::class, 'getYear']);
 
 
-Route::get('/fundamental', [FundamentalController::class, 'index']);
+Route::get('/fundamental', [StockAPIController::class, 'index']);
+Route::get('/fundamental/{emiten}', [StockAPIController::class, 'stock']);
+
+
+Route::get('/testreg', function () {
+    return view('auth/register1');
+});
+
+Route::get('/testlogin', function () {
+    return view('auth/login1');
+});
+
 
 
 Auth::routes();

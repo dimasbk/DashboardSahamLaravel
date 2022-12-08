@@ -19,9 +19,8 @@
 </head>
 <body>
     <div class="content">
-    
+
         <div class="container">
-          <h2 class="mb-5">Tabel Portofolio Jual</h2>
           <ul class="nav nav-tabs">
             <li class="nav-item">
               <a class="nav-link" href="/portofoliobeli/{{Auth::id()}}">Beli</a>
@@ -31,7 +30,7 @@
             </li>
           </ul>
           <div class="container">
-            <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalContactForm">Buat Data Portofolio</a>
+            <a href="" class="btn btn-default btn-rounded mb-4 mt-4" data-toggle="modal" data-target="#modalContactForm">Buat Data Portofolio</a>
           </div>
     
           <div class="table-responsive">
@@ -45,6 +44,9 @@
                     <th scope="col">Tanggal Jual</th>
                     <th scope="col">Harga Jual</th>
                     <th scope="col">Fee Jual(%)</th>
+                    <th scope="col">Laba Rugi Jual(%)</th>
+                    <th scope="col">Detail</th>
+
                 </tr>
               </thead>
               <tbody>
@@ -57,7 +59,8 @@
                       <td>{{$item -> volume}}</td>
                       <td>{{$item -> tanggal_jual}}</td>
                       <td>{{$item -> harga_jual}}</td>
-                      <td>{{$item -> fee_jual_persen}}</td>
+                      <td>{{$item -> fee_jual_persen}}%</td>
+                      <td>{{$item -> close_persen}}%</td>
                       <td>
                         <button onclick="location.href='/portofoliojual/edit/{{$item->id_portofolio_jual}}'" class="btn btn-success" type="button"><i class="fas fa-edit"></i></button>
                         <button data-toggle="modal" data-target="#deletemodal" type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>

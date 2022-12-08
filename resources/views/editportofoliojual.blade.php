@@ -31,7 +31,7 @@
         
         <div>
             @foreach ($dataporto as $item)
-            <input name="id_portofolio_jual" type="hidden" id="id_portofolio_beli" value="{{$item->id_portofolio_beli}}" class="form-control validate">
+                <input name="id_portofolio_jual" type="hidden" id="id_portofolio_jual" value="{{$item->id_portofolio_jual}}" class="form-control validate">
             @endforeach
         </div>
         <div class="md-form mb-5">
@@ -51,13 +51,13 @@
         <div class="md-form mb-5">
             <label data-error="wrong" data-success="right" for="form32">Harga Jual</label>
             @foreach ($dataporto as $item)
-            <input name="harga_beli" type="number" id="harga_jual" value="{{$item->harga_jual}}" class="form-control validate">
+            <input name="harga_jual" type="number" id="harga_jual" value="{{$item->harga_jual}}" class="form-control validate">
             @endforeach
         </div>
         <div class="md-form mb-5">
             <label data-error="wrong" data-success="right" for="form32">Fee Jual</label>
             @foreach ($dataporto as $item)
-            <input name="fee_beli_persen" type="number" id="fee_beli_persen" value="{{$item->fee_jual_persen}}" class="form-control validate">
+            <input name="fee_jual_persen" type="number" id="fee_jual_persen" value="{{$item->fee_jual_persen}}" class="form-control validate">
             @endforeach
             <label data-error="wrong" data-success="right" for="form32">%</label>
         </div>

@@ -20,7 +20,7 @@
 <body>
     <div class="content">
         <div class="container">
-            <h2 class="mb-5">Tabel Input</h2>
+            <h2 class="mb-5">Tabel Emiten Saham</h2>
             <ul class="nav nav-tabs">
                 <li class="nav-item">
                     <a class="nav-link active" href="#">Input Analisis</a>
@@ -37,15 +37,26 @@
                     <thead>
                         <tr>
                             <th scope="col">No </th>
+                            <th scope="col">Ticker Emiten</th>
                             <th scope="col">Nama Emiten</th>
-                            <th scope="col">Aset</th>
-                            <th scope="col">Tanggal Beli</th>
-                            <th scope="col">Harga Beli</th>
-                            <th scope="col">Fee Beli(%)</th>
+                            <th scope="col">Logo</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
-                        
+                    <?php $i = 1 ?>
+                        @foreach ($data as $item)
+                        <tr scope = "row">
+                            <td>{{$i }}</td>
+                            <?php $i++ ?>
+                            <td>{{$item['ticker']}}</td>
+                            <td>{{$item['name']}}</td>
+                            <td>
+                                <img src="{{$item['logo']}}">
+                            </td>
+                        </tr>
+                        @endforeach
+               
                     </tbody>
                 </table>
             </div>

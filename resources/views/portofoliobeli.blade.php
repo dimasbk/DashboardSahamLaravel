@@ -22,7 +22,6 @@
     <div class="content">
     
         <div class="container">
-          <h2 class="mb-5">Tabel Report Portofolio Beli</h2>
           <ul class="nav nav-tabs">
             <li class="nav-item">
               <a class="nav-link active" href="#">Beli</a>
@@ -33,16 +32,18 @@
           </ul>
 
           <div class="container">
-            <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalContactForm">Buat Data Portofolio</a>
+            <a href="" class="btn btn-default btn-rounded mt-4 mb-4" data-toggle="modal" data-target="#modalContactForm">Buat Data Portofolio</a>
           </div>
           <div class="table-responsive">
             <table class="table custom-table">
               <thead>
                 <tr>
-                    <th scope="col">No </th>
+                <th scope="col">No </th>
                     <th scope="col">Nama Emiten</th>
-                    <th scope="col">Volume Total</th>
-                    <th scope="col">Total Beli Bersih</th>
+                    <th scope="col">Volume Beli</th>
+                    <th scope="col">Tanggal Beli</th>
+                    <th scope="col">Harga Beli</th>
+                    <th scope="col">Fee Beli(%)</th>
                 </tr>
               </thead>
               <tbody>
