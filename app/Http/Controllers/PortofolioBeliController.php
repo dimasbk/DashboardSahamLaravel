@@ -53,13 +53,12 @@ class PortofolioBeliController extends Controller
             'fee_beli_persen' => $request->fee_beli_persen,
         ]);
 
-        dd($insert);
+        $id = $insert->id_portofolio_beli;
+        //dd($insert);
         //dd($request);
 
-        if($insert){
-            return redirect()->action(
-            [PortofolioBeliController::class, 'getData'], ['user_id' => $id]
-        );
+;       if($insert){
+            return redirect()->action([PortofolioBeliController::class, 'getData'], ['user_id' => $id]);
         }
     }
 

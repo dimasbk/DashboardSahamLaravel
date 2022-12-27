@@ -48,6 +48,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('/reportjual/detail/{user_id}/{tahun}', [ReportAPIController::class, 'getJualreport']);
 
+    Route::get('/belireport', [ReportAPIController::class, 'getReportBeli']);
+    Route::get('/report/{user_id}/{tahun}', [ReportAPIController::class, 'getReport']);
+
+
     // API route for logout user
     Route::post('/logout', [AuthController::class, 'logout']);
 });
