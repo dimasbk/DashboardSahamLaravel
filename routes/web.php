@@ -7,6 +7,7 @@ use App\Http\Controllers\ReportBeliController;
 use App\Http\Controllers\ReportJualController;
 use App\Http\Controllers\FundamentalController;
 use App\Http\Controllers\StockAPIController;
+use App\Http\Controllers\ChartController;
 
 
 
@@ -45,7 +46,8 @@ Route::get('/reportjual/detail/{user_id}/{tahun}', [ReportJualController::class,
 Route::get('/reportjual/{user_id}', [ReportJualController::class, 'getYear']);
 
 
-Route::get('/fundamental', [StockAPIController::class, 'index']);
+Route::get('/stock', [StockAPIController::class, 'index']);
+Route::get('/chart/{ticker}', [ChartController::class, 'chart']);
 Route::get('/fundamental/{emiten}', [StockAPIController::class, 'stock']);
 
 

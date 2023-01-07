@@ -10,7 +10,7 @@
                     </div>
 
                     <div class="signin-form">
-                        <h2 class="form-title">Sign up</h2>
+                        <h2 class="form-title">Login</h2>
                         <form method="POST" action="{{ route('login') }}" class="register-form" id="login-form">
                         @csrf
                             <div class="form-group">

@@ -22,7 +22,7 @@ class StockAPIController extends Controller
         $data = $response['data']['results'];
         //dd($response['data']['results']);
 
-        return view('fundamental', ['data'=>$data]);
+        return view('chart', ['data'=>$data]);
     }
 
     public function stock($emiten)
@@ -32,9 +32,6 @@ class StockAPIController extends Controller
             'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
         ])->get('https://api.goapi.id/v1/stock/idx/'.$emiten)->json();
 
-        $data = $response['data']['last_price'];
-        $closeprice = $response['data']['last_price']['close'];
-
-        dd($closeprice);
+        dd($response);
     }
 }
