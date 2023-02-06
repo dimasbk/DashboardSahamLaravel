@@ -20,7 +20,6 @@
 </head>
 <body>
     <div class="content">
-    
         <div class="container">
           <ul class="nav nav-tabs">
             <li class="nav-item">
@@ -93,76 +92,75 @@
       <div class="modal fade" id="modalContactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
-            <div class="alert alert-danger" style="display:none"></div>
-              <div class="modal-header text-center">
-                <h4 class="modal-title w-100 font-weight-bold">Input Data Portofolio Beli</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <form action="/portofoliobeli/addbeli" id="form_beli" name="formbeli"  method="post">
-                @csrf
-                <div class="modal-body mx-3">
-                  <div class="md-form mb-5">
-                    <label data-error="wrong" data-success="right" for="form34">Emiten Saham</label><br>
-                    <select name="id_saham" id="id_saham" class="category">
-                      <option disable selected @error('id_saham') is-invalid @enderror>--Pilih Saham--</option>
-                      
-                        @foreach($emiten as $item)
-                          <option value="{{ $item->id_saham}}">{{ $item->nama_saham}}</option>
-                        @endforeach
-                      
-                    </select>
-                  </div>
-
-                  <div class="md-form mb-5">
-                    <label data-error="wrong" data-success="right" for="form29">Jenis Saham</label><br>
-                    <select name="id_jenis_saham" id="id_jenis_saham" class="category">
-                      <option disable selected>--Pilih Jenis--</option>
-                      
-                        @foreach($jenis_saham as $item)
-                          <option value="{{ $item->id_jenis_saham}}">{{ $item->jenis_saham}}</option>
-                        @endforeach
-                     
-                    </select>
-                  </div>
-
-                  <div class="md-form mb-5">
-                    <label data-error="wrong" data-success="right" for="form32">Volume</label>
-                    <input name="volume" type="number" id="volume" class="form-control validate">
-                  </div>
-
-                  <div class="md-form mb-5">
-                    <label data-error="wrong" data-success="right" for="form32">Tanggal Beli</label>
-                    <input name="tanggal_beli" type="date" id="tanggl_beli" class="form-control validate">
-                  </div>
-
-                  <div class="md-form mb-5">
-                    <label data-error="wrong" data-success="right" for="form32">Harga Beli</label>
-                    <input name="harga_beli" type="number" id="harga_beli" class="form-control validate">
-                  </div>
-                  <div class="md-form mb-5">
-                    <label data-error="wrong" data-success="right" for="form32">Fee Beli</label>
-                    <input name="fee_beli_persen" type="number" id="fee_beli_persen" class="form-control validate">
-                    <label data-error="wrong" data-success="right" for="form32">%</label>
-                  </div>
-                </div>
-                <div class="modal-footer d-flex justify-content-center">
-                  <button id="btn_send" type="submit" class="btn btn-unique">Send <i class="fas fa-paper-plane-o ml-1"></i></button>
-                </div>
-              </form>
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Stock Purchase</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
+            <div class="modal-body">
+            <form id="formBeli">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+              <div class="form-group">
+                <label for="emitenSaham">Emiten Saham</label>
+                <select class="form-control" id="emitenSaham" name="emitenSaham">
+                  <option value="">Select Emiten Saham</option>
+                  @foreach($emiten as $item)
+                  <option value="{{ $item->id_saham}}">{{ $item->nama_saham}}</option>
+                  @endforeach
+                </select>
+                <div class="invalid-feedback"></div>
+              </div>
+              <div class="form-group">
+                <label for="jenisSaham">Jenis Saham</label>
+                <select class="form-control" id="jenisSaham" name="jenisSaham">
+                  <option value="">Select Jenis Saham</option>
+                  @foreach($jenis_saham as $item)
+                  <option value="{{ $item->id_jenis_saham}}">{{ $item->jenis_saham}}</option>
+                  @endforeach
+                </select>
+                <div class="invalid-feedback"></div>
+              </div>
+              <div class="form-group">
+                <label for="volume">Volume</label>
+                <input type="number" class="form-control" id="volume" name="volume" min="0" step="1">
+                <div class="invalid-feedback"></div>
+              </div>
+              <div class="form-group">
+                <label for="tanggalBeli">Tanggal Beli</label>
+                <input type="date" class="form-control" id="tanggalBeli" name="tanggalBeli">
+                <div class="invalid-feedback"></div>
+              </div>
+              <div class="form-group">
+                <label for="hargaBeli">Harga Beli</label>
+                <input type="number" class="form-control" id="hargaBeli" name="hargaBeli" min="0" step="0.01">
+                <div class="invalid-feedback"></div>
+              </div>
+              <div class="form-group">
+                <label for="feeBeli">Fee Beli</label>
+                <input type="number" class="form-control" id="feeBeli" name="feeBeli" min="0" step="0.01">
+                <div class="invalid-feedback"></div>
+              </div>
+            </form>
           </div>
+          <div class="modal-footer">
+            <button id="clear-form" class="btn btn-light">Clear</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="submit-button" type="submit" class="btn btn-primary">Submit</button>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
         <!-- Modal -->
+      
         
-        
-        
-    
         <script src="{{asset('style')}}/table/js/jquery-3.3.1.min.js"></script>
         <script src="{{asset('style')}}/table/js/popper.min.js"></script>
         <script src="{{asset('style')}}/table/js/bootstrap.min.js"></script>
         <script src="{{asset('style')}}/table/js/main.js"></script>
+        <script src="{{asset('template')}}/js/portofolio.js"></script> 
+
 
 </body>
 

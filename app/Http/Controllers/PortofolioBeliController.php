@@ -37,23 +37,23 @@ class PortofolioBeliController extends Controller
 
         $data = compact(['dataporto'],['emiten'],['jenis_saham']);
         //dd($data);
-        return view('portofoliobeli', $data);
+        return view('portofoliobeli1', $data);
     }
 
     public function insertData(Request $request){
 
         $id = Auth::id();
         $insert = PortofolioBeliModel::create([
-            'id_saham' => $request->id_saham,
+            'id_saham' => $request->emitenSaham,
             'user_id' => $id,
-            'jenis_saham' => $request->id_jenis_saham,
+            'jenis_saham' => $request->jenisSaham,
             'volume' => $request->volume,
-            'tanggal_beli' => $request->tanggal_beli,
-            'harga_beli' => $request->harga_beli,
-            'fee_beli_persen' => $request->fee_beli_persen,
+            'tanggal_beli' => $request->tanggalBeli,
+            'harga_beli' => $request->hargaBeli,
+            'fee_beli_persen' => $request->feeBeli,
         ]);
 
-        $id = $insert->id_portofolio_beli;
+        $id_porto = $insert->id_portofolio_beli;
         //dd($insert);
         //dd($request);
 

@@ -13,19 +13,80 @@ class ChartController extends Controller
         $this->middleware('auth');
     }
 
-    public function chart($ticker){
+    public function index($ticker){
 
+        return view('chartdetail', ['ticker' => $ticker]);
+    }
+
+    public function oneWeek($ticker){
+            
+        $today = date("Y-m-d");
+        $monthBefore = date('Y-m-d', strtotime($today. ' -1 week')); 
         $response = Http::acceptJson()
         ->withHeaders([
             'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
         ])->get('https://api.goapi.id/v1/stock/idx/'.$ticker.'/historical', [
-            'to' => '2023-01-07',
-            'from' => '2022-12-07' 
+            'to' => $today,
+            'from' => $monthBefore 
         ])->json();
 
         $data = $response['data']['results'];
         $data_historical = array_reverse($data);
-        //dd($databaru);
-        return view('chartdetail', ['data'=>$data_historical]);
+        //dd($monthBefore);
+        return $data_historical;
+    }
+
+    public function oneMonth($ticker){
+            
+        $today = date("Y-m-d");
+        $monthBefore = date('Y-m-d', strtotime($today. ' -1 month')); 
+        $response = Http::acceptJson()
+        ->withHeaders([
+            'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
+        ])->get('https://api.goapi.id/v1/stock/idx/'.$ticker.'/historical', [
+            'to' => $today,
+            'from' => $monthBefore 
+        ])->json();
+
+        $data = $response['data']['results'];
+        $data_historical = array_reverse($data);
+        //dd($monthBefore);
+        return $data_historical;
+    }
+
+    public function oneYear($ticker){
+            
+        $today = date("Y-m-d");
+        $monthBefore = date('Y-m-d', strtotime($today. ' -1 year')); 
+        $response = Http::acceptJson()
+        ->withHeaders([
+            'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
+        ])->get('https://api.goapi.id/v1/stock/idx/'.$ticker.'/historical', [
+            'to' => $today,
+            'from' => $monthBefore 
+        ])->json();
+
+        $data = $response['data']['results'];
+        $data_historical = array_reverse($data);
+        //dd($monthBefore);
+        return $data_historical;
+    }
+
+    public function threeYear($ticker){
+            
+        $today = date("Y-m-d");
+        $monthBefore = date('Y-m-d', strtotime($today. ' -3 year')); 
+        $response = Http::acceptJson()
+        ->withHeaders([
+            'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
+        ])->get('https://api.goapi.id/v1/stock/idx/'.$ticker.'/historical', [
+            'to' => $today,
+            'from' => $monthBefore 
+        ])->json();
+
+        $data = $response['data']['results'];
+        $data_historical = array_reverse($data);
+        //dd($monthBefore);
+        return $data_historical;
     }
 }

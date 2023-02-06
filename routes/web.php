@@ -47,7 +47,11 @@ Route::get('/reportjual/{user_id}', [ReportJualController::class, 'getYear']);
 
 
 Route::get('/stock', [StockAPIController::class, 'index']);
-Route::get('/chart/{ticker}', [ChartController::class, 'chart']);
+Route::get('/chart/{ticker}', [ChartController::class, 'index']);
+Route::get('/chart/oneWeek/{ticker}', [ChartController::class, 'oneWeek']);
+Route::get('/chart/oneMonth/{ticker}', [ChartController::class, 'oneMonth']);
+Route::get('/chart/oneYear/{ticker}', [ChartController::class, 'oneYear']);
+Route::get('/chart/threeYear/{ticker}', [ChartController::class, 'threeYear']);
 Route::get('/fundamental/{emiten}', [StockAPIController::class, 'stock']);
 
 

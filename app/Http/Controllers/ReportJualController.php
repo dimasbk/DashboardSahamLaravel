@@ -51,9 +51,9 @@ class ReportJualController extends Controller
             
         //dd($jual);
         $data = compact(['jual']);
-        dd($data);
+        //dd($data);
 
-        //return view('detailreportjual', $data);
+        return view('detailreportjual', $data);
         
     }  
 }
