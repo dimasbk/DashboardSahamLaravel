@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
 
+    <script src="{{asset('style')}}/table/js/jquery-3.5.1.js"></script>
+
     <link rel="stylesheet" href="{{asset('style')}}/table/fonts/icomoon/style.css">
 
     <link rel="stylesheet" href="{{asset('style')}}/table/css/owl.carousel.min.css">
@@ -17,6 +19,16 @@
     
     <!-- Style -->
     <link rel="stylesheet" href="{{asset('style')}}/table/css/style.css">
+    <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
+  integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 <body>
     <div class="content">
@@ -103,7 +115,7 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
               <div class="form-group">
                 <label for="emitenSaham">Emiten Saham</label>
-                <select class="form-control" id="emitenSaham" name="emitenSaham">
+                <select id="emitenSaham" name="emitenSaham">
                   <option value="">Select Emiten Saham</option>
                   @foreach($emiten as $item)
                   <option value="{{ $item->id_saham}}">{{ $item->nama_saham}}</option>
@@ -113,7 +125,7 @@
               </div>
               <div class="form-group">
                 <label for="jenisSaham">Jenis Saham</label>
-                <select class="form-control" id="jenisSaham" name="jenisSaham">
+                <select id="jenisSaham" name="jenisSaham">
                   <option value="">Select Jenis Saham</option>
                   @foreach($jenis_saham as $item)
                   <option value="{{ $item->id_jenis_saham}}">{{ $item->jenis_saham}}</option>
@@ -154,13 +166,16 @@
 </div>
         <!-- Modal -->
       
-        
-        <script src="{{asset('style')}}/table/js/jquery-3.3.1.min.js"></script>
         <script src="{{asset('style')}}/table/js/popper.min.js"></script>
         <script src="{{asset('style')}}/table/js/bootstrap.min.js"></script>
         <script src="{{asset('style')}}/table/js/main.js"></script>
-        <script src="{{asset('template')}}/js/portofolio.js"></script> 
-
+        <script
+  src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+  integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+        <script src="{{asset('template')}}/js/portofolioBeli.js"></script> 
 
 </body>
 

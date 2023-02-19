@@ -1,6 +1,7 @@
 @extends('template.master')
 
 @section('content')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css" integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 <form action="/portofoliobeli/editbeli" id="form_beli" name="formbeli"  method="post">
     @csrf
 
@@ -8,13 +9,18 @@
         <div class="md-form mb-5">
             <label data-error="wrong" data-success="right" for="form34">Emiten Saham</label><br>
             <select name="id_saham" id="id_saham" class="category">
-            <option disable selected @error('id_saham') is-invalid @enderror>--Pilih Saham--</option>
-                      
-            @foreach($emiten as $item)
-            <option value="{{ $item->id_saham}}">{{ $item->nama_saham}}</option>
-            @endforeach
+                <option disable selected @error('id_saham') is-invalid @enderror>--Pilih Saham--</option>
+                        
+                @foreach($emiten as $item)
+                <option value="{{ $item->id_saham}}">{{ $item->nama_saham}}</option>
+                @endforeach
                       
             </select>
+            @foreach ($dataporto as $item)
+            <input name="id_saham_hidden" type="hidden" id="id_saham_hidden" value="{{$item->id_saham}}" class="form-control validate">
+            @endforeach
+            <div class="invalid-feedback"></div>
+
         </div>
 
         <div class="md-form mb-5">
@@ -27,6 +33,10 @@
                 @endforeach
                      
             </select>
+            @foreach ($dataporto as $item)
+            <input name="id_jenis_saham_hidden" type="hidden" id="id_jenis_saham_hidden" value="{{ $item->jenis_saham}}" class="form-control validate">
+            @endforeach
+            <div class="invalid-feedback"></div>
         </div>
         
         <div>
@@ -66,4 +76,7 @@
         <button id="btn_send" type="submit" class="btn btn-unique">Send <i class="fas fa-paper-plane-o ml-1"></i></button>
     </div>
 </form>
+<script src="{{asset('style')}}/table/js/jquery-3.5.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js" integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="{{asset('template')}}/js/editPortofolioBeli.js"></script> 
 @endsection

@@ -12,8 +12,8 @@ class FundamentalController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(){
-        return view('fundamental');
-    }
+    public function index($emiten){
 
+        return view('fundamental', compact('emiten'));
+    }
 }

@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
 
+    <script src="{{asset('style')}}/table/js/jquery-3.5.1.js"></script>
+
     <link rel="stylesheet" href="{{asset('style')}}/table/fonts/icomoon/style.css">
 
     <link rel="stylesheet" href="{{asset('style')}}/table/css/owl.carousel.min.css">
@@ -16,13 +18,19 @@
     
     <!-- Style -->
     <link rel="stylesheet" href="{{asset('style')}}/table/css/style.css">
+  
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap5.min.js"></script>
+
+    <script src="https://kit.fontawesome.com/ce0d5ffb27.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="content">
         <div class="container">
             <h2 class="mb-5">Tabel Emiten Saham</h2>
             <div class="table-responsive">
-                <table class="table custom-table">
+                <table id="chartTable" class="table custom-table">
                     <thead>
                         <tr>
                             <th scope="col">No </th>
@@ -41,7 +49,8 @@
                             <td>{{$item['ticker']}}</td>
                             <td>{{$item['name']}}</td>
                             <td>
-                                <button onclick="location.href='/chart/{{$item['ticker']}}'" class="btn btn-success" type="button"><i class="fas fa-edit"></i></button>
+                                <button onclick="location.href='/chart/{{$item['ticker']}}'" class="btn btn-success" type="button"><i class="fas fa-line-chart"></i></button>
+                                <button onclick="location.href='/fundamental/{{$item['ticker']}}'" class="btn btn-primary" type="button"><i class="fas fas fa-file-invoice-dollar"></i></button>
                             </td>
                         </tr>
                         @endforeach
@@ -51,6 +60,7 @@
             </div>
         </div>
     </div>
+    <script src="{{asset('template')}}/js/stockData.js"></script> 
 </body>
 
 @endsection

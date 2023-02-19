@@ -52,8 +52,10 @@ Route::get('/chart/oneWeek/{ticker}', [ChartController::class, 'oneWeek']);
 Route::get('/chart/oneMonth/{ticker}', [ChartController::class, 'oneMonth']);
 Route::get('/chart/oneYear/{ticker}', [ChartController::class, 'oneYear']);
 Route::get('/chart/threeYear/{ticker}', [ChartController::class, 'threeYear']);
-Route::get('/fundamental/{emiten}', [StockAPIController::class, 'stock']);
+Route::get('/fundamental/{emiten}', [FundamentalController::class, 'index']);
 
+Route::get('/fundamental', [FundamentalController::class, 'index']);
+Route::get('/updatestock', [StockAPIController::class, 'updateStock']);
 
 Route::get('/testreg', function () {
     return view('auth/register1');

@@ -9,6 +9,8 @@ class SahamModel extends Model
 {
 
     protected $table = "tb_saham";
+    public $timestamps = false;
+    protected $primaryKey = 'id_saham';
 
     protected $fillable = [
         'nama_saham'

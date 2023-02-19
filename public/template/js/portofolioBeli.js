@@ -1,3 +1,6 @@
+$("select").selectize({
+  sortField: "text",
+});
 $(document).ready(function () {
   $("#submit-button").click(function () {
     var emitenSaham = $("#emitenSaham").val();
@@ -112,7 +115,6 @@ $("#volume").on("input", function () {
 });
 
 $("#tanggalBeli").on("input", function () {
-  this.value = this.value.replace(/[^0-9]/g, "");
   $(this).addClass("form-control:valid");
   $("#tanggalBeli + .invalid-feedback").text("");
   $(this).removeClass("is-invalid");

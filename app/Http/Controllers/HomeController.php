@@ -29,7 +29,7 @@ class HomeController extends Controller
         ->withHeaders([
             'X-API-KEY' => 'fe4bd0445ab2472281d6ac636d5d426d'
         ])->get('https://newsapi.org/v2/everything', [
-            'q' => 'saham OR IHSG OR ekonomi NOT showbiz',
+            'q' => 'saham OR IHSG OR emiten OR IPO OR shareholder NOT Bola ',
             'sortBy' => 'publishedAt',
             'language' => 'id',
             'searchIn'=> 'content',
