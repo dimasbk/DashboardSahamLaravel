@@ -2,6 +2,7 @@ $("select").selectize({
   sortField: "text",
 });
 $(document).ready(function () {
+  $("#portofolioBeli").DataTable();
   $("#submit-button").click(function () {
     var emitenSaham = $("#emitenSaham").val();
     var jenisSaham = $("#jenisSaham").val();
@@ -65,7 +66,7 @@ $(document).ready(function () {
         feeBeli: feeBeli,
       },
       success: function (response) {
-        console.log("response");
+        console.log(response);
         location.reload();
       },
       error: function (error) {

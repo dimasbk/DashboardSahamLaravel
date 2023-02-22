@@ -2,6 +2,7 @@ $("select").selectize({
   sortField: "text",
 });
 $(document).ready(function () {
+  $("#portofolioJual").DataTable();
   $("#submit-button").click(function () {
     var emitenSaham = $("#emitenSaham").val();
     var jenisSaham = $("#jenisSaham").val();
