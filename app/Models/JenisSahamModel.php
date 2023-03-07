@@ -13,9 +13,5 @@ class JenisSahamModel extends Model
         'jenis_saham'
     ];
 
-    public function allData(){
-        return DB::table('tb_jenis_saham')->get();
-    }
-
     
 }

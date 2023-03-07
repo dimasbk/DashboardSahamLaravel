@@ -10,8 +10,17 @@ class PortofolioBeliModel extends Model
 
     protected $table = "tb_portofolio_beli";
     protected $fillable = [
-        'id_portofolio_beli', 'id_saham', 'user_id', 'jenis_saham', 'volume', 'tanggal_beli', 'harga_beli', 'fee_beli_persen'
+        'id_portofolio_beli',
+        'id_saham',
+        'user_id',
+        'jenis_saham',
+        'volume',
+        'tanggal_beli',
+        'harga_beli',
+        'fee_beli_persen'
     ];
+
+    public $timestamps = false;
     protected $primaryKey = 'id_portofolio_beli';
     public function emiten()
     {

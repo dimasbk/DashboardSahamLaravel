@@ -51,8 +51,8 @@
                     data-target="#modalContactForm">Buat Data Portofolio</a>
             </div>
             <div class="table-responsive">
-                <table id="portofolioBeli" class="table custom-table">
-                    <thead>
+                <table id="portofolioBeli" class="table table-bordered table-striped">
+                    <thead class="thead-dark">
                         <tr>
                             <th style="display:none;"></th>
                             <th scope="col">No </th>

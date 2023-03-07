@@ -1,0 +1,45 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&subset=devanagari,latin-ext");
+
+.card {
+  display: flex;
+  border-radius: 10px;
+  filter: drop-shadow(0 5px 10px 0 #ffffff);
+  width: auto;
+  height: auto;
+  background-color: #ffffff;
+  padding: 20px;
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  margin: 5px;
+  transition: 0.6s ease-in;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -15px;
+  right: -15px;
+  background: #7952b3;
+  height: 230px;
+  width: 25px;
+  border-radius: 32px;
+  transform: scale(1);
+  transform-origin: 50% 50%;
+  transition: transform 0.25s ease-out;
+}
+
+.card:hover::before {
+  transition-delay: 0.2s;
+
+  transform: scale(100);
+}
+
+.card:hover {
+  color: #ffffff;
+}
+
+.card p {
+  padding: 10px 0;
+}
