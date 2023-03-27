@@ -25,12 +25,16 @@
         </li>
       </ul>
     </li>
-
-
     <li class="nav-item">
       <a href="/stock" class="nav-link">
-        <i class="fas fa-circle nav-icon"></i>
+        <i class="fas fa-line-chart nav-icon"></i>
         <p>Emiten Saham</p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="/post" class="nav-link">
+        <i class="fas fa-circle nav-icon"></i>
+        <p>Analyst Post</p>
       </a>
     </li>
 

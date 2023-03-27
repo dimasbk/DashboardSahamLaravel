@@ -9,7 +9,8 @@ $(document).ready(function () {
     var volume = $("#volume").val();
     var tanggalBeli = $("#tanggalBeli").val();
     var hargaBeli = $("#hargaBeli").val();
-    var feeBeli = $("#feeBeli").val();
+    var sekuritas = $("#sekuritas").val();
+    //console.log(sekuritas);
 
     $(".invalid-feedback").empty();
 
@@ -37,9 +38,9 @@ $(document).ready(function () {
         "Harga Beli tidak boleh kosong!"
       );
     }
-    if (!feeBeli) {
-      $("#feeBeli").addClass("is-invalid");
-      $("#feeBeli + .invalid-feedback").text("Fee Beli tidak boleh kosong!");
+    if (!sekuritas) {
+      $("#sekuritas").addClass("is-invalid");
+      $("#sekuritas + .invalid-feedback").text("Mohon pilih Emiten Saham");
     }
 
     if (
@@ -48,7 +49,7 @@ $(document).ready(function () {
       !volume ||
       !tanggalBeli ||
       !hargaBeli ||
-      !feeBeli
+      !sekuritas
     ) {
       return;
     }
@@ -63,14 +64,14 @@ $(document).ready(function () {
         volume: volume,
         tanggalBeli: tanggalBeli,
         hargaBeli: hargaBeli,
-        feeBeli: feeBeli,
+        sekuritas: sekuritas,
       },
       success: function (response) {
         console.log(response);
         location.reload();
       },
       error: function (error) {
-        console.log("gagal");
+        console.log(error);
       },
     });
   });
@@ -93,8 +94,8 @@ $("#clear-form").click(function () {
   $("#hargaBeli + .invalid-feedback").text("");
   $("#hargaBeli").removeClass("is-invalid");
 
-  $("#feeBeli + .invalid-feedback").text("");
-  $("#feeBeli").removeClass("is-invalid");
+  $("#sekuritas + .invalid-feedback").text("");
+  $("#sekurtias").removeClass("is-invalid");
 });
 
 $("#emitenSaham").change(function () {
@@ -128,9 +129,9 @@ $("#hargaBeli").on("input", function () {
   $(this).removeClass("is-invalid");
 });
 
-$("#feeBeli").on("input", function () {
+$("#sekuritas").on("input", function () {
   this.value = this.value.replace(/[^0-9]/g, "");
   $(this).addClass("form-control:valid");
-  $("#feeBeli + .invalid-feedback").text("");
+  $("#sekuritas + .invalid-feedback").text("");
   $(this).removeClass("is-invalid");
 });

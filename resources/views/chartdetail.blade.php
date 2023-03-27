@@ -26,6 +26,7 @@
     <div class="row">
       <div class="col-md-6">
         <h3>Analisis (2022)</h3>
+        <a href="/fundamental">Analisis Tahun Lainnya...</a>
         <table class="table table-bordered table-striped">
           <thead class="thead-dark">
             <tr>
@@ -119,6 +120,7 @@
       </div>
       <div class="col-md-6">
         <h3>Finansial (2022)</h3>
+        <a href="/fundamental/input/{{$ticker}}">Finansial Tahun Lainnya...</a>
         <table class="table table-bordered table-striped">
           <thead class="thead-dark">
             <tr>
@@ -129,14 +131,10 @@
           <tbody>
             <tr>
               <td>Aset</td>
-              <td>$1 billion</td>
+              <td>123</td>
             </tr>
             <tr>
-              <td>Simpanan</td>
-              <td>$750 million</td>
-            </tr>
-            <tr>
-              <td>Pinjaman</td>
+              <td>Hutang Obligasi</td>
               <td>$600 million</td>
             </tr>
             <tr>

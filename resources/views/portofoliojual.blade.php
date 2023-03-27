@@ -21,6 +21,7 @@
 
   <!-- Style -->
   <link rel="stylesheet" href="{{asset('style')}}/table/css/style.css">
+  <link rel="stylesheet" href="{{asset('style')}}/portoJual.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
     integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -48,71 +49,74 @@
         <a href="" class="btn btn-default btn-rounded mb-4 mt-4" data-toggle="modal"
           data-target="#modalContactForm">Buat Data Portofolio</a>
       </div>
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold">Portofolio Jual</h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table id="portofolioBeli" width="100%" cellspacing="0" class="table table-bordered table-striped">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">No </th>
+                  <th scope="col">Nama Emiten</th>
+                  <th scope="col">Volume Jual</th>
+                  <th scope="col">Tanggal Jual</th>
+                  <th scope="col">Harga Jual</th>
+                  <th scope="col">Sekuritas</th>
+                  <th scope="col">Laba Rugi Jual(%)</th>
+                  <th scope="col"></th>
 
-      <div class="table-responsive">
+                </tr>
+              </thead>
+              <tbody>
+                <?php $i = 1 ?>
+                @foreach ($dataporto as $item)
+                <tr scope="row">
+                  <td>{{$i }}</td>
+                  <?php $i++ ?>
+                  <td>{{$item -> nama_saham}}</td>
+                  <td>{{$item -> volume}}</td>
+                  <td>{{$item -> tanggal_jual}}</td>
+                  <td>{{$item -> harga_jual}}</td>
+                  <td>{{$item -> nama_sekuritas}}</td>
+                  <td>{{$item -> close_persen}}%</td>
+                  <td>
+                    <button onclick="location.href='/portofoliojual/edit/{{$item->id_portofolio_jual}}'"
+                      class="btn btn-success" type="button"><i class="fas fa-edit"></i></button>
+                    <button data-toggle="modal" data-target="#deletemodal" type="button" class="btn btn-danger"><i
+                        class="far fa-trash-alt"></i></button>
+                  </td>
 
-        <table id="portofolioJual" class="table table-bordered table-striped">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">No </th>
-              <th scope="col">Nama Emiten</th>
-              <th scope="col">Volume Jual</th>
-              <th scope="col">Tanggal Jual</th>
-              <th scope="col">Harga Jual</th>
-              <th scope="col">Fee Jual(%)</th>
-              <th scope="col">Laba Rugi Jual(%)</th>
-              <th scope="col"></th>
-
-            </tr>
-          </thead>
-          <tbody>
-            <?php $i = 1 ?>
-            @foreach ($dataporto as $item)
-            <tr scope="row">
-              <td>{{$i }}</td>
-              <?php $i++ ?>
-              <td>{{$item -> nama_saham}}</td>
-              <td>{{$item -> volume}}</td>
-              <td>{{$item -> tanggal_jual}}</td>
-              <td>{{$item -> harga_jual}}</td>
-              <td>{{$item -> fee_jual_persen}}%</td>
-              <td>{{$item -> close_persen}}%</td>
-              <td>
-                <button onclick="location.href='/portofoliojual/edit/{{$item->id_portofolio_jual}}'"
-                  class="btn btn-success" type="button"><i class="fas fa-edit"></i></button>
-                <button data-toggle="modal" data-target="#deletemodal" type="button" class="btn btn-danger"><i
-                    class="far fa-trash-alt"></i></button>
-              </td>
-
-            </tr>
-            <div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="deletemodalLabel"
-              aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="deletemodalLabel">WARNING!</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <h3>Apakah Anda Yakin Untuk Menghapus Data?</h3>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button onclick="location.href='/portofoliojual/delete/{{$item->id_portofolio_jual}}'" type="button"
-                      class="btn btn-primary">Delete Data</button>
+                </tr>
+                <div id="deletemodal" class="modal fade">
+                  <div class="modal-dialog modal-confirm">
+                    <div class="modal-content">
+                      <div class="modal-header flex-column">
+                        <div class="icon-box">
+                          <i class="fa-solid fa-circle-xmark"></i>
+                        </div>
+                        <h4 class="modal-title w-100">Are you sure?</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Apakah Anda Yakin Untuk Menghapus Data?</p>
+                      </div>
+                      <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button onclick="location.href='/portofoliojual/delete/{{$item->id_portofolio_jual}}'"
+                          type="button" class="btn btn-primary">Delete</button>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            @endforeach
+                @endforeach
 
-          </tbody>
-        </table>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
-
-
     </div>
 
   </div>
@@ -169,6 +173,16 @@
               <input type="number" class="form-control" id="feeBeli" name="feeBeli" min="0" step="0.01">
               <div class="invalid-feedback"></div>
             </div>
+            <div class="form-group">
+              <label for="sekuritas">Sekuritas</label>
+              <select id="sekuritas" name="sekuritas">
+                <option value="">Select Sekuritas</option>
+                @foreach($sekuritas as $item)
+                <option value="{{ $item->id_sekuritas}}">{{ $item->nama_sekuritas}}</option>
+                @endforeach
+              </select>
+              <div class="invalid-feedback"></div>
+            </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -187,6 +201,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
     integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://kit.fontawesome.com/ce0d5ffb27.js" crossorigin="anonymous"></script>
   <script src="{{asset('template')}}/js/portofolioJual.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
   @stop

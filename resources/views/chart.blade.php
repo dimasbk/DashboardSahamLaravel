@@ -26,38 +26,45 @@
 <body>
     <div class="content">
         <div class="container">
-            <h2 class="mb-5">Tabel Emiten Saham</h2>
-            <div class="table-responsive">
-                <table id="chartTable" class="table custom-table">
-                    <thead>
-                        <tr>
-                            <th scope="col">No </th>
-                            <th scope="col">Ticker Emiten</th>
-                            <th scope="col">Nama Emiten</th>
-                            <th scope="col">Detail Chart</th>
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold">Emiten Saham</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="chartTable" class="table custom-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">No </th>
+                                    <th scope="col">Ticker Emiten</th>
+                                    <th scope="col">Nama Emiten</th>
+                                    <th scope="col">Detail Chart</th>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $i = 1 ?>
-                        @foreach ($data as $item)
-                        <tr scope="row">
-                            <td>{{$i }}</td>
-                            <?php $i++ ?>
-                            <td>{{$item['ticker']}}</td>
-                            <td>{{$item['name']}}</td>
-                            <td>
-                                <button onclick="location.href='/chart/{{$item['ticker']}}'" class="btn btn-success"
-                                    type="button"><i class="fas fa-line-chart"></i></button>
-                                <button onclick="location.href='/fundamental/{{$item['ticker']}}'"
-                                    class="btn btn-primary" type="button"><i
-                                        class="fas fas fa-file-invoice-dollar"></i></button>
-                            </td>
-                        </tr>
-                        @endforeach
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $i = 1 ?>
+                                @foreach ($data as $item)
+                                <tr scope="row">
+                                    <td>{{$i }}</td>
+                                    <?php $i++ ?>
+                                    <td>{{$item['ticker']}}</td>
+                                    <td>{{$item['name']}}</td>
+                                    <td>
+                                        <button onclick="location.href='/chart/{{$item['ticker']}}'"
+                                            class="btn btn-success" type="button"><i
+                                                class="fas fa-line-chart"></i></button>
+                                        <button onclick="location.href='/fundamental/{{$item['ticker']}}'"
+                                            class="btn btn-primary" type="button"><i
+                                                class="fas fas fa-file-invoice-dollar"></i></button>
+                                    </td>
+                                </tr>
+                                @endforeach
 
-                    </tbody>
-                </table>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

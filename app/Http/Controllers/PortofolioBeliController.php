@@ -7,9 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\PortofolioBeliModel;
 use App\Models\JenisSahamModel;
 use App\Models\SahamModel;
+use App\Models\SekuritasModel;
 use Illuminate\Support\Facades\Auth;
-
-
 
 class PortofolioBeliController extends Controller
 {
@@ -23,11 +22,15 @@ class PortofolioBeliController extends Controller
 
     public function getdata($user_id)
     {
-        $dataporto = PortofolioBeliModel::where('user_id', $user_id)->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')->get();
+        $dataporto = PortofolioBeliModel::where('user_id', $user_id)
+            ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
+            ->join('tb_sekuritas', 'tb_portofolio_beli.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
+            ->get();
         $emiten = SahamModel::all();
         $jenis_saham = JenisSahamModel::all();
+        $sekuritas = SekuritasModel::all();
 
-        $data = compact(['dataporto'], ['emiten'], ['jenis_saham']);
+        $data = compact(['dataporto'], ['emiten'], ['jenis_saham'], ['sekuritas']);
         //dd($data);
         return view('portofoliobeli', $data);
     }
@@ -36,6 +39,7 @@ class PortofolioBeliController extends Controller
     {
 
         $id = Auth::id();
+
         $insert = PortofolioBeliModel::create([
             'id_saham' => $request->emitenSaham,
             'user_id' => $id,
@@ -43,14 +47,9 @@ class PortofolioBeliController extends Controller
             'volume' => $request->volume,
             'tanggal_beli' => $request->tanggalBeli,
             'harga_beli' => $request->hargaBeli,
-            'fee_beli_persen' => $request->feeBeli,
+            'id_sekuritas' => $request->sekuritas,
         ]);
 
-        $id_porto = $insert->id_portofolio_beli;
-        //dd($insert);
-        //dd($request);
-
-        ;
         if ($insert) {
             return redirect()->action([PortofolioBeliController::class, 'getData'], ['user_id' => $id]);
         }
@@ -61,8 +60,9 @@ class PortofolioBeliController extends Controller
         $dataporto = PortofolioBeliModel::where('id_portofolio_beli', $id_portofolio_beli)->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')->get();
         $emiten = SahamModel::all();
         $jenis_saham = JenisSahamModel::all();
+        $sekuritas = SekuritasModel::all();
 
-        $data = compact(['dataporto'], ['emiten'], ['jenis_saham']);
+        $data = compact(['dataporto'], ['emiten'], ['jenis_saham'], ['sekuritas']);
         //dd($data);
         return view('editportofoliobeli', $data);
     }
@@ -81,7 +81,7 @@ class PortofolioBeliController extends Controller
         $dataporto->volume = $request->volume;
         $dataporto->tanggal_beli = $request->tanggal_beli;
         $dataporto->harga_beli = $request->harga_beli;
-        $dataporto->fee_beli_persen = $request->fee_beli_persen;
+        $dataporto->id_sekuritas = $request->sekuritas;
         $dataporto->save();
 
 

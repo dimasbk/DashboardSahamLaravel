@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PortofolioJualModel;
 use App\Models\JenisSahamModel;
 use App\Models\SahamModel;
+use App\Models\SekuritasModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
@@ -14,34 +15,37 @@ use Illuminate\Support\Facades\Http;
 class PortofolioJualController extends Controller
 {
 
-    public function __construct(){
-        $this->PortofolioJualModel = new PortofolioJualModel;
-        $this->JenisSahamModel = new JenisSahamModel;
-        $this->SahamModel = new SahamModel;
+    public function __construct()
+    {
+
         $this->middleware('auth');
     }
 
-    public function index(){
+    public function index()
+    {
 
-        $dataporto = [
-            'portojual'=>$this->PortofolioJualModel->allData(),
-        ];
-        return response()->json(['messsage'=>'Berhasil', 'data'=>$dataporto ]);
+
 
     }
 
 
-    public function getdata($user_id){
-        $dataporto = PortofolioJualModel::where('user_id', $user_id)->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')->get();
+    public function getdata($user_id)
+    {
+        $dataporto = PortofolioJualModel::where('user_id', $user_id)
+            ->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
+            ->join('tb_sekuritas', 'tb_portofolio_jual.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
+            ->get();
         $emiten = SahamModel::all();
         $jenis_saham = JenisSahamModel::all();
+        $sekuritas = SekuritasModel::all();
 
-        $data = compact(['dataporto'],['emiten'],['jenis_saham']);
-        //dd($data);
+        $data = compact(['dataporto'], ['emiten'], ['jenis_saham'], ['sekuritas']);
+        //dd($dataporto);
         return view('portofoliojual', $data);
     }
-    
-    public function insertData(Request $request){
+
+    public function insertData(Request $request)
+    {
 
         $id = Auth::id();
         $getEmiten = SahamModel::select('nama_saham')
@@ -50,30 +54,28 @@ class PortofolioJualController extends Controller
         $emiten = $getEmiten->nama_saham;
 
         $response = Http::acceptJson()
-        ->withHeaders([
-            'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
-        ])->get('https://api.goapi.id/v1/stock/idx/'.$emiten)->json();
+            ->withHeaders([
+                'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
+            ])->get('https://api.goapi.id/v1/stock/idx/' . $emiten)->json();
 
         $data = $response['data']['last_price'];
         $closeprice = $response['data']['last_price']['close'];
         $harga_jual = $request->harga_jual;
-        $close_persen = round((($harga_jual - $closeprice)/$harga_jual) * 100);
+        $close_persen = round((($harga_jual - $closeprice) / $harga_jual) * 100);
         // /dd(compact(['closeprice'], ['harga_jual'], ['close_persen']) );
         /*
-
         $data = [
-            'id_saham' => $request->id_saham,
-            'user_id' => $id,
-            'jenis_saham' => $request->id_jenis_saham,
-            'volume' => $request->volume,
-            'tanggal_jual' => $request->tanggal_jual,
-            'harga_jual' => $request->harga_jual,
-            'fee_jual_persen' => $request->fee_jual_persen,
-            'close_persen' => $request->fee_jual_persen,
-
+        'id_saham' => $request->id_saham,
+        'user_id' => $id,
+        'jenis_saham' => $request->id_jenis_saham,
+        'volume' => $request->volume,
+        'tanggal_jual' => $request->tanggal_jual,
+        'harga_jual' => $request->harga_jual,
+        'fee_jual_persen' => $request->fee_jual_persen,
+        'close_persen' => $request->fee_jual_persen,
         ]; 
         */
-        
+
 
         $insert = PortofolioJualModel::create([
             'id_saham' => $request->id_saham,
@@ -91,28 +93,34 @@ class PortofolioJualController extends Controller
         //dd($data);
         //dd($request);
         //$this->PortofolioJualModel->insertData($data);
-        if($data){
+        if ($data) {
             return redirect()->action(
-                [PortofolioJualController::class, 'getdata'], ['user_id' => $id]
+                [PortofolioJualController::class, 'getdata'],
+                ['user_id' => $id]
             );
         }
     }
 
-    public function getEdit($id_portofolio_jual){
-        $dataporto = PortofolioJualModel::where('id_portofolio_jual', $id_portofolio_jual)->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')->get();
+    public function getEdit($id_portofolio_jual)
+    {
+        $dataporto = PortofolioJualModel::where('id_portofolio_jual', $id_portofolio_jual)
+            ->join('tb_sekuritas', 'tb_portofolio_jual.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
+            ->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')->get();
         $emiten = SahamModel::all();
         $jenis_saham = JenisSahamModel::all();
+        $sekuritas = SekuritasModel::all();
 
-        $data = compact(['dataporto'],['emiten'],['jenis_saham']);
+        $data = compact(['dataporto'], ['emiten'], ['jenis_saham'], ['sekuritas']);
         //dd($data);
         return view('editportofoliojual', $data);
     }
 
-    public function editData(Request $request){
+    public function editData(Request $request)
+    {
 
         $dataporto = PortofolioJualModel::where('id_portofolio_jual', $request->id_portofolio_jual)->first();
         //dd($dataporto);
-        
+
         $id = Auth::id();
         //dd($dataporto);
         $getEmiten = SahamModel::select('nama_saham')
@@ -122,14 +130,14 @@ class PortofolioJualController extends Controller
 
 
         $response = Http::acceptJson()
-        ->withHeaders([
-            'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
-        ])->get('https://api.goapi.id/v1/stock/idx/'.$emiten)->json();
+            ->withHeaders([
+                'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
+            ])->get('https://api.goapi.id/v1/stock/idx/' . $emiten)->json();
 
         $data = $response['data']['last_price'];
         $closeprice = $response['data']['last_price']['close'];
         $harga_jual = $request->harga_jual;
-        $close_persen = round((($harga_jual - $closeprice)/$harga_jual) * 100);
+        $close_persen = round((($harga_jual - $closeprice) / $harga_jual) * 100);
 
         $dataporto->id_saham = $request->id_saham;
         $dataporto->user_id = $id;
@@ -137,19 +145,20 @@ class PortofolioJualController extends Controller
         $dataporto->volume = $request->volume;
         $dataporto->tanggal_jual = $request->tanggal_jual;
         $dataporto->harga_jual = $harga_jual;
-        $dataporto->fee_jual_persen = $request->fee_jual_persen;
+        $dataporto->id_sekuritas = $request->id_sekuritas;
         $dataporto->close_persen = $close_persen;
         $dataporto->save();
-        
 
-        return redirect()->to('portofoliojual/'.$id);
+
+        return redirect()->to('portofoliojual/' . $id);
 
     }
 
-    public function deleteData($id_portofolio_jual){
+    public function deleteData($id_portofolio_jual)
+    {
         $dataporto = PortofolioJualModel::where('id_portofolio_jual', $id_portofolio_jual)->firstOrFail();
         $dataporto->delete();
         $id = Auth::id();
-        return redirect()->to('portofoliojual/'.$id);
+        return redirect()->to('portofoliojual/' . $id);
     }
 }

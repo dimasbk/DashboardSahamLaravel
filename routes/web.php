@@ -8,6 +8,8 @@ use App\Http\Controllers\ReportJualController;
 use App\Http\Controllers\FundamentalController;
 use App\Http\Controllers\StockAPIController;
 use App\Http\Controllers\ChartController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\LandingPageController;
 
 
 
@@ -23,8 +25,20 @@ use App\Http\Controllers\ChartController;
 |
 */
 
+Route::group(['middleware' => ['admin']], function () {
 
-Route::resource('portobeli',PortofolioBeliController::class);
+    Route::get('/fundamental/input/{emiten}', [FundamentalController::class, 'index']);
+
+});
+Route::group(['middleware' => ['analyst']], function () {
+
+});
+Route::group(['middleware' => ['user']], function () {
+
+});
+
+
+Route::resource('portobeli', PortofolioBeliController::class);
 Route::get('/portofoliobeli/{user_id}', [PortofolioBeliController::class, 'getData']);
 Route::post('/portofoliobeli/addbeli', [PortofolioBeliController::class, 'insertData']);
 Route::get('/portofoliobeli/edit/{id_portofolio_beli}', [PortofolioBeliController::class, 'getEdit']);
@@ -52,22 +66,22 @@ Route::get('/chart/oneWeek/{ticker}', [ChartController::class, 'oneWeek']);
 Route::get('/chart/oneMonth/{ticker}', [ChartController::class, 'oneMonth']);
 Route::get('/chart/oneYear/{ticker}', [ChartController::class, 'oneYear']);
 Route::get('/chart/threeYear/{ticker}', [ChartController::class, 'threeYear']);
-Route::get('/fundamental/{emiten}', [FundamentalController::class, 'index']);
 
-Route::get('/fundamental', [FundamentalController::class, 'index']);
+Route::post('/fundamental/input/bank/add', [FundamentalController::class, 'insertBank']);
+
+//Route::get('/fundamental', [FundamentalController::class, 'index']);
 Route::get('/updatestock', [StockAPIController::class, 'updateStock']);
 
-Route::get('/testreg', function () {
-    return view('auth/register1');
-});
-
-Route::get('/testlogin', function () {
-    return view('auth/login1');
-});
-
-
+Route::get('/post', [PostController::class, 'index']);
+Route::get('/post/view', [PostController::class, 'getPost']);
+Route::get('/post/manage', [PostController::class, 'getuserPost']);
+Route::post('/post/add', [PostController::class, 'addPost']);
+Route::get('/post/edit/{id}', [PostController::class, 'editPost']);
+Route::post('/post/edit', [PostController::class, 'edit']);
+Route::get('/post/delete/{id}', [PostController::class, 'deletePost']);
 
 Auth::routes();
 
+Route::get('/landing-page', [LandingPageController::class, 'index']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

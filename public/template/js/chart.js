@@ -47,9 +47,16 @@ button1.addEventListener("click", function () {
     headers: {
       Accept: "application/json",
     },
+    beforeSend: function () {
+      $("#loader").removeClass("display-none");
+    },
     success: function (data) {
       let title = "Satu Minggu";
       chart(data, title);
+      $("#chart_div").removeClass("display-none");
+    },
+    complete: function () {
+      $("#loader").addClass("display-none");
     },
     error: function (error) {
       // Handle the error
@@ -66,9 +73,15 @@ button2.addEventListener("click", function () {
     headers: {
       Accept: "application/json",
     },
+    beforeSend: function () {
+      $("#loader").removeClass("display-none");
+    },
     success: function (data) {
       let title = "Satu Bulan";
       chart(data, title);
+    },
+    complete: function () {
+      $("#loader").addClass("display-none");
     },
     error: function (error) {
       // Handle the error
@@ -85,9 +98,15 @@ button3.addEventListener("click", function () {
     headers: {
       Accept: "application/json",
     },
+    beforeSend: function () {
+      $("#loader").removeClass("display-none");
+    },
     success: function (data) {
       let title = "Satu Tahun";
       chart(data, title);
+    },
+    complete: function () {
+      $("#loader").addClass("display-none");
     },
     error: function (error) {
       // Handle the error
@@ -104,9 +123,15 @@ button4.addEventListener("click", function () {
     headers: {
       Accept: "application/json",
     },
+    beforeSend: function () {
+      $("#loader").removeClass("display-none");
+    },
     success: function (data) {
       let title = "Tiga Tahun";
       chart(data, title);
+    },
+    complete: function () {
+      $("#loader").addClass("display-none");
     },
     error: function (error) {
       // Handle the error
