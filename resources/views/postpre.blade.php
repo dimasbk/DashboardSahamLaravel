@@ -1,19 +1,65 @@
-<div class="card mb-3">
-    <div class="row g-0">
-        <div class="col-md-4">
-            <img src="https://via.placeholder.com/300x200" alt="Post Header Image" class="img-fluid rounded-start">
+<div class="container">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
         </div>
-        <div class="col-md-8">
-            <div class="card-body">
-                <h5 class="card-title">Post Title</h5>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vulputate euismod eros
-                    eu hendrerit. Sed rhoncus risus ut sem tincidunt, eget dignissim sem rhoncus. Nulla sit amet velit a
-                    velit venenatis commodo. Pellentesque euismod consequat dolor eget consequat. Aliquam a tincidunt
-                    mauris. Donec id quam id nisl bibendum faucibus. Suspendisse commodo enim et purus varius, vel
-                    tincidunt nibh efficitur. Praesent imperdiet mi a massa tempor, sed semper nulla dictum. Sed
-                    convallis urna nec sapien maximus, vel laoreet purus convallis. Aenean eu dignissim ante, id euismod
-                    leo. Etiam vel nibh non augue vestibulum fringilla.</p>
-            </div>
+        <div class="card-body">
+            <ul id="posts">
+                <div id="image" class="col-md-4 d-flex aligns-items-center">
+                    <img src="{{asset('images')}}/public_images/{{$postData[0]->picture}}" alt="Post Header Image"
+                        class="img-fluid rounded-start">
+                </div>
+                <article>
+                    <header>
+                        <h1>{{$postData[0]->title}}</h1>
+                    </header>
+
+                    <p>{{$postData[0]->content}}</p>
+                </article>
+            </ul>
         </div>
     </div>
 </div>
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Liberation Sans', Arial, sans-serif;
+    }
+
+    p {
+        white-space: pre-line;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    #image {
+        display: block;
+        margin-left: auto;
+        margin-top: 10px;
+        margin-right: auto;
+    }
+
+    img {
+        height: 63%;
+    }
+
+    #posts {
+        margin: 0 auto;
+        padding: 0;
+        width: 700px;
+        list-style-type: none;
+    }
+
+    article h1 {
+        text-align: left;
+        border-bottom: 1px dotted #E3E3E3;
+    }
+
+    article p {
+        text-align: justify;
+        line-height: 1.5;
+        font-size: 1.1em;
+    }
+</style>

@@ -9,7 +9,9 @@ class LandingPageController extends Controller
 {
     public function index()
     {
-        $post = PostModel::where('tag', 'public')->take(5)->get();
+        $post = PostModel::where('tag', 'public')
+            ->orderBy('created_at', 'DESC')
+            ->take(3)->get()->toArray();
         //dd($post);
         return view('landing_page', compact(['post']));
     }

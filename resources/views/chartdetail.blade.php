@@ -194,7 +194,7 @@
 
 </body>
 @section('page-js-files')
-<script src="{{asset('template')}}/js/chart.js"></script>
+@vite(['resources/js/chart.js'])
 <script src="{{asset('style')}}/table/js/bootstrap.min.js"></script>
 @stop
 

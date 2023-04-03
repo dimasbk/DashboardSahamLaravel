@@ -4,7 +4,8 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="{{asset('template')}}/css/article.css">
+
+    @vite(['resources/css/article.css'])
 </head>
 
 <body>
@@ -25,7 +26,13 @@
             </div>
         </li>
         <style>
-            .card__image--fence{{$i}} {
+            .card__image--fence {
+                    {
+                    $i
+                }
+            }
+
+                {
                 background-image: url({{$item['urlToImage']}});
             }
         </style>

@@ -26,7 +26,7 @@
 
     <link rel="stylesheet" href="{{asset('mdb')}}/css/mdb.min.css">
 
-    @vite(['resources/css/landingPage.css'])
+    @vite(['resources/css/landingPage.css','resources/sass/landingPage.scss','resources/js/landingPage.js'])
 
     <title>SahamKU</title>
 </head>
@@ -89,18 +89,112 @@
 
         <!--Section: Design Block-->
         <section>
-            <div id="intro" class="bg-image" style="
-              background-image: url('{{asset('images')}}/6256878.jpg');
-              height: 100vh;
-            ">
-                <div class="mask" style="background-color: rgba(0, 0, 0, 0.2);">
-                    <div class="container d-flex justify-content-center align-items-center h-100">
-                        <div class="row align-items-center">
-                            <div class="col-12">
-                                <h1 class="mb-0 text-white display-1">Saham</h1>
+            <div class="carousel">
+                <div class="progress-bar progress-bar--primary hide-on-desktop">
+                    <div class="progress-bar__fill"></div>
+                </div>
+
+                <header class="main-post-wrapper">
+
+                    <div class="slides">
+                        <article class="main-post main-post--active">
+                            <div class="main-post__image">
+                                <img src="{{asset('images')}}/public_images/{{$post[0]['picture']}}"
+                                    alt="New McLaren wind tunnel 'critical' to future performance, says Tech Director Key" />
                             </div>
-                        </div>
+                            <div class="main-post__content">
+                                <div class="main-post__tag-wrapper">
+                                    <span class="main-post__tag">Article</span>
+                                </div>
+                                <h1 class="main-post__title">{{$post[0]['title']}}</h1>
+                                <a class="main-post__link" href="/post/view/{{$post[0]['id_post']}}">
+                                    <span class="main-post__link-text">find out more</span>
+                                    <svg class="main-post__link-icon main-post__link-icon--arrow" width="37" height="12"
+                                        viewBox="0 0 37 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M0 6H36.0001M36.0001 6L31.0001 1M36.0001 6L31.0001 11"
+                                            stroke="white" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </article>
+                        <article class="main-post main-post--not-active">
+                            <div class="main-post__image">
+                                <img src="{{asset('images')}}/public_images/{{$post[1]['picture']}}"
+                                    alt="What To Watch For in the 2019 Hungarian Grand Prix" />
+                            </div>
+                            <div class="main-post__content">
+                                <div class="main-post__tag-wrapper">
+                                    <span class="main-post__tag">Article</span>
+                                </div>
+                                <h1 class="main-post__title">{{$post[1]['title']}}</h1>
+                                <a class="main-post__link" href="/post/view/{{$post[1]['id_post']}}">
+                                    <span class="main-post__link-text">find out more</span>
+                                    <svg class="main-post__link-icon main-post__link-icon--arrow" width="37" height="12"
+                                        viewBox="0 0 37 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M0 6H36.0001M36.0001 6L31.0001 1M36.0001 6L31.0001 11"
+                                            stroke="white" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </article>
+                        <article class="main-post main-post--not-active">
+                            <div class="main-post__image">
+                                <img src="{{asset('images')}}/public_images/{{$post[2]['picture']}}" alt="Hamilton wants harder championship fight from Leclerc and
+                          Verstappen" />
+                            </div>
+                            <div class="main-post__content">
+                                <div class="main-post__tag-wrapper">
+                                    <span class="main-post__tag">Article</span>
+                                </div>
+                                <h1 class="main-post__title">{{$post[2]['title']}}
+                                </h1>
+                                <a class="main-post__link" href="/post/view/{{$post[2]['id_post']}}">
+                                    <span class="main-post__link-text">find out more</span>
+                                    <svg class="main-post__link-icon main-post__link-icon--arrow" width="37" height="12"
+                                        viewBox="0 0 37 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M0 6H36.0001M36.0001 6L31.0001 1M36.0001 6L31.0001 11"
+                                            stroke="white" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </article>
                     </div>
+                </header>
+
+                <div class="posts-wrapper hide-on-mobile">
+                    <article class="post post--active">
+                        <div class="progress-bar">
+                            <div class="progress-bar__fill"></div>
+                        </div>
+                        <header class="post__header">
+                            <span class="post__tag">News</span>
+                            <p class="post__published">{{date('M j Y g:i A', strtotime($post[0]['created_at']))}}</p>
+                        </header>
+                        <h2 class="post__title">{{substr($post[0]['content'], 0, 200)}}...
+                        </h2>
+                    </article>
+                    <article class="post">
+                        <div class="progress-bar">
+                            <div class="progress-bar__fill"></div>
+                        </div>
+                        <header class="post__header">
+                            <span class="post__tag">News</span>
+                            <p class="post__published">{{date('M j Y g:i A', strtotime($post[1]['created_at']))}}</p>
+                        </header>
+                        <h2 class="post__title">{{substr($post[1]['content'], 0, 200)}}...
+                        </h2>
+                    </article>
+                    <article class="post">
+                        <div class="progress-bar">
+                            <div class="progress-bar__fill"></div>
+                        </div>
+                        <header class="post__header">
+                            <span class="post__tag">News</span>
+                            <p class="post__published">{{date('M j Y g:i A', strtotime($post[2]['created_at']))}}</p>
+                        </header>
+                        <h2 class="post__title">{{substr($post[0]['content'], 0, 200)}}...
+                        </h2>
+                    </article>
                 </div>
             </div>
         </section>
@@ -108,25 +202,8 @@
     </header>
 
 
-    <main>
-        <div class="container">
-            <div class="owl-carousel owl-1">
-                @foreach ($post as $item)
-                <div class="media-29121 overlay"
-                    style="background-image: url('{{asset('images')}}/public_images/{{$item->picture}}');backdrop-filter: blur(5px); ">
-                    <div class="container">
-                        <div class="row justify-content-center align-items-center text-center">
-                            <div class="col-md-7">
-                                <h2>{{$item->title}}</h2>
-                                <a href="">Read More...</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </div>
-    </main>
+    <main></main>
+
     <script src="{{asset('carousel-13')}}/js/jquery-3.3.1.min.js"></script>
     <script src="{{asset('carousel-13')}}/js/popper.min.js"></script>
     <script src="{{asset('carousel-13')}}/js/bootstrap.min.js"></script>

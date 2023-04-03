@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PortofolioBeliController;
 use App\Http\Controllers\PortofolioJualController;
 use App\Http\Controllers\ReportBeliController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReportJualController;
 use App\Http\Controllers\FundamentalController;
 use App\Http\Controllers\StockAPIController;
@@ -59,6 +60,9 @@ Route::get('/reportbeli/{user_id}', [ReportBeliController::class, 'getYear']);
 Route::get('/reportjual/detail/{user_id}/{tahun}', [ReportJualController::class, 'getData']);
 Route::get('/reportjual/{user_id}', [ReportJualController::class, 'getYear']);
 
+Route::get('/report', [ReportController::class, 'report']);
+Route::get('/report/range', [ReportController::class, 'reportRange']);
+Route::get('/report/{emiten}', [ReportController::class, 'detailReport']);
 
 Route::get('/stock', [StockAPIController::class, 'index']);
 Route::get('/chart/{ticker}', [ChartController::class, 'index']);
@@ -73,6 +77,7 @@ Route::post('/fundamental/input/bank/add', [FundamentalController::class, 'inser
 Route::get('/updatestock', [StockAPIController::class, 'updateStock']);
 
 Route::get('/post', [PostController::class, 'index']);
+Route::get('/post/view/{id}', [PostController::class, 'view']);
 Route::get('/post/view', [PostController::class, 'getPost']);
 Route::get('/post/manage', [PostController::class, 'getuserPost']);
 Route::post('/post/add', [PostController::class, 'addPost']);

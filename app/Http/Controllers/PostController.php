@@ -25,6 +25,14 @@ class PostController extends Controller
         return view('postmanage', compact(['postData']));
     }
 
+    public function view($id)
+    {
+        $postData = PostModel::where('id_post', $id)
+            ->get();
+
+        return view('postpre', compact(['postData']));
+    }
+
     public function getPost()
     {
         $postData = PostModel::where('id_user', Auth::id())
