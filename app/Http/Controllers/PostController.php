@@ -11,9 +11,9 @@ class PostController extends Controller
 {
     public function index()
     {
-        $postData = PostModel::join('users', 'tb_post.id_user', '=', 'users.id')
+        $postData = PostModel::where('id_user', Auth::id())->join('users', 'tb_post.id_user', '=', 'users.id')
             ->get();
-        return view('post', compact(['postData']));
+        return view('userPost', compact(['postData']));
     }
 
     public function getUserPost()
@@ -24,6 +24,7 @@ class PostController extends Controller
 
         return view('postmanage', compact(['postData']));
     }
+
 
     public function view($id)
     {
@@ -40,7 +41,7 @@ class PostController extends Controller
             ->get();
 
 
-        return view('postpre', compact(['postData']));
+        return view('userPost', compact(['postData']));
     }
 
     public function addPost(Request $request)

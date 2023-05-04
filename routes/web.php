@@ -76,7 +76,7 @@ Route::post('/fundamental/input/bank/add', [FundamentalController::class, 'inser
 //Route::get('/fundamental', [FundamentalController::class, 'index']);
 Route::get('/updatestock', [StockAPIController::class, 'updateStock']);
 
-Route::get('/post', [PostController::class, 'index']);
+
 Route::get('/post/view/{id}', [PostController::class, 'view']);
 Route::get('/post/view', [PostController::class, 'getPost']);
 Route::get('/post/manage', [PostController::class, 'getuserPost']);
@@ -87,6 +87,13 @@ Route::get('/post/delete/{id}', [PostController::class, 'deletePost']);
 
 Auth::routes();
 
+
 Route::get('/landing-page', [LandingPageController::class, 'index']);
+Route::get('/post', [LandingPageController::class, 'post']);
+Route::get('/search', [LandingPageController::class, 'emitenSearch']);
+Route::get('/search/data', [LandingPageController::class, 'emitenList']);
+Route::get('/emiten/{emiten}', [LandingPageController::class, 'emitenData']);
+Route::get('/news', [LandingPageController::class, 'news']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\LandingPageController::class, 'index']);
+Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index']);

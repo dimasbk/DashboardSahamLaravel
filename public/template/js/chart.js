@@ -59,7 +59,7 @@ button1.addEventListener("click", function () {
       $("#loader").addClass("display-none");
     },
     error: function (error) {
-      // Handle the error
+      console.log(error);
     },
   });
 });
