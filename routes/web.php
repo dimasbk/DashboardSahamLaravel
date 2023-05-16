@@ -11,6 +11,8 @@ use App\Http\Controllers\StockAPIController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\AnalystController;
+
 
 
 
@@ -70,6 +72,7 @@ Route::get('/chart/oneWeek/{ticker}', [ChartController::class, 'oneWeek']);
 Route::get('/chart/oneMonth/{ticker}', [ChartController::class, 'oneMonth']);
 Route::get('/chart/oneYear/{ticker}', [ChartController::class, 'oneYear']);
 Route::get('/chart/threeYear/{ticker}', [ChartController::class, 'threeYear']);
+Route::get('/technical/{ticker}', [ChartController::class, 'technical']);
 
 Route::post('/fundamental/input/bank/add', [FundamentalController::class, 'insertBank']);
 
@@ -84,6 +87,9 @@ Route::post('/post/add', [PostController::class, 'addPost']);
 Route::get('/post/edit/{id}', [PostController::class, 'editPost']);
 Route::post('/post/edit', [PostController::class, 'edit']);
 Route::get('/post/delete/{id}', [PostController::class, 'deletePost']);
+
+Route::get('/analyst', [AnalystController::class, 'index']);
+Route::post('/follow', [AnalystController::class, 'follow']);
 
 Auth::routes();
 

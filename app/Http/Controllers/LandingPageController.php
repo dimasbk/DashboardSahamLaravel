@@ -17,7 +17,14 @@ class LandingPageController extends Controller
         $post = PostModel::where('tag', 'public')
             ->orderBy('created_at', 'DESC')
             ->take(3)->get()->toArray();
-        //dd($post);
+
+        $topGainer = Http::acceptJson()
+            ->withHeaders([
+                'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
+            ])->get('https://api.goapi.id/v1/stock/idx/top_gainer')->json();
+
+        $topGainer = array_splice($topGainer['data']['results'], 0, 10);
+        //dd($topGainer);
         return view('landingPage/landing_page', compact(['post']));
     }
 

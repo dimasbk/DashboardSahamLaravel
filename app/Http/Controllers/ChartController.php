@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -125,26 +126,29 @@ class ChartController extends Controller
     public function oneWeek($ticker)
     {
 
-        $today = date("Y-m-d");
-        $monthBefore = date('Y-m-d', strtotime($today . ' -1 week'));
+        //$today = date("Y-m-d");
+        $today = '2023-05-01';
+        $weekBefore = date('Y-m-d', strtotime($today . ' -1 week'));
         $response = Http::acceptJson()
             ->withHeaders([
                 'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
             ])->get('https://api.goapi.id/v1/stock/idx/' . $ticker . '/historical', [
                 'to' => $today,
-                'from' => $monthBefore
+                'from' => $weekBefore
             ])->json();
 
+        //dd($response);
         $data = $response['data']['results'];
         $data_historical = array_reverse($data);
-        //dd($monthBefore);
+        //dd($response);
         return $data_historical;
     }
 
     public function oneMonth($ticker)
     {
 
-        $today = date("Y-m-d");
+        //$today = date("Y-m-d");
+        $today = '2023-05-01';
         $monthBefore = date('Y-m-d', strtotime($today . ' -1 month'));
         $response = Http::acceptJson()
             ->withHeaders([
@@ -156,21 +160,22 @@ class ChartController extends Controller
 
         $data = $response['data']['results'];
         $data_historical = array_reverse($data);
-        //dd($monthBefore);
+        //dd($data);
         return $data_historical;
     }
 
     public function oneYear($ticker)
     {
 
-        $today = date("Y-m-d");
-        $monthBefore = date('Y-m-d', strtotime($today . ' -1 year'));
+        //$today = date("Y-m-d");
+        $today = '2023-05-01';
+        $yearBefore = date('Y-m-d', strtotime($today . ' -1 year'));
         $response = Http::acceptJson()
             ->withHeaders([
                 'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
             ])->get('https://api.goapi.id/v1/stock/idx/' . $ticker . '/historical', [
                 'to' => $today,
-                'from' => $monthBefore
+                'from' => $yearBefore
             ])->json();
 
         $data = $response['data']['results'];
@@ -182,7 +187,8 @@ class ChartController extends Controller
     public function threeYear($ticker)
     {
 
-        $today = date("Y-m-d");
+        //$today = date("Y-m-d");
+        $today = '2023-05-01';
         $monthBefore = date('Y-m-d', strtotime($today . ' -3 year'));
         $response = Http::acceptJson()
             ->withHeaders([
@@ -197,4 +203,89 @@ class ChartController extends Controller
         //dd($monthBefore);
         return $data_historical;
     }
+
+    public function technical($ticker)
+    {
+        $trends = [];
+        $stocks = ['BBCA', 'BRIS', 'GOTO', 'ANTM', 'ACES', 'ROTI'];
+        foreach ($stocks as $stock) {
+            //$today = date("Y-m-d");
+            $todayDate = '2023-04-01';
+            $yearBefore = date('Y-m-d', strtotime($todayDate . ' -1 year'));
+            $response = Http::acceptJson()
+                ->withHeaders([
+                    'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
+                ])->get('https://api.goapi.id/v1/stock/idx/' . $stock . '/historical', [
+                    'to' => $todayDate,
+                    'from' => $yearBefore
+                ])->json();
+
+            $data = $response['data']['results'];
+            $data_historical = array_reverse($data);
+            $prices50 = [];
+            $prices200 = [];
+            $prices14 = [];
+
+            for ($i = 0; $i < 50; $i++) {
+                array_push($prices50, $data[$i]['close']);
+            }
+
+            for ($i = 0; $i < 200; $i++) {
+                array_push($prices200, $data[$i]['close']);
+            }
+
+            for ($i = 0; $i < 14; $i++) {
+                array_push($prices14, $data[$i]['close']);
+            }
+
+            $ma50 = array_sum($prices50) / 50;
+            $ma200 = array_sum($prices200) / 200;
+
+            if ($ma50 > $ma200) {
+                $array = ["ticker" => "{$stock}", "trend" => "uptrend"];
+                array_push($trends, $array);
+            } else if ($ma50 < $ma200) {
+                $array = ["ticker" => "{$stock}", "trend" => "downtrend"];
+                array_push($trends, $array);
+            } else {
+                $array = ["ticker" => "{$stock}", "trend" => "sideways"];
+                array_push($trends, $array);
+            }
+
+        }
+        return $trends;
+    }
+
+    private function countSMA($data, $period)
+    {
+        $sma = array();
+        for ($i = $period; $i < count($data); $i++) {
+            $sum = 0;
+            for ($j = $i - $period; $j < $i; $j++) {
+                $sum += $data[$j];
+            }
+            $sma[$i] = $sum / $period;
+        }
+        return $sma;
+    }
+
+    private function countRSI($data, $period)
+    {
+        $rsi = array();
+        for ($i = $period; $i < count($data); $i++) {
+            $up = 0;
+            $down = 0;
+            for ($j = $i - $period; $j < $i; $j++) {
+                if ($data[$j] > $data[$j - 1]) {
+                    $up += $data[$j] - $data[$j - 1];
+                } else {
+                    $down += $data[$j - 1] - $data[$j];
+                }
+            }
+            $rs = ($up / $period) / ($down / $period);
+            $rsi[$i] = 100 - (100 / (1 + $rs));
+        }
+        return $rsi;
+    }
+
 }

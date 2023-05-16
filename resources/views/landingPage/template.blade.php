@@ -27,12 +27,13 @@
                         <a class="nav-link" href="/news">News</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="btn dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Post
+                        <a class="btn dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Blog
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
                             <li role="presentation"><a role="menuitem" tabindex="-1" href="/post">Post</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1"
-                                    href="/portofoliojual/{{Auth::id()}}">Analysts</a></li>
+                            @auth
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="/analyst">Analysts</a></li>
+                            @endauth
                         </ul>
                     </li>
                     <li class="nav-item">
