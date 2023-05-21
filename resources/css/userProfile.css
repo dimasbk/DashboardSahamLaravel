@@ -1,0 +1,280 @@
+@import url(https://fonts.googleapis.com/css?family=Quicksand:300,400|Lato:400,300|Coda|Open+Sans);
+
+/* 
+* Art by @jofpin 
+* 2014
+*/
+body {
+    background: #f8f5f0;
+    font-family: "Open sans", sans-serif;
+}
+a {
+    text-decoration: none;
+    color: #3498db;
+}
+.content-profile-page {
+    margin: 1em auto;
+    width: 44.23em;
+}
+
+.card {
+    background: #fff;
+    border-radius: 0.3rem;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    border: 0.1em solid rgba(0, 0, 0, 0.2);
+    margin-bottom: 1em;
+}
+
+.profile-user-page .img-user-profile {
+    margin: 0 auto;
+    text-align: center;
+}
+.profile-user-page .img-user-profile .profile-bgHome {
+    border-bottom: 0.2em solid #f5f5f5;
+    width: 44.23em;
+    height: 16em;
+}
+.profile-user-page .img-user-profile .avatar {
+    margin: 0 auto;
+    background: #fff;
+    width: 7em;
+    height: 7em;
+    padding: 0.25em;
+    border-radius: 0.4em;
+    margin-top: -10em;
+    box-shadow: 0 0 0.1em rgba(0, 0, 0, 0.35);
+}
+.profile-user-page button {
+    position: absolute;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 7em;
+    background: #3498db;
+    border: 1px solid #2487c9;
+    color: #fff;
+    outline: none;
+    border-radius: 0 0.6em 0.6em 0;
+    padding: 0.8em;
+}
+
+.profile-user-page button:hover {
+    background: #51a7e0;
+    transition: background 0.2s ease-in-out;
+    border: 1px solid #2487c9;
+}
+.profile-user-page .user-profile-data,
+.profile-user-page .description-profile {
+    text-align: center;
+    padding: 0 1.5em;
+}
+.profile-user-page .user-profile-data h1 {
+    font-family: "Lato", sans-serif;
+    margin-top: 0.35em;
+    color: #292f33;
+    margin-bottom: 0;
+}
+.profile-user-page .user-profile-data p {
+    font-family: "Lato", sans-serif;
+    color: #8899a6;
+    font-size: 1.1em;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+}
+.profile-user-page .description-profile {
+    color: #75787b;
+    font-size: 0.98em;
+}
+.profile-user-page .data-user {
+    font-family: "Quicksand", sans-serif;
+    margin-bottom: 0;
+    cursor: pointer;
+    padding: 0;
+    list-style: none;
+    display: table;
+    width: 100.15%;
+}
+.profile-user-page .data-user li {
+    margin: 0;
+    padding: 0;
+    width: 33.33334%;
+    display: table-cell;
+    text-align: center;
+    border-left: 0.1em solid transparent;
+}
+.profile-user-page .data-user li:first-child {
+    border-left: 0;
+}
+.profile-user-page .data-user li:first-child a {
+    border-bottom-left-radius: 0.3rem;
+}
+.profile-user-page .data-user li:last-child a {
+    border-bottom-right-radius: 0.3rem;
+}
+.profile-user-page .data-user li a,
+.profile-user-page .data-user li strong {
+    display: block;
+}
+.profile-user-page .data-user li a {
+    background-color: #f7f7f7;
+    border-top: 1px solid rgba(242, 242, 242, 0.5);
+    border-bottom: 0.2em solid #f7f7f7;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        0 1px 1px rgba(255, 255, 255, 0.4);
+    padding: 0.93em 0;
+    color: #46494c;
+}
+.profile-user-page .data-user li a strong,
+.profile-user-page .data-user li a span {
+    font-weight: 600;
+    line-height: 1;
+}
+.profile-user-page .data-user li a strong {
+    font-size: 2em;
+}
+.profile-user-page .data-user li a span {
+    color: #717a7e;
+}
+.profile-user-page .data-user li a:hover {
+    background: rgba(0, 0, 0, 0.05);
+    border-bottom: 0.2em solid #3498db;
+    color: #3498db;
+}
+.profile-user-page .data-user li a:hover span {
+    color: #3498db;
+}
+
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Open Sans";
+}
+
+body {
+    background-color: #555;
+}
+
+.content-wrapper {
+    margin: 0 auto;
+    max-width: 1200px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    padding: 0.5rem;
+}
+
+.news-card {
+    border: 0px solid aqua;
+    margin: 1rem;
+    position: relative;
+    height: 20rem;
+    overflow: hidden;
+    border-radius: 1rem;
+    flex: 1;
+    min-width: 290px;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+}
+.news-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0)
+        linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7) 80%);
+    z-index: 0;
+}
+.news-card__card-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+.news-card__image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform 3s ease;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    position: relative;
+    z-index: -1;
+}
+.news-card__text-wrapper {
+    position: absolute;
+    bottom: 0rem;
+    padding: 1rem;
+    color: white;
+    transition: background-color 1.5s ease;
+}
+.news-card__title {
+    transition: color 1s ease;
+    margin-bottom: 0.5rem;
+}
+.news-card__post-date {
+    font-size: 0.7rem;
+    margin-bottom: 0.5rem;
+    color: #ccc;
+}
+.news-card__details-wrapper {
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 1.5s ease, opacity 1s ease;
+}
+.news-card:hover .news-card__details-wrapper {
+    max-height: 20rem;
+    opacity: 1;
+}
+.news-card:hover .news-card__text-wrapper {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+.news-card:hover .news-card__title {
+    color: yellow;
+}
+.news-card:hover .news-card__image {
+    transform: scale(1.2);
+    z-index: -1;
+}
+.news-card__excerpt {
+    font-weight: 300;
+}
+.news-card__read-more {
+    background: black;
+    color: #bbb;
+    display: block;
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.3rem;
+    margin-top: 1rem;
+    border: 1px solid #444;
+    font-size: 0.8rem;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    text-decoration: none;
+    width: 7rem;
+    margin-left: auto;
+    position: relative;
+    z-index: 5;
+}
+.news-card__read-more i {
+    position: relative;
+    left: 0.2rem;
+    color: #888;
+    transition: left 0.5s ease, color 0.6s ease;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+.news-card__read-more:hover i {
+    left: 0.5rem;
+    color: yellow;
+}

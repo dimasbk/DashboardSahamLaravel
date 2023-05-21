@@ -5,15 +5,17 @@
         <div class="card-body">
             <ul id="posts">
                 <div id="image" class="col-md-4 d-flex aligns-items-center">
-                    <img src="{{asset('images')}}/public_images/{{$postData[0]->picture}}" alt="Post Header Image"
+                    @if (!empty($postData->picture))
+                    <img src="{{asset('images')}}/public_images/{{$postData->picture}}" alt="Post Header Image"
                         class="img-fluid rounded-start">
+                    @endif
                 </div>
                 <article>
                     <header>
-                        <h1>{{$postData[0]->title}}</h1>
+                        <h1>{{$postData->title}}</h1>
                     </header>
 
-                    <p>{{$postData[0]->content}}</p>
+                    <p>{{$postData->content}}</p>
                 </article>
             </ul>
         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SubscriberModel;
 use Illuminate\Http\Request;
 use App\Models\PostModel;
 use App\Models\SahamModel;
@@ -18,24 +19,97 @@ class LandingPageController extends Controller
             ->orderBy('created_at', 'DESC')
             ->take(3)->get()->toArray();
 
-        $topGainer = Http::acceptJson()
+        $topGainers = Http::acceptJson()
             ->withHeaders([
                 'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
             ])->get('https://api.goapi.id/v1/stock/idx/top_gainer')->json();
 
-        $topGainer = array_splice($topGainer['data']['results'], 0, 10);
-        //dd($topGainer);
-        return view('landingPage/landing_page', compact(['post']));
+        $topGainers = array_splice($topGainers['data']['results'], 0, 10);
+
+        $topLosers = Http::acceptJson()
+            ->withHeaders([
+                'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
+            ])->get('https://api.goapi.id/v1/stock/idx/top_loser')->json();
+
+        $topLosers = array_splice($topLosers['data']['results'], 0, 10);
+
+        $trends = $this->technical();
+        return view('landingPage/landing_page', compact(['post', 'topGainers', 'topLosers', 'trends']));
+    }
+
+    public function technical()
+    {
+        $trends = [];
+        $stocks = ['BBCA', 'BRIS', 'GOTO', 'ANTM', 'ACES', 'ROTI'];
+        foreach ($stocks as $stock) {
+            //$today = date("Y-m-d");
+            $todayDate = '2023-04-01';
+            $yearBefore = date('Y-m-d', strtotime($todayDate . ' -1 year'));
+            $response = Http::acceptJson()
+                ->withHeaders([
+                    'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
+                ])->get('https://api.goapi.id/v1/stock/idx/' . $stock . '/historical', [
+                    'to' => $todayDate,
+                    'from' => $yearBefore
+                ])->json();
+
+            $data = $response['data']['results'];
+            $data_historical = array_reverse($data);
+            $prices50 = [];
+            $prices200 = [];
+            $prices14 = [];
+
+            for ($i = 0; $i < 50; $i++) {
+                array_push($prices50, $data[$i]['close']);
+            }
+
+            for ($i = 0; $i < 200; $i++) {
+                array_push($prices200, $data[$i]['close']);
+            }
+
+            for ($i = 0; $i < 14; $i++) {
+                array_push($prices14, $data[$i]['close']);
+            }
+
+            $ma50 = array_sum($prices50) / 50;
+            $ma200 = array_sum($prices200) / 200;
+
+            if ($ma50 > $ma200) {
+                $change = $ma50 / $ma200;
+                $array = ["ticker" => "{$stock}", "trend" => "uptrend", "change" => "{$change}"];
+                array_push($trends, $array);
+            } else if ($ma50 < $ma200) {
+                $array = ["ticker" => "{$stock}", "trend" => "downtrend", "change" => "{$change}"];
+                $change = $ma200 / $ma50;
+                array_push($trends, $array);
+            } else {
+                $array = ["ticker" => "{$stock}", "trend" => "sideways", "change" => "0"];
+                array_push($trends, $array);
+            }
+
+        }
+        return $trends;
     }
 
     public function post()
     {
+        $postData = PostModel::where('tag', 'public')->join('users', 'tb_post.id_user', '=', 'users.id')->get();
+
         if (Auth::check()) {
-            $postData = PostModel::get();
+            $analystId = [];
+            $analyst = SubscriberModel::where('id_subscriber', Auth::id())->where('status', 'subscribed')->get();
+
+            foreach ($analyst as $analysts) {
+                array_push($analystId, $analysts->id_analyst);
+            }
+
+            $postSub = PostModel::where('tag', 'private')->whereIn('id_user', $analystId)->join('users', 'tb_post.id_user', '=', 'users.id')->get();
+
+            $postData = $postData->merge($postSub);
+            //dd($postData);
 
             return view('landingPage/post', compact(['postData']));
         } else {
-            $postData = PostModel::where('tag', 'public')->get();
 
             return view('landingPage/post', compact(['postData']));
         }

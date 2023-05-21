@@ -48,7 +48,7 @@
                     <thead>
                         <tr>
                             <th>No </th>
-                            <th>Title</th>
+                            <th class="w-25">Title</th>
                             <th>Creator</th>
                             <th>Tag</th>
                             <th>Action</th>

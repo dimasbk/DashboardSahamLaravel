@@ -34,12 +34,14 @@ Route::group(['middleware' => ['admin']], function () {
 
 });
 Route::group(['middleware' => ['analyst']], function () {
-
+    Route::get('/analyst', [AnalystController::class, 'index']);
 });
 Route::group(['middleware' => ['user']], function () {
-
+    Route::get('/analyst', [AnalystController::class, 'index']);
 });
 
+Route::get('/portofoliobeli/analyst/{user_id}', [PortofolioBeliController::class, 'getdataAnalyst']);
+Route::get('/portofoliojual/analyst/{user_id}', [PortofolioJualController::class, 'getdataAnalyst']);
 
 Route::resource('portobeli', PortofolioBeliController::class);
 Route::get('/portofoliobeli/{user_id}', [PortofolioBeliController::class, 'getData']);
@@ -72,14 +74,14 @@ Route::get('/chart/oneWeek/{ticker}', [ChartController::class, 'oneWeek']);
 Route::get('/chart/oneMonth/{ticker}', [ChartController::class, 'oneMonth']);
 Route::get('/chart/oneYear/{ticker}', [ChartController::class, 'oneYear']);
 Route::get('/chart/threeYear/{ticker}', [ChartController::class, 'threeYear']);
-Route::get('/technical/{ticker}', [ChartController::class, 'technical']);
+Route::get('/technical', [ChartController::class, 'technical']);
 
 Route::post('/fundamental/input/bank/add', [FundamentalController::class, 'insertBank']);
 
-//Route::get('/fundamental', [FundamentalController::class, 'index']);
+Route::get('/fundamental', [FundamentalController::class, 'index']);
 Route::get('/updatestock', [StockAPIController::class, 'updateStock']);
 
-
+Route::get('/post', [PostController::class, 'analystPost']);
 Route::get('/post/view/{id}', [PostController::class, 'view']);
 Route::get('/post/view', [PostController::class, 'getPost']);
 Route::get('/post/manage', [PostController::class, 'getuserPost']);
@@ -88,8 +90,10 @@ Route::get('/post/edit/{id}', [PostController::class, 'editPost']);
 Route::post('/post/edit', [PostController::class, 'edit']);
 Route::get('/post/delete/{id}', [PostController::class, 'deletePost']);
 
-Route::get('/analyst', [AnalystController::class, 'index']);
+
 Route::post('/follow', [AnalystController::class, 'follow']);
+Route::post('/profile/mini', [AnalystController::class, 'profileMini']);
+Route::get('/profile/{id}', [AnalystController::class, 'profile']);
 
 Auth::routes();
 

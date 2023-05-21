@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SubscriberModel;
 use Illuminate\Http\Request;
 use App\Models\PostModel;
 use Illuminate\Support\Facades\Auth;
@@ -28,20 +29,32 @@ class PostController extends Controller
 
     public function view($id)
     {
-        $postData = PostModel::where('id_post', $id)
-            ->get();
-
-        return view('postpre', compact(['postData']));
+        $postData = PostModel::where('id_post', $id)->first();
+        if ($postData->tag == 'private') {
+            $isSubscribed = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', $postData->id_user)->where('status', 'subscribed')->first();
+            if ($isSubscribed) {
+                dd('test1');
+                return view('postpre', compact(['postData']));
+            } else {
+                dd('test2');
+                return redirect('/');
+            }
+        } else {
+            dd('test3');
+            return view('postpre', compact(['postData']));
+        }
     }
 
     public function getPost()
     {
+
+        $subscribed = [1, 2, 3];
         $postData = PostModel::where('id_user', Auth::id())
             ->join('users', 'tb_post.id_user', '=', 'users.id')
             ->get();
 
 
-        return view('userPost', compact(['postData']));
+        return view('postpre', compact(['postData']));
     }
 
     public function addPost(Request $request)

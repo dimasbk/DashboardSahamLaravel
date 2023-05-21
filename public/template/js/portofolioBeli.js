@@ -68,7 +68,7 @@ $(document).ready(function () {
       },
       success: function (response) {
         console.log(response);
-        location.reload();
+        //location.reload();
       },
       error: function (error) {
         console.log(error);

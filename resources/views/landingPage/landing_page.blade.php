@@ -120,24 +120,14 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($topGainers as $topGainer)
                     <tr>
-                        <td>AAPL</td>
-                        <td>130.48</td>
-                        <td>-1.12</td>
-                        <td>-0.85%</td>
+                        <td>{{$topGainer['ticker']}}</td>
+                        <td>{{$topGainer['close']}}</td>
+                        <td>{{$topGainer['change']}}</td>
+                        <td style="color: green">{{round($topGainer['percent'], 2)}}%</td>
                     </tr>
-                    <tr>
-                        <td>GOOG</td>
-                        <td>2393.57</td>
-                        <td>+1.89</td>
-                        <td>+0.08%</td>
-                    </tr>
-                    <tr>
-                        <td>FB</td>
-                        <td>316.30</td>
-                        <td>+2.56</td>
-                        <td>+0.82%</td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -153,27 +143,46 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($topLosers as $topLoser)
                     <tr>
-                        <td>AMZN</td>
-                        <td>3467.42</td>
-                        <td>-6.57</td>
-                        <td>-0.19%</td>
+                        <td>{{$topLoser['ticker']}}</td>
+                        <td>{{$topLoser['close']}}</td>
+                        <td>{{$topLoser['change']}}</td>
+                        <td style="color: red">{{round($topLoser['percent'], 2)}}%</td>
                     </tr>
-                    <tr>
-                        <td>TSLA</td>
-                        <td>709.44</td>
-                        <td>-5.21</td>
-                        <td>-0.73%</td>
-                    </tr>
-                    <tr>
-                        <td>NFLX</td>
-                        <td>496.08</td>
-                        <td>+2.11</td>
-                        <td>+0.43%</td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
+    </div>
+    <div>
+        <h1>Top Gainer Saham</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Ticker</th>
+                    <th>Trend</th>
+                    <th>Change</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($trends as $trend)
+                <tr>
+                    <td>{{$trend['ticker']}}</td>
+                    <td>{{Str::title($trend['trend'])}}</td>
+                    @if ($trend['trend'] == 'uptrend')
+                    <td style="color: green">{{round($trend['change'], 2)}}%</td>
+                    @endif
+                    @if ($trend['trend'] == 'downtrend')
+                    <td style="color: red">-{{round($trend['change'], 2)}}%</td>
+                    @endif
+                    @if ($trend['trend'] == 'sideways')
+                    <td>{{round($trend['change'], 2)}}%</td>
+                    @endif
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 </div>
 

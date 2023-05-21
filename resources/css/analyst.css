@@ -67,8 +67,6 @@
 .card {
     width: 400px;
     border: none;
-    border-radius: 10px;
-
     background-color: #fff;
 }
 
@@ -103,4 +101,10 @@
 
 .number3 {
     font-weight: 500;
+}
+
+.modal-content {
+    background: none;
+    box-shadow: none;
+    border: none;
 }

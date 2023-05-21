@@ -4,14 +4,6 @@
 @vite(['resources/sass/newsArticle.scss', 'resources/css/analyst.css', 'resources/js/analyst.js'])
 
 <head>
-    <!-- CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
-        integrity="sha384-1dM6U4ne6U2xZUMgX9hgeS0S1vTTpG6luUP/oA4dSl6m4l6FQJnhC/3XeyQTrxrW" crossorigin="anonymous">
-
-    <!-- JavaScript and dependencies -->
-    <script type="text/javascript"
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
 
@@ -34,11 +26,18 @@
                 @else
                 <div class="people" style="margin-top: 10px">
                     <ul class="people-list">
-                        <div class="follow-buttons-container">
+                        <div class="follow-btn-container">
                             @foreach ($toFollow as $follow)
                             <li class="person">
                                 <span class="person-name">{{$follow['name']}}</span>
-                                <button class="follow-button btn" data-user-id="{{$follow['id']}}">Subscribe</button>
+                                <div class="buttonProp">
+                                    <button type="button" class="btn btn-primary profile-button"
+                                        data-user-id="{{$follow['id']}}">
+                                        Launch demo modal
+                                    </button>
+                                    <button class="follow-button follow-btn btn"
+                                        data-user-id="{{$follow['id']}}">Subscribe</button>
+                                </div>
                             </li>
                             @endforeach
                         </div>
@@ -55,12 +54,15 @@
                 @else
                 <div class="people" style="margin-top: 10px">
                     <ul class="people-list">
-                        <div class="follow-buttons-container">
+                        <div class="follow-btn-container">
                             @foreach ($existing as $existings)
                             <li class="person">
                                 <span class="person-name">{{$existings['name']}}</span>
                                 <div class="buttonProp">
-                                    <button class="follow-button btn">view profile</button>
+                                    @if ($existings['status']=='subscribed')
+                                    <a type="button" href="/profile/{{$existings['id']}}" class="follow-button btn">view
+                                        profile</a>
+                                    @endif
                                     <button class="profile-button btn"
                                         disabled>{{ucwords($existings['status'])}}</button>
                                 </div>
@@ -73,8 +75,48 @@
             </div>
         </div>
     </div>
-
-
 </body>
+
+<div class="modal fade" id="detailFollow" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="mt-5 d-flex justify-content-center">
+                    <div class="card p-3">
+                        <div class="d-flex align-items-center">
+                            <div class="image">
+                                <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
+                                    id="pic" class="rounded" width="155">
+                            </div>
+                            <div style="margin-left: 10px" class="ml-3 w-100">
+                                <h4 class="mb-0 mt-0" id="name">Alex HMorrision</h4>
+                                <span>Analyst</span>
+                                <div
+                                    class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
+                                    <div class="d-flex flex-column">
+                                        <span class="articles">Articles</span>
+                                        <span class="number1" id="post">38</span>
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <span class="followers">Followers</span>
+                                        <span class="number2" id="followers">980</span>
+                                    </div>
+                                </div>
+                                <div class="button mt-2 d-flex flex-row align-items-center">
+                                    <div class="follow-btn-container">
+                                        <button id="followBtn"
+                                            class="follow-btn btn btn-sm btn-primary w-100 ml-2">Subscribe</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @endsection

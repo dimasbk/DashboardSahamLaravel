@@ -1,95 +1,92 @@
 <head>
-    @vite(['resources/js/landing.js','resources/sass/landing.scss'])
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
     @yield('page-style-files')
 </head>
 
-<body>
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                    aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">SahamKU</a>
-            </div>
-            <div id="navbar" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav navbar-left">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/landing-page">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/news">News</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="btn dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Blog
-                            <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="/post">Post</a></li>
-                            @auth
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="/analyst">Analysts</a></li>
-                            @endauth
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/search">Emiten Saham</a>
-                    </li>
-                    @auth
-                    <li class="nav-item dropdown">
-                        <a class="btn dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Portofolio
-                            <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                            <li role="presentation"><a role="menuitem" tabindex="-1"
-                                    href="/portofoliobeli/{{Auth::id()}}">Portofolio Beli</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1"
-                                    href="/portofoliojual/{{Auth::id()}}">Portofolio Beli</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="/report">Report</a></li>
-                            <li role="presentation" class="divider"></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">About Us</a></li>
-                        </ul>
-                    </li>
-                    @endauth
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    @guest
-                    <li class="nav-item me-3 me-lg-0">
-                        <a class="nav-link" href="/login">
-                            Login
-                        </a>
-                    </li>
-                    <li class="nav-item me-3 me-lg-0">
-                        <a class="nav-link" href="/register">
-                            Register
-                        </a>
-                    </li>
-                    @endguest
-                    @auth
-                    <li class="nav-item me-3 me-lg-0">
-                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                      document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
-                        </a>
-
-                    </li>
-                    @endauth
-                </ul>
-            </div>
-            <!--/.nav-collapse -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">SahamKU</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar"
+            aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/landing-page">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/news">News</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="menu1" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">Blog</a>
+                    <ul class="dropdown-menu" aria-labelledby="menu1">
+                        <li><a class="dropdown-item" href="/post">Post</a></li>
+                        @auth
+                        <li><a class="dropdown-item" href="/analyst">Analysts</a></li>
+                        @endauth
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/search">Emiten Saham</a>
+                </li>
+                <!--
+                @auth
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="menu2" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">Portofolio</a>
+                    <ul class="dropdown-menu" aria-labelledby="menu2">
+                        <li><a class="dropdown-item" href="/portofoliobeli/{{Auth::id()}}">Portofolio Beli</a></li>
+                        <li><a class="dropdown-item" href="/portofoliojual/{{Auth::id()}}">Portofolio Jual</a></li>
+                        <li><a class="dropdown-item" href="/report">Report</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">About Us</a></li>
+                    </ul>
+                </li>
+                @endauth
+            -->
+            </ul>
+            <ul class="navbar-nav">
+                @auth
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard">Dashboard</a>
+                </li>
+                @endauth
+                @guest
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">Register</a>
+                </li>
+                @endguest
+                @auth
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{
+                        __('Logout') }}</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
+                @endauth
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <main>
-        <div class="content-wrapper">
-            @yield('content')
-        </div>
-    </main>
+<main>
+    <div class="content-wrapper">
+        @yield('content')
+    </div>
+</main>
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="{{asset('bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 </body>

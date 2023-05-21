@@ -213,10 +213,12 @@ class ReportController extends Controller
         $hargaclose = $response['data']['results'][0]['close'];
         $avgBeli = $dataReport[0]['avg_harga_beli'];
         $avgJual = $dataReport[0]['avg_harga_jual'];
-        $keuntungan = ($totalLot * $avgBeli) - ($totalLot * $hargaclose);
+        $realisasi = ($totalLot * $avgBeli) - ($totalLot * $hargaclose);
         //dd($keuntungan);
 
-        $realisasi = ($totalLot * $avgBeli) - ($totalLot * $avgJual);
+        $keuntungan = ($totalLot * $avgBeli) - ($totalLot * $avgJual);
+
+        dd(compact(['data', 'keuntungan', 'realisasi']));
         return view('reportDetail', compact(['data', 'keuntungan', 'realisasi']));
     }
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SubscriberModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\PortofolioBeliModel;
@@ -33,6 +35,27 @@ class PortofolioBeliController extends Controller
         $data = compact(['dataporto'], ['emiten'], ['jenis_saham'], ['sekuritas']);
         //dd($data);
         return view('portofoliobeli', $data);
+    }
+
+    public function getdataAnalyst($user_id)
+    {
+        $isSubscribed = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', $user_id)->where('status', 'subscribed')->first();
+        if ($isSubscribed) {
+            $dataporto = PortofolioBeliModel::where('user_id', $user_id)
+                ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
+                ->join('tb_sekuritas', 'tb_portofolio_beli.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
+                ->get();
+            $emiten = SahamModel::all();
+            $jenis_saham = JenisSahamModel::all();
+            $sekuritas = SekuritasModel::all();
+            $userData = User::where('id', $user_id)->first();
+
+            $data = compact(['dataporto'], ['emiten'], ['jenis_saham'], ['sekuritas'], ['userData']);
+            //dd($data);
+            return view('portofoliobeliAnalyst', $data);
+        } else {
+            return redirect('/');
+        }
     }
 
     public function insertData(Request $request)
