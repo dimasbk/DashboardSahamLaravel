@@ -4,11 +4,26 @@ $(document).ready(function () {
       "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
     },
   });
+  $("#first-dropdown").change(function () {
+    if ($(this).val() === "a") {
+      $("#emitenSaham").prop("disabled", true);
+      $("#emitenSaham").val($("#emitenSaham option:first").val());
+    } else {
+      $("#emitenSaham").prop("disabled", false);
+    }
+  });
 
   $("#post-form").submit(function (event) {
     event.preventDefault(); // prevent default form submission
     if (validateForm()) {
-      var formData = new FormData(this); // create FormData object from form data
+      var formData = new FormData(this);
+      var title = $("#post-title").val();
+      var content = $("#post-content").val();
+      var image = $("#post-image").val();
+      var emiten = $("#emitenSaham").val();
+      var tag = $('input[name="gender"]:checked').val();
+
+      // create FormData object from form data
       $.ajax({
         url: "/post/add", // URL to submit the form data
         type: "POST",
@@ -37,7 +52,8 @@ $(document).ready(function () {
           alert("Error submitting post: " + error);
         },
         complete: function () {
-          location.reload();
+          //location.reload();
+          //alert(JSON.stringify(formData));
         },
       });
     }

@@ -24,41 +24,39 @@
 </head>
 
 <body>
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold">Report Saham</h6>
-        </div>
-        <div class="card-body">
+    <div class="container">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold">Report Saham</h6>
+            </div>
             <table class="table">
                 <thead class="thead-light">
                     <tr>
-                        <th>Nama Saham</th>
-                        <th>Total Volume Beli</th>
-                        <th>Average Buy</th>
-                        <th>Total Volume Jual</th>
-                        <th>Average Sell</th>
-                        <th>Lot Remaining</th>
-                        <th>Detail</th>
+                        <th>Tahun</th>
+                        <th>
+                            <div class="d-flex justify-content-end">
+                                Detail
+                            </div>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($data as $report)
+                    @foreach ($years as $year)
                     <tr>
 
-                        <td>{{ $report['nama_saham'] }}</td>
-                        <td>{{ $report['total_volume_beli'] }}</td>
-                        <td>{{ $report['avg_harga_beli'] }}</td>
-                        <td>{{ $report['total_volume_jual'] }}</td>
-                        <td>{{ $report['avg_harga_jual'] }}</td>
-                        <td>{{ $report['total_volume_beli'] - $report['total_volume_jual']}}</td>
-                        <td><button class="btn btn-primary"
-                                onclick="location.href='/report/{{$tahun}}/{{$report['nama_saham']}}'" type="button">
-                                Detail</button></td>
+                        <td>{{ $year }}</td>
+                        <td>
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-primary" onclick="location.href='/report/{{$year}}'"
+                                    type="button">Detail</button>
+                            </div>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
+    </div>
     </div>
 </body>
 @section('page-js-files')

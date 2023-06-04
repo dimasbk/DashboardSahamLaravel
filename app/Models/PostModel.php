@@ -14,6 +14,7 @@ class PostModel extends Model
         'picture',
         'id_user',
         'tag',
+        'id_saham',
         "created_at",
         "updated_at"
     ];

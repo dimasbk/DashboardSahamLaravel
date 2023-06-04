@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TechnicalController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PortofolioBeliController;
 use App\Http\Controllers\PortofolioJualController;
@@ -28,28 +29,11 @@ use App\Http\Controllers\AnalystController;
 |
 */
 
-Route::group(['middleware' => ['admin']], function () {
 
-    Route::get('/fundamental/input/{emiten}', [FundamentalController::class, 'index']);
-
-});
-Route::group(['middleware' => ['analyst']], function () {
-    Route::get('/analyst', [AnalystController::class, 'index']);
-});
-Route::group(['middleware' => ['user']], function () {
-    Route::get('/analyst', [AnalystController::class, 'index']);
-});
+Route::get('/analyst', [AnalystController::class, 'index']);
 
 Route::get('/portofoliobeli/analyst/{user_id}', [PortofolioBeliController::class, 'getdataAnalyst']);
 Route::get('/portofoliojual/analyst/{user_id}', [PortofolioJualController::class, 'getdataAnalyst']);
-
-Route::resource('portobeli', PortofolioBeliController::class);
-Route::get('/portofoliobeli/{user_id}', [PortofolioBeliController::class, 'getData']);
-Route::post('/portofoliobeli/addbeli', [PortofolioBeliController::class, 'insertData']);
-Route::get('/portofoliobeli/edit/{id_portofolio_beli}', [PortofolioBeliController::class, 'getEdit']);
-Route::post('/portofoliobeli/editbeli', [PortofolioBeliController::class, 'editData']);
-Route::get('/portofoliobeli/delete/{id_portofolio_beli}', [PortofolioBeliController::class, 'deleteData']);
-
 
 Route::get('/portofoliojual/{user_id}', [PortofolioJualController::class, 'getdata']);
 Route::post('/portofoliojual/addjual', [PortofolioJualController::class, 'insertData']);
@@ -57,16 +41,16 @@ Route::get('/portofoliojual/edit/{id_portofolio_jual}', [PortofolioJualControlle
 Route::post('/portofoliojual/editjual', [PortofolioJualController::class, 'editData']);
 Route::get('/portofoliojual/delete/{id_portofolio_jual}', [PortofolioJualController::class, 'deleteData']);
 
+Route::get('/portofoliobeli/{user_id}', [PortofolioBeliController::class, 'getData']);
+Route::post('/portofoliobeli/addbeli', [PortofolioBeliController::class, 'insertData']);
+Route::get('/portofoliobeli/edit/{id_portofolio_beli}', [PortofolioBeliController::class, 'getEdit']);
+Route::post('/portofoliobeli/editbeli', [PortofolioBeliController::class, 'editData']);
+Route::get('/portofoliobeli/delete/{id_portofolio_beli}', [PortofolioBeliController::class, 'deleteData']);
 
-Route::get('/reportbeli/detail/{user_id}/{tahun}', [ReportBeliController::class, 'getData']);
-Route::get('/reportbeli/{user_id}', [ReportBeliController::class, 'getYear']);
-
-Route::get('/reportjual/detail/{user_id}/{tahun}', [ReportJualController::class, 'getData']);
-Route::get('/reportjual/{user_id}', [ReportJualController::class, 'getYear']);
-
-Route::get('/report', [ReportController::class, 'report']);
-Route::get('/report/range', [ReportController::class, 'reportRange']);
-Route::get('/report/{emiten}', [ReportController::class, 'detailReport']);
+Route::get('/report/{year}', [ReportController::class, 'report']);
+Route::get('/report', [ReportController::class, 'getYear']);
+Route::get('/reportporto/range', [ReportController::class, 'reportRange']);
+Route::get('/report/{year}/{emiten}', [ReportController::class, 'detailReport']);
 
 Route::get('/stock', [StockAPIController::class, 'index']);
 Route::get('/chart/{ticker}', [ChartController::class, 'index']);
@@ -74,15 +58,18 @@ Route::get('/chart/oneWeek/{ticker}', [ChartController::class, 'oneWeek']);
 Route::get('/chart/oneMonth/{ticker}', [ChartController::class, 'oneMonth']);
 Route::get('/chart/oneYear/{ticker}', [ChartController::class, 'oneYear']);
 Route::get('/chart/threeYear/{ticker}', [ChartController::class, 'threeYear']);
-Route::get('/technical', [ChartController::class, 'technical']);
+Route::get('/technical/{ticker}', [ChartController::class, 'technical']);
 
-Route::post('/fundamental/input/bank/add', [FundamentalController::class, 'insertBank']);
+Route::get('/technical', [TechnicalController::class, 'index']);
+Route::get('/search/technical', [TechnicalController::class, 'technical']);
 
-Route::get('/fundamental', [FundamentalController::class, 'index']);
-Route::get('/updatestock', [StockAPIController::class, 'updateStock']);
+Route::post('/follow', [AnalystController::class, 'follow']);
+Route::post('/profile/mini', [AnalystController::class, 'profileMini']);
+Route::get('/profile/{id}', [AnalystController::class, 'profile']);
 
-Route::get('/post', [PostController::class, 'analystPost']);
+Route::get('/post/analyst/{id}', [PostController::class, 'analystPost']);
 Route::get('/post/view/{id}', [PostController::class, 'view']);
+
 Route::get('/post/view', [PostController::class, 'getPost']);
 Route::get('/post/manage', [PostController::class, 'getuserPost']);
 Route::post('/post/add', [PostController::class, 'addPost']);
@@ -91,9 +78,15 @@ Route::post('/post/edit', [PostController::class, 'edit']);
 Route::get('/post/delete/{id}', [PostController::class, 'deletePost']);
 
 
-Route::post('/follow', [AnalystController::class, 'follow']);
-Route::post('/profile/mini', [AnalystController::class, 'profileMini']);
-Route::get('/profile/{id}', [AnalystController::class, 'profile']);
+Route::get('/reportbeli/detail/{user_id}/{tahun}', [ReportBeliController::class, 'getData']);
+Route::get('/reportbeli/{user_id}', [ReportBeliController::class, 'getYear']);
+
+Route::get('/reportjual/detail/{user_id}/{tahun}', [ReportJualController::class, 'getData']);
+Route::get('/reportjual/{user_id}', [ReportJualController::class, 'getYear']);
+
+Route::get('/fundamental', [FundamentalController::class, 'index']);
+Route::get('/updatestock', [StockAPIController::class, 'updateStock']);
+
 
 Auth::routes();
 

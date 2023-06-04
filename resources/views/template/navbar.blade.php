@@ -20,7 +20,13 @@
         <li class="nav-item">
           <a href="/report" class="nav-link">
             <i class="far fa-circle nav-icon"></i>
-            <p>Report dan Rekapitulasi</p>
+            <p>Report Tahunan</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/reportporto/range" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Rekapitulasi Range</p>
           </a>
         </li>
       </ul>

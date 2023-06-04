@@ -93,7 +93,7 @@ class LandingPageController extends Controller
 
     public function post()
     {
-        $postData = PostModel::where('tag', 'public')->join('users', 'tb_post.id_user', '=', 'users.id')->get();
+        $postData = PostModel::where('tag', 'public')->where('id_saham', null)->join('users', 'tb_post.id_user', '=', 'users.id')->get();
 
         if (Auth::check()) {
             $analystId = [];
@@ -163,6 +163,20 @@ class LandingPageController extends Controller
             ->join('tb_saham', 'tb_input.id_saham', '=', 'tb_saham.id_saham')
             ->latest('tahun')->first();
 
+        $subscribed = SubscriberModel::where('id_subscriber', Auth::id())->pluck('id_analyst')->toArray();
+        $postData = PostModel::where('id_saham', $emiten)->where('tag', 'public')
+            ->join('users', 'tb_post.id_user', '=', 'users.id')
+            ->get()->toArray();
+        $includedID = PostModel::where('id_saham', $emiten)->where('tag', 'public')->pluck('id_post')->toArray();
+        $analystPost = PostModel::where('id_saham', $emiten)->where('tag', 'public')
+            ->whereIn('id_user', $subscribed)
+            ->whereNotIn('id_post', $includedID)
+            ->join('users', 'tb_post.id_user', '=', 'users.id')
+            ->get()->toArray();
+
+        $post = array_merge($postData, $analystPost);
+        //dd($post);
+
         if (!$input) {
             $inputData = array(
                 "id_input" => 0,
@@ -214,7 +228,7 @@ class LandingPageController extends Controller
             );
 
             $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
-            $data = compact(['inputData'], ['outputData'], ['ticker'], ['check']);
+            $data = compact(['inputData'], ['outputData'], ['ticker'], ['check'], ['post']);
             //dd($data);
 
             return view('landingPage/chart', $data);
@@ -254,7 +268,7 @@ class LandingPageController extends Controller
             );
 
             $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
-            $data = compact(['inputData'], ['outputData'], ['ticker'], ['check']);
+            $data = compact(['inputData'], ['outputData'], ['ticker'], ['check'], ['post']);
 
             return view('landingPage/chart', $data);
         }

@@ -66,7 +66,6 @@
                                         <th scope="col">Tanggal Beli</th>
                                         <th scope="col">Harga Beli</th>
                                         <th scope="col">Sekuritas</th>
-                                        <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>

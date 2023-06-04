@@ -65,8 +65,6 @@
                   <th scope="col">Harga Jual</th>
                   <th scope="col">Sekuritas</th>
                   <th scope="col">Laba Rugi Jual(%)</th>
-                  <th scope="col"></th>
-
                 </tr>
               </thead>
               <tbody>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PostModel;
+use App\Models\SubscriberModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,10 +22,14 @@ class ChartController extends Controller
 
         $emiten = SahamModel::where('nama_saham', $ticker)->value('id_saham');
         $input = InputFundamentalModel::where('tb_input.id_saham', $emiten)
-            ->where('user_id', Auth::id())
             ->join('tb_detail_input', 'tb_input.id_detail_input', '=', 'tb_detail_input.id_detail_input')
             ->join('tb_saham', 'tb_input.id_saham', '=', 'tb_saham.id_saham')
             ->latest('tahun')->first();
+
+        $post = [];
+        $subscribed = SubscriberModel::where('id_subscriber', Auth::id())->pluck('id_analyst')->toArray();
+        $postData = PostModel::where('id_saham', $emiten)->get();
+        dd($subscribed);
 
         if (!$input) {
             $inputData = array(
@@ -76,6 +82,7 @@ class ChartController extends Controller
             );
 
             $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
+
             $data = compact(['inputData'], ['outputData'], ['ticker'], ['check']);
             //dd($data);
 

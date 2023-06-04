@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SahamModel;
 use App\Models\SubscriberModel;
 use Illuminate\Http\Request;
 use App\Models\PostModel;
@@ -19,11 +20,17 @@ class PostController extends Controller
 
     public function getUserPost()
     {
-        $postData = PostModel::where('id_user', Auth::id())
-            ->join('users', 'tb_post.id_user', '=', 'users.id')
-            ->get();
+        if (Auth::user()->id_roles == 2) {
+            $postData = PostModel::where('id_user', Auth::id())
+                ->join('users', 'tb_post.id_user', '=', 'users.id')
+                ->get();
 
-        return view('postmanage', compact(['postData']));
+            $saham = SahamModel::all();
+
+            return view('postmanage', compact(['postData', 'saham']));
+        } else {
+            return redirect('/');
+        }
     }
 
 
@@ -33,15 +40,27 @@ class PostController extends Controller
         if ($postData->tag == 'private') {
             $isSubscribed = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', $postData->id_user)->where('status', 'subscribed')->first();
             if ($isSubscribed) {
-                dd('test1');
+                //dd('test1');
                 return view('postpre', compact(['postData']));
             } else {
-                dd('test2');
+                //dd('test2');
                 return redirect('/');
             }
         } else {
-            dd('test3');
+            //dd('test3');
             return view('postpre', compact(['postData']));
+        }
+    }
+
+    public function analystPost($id)
+    {
+        $isSubscribed = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', $id)->where('status', 'subscribed')->first();
+        if ($isSubscribed) {
+            $postData = PostModel::where('id_user', $id)->join('users', 'tb_post.id_user', '=', 'users.id')->get();
+
+            return view('landingPage/post', compact(['postData']));
+        } else {
+            return redirect('/');
         }
     }
 
@@ -62,6 +81,11 @@ class PostController extends Controller
         $title = $request->input('title');
         $content = $request->input('content');
         $tag = $request->input('tag');
+        if ($request->input('emitenSaham')) {
+            $id_saham = $request->input('emitenSaham');
+        } else {
+            $id_saham = null;
+        }
         $image = $request->file('image');
         if ($image) {
             $fileName = time() . '.' . $image->getClientOriginalExtension();
@@ -72,6 +96,7 @@ class PostController extends Controller
                 'content' => $content,
                 'picture' => $fileName,
                 'tag' => $tag,
+                'id_saham' => $id_saham,
                 'id_user' => Auth::id()
             ]);
             return 'berhasil';
@@ -80,6 +105,7 @@ class PostController extends Controller
                 'title' => $title,
                 'content' => $content,
                 'tag' => $tag,
+                'id_saham' => $id_saham,
                 'id_user' => Auth::id()
             ]);
             return 'berhasil';
@@ -95,27 +121,25 @@ class PostController extends Controller
 
     public function edit(Request $request)
     {
-        $postData = PostModel::where('id_post', $request->id)->firstOrFail();
         //dd($postData);
         if ($request->image == null) {
-            $postData->title = $request->title;
-            $postData->content = $request->content;
-            $postData->tag = $request->tag;
-            $postData->touch();
-            $postData->save();
+            PostModel::where('id_post', $request->id)->update([
+                'title' => $request->title,
+                'content' => $request->content,
+                'tag' => $request->tag,
+            ]);
             return redirect('/post/manage');
         } else {
             $oldimage = PostModel::where('id_post', $request->id)->value('picture');
-            $postData->title = $request->title;
-            $postData->content = $request->content;
-            $postData->tag = $request->tag;
             $image = $request->file('image');
             $fileName = time() . '.' . $image->getClientOriginalExtension();
             $image->storeAs('public_images', $fileName, 'local_images');
-            $postData->picture = $fileName;
-            $postData->touch();
-            $postData->save();
-
+            PostModel::where('id_post', $request->id)->update([
+                'title' => $request->title,
+                'content' => $request->content,
+                'tag' => $request->tag,
+                'picture' => $fileName
+            ]);
             if ($oldimage) {
                 File::delete(public_path("images/public_images/" . $oldimage));
             }

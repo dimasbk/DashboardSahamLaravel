@@ -17,7 +17,10 @@
                     </div>
                     <div class="main-post__content">
                         <div class="main-post__tag-wrapper">
-                            <span class="main-post__tag">Article</span>
+                            @if ($post[0]['id_saham'] === null)
+                            <span class="main-post__tag">General</span>
+                            @endif
+                            <span class="main-post__tag">Analisis</span>
                         </div>
                         <h1 class="main-post__title">{{$post[0]['title']}}</h1>
                         <a class="main-post__link" href="/post/view/{{$post[0]['id_post']}}">
@@ -35,7 +38,10 @@
                     </div>
                     <div class="main-post__content">
                         <div class="main-post__tag-wrapper">
-                            <span class="main-post__tag">Article</span>
+                            @if ($post[0]['id_saham'] === null)
+                            <span class="main-post__tag">General</span>
+                            @endif
+                            <span class="main-post__tag">Analisis</span>
                         </div>
                         <h1 class="main-post__title">{{$post[1]['title']}}</h1>
                         <a class="main-post__link" href="/post/view/{{$post[1]['id_post']}}">
@@ -53,7 +59,10 @@
                     </div>
                     <div class="main-post__content">
                         <div class="main-post__tag-wrapper">
-                            <span class="main-post__tag">Article</span>
+                            @if ($post[0]['id_saham'] === null)
+                            <span class="main-post__tag">General</span>
+                            @endif
+                            <span class="main-post__tag">Analisis</span>
                         </div>
                         <h1 class="main-post__title">{{$post[2]['title']}}
                         </h1>

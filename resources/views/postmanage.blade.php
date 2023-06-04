@@ -73,6 +73,8 @@
                                     type="button"><i class="fas fa-edit"></i></button>
                                 <button data-toggle="modal" data-target="#delete" type="button"
                                     class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                <button onclick="location.href='/post/delete/{{$item->id_post}}'" type="button"
+                                    class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                             </td>
                             <div id="delete" class="modal fade">
                                 <div class="modal-dialog modal-confirm">
@@ -116,6 +118,23 @@
                     <div class="modal-body">
                         <form id="post-form" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <div class="form-group">
+                                <label for="first-dropdown">Post type:</label>
+                                <select id="first-dropdown" class="form-select">
+                                    <option value="a">General</option>
+                                    <option value="b">Analisis</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="emitenSaham">Emiten Saham</label>
+                                <select id="emitenSaham" name="emitenSaham" disabled>
+                                    <option value="">Select Emiten Saham</option>
+                                    @foreach($saham as $item)
+                                    <option value="{{ $item->id_saham}}">{{ $item->nama_saham}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback"></div>
+                            </div>
                             <div class="form-group">
                                 <label for="post-title">Title</label>
                                 <input type="text" class="form-control" id="post-title" name="title" required>

@@ -20,13 +20,14 @@ class ReportController extends Controller
         $this->middleware('auth');
     }
 
-    public function report()
+    public function report($year)
     {
 
 
         $data = PortofolioBeliModel::join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
             ->select('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_beli.volume) AS total_volume_beli'), DB::raw('AVG(tb_portofolio_beli.harga_beli) AS avg_harga_beli'))
             ->where('tb_portofolio_beli.user_id', '=', Auth::id())
+            ->whereYear('tanggal_beli', $year)
             ->groupBy('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham')
             ->get()->toArray();
 
@@ -37,6 +38,7 @@ class ReportController extends Controller
                 ->select('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_jual.volume) AS total_volume_jual'), DB::raw('AVG(tb_portofolio_jual.harga_jual) AS avg_harga_jual'))
                 ->where('tb_portofolio_jual.user_id', '=', Auth::id())
                 ->where('tb_portofolio_jual.id_saham', '=', $id)
+                ->whereYear('tanggal_jual', $year)
                 ->groupBy('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham')
                 ->get()->toArray();
 
@@ -60,8 +62,10 @@ class ReportController extends Controller
             ->get()->toArray();
 
         $result = array_merge($beli, $jual);
+        $tahun = $year;
+        //dd($data);
 
-        return view('report', compact(['data']));
+        return view('report', compact(['data', 'tahun']));
 
     }
 
@@ -116,28 +120,33 @@ class ReportController extends Controller
             return ($tanggal_a < $tanggal_b) ? -1 : 1;
         });
 
+        //dd($data);
+
         return view('reportrange', compact(['data']));
     }
 
-    public function detailReport($emiten)
+    public function detailReport($year, $emiten, $function = null)
     {
         $idEmiten = SahamModel::where('nama_saham', $emiten)->value('id_saham');
         $beli = PortofolioBeliModel::where('user_id', Auth::id())
             ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
             ->join('tb_sekuritas', 'tb_portofolio_beli.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
             ->where('tb_portofolio_beli.id_saham', $idEmiten)
+            ->whereYear('tanggal_beli', $year)
             ->get()->toArray();
 
         $jual = PortofolioJualModel::where('user_id', Auth::id())
             ->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
             ->join('tb_sekuritas', 'tb_portofolio_jual.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
             ->where('tb_portofolio_jual.id_saham', $idEmiten)
+            ->whereYear('tanggal_jual', $year)
             ->get()->toArray();
 
         $dataReport = PortofolioBeliModel::join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
             ->select('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_beli.volume) AS total_volume_beli'), DB::raw('AVG(tb_portofolio_beli.harga_beli) AS avg_harga_beli'))
             ->where('tb_portofolio_beli.user_id', '=', Auth::id())
             ->where('tb_portofolio_beli.id_saham', '=', $idEmiten)
+            ->whereYear('tanggal_beli', $year)
             ->groupBy('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham')
             ->get()->toArray();
 
@@ -148,6 +157,7 @@ class ReportController extends Controller
                 ->select('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_jual.volume) AS total_volume_jual'), DB::raw('AVG(tb_portofolio_jual.harga_jual) AS avg_harga_jual'))
                 ->where('tb_portofolio_jual.user_id', '=', Auth::id())
                 ->where('tb_portofolio_jual.id_saham', '=', $idEmiten)
+                ->whereYear('tanggal_jual', $year)
                 ->groupBy('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham')
                 ->get()->toArray();
 
@@ -209,17 +219,33 @@ class ReportController extends Controller
             ])->get('https://api.goapi.id/v1/stock/idx/prices', [
                 'symbols' => $emiten
             ])->json();
+
         $totalLot = ($beli_total - $jual_total) * 100;
         $hargaclose = $response['data']['results'][0]['close'];
         $avgBeli = $dataReport[0]['avg_harga_beli'];
         $avgJual = $dataReport[0]['avg_harga_jual'];
-        $realisasi = ($totalLot * $avgBeli) - ($totalLot * $hargaclose);
+        $keuntungan = ($totalLot * $avgBeli) - ($totalLot * $hargaclose);
         //dd($keuntungan);
 
-        $keuntungan = ($totalLot * $avgBeli) - ($totalLot * $avgJual);
-
-        dd(compact(['data', 'keuntungan', 'realisasi']));
+        $realisasi = ($totalLot * $avgBeli) - ($totalLot * $avgJual);
         return view('reportDetail', compact(['data', 'keuntungan', 'realisasi']));
+    }
+
+    public function getYear()
+    {
+        $tahun = PortofolioBeliModel::selectRaw('EXTRACT(YEAR FROM tanggal_beli) as tahun')
+            ->where('tb_portofolio_beli.user_id', Auth::id())
+            ->groupBy(DB::raw('EXTRACT(YEAR FROM tanggal_beli)'))
+            ->get()->toArray();
+
+        $years = [];
+        foreach ($tahun as $year) {
+            array_push($years, $year['tahun']);
+        }
+
+        //dd($years);
+
+        return view('reportYear', compact(['years']));
     }
 
 }
