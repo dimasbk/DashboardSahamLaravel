@@ -13,14 +13,8 @@ class SahamModel extends Model
     protected $primaryKey = 'id_saham';
 
     protected $fillable = [
-        'nama_saham'
+        'nama_saham',
+        'nama_perusahaan',
+        'pic'
     ];
-
-    public function portobeli()
-    {
-        return $this->belongsTo('PortofolioBeliModel');
-    }
-    public function allData(){
-        return DB::table('tb_saham')->get();
-    }
 }

@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App\Models\PortofolioBeliModel;
+use App\Models\PortofolioJualModel;
+use App\Models\User;
+use Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -23,8 +27,12 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerPolicies();
+        Gate::define('update-delete-portobeli', function (User $user, PortofolioBeliModel $portoBeli) {
+            return $user->id === $portoBeli->user_id;
+        });
 
-        //
+        Gate::define('update-delete-portojual', function (User $user, PortofolioJualModel $portoJual) {
+            return $user->id === $portoJual->user_id;
+        });
     }
 }

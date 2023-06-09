@@ -276,7 +276,6 @@
         integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://kit.fontawesome.com/ce0d5ffb27.js" crossorigin="anonymous"></script>
-    <script src="{{asset('template')}}/js/portofolioBeli.js"></script>
     @vite(['resources/js/portofolioBeli.js'])
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
     @stop

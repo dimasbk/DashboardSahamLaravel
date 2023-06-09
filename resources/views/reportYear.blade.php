@@ -33,24 +33,23 @@
                 <thead class="thead-light">
                     <tr>
                         <th>Tahun</th>
-                        <th>
-                            <div class="d-flex justify-content-end">
-                                Detail
-                            </div>
-                        </th>
+                        <th>Keuntungan</th>
+                        <th>Realisasi</th>
+                        <th>Keuntungan (dari tahun lalu)</th>
+                        <th>Detail</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($years as $year)
+                    @foreach ($data as $year)
                     <tr>
 
-                        <td>{{ $year }}</td>
-                        <td>
-                            <div class="d-flex justify-content-end">
-                                <button class="btn btn-primary" onclick="location.href='/report/{{$year}}'"
-                                    type="button">Detail</button>
-                            </div>
-                        </td>
+                        <td>{{ $year['year'] }}</td>
+                        <td>{{ $year['keuntungan'] }}</td>
+                        <td>{{ $year['realisasi'] }}</td>
+                        <td>{{ $year['keuntunganPercent'] }}%</td>
+                        <td><button class="btn btn-primary" onclick="location.href='/report/{{$year['year']}}'"
+                                type="button">
+                                Detail</button></td>
                     </tr>
                     @endforeach
                 </tbody>

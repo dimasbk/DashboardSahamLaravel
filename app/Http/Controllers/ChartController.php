@@ -29,7 +29,7 @@ class ChartController extends Controller
         $post = [];
         $subscribed = SubscriberModel::where('id_subscriber', Auth::id())->pluck('id_analyst')->toArray();
         $postData = PostModel::where('id_saham', $emiten)->get();
-        dd($subscribed);
+        //dd($subscribed);
 
         if (!$input) {
             $inputData = array(

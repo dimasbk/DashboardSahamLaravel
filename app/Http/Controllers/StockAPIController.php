@@ -9,49 +9,74 @@ use App\Models\SahamModel;
 
 class StockAPIController extends Controller
 {
-    public function __construct(){
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
-    public function index(){
+    public function index()
+    {
         $response = Http::acceptJson()
-        ->withHeaders([
-            'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
-        ])->get('https://api.goapi.id/v1/stock/idx/companies')->json();
+            ->withHeaders([
+                'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
+            ])->get('https://api.goapi.id/v1/stock/idx/companies')->json();
 
 
         $data = $response['data']['results'];
         //dd($response['data']['results']);
 
-        return view('chart', ['data'=>$data]);
+        return view('chart', ['data' => $data]);
+    }
+
+    public function getDataAdmin()
+    {
+        $data = SahamModel::all()->sortBy('nama_saham');
+        //dd($data);
+
+        return view('admin/emiten', ['data' => $data]);
     }
 
     public function stock($emiten)
     {
         $response = Http::acceptJson()
-        ->withHeaders([
-            'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
-        ])->get('https://api.goapi.id/v1/stock/idx/'.$emiten)->json();
+            ->withHeaders([
+                'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
+            ])->get('https://api.goapi.id/v1/stock/idx/' . $emiten)->json();
 
         dd($response);
     }
 
-    public function updateStock(){
+    public function updateStock()
+    {
         $response = Http::acceptJson()
-        ->withHeaders([
-            'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
-        ])->get('https://api.goapi.id/v1/stock/idx/companies')->json();
+            ->withHeaders([
+                'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
+            ])->get('https://api.goapi.id/v1/stock/idx/companies')->json();
 
         $data = $response['data']['results'];
 
-        $newData = array_column($data, 'ticker');
-
-        foreach($newData as $item){
-            $insert = SahamModel::updateOrCreate([
-                'nama_saham' => $item
-            ]);
+        foreach ($data as $item) {
+            $insert = SahamModel::updateOrCreate(
+                [
+                    'nama_saham' => $item['ticker']
+                ],
+                [
+                    'nama_saham' => $item['ticker'],
+                    'nama_perusahaan' => $item['name'],
+                    'pic' => $item['logo']
+                ]
+            );
         }
 
-        
+        return redirect('/admin/emiten')->with('status', 'Data emiten berhasil di update');
+
+    }
+
+    public function delete($emiten)
+    {
+        $ticker = $emiten;
+        $delete = SahamModel::where('nama_saham', $emiten)->delete();
+
+        return redirect('/admin/emiten')->with('deleted', 'Data emiten berhasil di hapus');
     }
 }

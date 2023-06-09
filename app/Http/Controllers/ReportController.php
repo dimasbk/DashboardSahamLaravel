@@ -69,12 +69,18 @@ class ReportController extends Controller
 
     }
 
-    public function reportRange()
+    public function range()
+    {
+        $data = [];
+        return view('reportrange', compact(['data']));
+    }
+
+    public function reportRange(Request $request)
     {
 
-        $from = '2023-01-01';
+        $from = $request->from;
 
-        $to = '2023-02-28';
+        $to = $request->to;
 
         $beli = PortofolioBeliModel::where('user_id', Auth::id())
             ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
@@ -228,6 +234,10 @@ class ReportController extends Controller
         //dd($keuntungan);
 
         $realisasi = ($totalLot * $avgBeli) - ($totalLot * $avgJual);
+        if ($function === 1) {
+            return compact(['keuntungan', 'realisasi']);
+        }
+
         return view('reportDetail', compact(['data', 'keuntungan', 'realisasi']));
     }
 
@@ -239,13 +249,51 @@ class ReportController extends Controller
             ->get()->toArray();
 
         $years = [];
+
         foreach ($tahun as $year) {
-            array_push($years, $year['tahun']);
+            $keuntungan = [];
+            $realisasi = [];
+            $dataReport = PortofolioBeliModel::whereYear('tanggal_beli', $year)
+                ->where('user_id', Auth::id())
+                ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
+                ->get();
+            //dd($dataReport);
+            if ($dataReport) {
+                foreach ($dataReport as $data) {
+                    $report = $this->detailReport($year, $data->nama_saham, 1);
+                    array_push($keuntungan, $report['keuntungan']);
+                    array_push($realisasi, $report['realisasi']);
+                }
+            }
+            $pushedData = [
+                'year' => $year['tahun'],
+                'keuntungan' => array_sum($keuntungan) / count($keuntungan),
+                'realisasi' => array_sum($realisasi) / count($realisasi)
+            ];
+            array_push($years, $pushedData);
         }
 
         //dd($years);
 
-        return view('reportYear', compact(['years']));
+        $data = [];
+
+        foreach ($years as $key => $year) {
+            $percent = 0;
+            if ($key != 0) {
+                $percent = $years[$key]['keuntungan'] / $years[$key - 1]['keuntungan'];
+            }
+
+            $arr = [
+                'year' => $years[$key]['year'],
+                'keuntungan' => $years[$key]['keuntungan'],
+                'realisasi' => $years[$key]['realisasi'],
+                'keuntunganPercent' => $percent
+            ];
+
+            array_push($data, $arr);
+        }
+
+        return view('reportYear', compact(['data']));
     }
 
 }

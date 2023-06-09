@@ -24,47 +24,63 @@
 </head>
 
 <body>
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold">Report Saham</h6>
-        </div>
-        <div class="card-body">
-            <table class="table">
-                <thead class="thead-light">
-                    <tr>
-                        <th>Nama Saham</th>
-                        <th>Tanggal</th>
-                        <th>Volume Beli</th>
-                        <th>Volume Jual</th>
-                        <th>Harga</th>
-                        <th>Sekuritas</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($data as $report)
-                    @if ($report['tag'] == 'beli')
-                    <tr>
-                        <td>{{ $report['nama_saham'] }}</td>
-                        <td>{{ $report['tanggal'] }}</td>
-                        <td>{{ $report['volume'] }}</td>
-                        <td></td>
-                        <td>{{ $report['harga'] }}</td>
-                        <td>{{ $report['nama_sekuritas']}}</td>
-                    </tr>
-                    @else
-                    <tr>
-                        <td>{{ $report['nama_saham'] }}</td>
-                        <td>{{ $report['tanggal'] }}</td>
-                        <td></td>
-                        <td>{{ $report['volume'] }}</td>
-                        <td>{{ $report['harga'] }}</td>
-                        <td>{{ $report['nama_sekuritas']}}</td>
-                    </tr>
-                    @endif
+    <div class="container">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold">Report Saham</h6>
+            </div>
+            <div class="card-body">
+                <form action="/reportporto/range" method="get">
+                    @csrf
+                    <div class="form-group">
+                        <label for="fromDate">From:</label>
+                        <input type="date" class="form-control" id="fromDate" name="from">
+                    </div>
+                    <div class="form-group">
+                        <label for="toDate">To:</label>
+                        <input type="date" class="form-control" id="toDate" name="to">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                <table style="margin-top: 10px" class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Nama Saham</th>
+                            <th>Tanggal</th>
+                            <th>Volume Beli</th>
+                            <th>Volume Jual</th>
+                            <th>Harga</th>
+                            <th>Sekuritas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if ($data)
+                        @foreach ($data as $report)
+                        @if ($report['tag'] == 'beli')
+                        <tr>
+                            <td>{{ $report['nama_saham'] }}</td>
+                            <td>{{ $report['tanggal'] }}</td>
+                            <td>{{ $report['volume'] }}</td>
+                            <td></td>
+                            <td>{{ $report['harga'] }}</td>
+                            <td>{{ $report['nama_sekuritas']}}</td>
+                        </tr>
+                        @else
+                        <tr>
+                            <td>{{ $report['nama_saham'] }}</td>
+                            <td>{{ $report['tanggal'] }}</td>
+                            <td></td>
+                            <td>{{ $report['volume'] }}</td>
+                            <td>{{ $report['harga'] }}</td>
+                            <td>{{ $report['nama_sekuritas']}}</td>
+                        </tr>
+                        @endif
 
-                    @endforeach
-                </tbody>
-            </table>
+                        @endforeach
+                        @endif
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </body>

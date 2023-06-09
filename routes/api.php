@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\API\FundamentalAPIController;
+use App\Http\Controllers\API\PostAPIController;
+use App\Http\Controllers\API\TechnicalAPIController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PortofolioJualController;
@@ -27,9 +30,26 @@ Route::post('/register', [AuthController::class, 'register']);
 //API route for login user
 Route::post('/login', [AuthController::class, 'login']);
 
+//contoh param request = {'param' => 'ldr', 'comparison' => '>', 'num' => 5, 'start' => yyyy-mm-dd, 'end' => yyyy-mm-dd}
+Route::get('/search/technical', [TechnicalAPIController::class, 'technical']);
+
+Route::get('/report/{year}', [ReportAPIController::class, 'report']);
+Route::get('/report', [ReportAPIController::class, 'getYear']);
+
+//contoh param request = {'from' => yyyy-mm-dd, 'to' => yyyy-mm-dd}
+Route::get('/reportporto/range', [ReportAPIController::class, 'reportRange']);
+Route::get('/report/{year}/{emiten}', [ReportAPIController::class, 'detailReport']);
+
+Route::get('/post/analyst/{id}', [PostAPIController::class, 'analystPost']);
+Route::get('/post/view/{id}', [PostAPIController::class, 'view']);
+Route::get('/post', [PostAPIController::class, 'post']);
+
+Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenData']);
+
+
 //Protecting Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/profile', function(Request $request) {
+    Route::get('/profile', function (Request $request) {
         return auth()->user();
     });
     Route::get('/portofoliobeli', [PortofolioBeliAPIController::class, 'allData']);

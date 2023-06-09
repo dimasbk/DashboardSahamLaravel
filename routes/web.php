@@ -28,20 +28,34 @@ use App\Http\Controllers\AnalystController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
+    Route::get('/portofoliobeli', [PortofolioBeliController::class, 'getDataAdmin']);
+    Route::get('/portofoliobeli/edit/{id_portofolio_beli}', [PortofolioBeliController::class, 'getEditAdmin']);
+    Route::post('/portofoliobeli/editbeli', [PortofolioBeliController::class, 'editDataAdmin']);
+    Route::get('/portofoliobeli/delete/{id_portofolio_beli}', [PortofolioBeliController::class, 'deleteDataAdmin']);
 
+    Route::get('/portofoliojual', [PortofolioJualController::class, 'getDataAdmin']);
+    Route::get('/portofoliojual/edit/{id_portofolio_jual}', [PortofolioJualController::class, 'getEditAdmin']);
+    Route::post('/portofoliojual/editjual', [PortofolioJualController::class, 'editDataAdmin']);
+    Route::get('/portofoliojual/delete/{id_portofolio_jual}', [PortofolioJualController::class, 'deleteDataAdmin']);
+
+    Route::get('/emiten', [StockAPIController::class, 'getDataAdmin']);
+    Route::get('/emiten/update', [StockAPIController::class, 'updateStock']);
+    Route::get('/emiten/delete/{emiten}', [StockAPIController::class, 'delete']);
+});
 
 Route::get('/analyst', [AnalystController::class, 'index']);
 
 Route::get('/portofoliobeli/analyst/{user_id}', [PortofolioBeliController::class, 'getdataAnalyst']);
 Route::get('/portofoliojual/analyst/{user_id}', [PortofolioJualController::class, 'getdataAnalyst']);
 
-Route::get('/portofoliojual/{user_id}', [PortofolioJualController::class, 'getdata']);
+Route::get('/portofoliojual', [PortofolioJualController::class, 'getdata']);
 Route::post('/portofoliojual/addjual', [PortofolioJualController::class, 'insertData']);
 Route::get('/portofoliojual/edit/{id_portofolio_jual}', [PortofolioJualController::class, 'getEdit']);
 Route::post('/portofoliojual/editjual', [PortofolioJualController::class, 'editData']);
 Route::get('/portofoliojual/delete/{id_portofolio_jual}', [PortofolioJualController::class, 'deleteData']);
 
-Route::get('/portofoliobeli/{user_id}', [PortofolioBeliController::class, 'getData']);
+Route::get('/portofoliobeli', [PortofolioBeliController::class, 'getData']);
 Route::post('/portofoliobeli/addbeli', [PortofolioBeliController::class, 'insertData']);
 Route::get('/portofoliobeli/edit/{id_portofolio_beli}', [PortofolioBeliController::class, 'getEdit']);
 Route::post('/portofoliobeli/editbeli', [PortofolioBeliController::class, 'editData']);
@@ -50,6 +64,7 @@ Route::get('/portofoliobeli/delete/{id_portofolio_beli}', [PortofolioBeliControl
 Route::get('/report/{year}', [ReportController::class, 'report']);
 Route::get('/report', [ReportController::class, 'getYear']);
 Route::get('/reportporto/range', [ReportController::class, 'reportRange']);
+Route::get('/reportporto', [ReportController::class, 'range']);
 Route::get('/report/{year}/{emiten}', [ReportController::class, 'detailReport']);
 
 Route::get('/stock', [StockAPIController::class, 'index']);
