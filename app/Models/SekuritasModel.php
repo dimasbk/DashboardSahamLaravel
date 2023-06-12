@@ -12,7 +12,7 @@ class SekuritasModel extends Model
     protected $primaryKey = 'id_sekuritas';
 
     protected $fillable = [
-        'id_sekuritas',
+        'nama_sekuritas',
         'fee_beli',
         'fee_jual'
     ];

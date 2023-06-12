@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SahamModel;
 use App\Models\SubscriberModel;
+use Gate;
 use Illuminate\Http\Request;
 use App\Models\PostModel;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +29,19 @@ class PostController extends Controller
             $saham = SahamModel::all();
 
             return view('postmanage', compact(['postData', 'saham']));
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function getUserPostAdmin()
+    {
+        if (Auth::user()->id_roles == 1) {
+            $postData = PostModel::join('users', 'tb_post.id_user', '=', 'users.id')->get();
+
+            $saham = SahamModel::all();
+
+            return view('admin/postmanage', compact(['postData', 'saham']));
         } else {
             return redirect('/');
         }
@@ -112,16 +126,32 @@ class PostController extends Controller
         }
     }
 
-    public function editPost($id)
+    public function editPost($id, PostModel $postModel)
     {
         $post = PostModel::where('id_post', $id)->get()->toArray();
         //dd($post);
+        if (!Gate::allows('update-delete-post', $postModel)) {
+            abort(403);
+        }
         return view('postEdit', compact(['post']));
     }
 
-    public function edit(Request $request)
+    public function editPostAdmin($id, PostModel $postModel)
+    {
+        if (Auth::user()->id_roles == 1) {
+            $post = PostModel::where('id_post', $id)->get()->toArray();
+            //dd($post);
+            return view('admin/postEdit', compact(['post']));
+        }
+        return redirect('/');
+    }
+
+    public function edit(Request $request, PostModel $postModel)
     {
         //dd($postData);
+        if (!Gate::allows('update-delete-post', $postModel)) {
+            abort(403);
+        }
         if ($request->image == null) {
             PostModel::where('id_post', $request->id)->update([
                 'title' => $request->title,
@@ -147,8 +177,43 @@ class PostController extends Controller
         }
     }
 
-    public function deletePost($id)
+    public function editAdmin(Request $request, PostModel $postModel)
     {
+        //dd($postData);
+        if (Auth::user()->id_roles == 1) {
+            if ($request->image == null) {
+                PostModel::where('id_post', $request->id)->update([
+                    'title' => $request->title,
+                    'content' => $request->content,
+                    'tag' => $request->tag,
+                ]);
+                return redirect('/admin/post');
+            } else {
+                $oldimage = PostModel::where('id_post', $request->id)->value('picture');
+                $image = $request->file('image');
+                $fileName = time() . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('public_images', $fileName, 'local_images');
+                PostModel::where('id_post', $request->id)->update([
+                    'title' => $request->title,
+                    'content' => $request->content,
+                    'tag' => $request->tag,
+                    'picture' => $fileName
+                ]);
+                if ($oldimage) {
+                    File::delete(public_path("images/public_images/" . $oldimage));
+                }
+                return redirect('/admin/post');
+            }
+        }
+
+        return redirect('/');
+    }
+
+    public function deletePost($id, PostModel $postModel)
+    {
+        if (!Gate::allows('update-delete-post', $postModel)) {
+            abort(403);
+        }
         $post = PostModel::where('id_post', $id)->firstOrFail();
         if ($post) {
             $image = $post->picture;
@@ -158,5 +223,21 @@ class PostController extends Controller
             $post->delete();
         }
         return redirect('/post/manage');
+    }
+
+    public function deletePostAdmin($id)
+    {
+        if (Auth::user()->id_roles == 1) {
+            $post = PostModel::where('id_post', $id)->firstOrFail();
+            if ($post) {
+                $image = $post->picture;
+                if ($image) {
+                    File::delete(public_path("images/public_images/" . $image));
+                }
+                $post->delete();
+            }
+            return redirect('/admin/post/manage');
+        }
+        return redirect('/');
     }
 }

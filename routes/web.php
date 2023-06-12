@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SekuritasController;
 use App\Http\Controllers\TechnicalController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PortofolioBeliController;
@@ -42,6 +43,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/emiten', [StockAPIController::class, 'getDataAdmin']);
     Route::get('/emiten/update', [StockAPIController::class, 'updateStock']);
     Route::get('/emiten/delete/{emiten}', [StockAPIController::class, 'delete']);
+
+    Route::get('/post', [PostController::class, 'getuserPostAdmin']);
+    Route::get('/post/edit/{id}', [PostController::class, 'editPostAdmin']);
+    Route::post('/post/edit', [PostController::class, 'editAdmin']);
+    Route::get('/post/delete/{id}', [PostController::class, 'deletePostAdmin']);
+
+    Route::get('/sekuritas', [SekuritasController::class, 'index']);
+    Route::post('/sekuritas/create', [SekuritasController::class, 'create']);
+    Route::get('/sekuritas/edit/{id}', [SekuritasController::class, 'edit']);
+    Route::post('/sekuritas/update', [SekuritasController::class, 'update']);
+    Route::get('/sekuritas/delete/{id}', [SekuritasController::class, 'delete']);
 });
 
 Route::get('/analyst', [AnalystController::class, 'index']);
