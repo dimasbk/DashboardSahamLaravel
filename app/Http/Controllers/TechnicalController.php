@@ -6,6 +6,7 @@ use App\Models\DetailOutputFundamentalModel;
 use App\Models\InputFundamentalModel;
 use App\Models\OutputFundamentalModel;
 use App\Models\SahamModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -16,6 +17,66 @@ class TechnicalController extends Controller
         return view('landingPage/technical');
     }
 
+    public function trend($prices)
+    {
+        /*
+        $stock = 'ACES';
+        $start = '2023-03-01';
+        $end = '2023-06-01';
+
+        $response = Http::acceptJson()
+            ->withHeaders([
+                'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
+            ])->get('https://api.goapi.id/v1/stock/idx/' . $stock . '/historical', [
+                'to' => $end,
+                'from' => $start
+            ])->json();
+
+        $historical = $response['data']['results'];
+
+        */
+        $historical = $prices;
+
+        $fridayData = array_filter($historical, function ($entry) {
+            $date = Carbon::parse($entry['date']); // Parse the date using Carbon
+            return $date->isFriday();
+        });
+
+        $closePrice = [];
+        $trends = [];
+
+        foreach ($fridayData as $data) {
+            array_push($closePrice, $data['close']);
+        }
+
+        for ($i = 0; $i < count($closePrice); $i++) {
+            if ($i + 1 != count($closePrice)) {
+                if ($closePrice[$i] > $closePrice[$i + 1]) {
+                    array_push($trends, 'uptrend');
+                } elseif ($closePrice[$i] < $closePrice[$i + 1]) {
+                    array_push($trends, 'downtrend');
+                } else {
+                    array_push($trends, 'sideways');
+                }
+            }
+        }
+
+        $num = [];
+        for ($i = 0; $i < count($trends); $i++) {
+            if ($trends[$i] === $trends[$i + 1]) {
+                array_push($num, $i);
+            } else {
+                break;
+            }
+        }
+
+        $percentage = round(((count($num) + 1) / count($trends)), 2) * 100;
+        $trendString = $trends[0];
+        $dataArray = compact(['percentage', 'trendString']);
+
+        return $dataArray;
+    }
+
     public function technical(Request $request)
     {
         $trends = [];
@@ -24,6 +85,7 @@ class TechnicalController extends Controller
         $input = OutputFundamentalModel::whereIn('id_detail_output', $output)->pluck('id_input');
         $id_emiten = InputFundamentalModel::whereIn('id_input', $input)->pluck('id_saham');
         $stocks = SahamModel::whereIn('id_saham', $id_emiten)->pluck('nama_saham');
+        //dd($stocks);
         //$stocks = ['BBCA', 'BRIS', 'GOTO', 'ANTM', 'ACES', 'ROTI'];
         foreach ($stocks as $stock) {
             //$today = date("Y-m-d");
@@ -55,18 +117,9 @@ class TechnicalController extends Controller
             $der = $output->der * 100;
             $ldr = $output->loan_to_depo_ratio * 100;
 
-            if ($endPrice > $startPrice) {
-                $change = $endPrice / $startPrice;
-                $array = ["ticker" => "{$stock}", "trend" => "uptrend", "change" => "{$change}", "der" => "{$der}", "ldr" => "{$ldr}"];
-                array_push($trends, $array);
-            } else if ($endPrice < $startPrice) {
-                $array = ["ticker" => "{$stock}", "trend" => "downtrend", "change" => "{$change}", "der" => "{$der}", "ldr" => "{$ldr}"];
-                $change = $endPrice / $startPrice;
-                array_push($trends, $array);
-            } else {
-                $array = ["ticker" => "{$stock}", "trend" => "sideways", "change" => "{0", "der" => "{$der}", "ldr" => "{$ldr}"];
-                array_push($trends, $array);
-            }
+            $trend = $this->trend($data);
+            $array = ["ticker" => "{$stock}", "trend" => "{$trend['trendString']}", "change" => "{$trend['percentage']}", "der" => "{$der}", "ldr" => "{$ldr}"];
+            array_push($trends, $array);
 
         }
         $filteredData = [];

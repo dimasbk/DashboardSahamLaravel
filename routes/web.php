@@ -88,6 +88,7 @@ Route::get('/chart/threeYear/{ticker}', [ChartController::class, 'threeYear']);
 Route::get('/technical/{ticker}', [ChartController::class, 'technical']);
 
 Route::get('/technical', [TechnicalController::class, 'index']);
+Route::get('/trend', [TechnicalController::class, 'trend']);
 Route::get('/search/technical', [TechnicalController::class, 'technical']);
 
 Route::post('/follow', [AnalystController::class, 'follow']);

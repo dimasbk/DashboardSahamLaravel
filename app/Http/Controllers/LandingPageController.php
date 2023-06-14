@@ -244,9 +244,21 @@ class LandingPageController extends Controller
             } else {
                 $peg = $output->peg;
             }
+
+            if ($output->der == null) {
+                $der = 0;
+            } else {
+                $der = $output->der;
+            }
+
+            if ($output->loan_to_depo_ratio == null) {
+                $loan_to_depo_ratio = 0;
+            } else {
+                $loan_to_depo_ratio = $output->loan_to_depo_ratio;
+            }
             $outputData = array(
-                "der" => $output->der * 100,
-                "loan_to_depo_ratio" => $output->loan_to_depo_ratio * 100,
+                "der" => $der * 100,
+                "loan_to_depo_ratio" => $loan_to_depo_ratio * 100,
                 "annualized_roe" => $output->annualized_roe * 100,
                 "dividen" => $output->dividen,
                 "dividen_yield" => $output->dividen_yield * 100,

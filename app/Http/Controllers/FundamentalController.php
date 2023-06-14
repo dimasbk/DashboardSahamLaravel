@@ -98,12 +98,12 @@ class FundamentalController extends Controller
             ->value('eps');
 
         $market_cap = $harga_saham * $jml_saham_edar * $stock_split;
-        if ($simpanan === 0) {
-            $loan_to_depo_ratio = 0;
+        if ($simpanan === null) {
+            $loan_to_depo_ratio = null;
             $der = round($hutang_obligasi / $ekuitas, 4);
         } else {
             $loan_to_depo_ratio = round($pinjaman / $simpanan, 4);
-            $der = 0;
+            $der = null;
         }
 
         if ($ekuitas === 0) {
