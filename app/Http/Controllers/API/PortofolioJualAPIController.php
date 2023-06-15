@@ -26,7 +26,6 @@ class PortofolioJualAPIController extends Controller
         return response()->json(['messsage'=>'Berhasil', 'data'=>$dataporto ]);
 
     }
-
     public function getdata($user_id){
         $dataporto = PortofolioJualModel::where('user_id', $user_id)->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')->get();
         $emiten = SahamModel::all();
@@ -38,7 +37,7 @@ class PortofolioJualAPIController extends Controller
     }
     public function insertData(Request $request){
 
-        $id = Auth::id();        
+        $id = Auth::id();
 
         $insert = PortofolioJualModel::create([
             'id_saham' => $request->id_saham,
@@ -65,8 +64,8 @@ class PortofolioJualAPIController extends Controller
         $dataporto = PortofolioJualModel::where('id_portofolio_jual', $request->id_portofolio_jual)->firstOrFail();
         $id = Auth::id();
         //dd($dataporto);
-        
-        
+
+
         $dataporto->id_saham = $request->id_saham;
         $dataporto->user_id = $id;
         $dataporto->jenis_saham = $request->id_jenis_saham;
@@ -75,7 +74,7 @@ class PortofolioJualAPIController extends Controller
         $dataporto->harga_jual = $request->harga_jual;
         $dataporto->fee_jual_persen = $request->fee_jual_persen;
         $dataporto->save();
-        
+
 
         return response()->json(['messsage'=>'Data Berhasil di Update' ]);
     }
