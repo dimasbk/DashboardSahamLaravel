@@ -21,7 +21,6 @@ class PortofolioJualAPIController extends Controller
         return response()->json(['messsage' => 'Berhasil', 'data' => $dataporto]);
 
     }
-
     public function getdata($user_id)
     {
         $dataporto = PortofolioJualModel::where('user_id', $user_id)->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')->get();

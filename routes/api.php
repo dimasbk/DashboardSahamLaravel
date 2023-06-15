@@ -10,6 +10,9 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\PortofolioJualAPIController;
 use App\Http\Controllers\API\PortofolioBeliAPIController;
 use App\Http\Controllers\API\ReportAPIController;
+use App\Http\Controllers\API\SekuritasController;
+use App\Http\Controllers\API\PortofolioAPIController;
+use App\Http\Controllers\API\LandingPageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +30,8 @@ Route::get('/subscribe/callback', [AnalystController::class, 'paymentCallback'])
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('trends', [LandingPageController::class, 'trendSaham']);
 
 Route::post('/register', [AuthController::class, 'register']);
 //API route for login user
@@ -54,6 +59,34 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function (Request $request) {
         return auth()->user();
     });
+
+    Route::get('/portofolio/beli', [PortofolioAPIController::class, 'getPortoBeli']);
+
+
+    Route::post('/portofolio/paytagihan', [PortofolioAPIController::class, 'payTagihan']);
+    Route::post('/portofolio/tagihan', [PortofolioAPIController::class, 'getTagihan']);
+    Route::get('/portofolio/paymentchannel', [PortofolioAPIController::class, 'getPaymentChannels']);
+    Route::get('/portofolio/sekuritas', [PortofolioAPIController::class, 'getSekuritas']);
+    Route::get('/portofolio/jenis', [PortofolioAPIController::class, 'getAllJenisSaham']);
+    Route::get('/portofolio', [PortofolioAPIController::class, 'allData']);
+    Route::get('/portofolioo', [PortofolioAPIController::class, 'PortoJual']);
+    Route::post('/portofolio/subs', [PortofolioAPIController::class, 'getAnalystData']);
+    Route::post('/portofolio/subscribe', [PortofolioAPIController::class, 'subscribe']);
+    Route::post('/portofolio/unsubscribe', [PortofolioAPIController::class, 'unsubscribe']);
+    Route::post('/portofolio/analystporto', [PortofolioAPIController::class, 'getAnalystPorto']);
+    Route::get('/portofolio/subuser', [PortofolioAPIController::class, 'getSubUser']);
+    Route::get('/portofolio/analyst', [PortofolioAPIController::class, 'getAnalyst']);
+    Route::post('/portofolio/checksubcription', [PortofolioAPIController::class, 'checkSubscription']);
+    // Route::post('/portofolio/buy', [PortofolioAPIController::class, 'buyData']);
+    // Route::get('/portofolio/sell', [PortofolioAPIController::class, 'sellData']);
+    // Route::get('/portofolio/{user_id}', [PortofolioAPIController::class, 'getData']);
+    Route::post('/portofolio/add', [PortofolioAPIController::class, 'insertData']);
+    Route::post('/portofolio/edit', [PortofolioAPIController::class, 'editData']);
+    Route::post('/portofolio/delete', [PortofolioAPIController::class, 'deleteData']);
+    Route::post('/berita', [HomeController::class, 'index']);
+
+
+
     Route::get('/portofoliobeli', [PortofolioBeliAPIController::class, 'allData']);
     Route::get('/portofoliobeli/{user_id}', [PortofolioBeliAPIController::class, 'getData']);
     Route::post('/portofoliobeli/addbeli', [PortofolioBeliAPIController::class, 'insertData']);
@@ -72,6 +105,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('/belireport', [ReportAPIController::class, 'getReportBeli']);
     Route::get('/report/{user_id}/{tahun}', [ReportAPIController::class, 'getReport']);
+
+    Route::get('/portofolio/sekuritas', [SekuritasController::class, 'getSekuritas']);
+    Route::get('/portofolio/jenis', [SekuritasController::class, 'getAllJenisSaham']);
 
 
     // API route for logout user

@@ -14,9 +14,11 @@ class PortofolioBeliAPIController extends Controller
     public function allData()
     {
 
-        $dataporto = PortofolioBeliModel::all();
-        return response()->json(['messsage' => 'Berhasil', 'data' => $dataporto]);
+        $dataporto = PortofolioBeliModel::join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
+        ->join('tb_sekuritas', 'tb_portofolio_beli.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
+        ->get();
 
+        return response()->json(['messsage'=>'Berhasil', 'data'=>$dataporto]);
     }
 
     public function getdata($user_id)
@@ -51,7 +53,7 @@ class PortofolioBeliAPIController extends Controller
             return response()->json(['messsage' => 'Berhasil', 'data' => $insert]);
         }
     }
-    public function editData(Request $request)
+    public function  editData(Request $request)
     {
 
         $dataporto = PortofolioBeliModel::where('id_portofolio_beli', $request->id_portofolio_beli)->firstOrFail();
