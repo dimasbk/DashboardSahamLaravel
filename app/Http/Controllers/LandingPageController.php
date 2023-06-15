@@ -38,7 +38,7 @@ class LandingPageController extends Controller
         //return view('landingPage/landing_page', compact(['post']));
     }
 
-    public function technical()
+    public function trendSaham()
     {
         $trends = [];
         $stocks = ['BBCA', 'BRIS', 'GOTO', 'ANTM', 'ACES', 'ROTI'];

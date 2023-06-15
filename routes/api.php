@@ -84,13 +84,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/createPayment', [AnalystAPIController::class, 'pay']);
     Route::post('/subscribe/setPaid/{id}', [AnalystAPIController::class, 'setSubscribed']);
 
-   // Route::get('/reportdetail/{year}', [ReportAPIController::class, 'reportt']);
+    // Route::get('/reportdetail/{year}', [ReportAPIController::class, 'reportt']);
 
-   Route::get('/post/delete/{id_post}', [PostAPIController::class, 'deletePostt']);
+    Route::get('/post/delete/{id_post}', [PostAPIController::class, 'deletePostt']);
 
-   Route::get('/post/managee', [PostAPIController::class, 'getuserPostt']);
-//baru ditambahin api, blm jadi
-   Route::post('/post/add', [PostAPIController::class, 'addPost']);
+    Route::get('/post/managee', [PostAPIController::class, 'getuserPostt']);
+    //baru ditambahin api, blm jadi
+    Route::post('/post/add', [PostAPIController::class, 'addPost']);
 
     Route::get('/post/view/', [PostAPIController::class, 'vieww']);
 

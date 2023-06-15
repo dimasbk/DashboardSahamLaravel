@@ -16,12 +16,12 @@ class PortofolioBeliAPIController extends Controller
 
         $id_user = Auth::id();
         $dataporto = PortofolioBeliModel::join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
-        ->join('tb_sekuritas', 'tb_portofolio_beli.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
-        ->where('user_id', $id_user)
-        ->orderBy('tanggal_beli', 'desc')
-        ->get();
+            ->join('tb_sekuritas', 'tb_portofolio_beli.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
+            ->where('user_id', $id_user)
+            ->orderBy('tanggal_beli', 'desc')
+            ->get();
 
-        return response()->json(['messsage'=>'Berhasil', 'data'=>$dataporto]);
+        return response()->json(['messsage' => 'Berhasil', 'data' => $dataporto]);
     }
 
     public function getdata($user_id)
@@ -73,7 +73,7 @@ class PortofolioBeliAPIController extends Controller
     }
 
 
-    public function  editData(Request $request)
+    public function editData(Request $request)
     {
 
         $dataporto = PortofolioBeliModel::where('id_portofolio_beli', $request->id_portofolio_beli)->firstOrFail();
