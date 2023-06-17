@@ -89,7 +89,7 @@
                                             <button onclick="location.href='/emiten/{{$item->nama_saham}}'"
                                                 class="btn btn-success" type="button"><i
                                                     class="fas fa-line-chart"></i></button>
-                                            <button onclick="location.href='/fundamental/{{$item->nama_saham}}'"
+                                            <button onclick="location.href='/admin/fundamental/{{$item->nama_saham}}'"
                                                 class="btn btn-primary" type="button"><i
                                                     class="fas fas fa-file-invoice-dollar"></i></button>
                                             <button onclick="location.href='/admin/emiten/delete/{{$item->nama_saham}}'"

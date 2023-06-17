@@ -54,6 +54,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('/sekuritas/edit/{id}', [SekuritasController::class, 'edit']);
     Route::post('/sekuritas/update', [SekuritasController::class, 'update']);
     Route::get('/sekuritas/delete/{id}', [SekuritasController::class, 'delete']);
+
+    Route::get('/fundamental/{emiten}', [FundamentalController::class, 'index']);
+    Route::get('/fundamental/edit/{id_input}', [FundamentalController::class, 'edit']);
+    Route::get('/fundamental/delete/{id_input}', [FundamentalController::class, 'delete']);
+    Route::post('/fundamental/insert', [FundamentalController::class, 'insert']);
+    Route::post('/fundamental/update', [FundamentalController::class, 'update']);
+
 });
 
 Route::get('/analyst', [AnalystController::class, 'index']);
@@ -112,7 +119,7 @@ Route::get('/reportbeli/{user_id}', [ReportBeliController::class, 'getYear']);
 Route::get('/reportjual/detail/{user_id}/{tahun}', [ReportJualController::class, 'getData']);
 Route::get('/reportjual/{user_id}', [ReportJualController::class, 'getYear']);
 
-Route::get('/fundamental', [FundamentalController::class, 'index']);
+
 Route::get('/updatestock', [StockAPIController::class, 'updateStock']);
 
 

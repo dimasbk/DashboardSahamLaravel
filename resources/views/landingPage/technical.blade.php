@@ -58,7 +58,14 @@
                     </tr>
                 </thead>
                 <tbody>
-
+                    <?php $i = 1 ?>
+                    <td>{{$i}}</td>
+                    <?php $i++ ?>
+                    <td>BBCA</td>
+                    <td>Uptrend</td>
+                    <td>20%</td>
+                    <td>0</td>
+                    <td>20%</td>
                 </tbody>
             </table>
         </div>
