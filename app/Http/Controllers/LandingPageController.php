@@ -37,7 +37,7 @@ class LandingPageController extends Controller
         return view('landingPage/landing_page', compact(['post', 'topGainers', 'topLosers', 'trends']));
     }
 
-    public function trendSaham()
+    public function technical()
     {
         $trends = [];
         $stocks = ['BBCA', 'BRIS', 'GOTO', 'ANTM', 'ACES', 'ROTI'];
@@ -49,9 +49,9 @@ class LandingPageController extends Controller
                 ->withHeaders([
                     'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
                 ])->get('https://api.goapi.id/v1/stock/idx/' . $stock . '/historical', [
-                    'to' => $todayDate,
-                    'from' => $yearBefore
-                ])->json();
+                        'to' => $todayDate,
+                        'from' => $yearBefore
+                    ])->json();
 
             $data = $response['data']['results'];
             $data_historical = array_reverse($data);
@@ -88,8 +88,8 @@ class LandingPageController extends Controller
             }
 
         }
-        //return $trends;
-        return response()->json(['messsage'=>'Berhasil', 'data'=>$trends]);
+        return $trends;
+        //return response()->json(['messsage'=>'Berhasil', 'data'=>$trends]);
     }
 
     public function post()
@@ -123,12 +123,12 @@ class LandingPageController extends Controller
             ->withHeaders([
                 'X-API-KEY' => 'fe4bd0445ab2472281d6ac636d5d426d'
             ])->get('https://newsapi.org/v2/everything', [
-                'q' => 'saham OR IHSG OR emiten OR IPO OR shareholder NOT Bola ',
-                'sortBy' => 'publishedAt',
-                'language' => 'id',
-                'searchIn' => 'content',
-                'pageSize' => '25'
-            ])->json();
+                    'q' => 'saham OR IHSG OR emiten OR IPO OR shareholder NOT Bola ',
+                    'sortBy' => 'publishedAt',
+                    'language' => 'id',
+                    'searchIn' => 'content',
+                    'pageSize' => '25'
+                ])->json();
 
         $berita = $response['articles'];
         //dd($berita);
@@ -288,4 +288,3 @@ class LandingPageController extends Controller
         }
     }
 }
-
