@@ -78,7 +78,6 @@ class PortofolioJualAPIController extends Controller
         $dataporto->save();
 
 
-
         return response()->json(['messsage' => 'Data Berhasil di Update']);
     }
 

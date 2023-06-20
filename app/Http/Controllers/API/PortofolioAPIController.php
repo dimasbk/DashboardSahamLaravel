@@ -333,6 +333,7 @@ class PortofolioAPIController extends Controller
     public function allData()
     {
         $beliData = PortofolioBeliModel::select('id_portofolio_beli as id_portofolio', 'nama_saham', DB::raw("'Beli' as status"), 'user_id', 'jenis_saham', 'volume', 'tanggal_beli as tanggal', 'nama_sekuritas', 'harga_beli as harga', 'fee_beli as fee')
+
             ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
             ->join('tb_sekuritas', 'tb_portofolio_beli.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
             ->selectRaw("'Beli' as status");
@@ -342,6 +343,7 @@ class PortofolioAPIController extends Controller
             ->join('tb_sekuritas', 'tb_portofolio_jual.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
             ->selectRaw("'Jual' as status");
 
+
         $mergedData = $beliData->union($jualData)->get();
 
         return response()->json(['message' => 'Berhasil', 'data' => $mergedData]);
@@ -349,6 +351,7 @@ class PortofolioAPIController extends Controller
 
     public function PortoJual()
     {
+
 
 
         $PortojualData = PortofolioJualModel::select('id_portofolio_jual as id_portofolio', 'nama_saham', DB::raw("'Jual' as status"), 'user_id', 'jenis_saham', 'volume', 'tanggal_jual as tanggal', 'nama_sekuritas', 'harga_jual as harga', 'fee_jual as fee')
@@ -397,7 +400,9 @@ class PortofolioAPIController extends Controller
                 $insert = PortofolioBeliModel::create([
                     'id_saham' => $saham->id_saham,
                     'user_id' => $id,
+
                     'jenis_saham' => $request->id_jenis_saham,
+
                     'volume' => $request->volume,
                     'tanggal_beli' => $request->tanggal,
                     'harga_beli' => $request->harga,
@@ -450,8 +455,10 @@ class PortofolioAPIController extends Controller
         }
 
     }
+
     public function editData(Request $request)
     {
+
         try {
             $id = Auth::id();
             $dataporto = PortofolioModel::where('id_portofolio', $request->id_portofolio)->firstOrFail();
@@ -485,7 +492,9 @@ class PortofolioAPIController extends Controller
             $dataporto = PortofolioModel::where('id_portofolio', $request->id_portofolio)->firstOrFail();
             $dataporto->delete();
 
+
             return response()->json(['success' => true, 'messsage' => 'Data Berhasil di Delete']);
+
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
