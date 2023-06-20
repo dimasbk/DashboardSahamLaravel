@@ -37,7 +37,7 @@ class LandingPageController extends Controller
         return view('landingPage/landing_page', compact(['post', 'topGainers', 'topLosers', 'trends']));
     }
 
-    public function trendSaham()
+    public function technical()
     {
         $trends = [];
         $stocks = ['BBCA', 'BRIS', 'GOTO', 'ANTM', 'ACES', 'ROTI'];
@@ -88,13 +88,8 @@ class LandingPageController extends Controller
             }
 
         }
-<<<<<<< Updated upstream
         return $trends;
         //return response()->json(['messsage'=>'Berhasil', 'data'=>$trends]);
-=======
-        //return $trends;
-        return response()->json(['messsage'=>'Berhasil', 'data'=>$trends]);
->>>>>>> Stashed changes
     }
 
     public function post()
@@ -293,7 +288,3 @@ class LandingPageController extends Controller
         }
     }
 }
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes

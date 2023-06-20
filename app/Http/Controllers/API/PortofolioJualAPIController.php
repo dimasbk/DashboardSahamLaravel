@@ -12,25 +12,8 @@ use Illuminate\Support\Facades\Auth;
 class PortofolioJualAPIController extends Controller
 {
 
-<<<<<<< Updated upstream
     public function index()
     {
-=======
-    
-    public function allData()
-    {
-
-        $id_user = Auth::id();
-        $dataporto = PortofolioJualModel::join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
-        ->join('tb_sekuritas', 'tb_portofolio_jual.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
-        ->where('user_id', $id_user)
-        ->get();
-
-        return response()->json(['messsage'=>'Berhasil', 'data'=>$dataporto]);
-    }
-
-    public function index(){
->>>>>>> Stashed changes
 
         $dataporto = [
             'portojual' => PortofolioJualModel::all(),
@@ -38,12 +21,8 @@ class PortofolioJualAPIController extends Controller
         return response()->json(['messsage' => 'Berhasil', 'data' => $dataporto]);
 
     }
-<<<<<<< Updated upstream
     public function getdata($user_id)
     {
-=======
-    public function getdata($user_id){
->>>>>>> Stashed changes
         $dataporto = PortofolioJualModel::where('user_id', $user_id)->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')->get();
         $emiten = SahamModel::all();
         $jenis_saham = JenisSahamModel::all();
@@ -93,10 +72,6 @@ class PortofolioJualAPIController extends Controller
         $dataporto->harga_jual = $request->harga_jual;
         $dataporto->fee_jual_persen = $request->fee_jual_persen;
         $dataporto->save();
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 
 
         return response()->json(['messsage' => 'Data Berhasil di Update']);

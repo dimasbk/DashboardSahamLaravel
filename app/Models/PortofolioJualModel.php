@@ -10,7 +10,7 @@ class PortofolioJualModel extends Model
 
     protected $table = "tb_portofolio_jual";
     protected $fillable = [
-        'id_saham', 'user_id', 'jenis_saham', 'volume', 'tanggal_jual', 'harga_jual', 'fee_jual_persen', 'close_persen','id_sekuritas'
+        'id_saham', 'user_id', 'jenis_saham', 'volume', 'tanggal_jual', 'harga_jual', 'fee_jual_persen', 'close_persen'
     ];
     public $timestamps = false;
     protected $primaryKey = 'id_portofolio_jual';
