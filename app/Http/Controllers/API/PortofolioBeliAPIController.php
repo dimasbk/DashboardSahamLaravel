@@ -81,13 +81,13 @@ class PortofolioBeliAPIController extends Controller
         //dd($dataporto);
 
 
-        // $dataporto->id_saham = $request->id_saham;
-        // $dataporto->user_id = $id;
-        // $dataporto->jenis_saham = $request->id_jenis_saham;
+        $dataporto->id_saham = $request->id_saham;
+        $dataporto->user_id = $id;
+        $dataporto->jenis_saham = $request->id_jenis_saham;
         $dataporto->volume = $request->volume;
         $dataporto->tanggal_beli = $request->tanggal_beli;
         $dataporto->harga_beli = $request->harga_beli;
-        // $dataporto->fee_beli_persen = $request->fee_beli_persen;
+        $dataporto->fee_beli_persen = $request->fee_beli_persen;
         $dataporto->save();
 
 
