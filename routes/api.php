@@ -79,8 +79,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Route::get('/portofolio/sell', [PortofolioAPIController::class, 'sellData']);
     // Route::get('/portofolio/{user_id}', [PortofolioAPIController::class, 'getData']);
     Route::post('/portofolio/add', [PortofolioAPIController::class, 'insertData']);
+<<<<<<< Updated upstream
     Route::post('/portofolio/edit', [PortofolioAPIController::class, 'editData']);
     Route::post('/portofolio/delete', [PortofolioAPIController::class, 'deleteData']);
+=======
+    Route::post('/portofolio/editBeli', [PortofolioAPIController::class, 'editDataBeli']);
+    Route::post('/portofolio/editJual', [PortofolioAPIController::class, 'editDataJual']);
+    Route::post('/portofolio/deleteJual', [PortofolioAPIController::class, 'deleteDataJual']);
+    Route::post('/portofolio/deleteBeli', [PortofolioAPIController::class, 'deleteDataBeli']);
+>>>>>>> Stashed changes
     Route::post('/berita', [HomeController::class, 'index']);
 
 
@@ -91,7 +98,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/portofoliobeli/editbeli', [PortofolioBeliAPIController::class, 'editData']);
     Route::get('/portofoliobeli/delete/{id_portofolio_beli}', [PortofolioBeliAPIController::class, 'deleteData']);
 
-    Route::get('/portofoliojual', [PortofolioJualAPIController::class, 'index']);
+    Route::get('/portofoliojual', [PortofolioJualAPIController::class, 'allData']);
     Route::get('/portofoliojual/{user_id}', [PortofolioJualAPIController::class, 'getdata']);
     Route::post('/portofoliojual/addjual', [PortofolioJualAPIController::class, 'insertData']);
     Route::post('/portofoliojual/editjual', [PortofolioJualAPIController::class, 'editData']);
