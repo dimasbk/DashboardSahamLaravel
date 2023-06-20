@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\API;
+
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -19,18 +20,20 @@ use Illuminate\Support\Facades\Auth;
 
 class PortofolioAPIController extends Controller
 {
-    public function __construct(){
+    public function __construct()
+    {
         $this->PortofolioModel = new PortofolioModel;
         $this->PortofolioBeliModel = new PortofolioBeliModel;
         $this->PortofolioJualModel = new PortofolioJualModel;
         $this->middleware('auth');
     }
 
-    public function getAnalyst(Request $request){
+    public function getAnalyst(Request $request)
+    {
 
         try {
-            $analyst = User::where('id_roles',2)->get();
-            return response()->json(['messsage'=>'Berhasil', 'data'=>$analyst ]);
+            $analyst = User::where('id_roles', 2)->get();
+            return response()->json(['messsage' => 'Berhasil', 'data' => $analyst]);
         } catch (\Throwable $th) {
             return response()->json([
                 'success' => false,
@@ -39,10 +42,11 @@ class PortofolioAPIController extends Controller
         }
     }
 
-    public function getSekuritas(Request $request){
+    public function getSekuritas(Request $request)
+    {
         try {
             $sekuritas = SekuritasModel::all();
-            return response()->json(['message'=>'Berhasil','data'=>$sekuritas]);
+            return response()->json(['message' => 'Berhasil', 'data' => $sekuritas]);
         } catch (\Throwable $th) {
             return response()->json([
                 'success' => false,
@@ -51,11 +55,12 @@ class PortofolioAPIController extends Controller
         }
     }
 
-    public function getSubUser(Request $request){
+    public function getSubUser(Request $request)
+    {
         try {
             $id = Auth::id();
-            $datasubs = SubscribeModel::where('id_user',$id)->get();
-            return response()->json(['messsage'=>'Berhasil', 'data'=>$datasubs ]);
+            $datasubs = SubscribeModel::where('id_user', $id)->get();
+            return response()->json(['messsage' => 'Berhasil', 'data' => $datasubs]);
         } catch (\Throwable $th) {
             return response()->json([
                 'success' => false,
@@ -64,17 +69,18 @@ class PortofolioAPIController extends Controller
         }
     }
 
-    public function getData(Request $request){
-        $reqType =  $request->type;
+    public function getData(Request $request)
+    {
+        $reqType = $request->type;
         try {
             $id = Auth::id();
-            if($request->type==''){
-                $dataporto = PortofolioModel::where('user_id',$id)->get();
+            if ($request->type == '') {
+                $dataporto = PortofolioModel::where('user_id', $id)->get();
             } else {
-                $dataporto = PortofolioModel::where('type', $reqType)->where('user_id',$id)->get();
+                $dataporto = PortofolioModel::where('type', $reqType)->where('user_id', $id)->get();
             }
 
-            return response()->json(['messsage'=>'Berhasil', 'data'=>$dataporto ]);
+            return response()->json(['messsage' => 'Berhasil', 'data' => $dataporto]);
 
 
         } catch (\Throwable $th) {
@@ -86,17 +92,18 @@ class PortofolioAPIController extends Controller
 
     }
 
-    public function getDataPortoBeli(Request $request){
-        $reqType =  $request->type;
+    public function getDataPortoBeli(Request $request)
+    {
+        $reqType = $request->type;
         try {
             $id = Auth::id();
-            if($request->type==''){
-                $dataportobeli = PortofolioBeliModel::where('user_id',$id)->get();
+            if ($request->type == '') {
+                $dataportobeli = PortofolioBeliModel::where('user_id', $id)->get();
             } else {
-                $dataportobeli = PortofolioBeliModel::where('type', $reqType)->where('user_id',$id)->get();
+                $dataportobeli = PortofolioBeliModel::where('type', $reqType)->where('user_id', $id)->get();
             }
 
-            return response()->json(['messsage'=>'Berhasil', 'data'=>$dataportobeli ]);
+            return response()->json(['messsage' => 'Berhasil', 'data' => $dataportobeli]);
 
 
         } catch (\Throwable $th) {
@@ -108,15 +115,16 @@ class PortofolioAPIController extends Controller
 
     }
 
-    public function checkSubscription(Request $request){
+    public function checkSubscription(Request $request)
+    {
         $id_user = Auth::id();
         $id_analyst = $request->id_analyst;
         try {
-            $status = SubscribeModel::where('id_user',$id_user)->where('id_analyst',$id_analyst)->first();
+            $status = SubscribeModel::where('id_user', $id_user)->where('id_analyst', $id_analyst)->first();
             if ($status !== null) {
-                return response()->json(['messsage'=>'Berhasil', 'status'=>'true']);
+                return response()->json(['messsage' => 'Berhasil', 'status' => 'true']);
             } else {
-                return response()->json(['messsage'=>'Berhasil', 'status'=>'false' ]);
+                return response()->json(['messsage' => 'Berhasil', 'status' => 'false']);
             }
 
         } catch (\Throwable $th) {
@@ -127,18 +135,19 @@ class PortofolioAPIController extends Controller
         }
     }
 
-    public function getAnalystPorto(Request $request){
-        $reqType =  $request->type;
+    public function getAnalystPorto(Request $request)
+    {
+        $reqType = $request->type;
         $id_analyst = $request->id_analyst;
         try {
 
-            if($request->type==''){
-                $dataporto = PortofolioModel::where('user_id',$id_analyst)->get();
+            if ($request->type == '') {
+                $dataporto = PortofolioModel::where('user_id', $id_analyst)->get();
             } else {
-                $dataporto = PortofolioModel::where('type', $reqType)->where('user_id',$id_analyst)->get();
+                $dataporto = PortofolioModel::where('type', $reqType)->where('user_id', $id_analyst)->get();
             }
 
-            return response()->json(['messsage'=>'Berhasil', 'data'=>$dataporto ]);
+            return response()->json(['messsage' => 'Berhasil', 'data' => $dataporto]);
 
 
         } catch (\Throwable $th) {
@@ -150,17 +159,18 @@ class PortofolioAPIController extends Controller
 
     }
 
-    public function getSubscription(Request $request){
-        $reqType =  $request->type;
+    public function getSubscription(Request $request)
+    {
+        $reqType = $request->type;
         try {
             $id = Auth::id();
-            if($request->type==''){
-                $dataporto = PortofolioModel::where('user_id',$id)->get();
+            if ($request->type == '') {
+                $dataporto = PortofolioModel::where('user_id', $id)->get();
             } else {
-                $dataporto = PortofolioModel::where('type', $reqType)->where('user_id',$id)->get();
+                $dataporto = PortofolioModel::where('type', $reqType)->where('user_id', $id)->get();
             }
 
-            return response()->json(['messsage'=>'Berhasil', 'data'=>$dataporto ]);
+            return response()->json(['messsage' => 'Berhasil', 'data' => $dataporto]);
 
 
         } catch (\Throwable $th) {
@@ -172,13 +182,14 @@ class PortofolioAPIController extends Controller
 
     }
 
-    public function getTagihan(Request $request){
+    public function getTagihan(Request $request)
+    {
         $id = Auth::id();
         $status = $request->status;
 
         try {
-            $tagihan = TagihanModel::where('status',$status)->where('user_id',$id)->get();
-            return response()->json(['messsage'=>'Berhasil', 'data'=>$tagihan ]);
+            $tagihan = TagihanModel::where('status', $status)->where('user_id', $id)->get();
+            return response()->json(['messsage' => 'Berhasil', 'data' => $tagihan]);
         } catch (\Throwable $th) {
             return response()->json([
                 'success' => false,
@@ -188,19 +199,20 @@ class PortofolioAPIController extends Controller
     }
 
 
-    public function getAnalystData(Request $request){
-        $reqType =  $request->type;
-        $analyst_id  = explode(',', $request->input('analyst_id'));
+    public function getAnalystData(Request $request)
+    {
+        $reqType = $request->type;
+        $analyst_id = explode(',', $request->input('analyst_id'));
         try {
             $id = Auth::id();
 
-            if($request->type==''){
-                $dataporto = PortofolioModel::whereIn('user_id',$analyst_id)->get();
+            if ($request->type == '') {
+                $dataporto = PortofolioModel::whereIn('user_id', $analyst_id)->get();
             } else {
-                $dataporto = PortofolioModel::where('type', $reqType)->whereIn('user_id',$analyst_id)->get();
+                $dataporto = PortofolioModel::where('type', $reqType)->whereIn('user_id', $analyst_id)->get();
             }
 
-            return response()->json(['messsage'=>'Berhasil', 'data'=>$dataporto ]);
+            return response()->json(['messsage' => 'Berhasil', 'data' => $dataporto]);
 
 
         } catch (\Throwable $th) {
@@ -212,11 +224,12 @@ class PortofolioAPIController extends Controller
 
     }
 
-    public function buyData(Request $request){
+    public function buyData(Request $request)
+    {
 
         try {
             $dataporto = PortofolioModel::where('type', $request->id_portofolio)->all();
-            return response()->json(['messsage'=>'Berhasil', 'data'=>$dataporto ]);
+            return response()->json(['messsage' => 'Berhasil', 'data' => $dataporto]);
         } catch (\Throwable $th) {
             return response()->json([
                 'success' => false,
@@ -227,17 +240,17 @@ class PortofolioAPIController extends Controller
     }
 
     public function getPaymentChannels()
-{
-    try {
-        $paymentChannels = PaymentChannelModel::all(['payment_id', 'payment_name']);
-        return response()->json(['message' => 'Success', 'data' => $paymentChannels]);
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Failed to retrieve payment channels'
-        ]);
+    {
+        try {
+            $paymentChannels = PaymentChannelModel::all(['payment_id', 'payment_name']);
+            return response()->json(['message' => 'Success', 'data' => $paymentChannels]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to retrieve payment channels'
+            ]);
+        }
     }
-}
 
 
     public function unsubscribe(Request $request)
@@ -264,15 +277,16 @@ class PortofolioAPIController extends Controller
         }
     }
 
-    public function payTagihan(Request $request){
+    public function payTagihan(Request $request)
+    {
         $id = Auth::id();
         $idTagihan = $request->id_tagihan;
         $metodeBayar = $request->metode_pembayaran;
         $status = $request->status;
 
         try {
-            $tagihan = TagihanModel::where('id_tagihan',$idTagihan)->update(['status'=> 'Lunas','metode_pembayaran'=>$metodeBayar]);
-            return response()->json(['message'=>'Berhasil', 'data'=>$tagihan ]);
+            $tagihan = TagihanModel::where('id_tagihan', $idTagihan)->update(['status' => 'Lunas', 'metode_pembayaran' => $metodeBayar]);
+            return response()->json(['message' => 'Berhasil', 'data' => $tagihan]);
         } catch (\Throwable $th) {
             return response()->json([
                 'success' => false,
@@ -283,7 +297,8 @@ class PortofolioAPIController extends Controller
 
 
 
-    public function subscribe(Request $request){
+    public function subscribe(Request $request)
+    {
         try {
             $id_user = Auth::id();
             $unique_id = uniqid('', true);
@@ -305,7 +320,7 @@ class PortofolioAPIController extends Controller
                 'status' => 'Menunggu Pembayaran',
                 'user_id' => $id_user,
             ]);
-            return response()->json(['messsage'=>'Berhasil', 'data'=>$insert ]);
+            return response()->json(['messsage' => 'Berhasil', 'data' => $insert]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -316,38 +331,39 @@ class PortofolioAPIController extends Controller
     }
 
     public function allData()
-{
-    $beliData = PortofolioBeliModel::select('id_portofolio_beli as id_portofolio', 'nama_saham', DB::raw("'Beli' as status"), 'user_id','jenis_saham','volume','tanggal_beli as tanggal','nama_sekuritas','harga_beli as harga','fee_beli as fee')
+    {
+        $beliData = PortofolioBeliModel::select('id_portofolio_beli as id_portofolio', 'nama_saham', DB::raw("'Beli' as status"), 'user_id', 'jenis_saham', 'volume', 'tanggal_beli as tanggal', 'nama_sekuritas', 'harga_beli as harga', 'fee_beli as fee')
             ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
             ->join('tb_sekuritas', 'tb_portofolio_beli.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
             ->selectRaw("'Beli' as status");
 
-    $jualData = PortofolioJualModel::select('id_portofolio_jual as id_portofolio', 'nama_saham', DB::raw("'Jual' as status"), 'user_id','jenis_saham','volume','tanggal_jual as tanggal','nama_sekuritas','harga_jual as harga','fee_jual as fee')
-        ->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
-        ->join('tb_sekuritas', 'tb_portofolio_jual.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
-        ->selectRaw("'Jual' as status");
+        $jualData = PortofolioJualModel::select('id_portofolio_jual as id_portofolio', 'nama_saham', DB::raw("'Jual' as status"), 'user_id', 'jenis_saham', 'volume', 'tanggal_jual as tanggal', 'nama_sekuritas', 'harga_jual as harga', 'fee_jual as fee')
+            ->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
+            ->join('tb_sekuritas', 'tb_portofolio_jual.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
+            ->selectRaw("'Jual' as status");
 
-    $mergedData = $beliData->union($jualData)->get();
+        $mergedData = $beliData->union($jualData)->get();
 
-    return response()->json(['message' => 'Berhasil', 'data' => $mergedData]);
-}
+        return response()->json(['message' => 'Berhasil', 'data' => $mergedData]);
+    }
 
-public function PortoJual()
-{
-
-
-    $PortojualData = PortofolioJualModel::select('id_portofolio_jual as id_portofolio', 'nama_saham', DB::raw("'Jual' as status"), 'user_id','jenis_saham','volume','tanggal_jual as tanggal','nama_sekuritas','harga_jual as harga','fee_jual as fee')
-        ->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
-        ->join('tb_sekuritas', 'tb_portofolio_jual.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
-        ->selectRaw("'Jual' as status");
-
-    //$mergedData = $beliData->union($jualData)->get();
-
-    return response()->json(['message' => 'Berhasil', 'data' => $PortojualData]);
-}
+    public function PortoJual()
+    {
 
 
-    public function getAllJenisSaham() {
+        $PortojualData = PortofolioJualModel::select('id_portofolio_jual as id_portofolio', 'nama_saham', DB::raw("'Jual' as status"), 'user_id', 'jenis_saham', 'volume', 'tanggal_jual as tanggal', 'nama_sekuritas', 'harga_jual as harga', 'fee_jual as fee')
+            ->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
+            ->join('tb_sekuritas', 'tb_portofolio_jual.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
+            ->selectRaw("'Jual' as status");
+
+        //$mergedData = $beliData->union($jualData)->get();
+
+        return response()->json(['message' => 'Berhasil', 'data' => $PortojualData]);
+    }
+
+
+    public function getAllJenisSaham()
+    {
         $jenisSaham = JenisSahamModel::all();
 
         if ($jenisSaham->isEmpty()) {
@@ -360,13 +376,15 @@ public function PortoJual()
 
 
 
-    public function getPortoBeli(){
-        return response()->json(['messsage'=>'Berhasil' ]);
+    public function getPortoBeli()
+    {
+        return response()->json(['messsage' => 'Berhasil']);
     }
 
 
 
-    public function insertData(Request $request){
+    public function insertData(Request $request)
+    {
         try {
             $id = Auth::id();
             $unique_id = uniqid('', true);
@@ -375,11 +393,11 @@ public function PortoJual()
             $idSekuritas = $request->id_sekuritas;
             $fee = $request->fee;
             $saham = SahamModel::where('nama_saham', $request->id_saham)->first();
-            if($reqType=='beli'){
+            if ($reqType == 'beli') {
                 $insert = PortofolioBeliModel::create([
                     'id_saham' => $saham->id_saham,
                     'user_id' => $id,
-                    'jenis_saham' =>  $request->id_jenis_saham,
+                    'jenis_saham' => $request->id_jenis_saham,
                     'volume' => $request->volume,
                     'tanggal_beli' => $request->tanggal,
                     'harga_beli' => $request->harga,
@@ -396,7 +414,7 @@ public function PortoJual()
                     'status' => 'Menunggu Pembayaran',
                     'user_id' => $id,
                 ]);
-            }else if($reqType=='jual') {
+            } else if ($reqType == 'jual') {
                 $insert = PortofolioJualModel::create([
                     'id_saham' => $saham->id_saham,
                     'user_id' => $id,
@@ -423,7 +441,7 @@ public function PortoJual()
             //     'comment' => $request->comment
             // ]);
 
-            return response()->json(['messsage'=>'Berhasil', 'data'=>$insert ]);
+            return response()->json(['messsage' => 'Berhasil', 'data' => $insert]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -432,7 +450,8 @@ public function PortoJual()
         }
 
     }
-    public function editData(Request $request){
+    public function editData(Request $request)
+    {
         try {
             $id = Auth::id();
             $dataporto = PortofolioModel::where('id_portofolio', $request->id_portofolio)->firstOrFail();
@@ -447,7 +466,7 @@ public function PortoJual()
             // $dataporto->user_id=$id;
             $dataporto->save();
 
-            return response()->json(['status'=>true,'messsage'=>'Data Berhasil di Update' ]);
+            return response()->json(['status' => true, 'messsage' => 'Data Berhasil di Update']);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -459,13 +478,14 @@ public function PortoJual()
     }
 
 
-    public function deleteData(Request $request){
+    public function deleteData(Request $request)
+    {
 
         try {
             $dataporto = PortofolioModel::where('id_portofolio', $request->id_portofolio)->firstOrFail();
             $dataporto->delete();
 
-        return response()->json(['success' => true,'messsage'=>'Data Berhasil di Delete' ]);
+            return response()->json(['success' => true, 'messsage' => 'Data Berhasil di Delete']);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,

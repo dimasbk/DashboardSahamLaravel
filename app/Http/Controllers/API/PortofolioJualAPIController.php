@@ -12,8 +12,10 @@ use Illuminate\Support\Facades\Auth;
 class PortofolioJualAPIController extends Controller
 {
 
+
     public function index()
     {
+
 
         $dataporto = [
             'portojual' => $this->PortofolioJualModel->allData(),
@@ -21,8 +23,10 @@ class PortofolioJualAPIController extends Controller
         return response()->json(['messsage' => 'Berhasil', 'data' => $dataporto]);
 
     }
+
     public function getdata($user_id)
     {
+
         $dataporto = PortofolioJualModel::where('user_id', $user_id)->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')->get();
         $emiten = SahamModel::all();
         $jenis_saham = JenisSahamModel::all();
@@ -72,6 +76,7 @@ class PortofolioJualAPIController extends Controller
         $dataporto->harga_jual = $request->harga_jual;
         $dataporto->fee_jual_persen = $request->fee_jual_persen;
         $dataporto->save();
+
 
 
         return response()->json(['messsage' => 'Data Berhasil di Update']);
