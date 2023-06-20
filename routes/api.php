@@ -93,7 +93,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/portofoliobeli/editbeli', [PortofolioBeliAPIController::class, 'editData']);
     Route::get('/portofoliobeli/delete/{id_portofolio_beli}', [PortofolioBeliAPIController::class, 'deleteData']);
 
-    Route::get('/portofoliojual', [PortofolioJualAPIController::class, 'allData']);
+    Route::get('/portofoliojual', [PortofolioJualAPIController::class, 'index']);
     Route::get('/portofoliojual/{user_id}', [PortofolioJualAPIController::class, 'getdata']);
     Route::post('/portofoliojual/addjual', [PortofolioJualAPIController::class, 'insertData']);
     Route::post('/portofoliojual/editjual', [PortofolioJualAPIController::class, 'editData']);
