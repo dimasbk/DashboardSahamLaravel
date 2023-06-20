@@ -80,8 +80,8 @@ class LandingPageController extends Controller
                 $array = ["ticker" => "{$stock}", "trend" => "uptrend", "change" => "{$change}"];
                 array_push($trends, $array);
             } else if ($ma50 < $ma200) {
-                $change = $ma200 / $ma50;
                 $array = ["ticker" => "{$stock}", "trend" => "downtrend", "change" => "{$change}"];
+                $change = $ma200 / $ma50;
                 array_push($trends, $array);
             } else {
                 $array = ["ticker" => "{$stock}", "trend" => "sideways", "change" => "0"];
