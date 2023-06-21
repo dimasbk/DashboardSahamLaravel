@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+//use App\Models\PortofolioJualModel;
 use App\Models\PortofolioJualModel;
 use App\Models\JenisSahamModel;
 use App\Models\SahamModel;
@@ -11,6 +12,35 @@ use Illuminate\Support\Facades\Auth;
 
 class PortofolioJualAPIController extends Controller
 {
+    public function __construct()
+    {
+        $this->PortofolioJualModel = new PortofolioJualModel;
+        $this->JenisSahamModel = new JenisSahamModel;
+        $this->SahamModel = new SahamModel;
+        $this->middleware('auth');
+    }
+
+
+    public function allData()
+    {
+
+        $id_user = Auth::id();
+        $dataporto = PortofolioJualModel::join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
+            ->join('tb_sekuritas', 'tb_portofolio_jual.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
+            ->where('user_id', $id_user)
+            ->get();
+
+        return response()->json(['messsage' => 'Berhasil', 'data' => $dataporto]);
+    }
+
+    // public function indexx(){
+
+    //     $dataporto = [
+    //         'portojual'=>$this->PortofolioJualModel->allData(),
+    //     ];
+    //     return response()->json(['messsage'=>'Berhasil', 'data'=>$dataporto ]);
+
+    // }
 
 
     public function index()
@@ -22,10 +52,14 @@ class PortofolioJualAPIController extends Controller
         ];
         return response()->json(['messsage' => 'Berhasil', 'data' => $dataporto]);
 
+
+        return response()->json(['messsage' => 'Berhasil', 'data' => $dataporto]);
     }
+
 
     public function getdata($user_id)
     {
+
 
         $dataporto = PortofolioJualModel::where('user_id', $user_id)->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')->get();
         $emiten = SahamModel::all();

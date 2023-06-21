@@ -344,6 +344,8 @@ class PortofolioAPIController extends Controller
             ->selectRaw("'Jual' as status");
 
 
+
+
         $mergedData = $beliData->union($jualData)->get();
 
         return response()->json(['message' => 'Berhasil', 'data' => $mergedData]);
@@ -400,9 +402,7 @@ class PortofolioAPIController extends Controller
                 $insert = PortofolioBeliModel::create([
                     'id_saham' => $saham->id_saham,
                     'user_id' => $id,
-
                     'jenis_saham' => $request->id_jenis_saham,
-
                     'volume' => $request->volume,
                     'tanggal_beli' => $request->tanggal,
                     'harga_beli' => $request->harga,
@@ -423,7 +423,7 @@ class PortofolioAPIController extends Controller
                 $insert = PortofolioJualModel::create([
                     'id_saham' => $saham->id_saham,
                     'user_id' => $id,
-                    'jenis_saham' => $request->id_jenis_saham,
+                    'jenis_saham' => $request->jenis,
                     'volume' => $request->volume,
                     'tanggal_jual' => $request->tanggal,
                     'harga_jual' => $request->harga,
@@ -456,40 +456,80 @@ class PortofolioAPIController extends Controller
 
     }
 
+
     public function editData(Request $request)
     {
-
         try {
-            $id = Auth::id();
-            $dataporto = PortofolioModel::where('id_portofolio', $request->id_portofolio)->firstOrFail();
+            $dataporto = PortofolioBeliModel::where('id_portofolio_beli', $request->id_portofolio_beli)->firstOrFail();
+            // $id = Auth::id();
 
-            // $dataporto->id_saham = $request->id_saham;
-            // $dataporto->type = $request->type;
-            // $dataporto->jenis = $request->jenis;
             $dataporto->volume = $request->volume;
-            // $dataporto->tanggal = $request->tanggal;
-            // $dataporto->harga = $request->harga;
-            $dataporto->fee = $request->fee;
-            // $dataporto->user_id=$id;
+            $dataporto->tanggal_beli = $request->tanggal_beli;
+            $dataporto->harga_beli = $request->harga_beli;
             $dataporto->save();
 
-            return response()->json(['status' => true, 'messsage' => 'Data Berhasil di Update']);
+
+
+            return response()->json(['messsage' => 'Data Berhasil di Update']);
+
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Update data gagal'
+                'message' => $e->getMessage()
             ]);
         }
 
 
     }
 
+    public function editDataJual(Request $request)
+    {
+        try {
+            $dataporto = PortofolioJualModel::where('id_portofolio_jual', $request->id_portofolio_jual)->firstOrFail();
+            // $id = Auth::id();
 
-    public function deleteData(Request $request)
+
+            $dataporto->volume = $request->volume;
+            $dataporto->tanggal_jual = $request->tanggal_jual;
+            $dataporto->harga_jual = $request->harga_jual;
+            $dataporto->save();
+
+
+            return response()->json(['messsage' => 'Data Berhasil di Update']);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+
+
+    }
+
+    public function deleteDataBeli(Request $request)
+    {
+
+
+        try {
+            $dataporto = PortofolioModelBeli::where('id_portofolio_beli', $request->id_portofolio_beli)->firstOrFail();
+            $dataporto->delete();
+
+            return response()->json(['success' => true, 'messsage' => 'Data Berhasil di Delete']);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Delete data gagal'
+            ]);
+        }
+
+
+    }
+
+    public function deleteDataJual(Request $request)
     {
 
         try {
-            $dataporto = PortofolioModel::where('id_portofolio', $request->id_portofolio)->firstOrFail();
+            $dataporto = PortofolioModelJual::where('id_portofolio_jual', $request->id_portofolio_jual)->firstOrFail();
             $dataporto->delete();
 
 
