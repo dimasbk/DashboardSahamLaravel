@@ -47,7 +47,7 @@ Route::get('/report/{year}/{emiten}', [ReportAPIController::class, 'detailReport
 
 Route::get('/post/analyst/{id}', [PostAPIController::class, 'analystPost']);
 Route::get('/post/view/{id}', [PostAPIController::class, 'view']);
-Route::get('/post', [PostAPIController::class, 'post']);
+Route::get('/postt', [PostAPIController::class, 'post']);
 
 Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenData']);
 
@@ -57,6 +57,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function (Request $request) {
         return auth()->user();
     });
+
+   // Route::get('/reportdetail/{year}', [ReportAPIController::class, 'reportt']);
+
+    Route::get('/post/view/', [PostAPIController::class, 'vieww']);
+
+    Route::get('/post', [PostAPIController::class, 'postt']);
+
+    Route::get('/emiten', [FundamentalAPIController::class, 'emitenDataa']);
+
+    Route::get('/report', [ReportAPIController::class, 'getYearr']);
 
     Route::get('/portofolio/beli', [PortofolioAPIController::class, 'getPortoBeli']);
 
