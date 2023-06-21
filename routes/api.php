@@ -53,10 +53,13 @@ Route::get('/reportporto/range', [ReportAPIController::class, 'reportRange']);
 Route::get('/post/analyst/{id}', [PostAPIController::class, 'analystPost']);
 Route::get('/post/view/{id}', [PostAPIController::class, 'view']);
 Route::get('/postt', [PostAPIController::class, 'post']);
+<<<<<<< HEAD
 
 
 
 
+=======
+>>>>>>> b3833b0 (edit sumtin)
 
 
 
@@ -66,6 +69,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         return auth()->user();
     });
 
+<<<<<<< HEAD
     Route::get('/report/{year}/{emiten}', [ReportAPIController::class, 'detailReport']);
 
     Route::get('/portosemuaa/{emiten}', [ReportAPIController::class, 'DetailReportt']);
@@ -91,11 +95,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/post/managee', [PostAPIController::class, 'getuserPostt']);
     //baru ditambahin api, blm jadi
     Route::post('/post/add', [PostAPIController::class, 'addPost']);
+=======
+   // Route::get('/reportdetail/{year}', [ReportAPIController::class, 'reportt']);
+>>>>>>> b3833b0 (edit sumtin)
 
     Route::get('/post/view/', [PostAPIController::class, 'vieww']);
 
     Route::get('/post', [PostAPIController::class, 'postt']);
 
+<<<<<<< HEAD
     Route::post('/post/edit', [PostAPIController::class, 'edit']);
 
     //Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenDataa']);
@@ -110,6 +118,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 
 
+=======
+    Route::get('/emiten', [FundamentalAPIController::class, 'emitenDataa']);
+
+    Route::get('/report', [ReportAPIController::class, 'getYearr']);
+
+>>>>>>> b3833b0 (edit sumtin)
     Route::get('/portofolio/beli', [PortofolioAPIController::class, 'getPortoBeli']);
 
     Route::get('/technical/jenistrend', [PortofolioAPIController::class, 'getJenisTrend']);

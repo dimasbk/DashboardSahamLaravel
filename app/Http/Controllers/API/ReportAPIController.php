@@ -555,4 +555,63 @@ class ReportAPIController extends Controller
         ], 200);
     }
 
+    public function getYearr()
+    {
+        $id_user = Auth::id();
+        $tahun = PortofolioBeliModel::selectRaw('EXTRACT(YEAR FROM tanggal_beli) as tahun')
+            ->where('tb_portofolio_beli.user_id', $id_user)
+            ->groupBy(DB::raw('EXTRACT(YEAR FROM tanggal_beli)'))
+            ->get()->toArray();
+
+        $years = [];
+
+        foreach ($tahun as $year) {
+            $keuntungan = [];
+            $realisasi = [];
+            $dataReport = PortofolioBeliModel::whereYear('tanggal_beli', $year)
+                ->where('user_id', $id_user)
+                ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
+                ->get();
+            //dd($dataReport);
+            if ($dataReport) {
+                foreach ($dataReport as $data) {
+                    $report = $this->detailReport($year, $data->nama_saham, 1);
+                    array_push($keuntungan, $report['keuntungan']);
+                    array_push($realisasi, $report['realisasi']);
+                }
+            }
+            $pushedData = [
+                'year' => $year['tahun'],
+                'keuntungan' => array_sum($keuntungan) / count($keuntungan),
+                'realisasi' => array_sum($realisasi) / count($realisasi)
+            ];
+            array_push($years, $pushedData);
+        }
+
+        //dd($years);
+
+        $data = [];
+
+        foreach ($years as $key => $year) {
+            $percent = 0;
+            if ($key != 0) {
+                $percent = $years[$key]['keuntungan'] / $years[$key - 1]['keuntungan'];
+            }
+
+            $arr = [
+                'year' => $years[$key]['year'],
+                'keuntungan' => $years[$key]['keuntungan'],
+                'realisasi' => $years[$key]['realisasi'],
+                'keuntunganPercent' => $percent
+            ];
+
+            array_push($data, $arr);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $data
+        ], 200);
+    }
+
 }

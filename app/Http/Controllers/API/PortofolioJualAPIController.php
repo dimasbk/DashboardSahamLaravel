@@ -42,7 +42,6 @@ class PortofolioJualAPIController extends Controller
 
     // }
 
-
     public function index()
     {
 

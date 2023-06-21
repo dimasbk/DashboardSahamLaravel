@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class PostAPIController extends Controller
 {
 
-    public function  edit(Request $request)
+    public function edit(Request $request)
     {
 
         $dataPost = PostModel::where('id_post', $request->id_post)->firstOrFail();
@@ -25,7 +25,7 @@ class PostAPIController extends Controller
         // $dataPost->jenis_saham = $request->id_jenis_saham;
         $dataPost->title = $request->title;
         $dataPost->content = $request->content;
-       // $dataPost->harga_beli = $request->harga_beli;
+        // $dataPost->harga_beli = $request->harga_beli;
         // $dataPost->fee_beli_persen = $request->fee_beli_persen;
         $dataPost->save();
 
@@ -69,7 +69,7 @@ class PostAPIController extends Controller
 
             $saham = SahamModel::all();
 
-            $mine =  compact(['postData', 'saham']);
+            $mine = compact(['postData', 'saham']);
 
             return response()->json([
                 'status' => 'success',
@@ -84,7 +84,7 @@ class PostAPIController extends Controller
             //     'status' => 'success',
             //     'data' => $mine
             // ], 200);
-          //  return redirect('/');
+            //  return redirect('/');
         }
     }
 
@@ -107,7 +107,7 @@ class PostAPIController extends Controller
         $post->delete();
         $id = Auth::id();
         return response()->json(['messsage' => 'Data Berhasil di Delete']);
-       // return redirect('/post/manage');
+        // return redirect('/post/manage');
     }
 
     public function deletePosttt($id_post, PostModel $postModel)
@@ -123,7 +123,7 @@ class PostAPIController extends Controller
             }
             $post->delete();
         }
-       // return redirect('/post/manage');
+        // return redirect('/post/manage');
     }
 
     public function vieww($id)
