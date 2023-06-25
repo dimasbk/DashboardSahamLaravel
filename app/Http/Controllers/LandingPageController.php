@@ -49,9 +49,9 @@ class LandingPageController extends Controller
                 ->withHeaders([
                     'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
                 ])->get('https://api.goapi.id/v1/stock/idx/' . $stock . '/historical', [
-                    'to' => $todayDate,
-                    'from' => $yearBefore
-                ])->json();
+                        'to' => $todayDate,
+                        'from' => $yearBefore
+                    ])->json();
 
             $data = $response['data']['results'];
             $data_historical = array_reverse($data);
@@ -122,12 +122,12 @@ class LandingPageController extends Controller
             ->withHeaders([
                 'X-API-KEY' => 'fe4bd0445ab2472281d6ac636d5d426d'
             ])->get('https://newsapi.org/v2/everything', [
-                'q' => 'saham OR IHSG OR emiten OR IPO OR shareholder NOT Bola ',
-                'sortBy' => 'publishedAt',
-                'language' => 'id',
-                'searchIn' => 'content',
-                'pageSize' => '25'
-            ])->json();
+                    'q' => 'saham OR IHSG OR emiten OR IPO OR shareholder NOT Bola ',
+                    'sortBy' => 'publishedAt',
+                    'language' => 'id',
+                    'searchIn' => 'content',
+                    'pageSize' => '25'
+                ])->json();
 
         $berita = $response['articles'];
         //dd($berita);
@@ -137,15 +137,10 @@ class LandingPageController extends Controller
 
     public function emitenList()
     {
-        $emiten = SahamModel::get('nama_saham')->toArray();
+        $emiten = SahamModel::pluck('nama_saham');
 
-        $array = [];
 
-        for ($i = 0; $i < count($emiten); $i++) {
-            array_push($array, $emiten[$i]['nama_saham']);
-        }
-
-        return $array;
+        return $emiten;
     }
 
     public function emitenSearch()
@@ -168,14 +163,14 @@ class LandingPageController extends Controller
             ->join('users', 'tb_post.id_user', '=', 'users.id')
             ->get()->toArray();
         $includedID = PostModel::where('id_saham', $emiten)->where('tag', 'public')->pluck('id_post')->toArray();
-        $analystPost = PostModel::where('id_saham', $emiten)->where('tag', 'public')
+        $analystPost = PostModel::where('id_saham', $emiten)->where('tag', 'private')
             ->whereIn('id_user', $subscribed)
             ->whereNotIn('id_post', $includedID)
             ->join('users', 'tb_post.id_user', '=', 'users.id')
             ->get()->toArray();
 
         $post = array_merge($postData, $analystPost);
-        //dd($post);
+        //dd($analystPost);
 
         if (!$input) {
             $inputData = array(

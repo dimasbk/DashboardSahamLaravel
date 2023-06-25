@@ -130,7 +130,7 @@ class PostController extends Controller
     {
         $post = PostModel::where('id_post', $id)->get()->toArray();
         //dd($post);
-        if (!Gate::allows('update-delete-post', $postModel)) {
+        if ($post[0]['id_user'] != Auth::id()) {
             abort(403);
         }
         return view('postEdit', compact(['post']));

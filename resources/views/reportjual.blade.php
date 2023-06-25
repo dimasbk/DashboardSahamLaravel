@@ -1,23 +1,25 @@
-@extends('template.master')
+@extends('layouts.master')
 
 
 @section('content')
+
 <head>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{asset('style')}}/table/fonts/icomoon/style.css">
+  <link rel="stylesheet" href="{{asset('style')}}/table/fonts/icomoon/style.css">
 
-    <link rel="stylesheet" href="{{asset('style')}}/table/css/owl.carousel.min.css">
+  <link rel="stylesheet" href="{{asset('style')}}/table/css/owl.carousel.min.css">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{asset('style')}}/table/css/bootstrap.min.css">
-    
-    <!-- Style -->
-    <link rel="stylesheet" href="{{asset('style')}}/table/css/style.css">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="{{asset('style')}}/table/css/bootstrap.min.css">
+
+  <!-- Style -->
+  <link rel="stylesheet" href="{{asset('style')}}/table/css/style.css">
 </head>
+
 <body>
   <div class="content">
     <div class="container">
@@ -42,13 +44,14 @@
           <tbody>
             <?php $i = 1 ?>
             @foreach ($tahun as $item)
-            <tr scope = "row">
+            <tr scope="row">
               <td>{{$i }}</td>
               <?php $i++ ?>
               <td>{{$item -> tahun}}</td>
               <td>
-                
-                <button onclick="location.href='/reportjual/detail/{{Auth::id()}}/{{$item->tahun}}'" type="button" class="btn btn-primary"><i class="far fa-table"></i></button>
+
+                <button onclick="location.href='/reportjual/detail/{{Auth::id()}}/{{$item->tahun}}'" type="button"
+                  class="btn btn-primary"><i class="far fa-table"></i></button>
               </td>
             </tr>
             @endforeach

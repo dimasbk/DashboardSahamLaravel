@@ -10,38 +10,38 @@
             <h6 class="m-0 font-weight-bold">Trends</h6>
         </div>
         <div class="card-body">
-            <form id="form">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <form method="get" action="/search/technical">
+                @csrf
                 <div class="mb-3">
                     <label for="dropdown1" class="form-label">Stock Trend :</label>
-                    <select class="form-select" id="trend">
-                        <option>Uptrend</option>
-                        <option>Downtrend </option>
-                        <option>Sideways</option>
+                    <select class="form-select" id="trend" name="trend">
+                        <option value="uptrend">Uptrend</option>
+                        <option value="downtrend">Downtrend </option>
+                        <option value="sideways">Sideways</option>
                     </select>
                 </div>
                 <div class="mb-3">
                     <label for="fundamental" class="form-label">Fundamental :</label>
-                    <select class="form-select" id="fundamental">
-                        <option>Debt to Equity Ratio</option>
-                        <option>Loan to Deposit Ratio</option>
+                    <select class="form-select" id="fundamental" name="param">
+                        <option value="der">Debt to Equity Ratio</option>
+                        <option value="loan_to_depo_ratio">Loan to Deposit Ratio</option>
                     </select>
                     <div class="input-group">
-                        <select class="form-select" id="comparison">
-                            <option selected>Less than</option>
-                            <option>More than</option>
+                        <select class="form-select" id="comparison" name="comparison">
+                            <option selected value="<">Less than</option>
+                            <option value=">">More than</option>
                         </select>
-                        <input type="number" class="form-control" id="percentage" required>
+                        <input type="number" class="form-control" id="percentage" name="num" required>
                         <span class="input-group-text">%</span>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="startDate" class="form-label">Start Date:</label>
-                    <input type="date" class="form-control" id="startDate">
+                    <input type="date" class="form-control" id="startDate" name="start">
                 </div>
                 <div class="mb-3">
                     <label for="endDate" class="form-label">End Date:</label>
-                    <input type="date" class="form-control" id="endDate">
+                    <input type="date" class="form-control" id="endDate" name="end">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
@@ -58,14 +58,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $i = 1 ?>
+                    @foreach ($filteredData as $data)
+                    @php
+                    $i = 1;
+                    @endphp
                     <td>{{$i}}</td>
-                    <?php $i++ ?>
-                    <td>BBCA</td>
-                    <td>Uptrend</td>
-                    <td>20%</td>
-                    <td>0</td>
-                    <td>20%</td>
+                    @php
+                    $i++
+                    @endphp
+                    <td>{{$data['ticker']}}</td>
+                    <td>{{$data['trend']}}</td>
+                    <td>{{$data['change']}}</td>
+                    <td>{{$data['der']}}</td>
+                    <td>{{$data['ldr']}}</td>
+                    @endforeach
                 </tbody>
             </table>
         </div>

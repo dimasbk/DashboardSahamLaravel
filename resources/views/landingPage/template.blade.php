@@ -32,6 +32,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/search">Emiten Saham</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/technical">Technical</a>
+                </li>
                 <!--
                 @auth
                 <li class="nav-item dropdown">

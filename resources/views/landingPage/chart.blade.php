@@ -18,13 +18,6 @@
 <div style="margin-top: 100px;">
     <h4 hidden id="ticker">{{$ticker}}</h4>
     <div class="container">
-
-        <div id="chart_div" style="width: 100%; height: 500px;"></div>
-        <div class="d-flex justify-content-center align-items-center">
-            <div id="loader" class="spinner-border display-none" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
         <div class="btn-group m-3" role="group" aria-label="First group">
             <button type="button" class="btn btn-dark btn-round mr-md-3 mb-md-0 mb-2" id="oneWeek">Satu
                 Minggu</button>
@@ -34,6 +27,12 @@
                 Tahun</button>
             <button type="button" class="btn btn-dark btn-round mr-md-3 mb-md-0 mb-2" id="threeYear">Tiga
                 Tahun</button>
+        </div>
+        <div id="chart_div" style="width: 100%; height: 500px;"></div>
+        <div class="d-flex justify-content-center align-items-center">
+            <div id="loader" class="spinner-border display-none" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
         </div>
 
 

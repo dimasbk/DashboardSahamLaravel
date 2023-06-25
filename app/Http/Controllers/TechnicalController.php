@@ -14,7 +14,8 @@ class TechnicalController extends Controller
 {
     public function index()
     {
-        return view('landingPage/technical');
+        $filteredData = [];
+        return view('landingPage/technical', compact(['filteredData']));
     }
 
     public function trend($prices)
@@ -28,13 +29,13 @@ class TechnicalController extends Controller
             ->withHeaders([
                 'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
             ])->get('https://api.goapi.id/v1/stock/idx/' . $stock . '/historical', [
-                'to' => $end,
-                'from' => $start
-            ])->json();
+                    'to' => $end,
+                    'from' => $start
+                ])->json();
 
         $historical = $response['data']['results'];
+                */
 
-        */
         $historical = $prices;
 
         $fridayData = array_filter($historical, function ($entry) {
@@ -48,6 +49,17 @@ class TechnicalController extends Controller
         foreach ($fridayData as $data) {
             array_push($closePrice, $data['close']);
         }
+
+        $firstHalf = $closePrice;
+        $secondHalf = array_splice(
+            $firstHalf,
+            -count($firstHalf) / 2
+        );
+
+        $firstHalf = array_sum($firstHalf) / count($firstHalf);
+        $secondHalf = array_sum($closePrice) / count($closePrice);
+
+        //dd(compact(['firstHalf', 'secondHalf']));
 
         for ($i = 0; $i < count($closePrice); $i++) {
             if ($i + 1 != count($closePrice)) {
@@ -95,9 +107,9 @@ class TechnicalController extends Controller
                 ->withHeaders([
                     'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
                 ])->get('https://api.goapi.id/v1/stock/idx/' . $stock . '/historical', [
-                    'to' => $end,
-                    'from' => $start
-                ])->json();
+                        'to' => $end,
+                        'from' => $start
+                    ])->json();
 
             $data = $response['data']['results'];
             $startPrice = $data[count($data) - 1]['close'];
@@ -143,6 +155,8 @@ class TechnicalController extends Controller
             }
         }
 
-        return $filteredData;
+        //return $filteredData;
+        //dd(compact(['filteredData']));
+        return view('landingPage/technical', compact(['filteredData']));
     }
 }
