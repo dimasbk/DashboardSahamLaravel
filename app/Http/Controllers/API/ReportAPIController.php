@@ -68,7 +68,7 @@ class ReportAPIController extends Controller
 
     public function reportt(Request $request)
     {
-        $year = $request->year;
+        $year = 2023;
         $id_user = Auth::id();
         $data = PortofolioBeliModel::join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
             ->select('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_beli.volume) AS total_volume_beli'), DB::raw('AVG(tb_portofolio_beli.harga_beli) AS avg_harga_beli'))
@@ -114,7 +114,7 @@ class ReportAPIController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'data' => $returnData
+            'data' => $data
         ], 200);
     }
 
@@ -176,7 +176,7 @@ class ReportAPIController extends Controller
         ], 200);
     }
 
-    public function detailReport($year, $emiten, $function = null)
+    public function DetailReport($year, $emiten, $function = null) //(Request $request)
     {
         $idEmiten = SahamModel::where('nama_saham', $emiten)->value('id_saham');
         $beli = PortofolioBeliModel::where('user_id', Auth::id())
@@ -268,8 +268,8 @@ class ReportAPIController extends Controller
             ->withHeaders([
                 'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
             ])->get('https://api.goapi.id/v1/stock/idx/prices', [
-                'symbols' => $emiten
-            ])->json();
+                    'symbols' => $emiten
+                ])->json();
 
         $totalLot = ($beli_total - $jual_total) * 100;
         $hargaclose = $response['data']['results'][0]['close'];

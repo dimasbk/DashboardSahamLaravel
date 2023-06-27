@@ -45,6 +45,8 @@ class PostController extends Controller
         }
     }
 
+
+
     public function getUserPostAdmin()
     {
         if (Auth::user()->id_roles == 1) {
@@ -128,7 +130,7 @@ class PostController extends Controller
                 'picture' => $fileName,
                 'tag' => $tag,
                 'id_saham' => $id_saham,
-                'id_user' => Auth::id()
+                //'id_user' => Auth::id()
             ]);
             return redirect('/post/manage')->with('status', 'Post berhasil dibuat');
         } else {
