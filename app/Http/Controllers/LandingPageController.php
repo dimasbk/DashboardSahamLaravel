@@ -88,7 +88,11 @@ class LandingPageController extends Controller
             }
 
         }
-        return $trends;
+        //return $trends;
+        return response()->json([
+            'status' => 'success',
+            'data' => $trends
+        ], 200);
         //return response()->json(['messsage'=>'Berhasil', 'data'=>$trends]);
     }
 

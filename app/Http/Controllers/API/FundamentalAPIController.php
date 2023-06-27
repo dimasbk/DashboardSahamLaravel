@@ -10,6 +10,7 @@ use App\Models\SahamModel;
 use App\Models\SubscriberModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class FundamentalAPIController extends Controller
 {
@@ -267,5 +268,65 @@ class FundamentalAPIController extends Controller
                 'data' => $data
             ], 200);
         }
+    }
+
+    public function trend()
+    {
+        $trends = [];
+        $stocks = ['BBCA', 'BRIS', 'GOTO', 'ANTM', 'ACES', 'ROTI'];
+        foreach ($stocks as $stock) {
+            //$today = date("Y-m-d");
+            $todayDate = '2023-04-01';
+            $yearBefore = date('Y-m-d', strtotime($todayDate . ' -1 year'));
+            $response = Http::acceptJson()
+                ->withHeaders([
+                    'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
+                ])->get('https://api.goapi.id/v1/stock/idx/' . $stock . '/historical', [
+                        'to' => $todayDate,
+                        'from' => $yearBefore
+                    ])->json();
+
+            $data = $response['data']['results'];
+            $data_historical = array_reverse($data);
+            $prices50 = [];
+            $prices200 = [];
+            $prices14 = [];
+
+            for ($i = 0; $i < 50; $i++) {
+                array_push($prices50, $data[$i]['close']);
+            }
+
+            for ($i = 0; $i < 200; $i++) {
+                array_push($prices200, $data[$i]['close']);
+            }
+
+            for ($i = 0; $i < 14; $i++) {
+                array_push($prices14, $data[$i]['close']);
+            }
+
+            $ma50 = array_sum($prices50) / 50;
+            $ma200 = array_sum($prices200) / 200;
+
+            if ($ma50 > $ma200) {
+                $change = $ma50 / $ma200;
+                $array = ["ticker" => "{$stock}", "trend" => "uptrend", "change" => "{$change}"];
+                array_push($trends, $array);
+            } else if ($ma50 < $ma200) {
+                $change = $ma200 / $ma50;
+                $array = ["ticker" => "{$stock}", "trend" => "downtrend", "change" => "-{$change}"];
+                array_push($trends, $array);
+            } else {
+                $array = ["ticker" => "{$stock}", "trend" => "sideways", "change" => "0"];
+                array_push($trends, $array);
+            }
+
+        }
+       // return $trends;
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $trends
+        ], 200);
+        //return response()->json(['messsage'=>'Berhasil', 'data'=>$trends]);
     }
 }

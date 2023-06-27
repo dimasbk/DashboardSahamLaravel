@@ -34,6 +34,8 @@ class PostController extends Controller
         }
     }
 
+
+
     public function getUserPostAdmin()
     {
         if (Auth::user()->id_roles == 1) {
@@ -111,9 +113,13 @@ class PostController extends Controller
                 'picture' => $fileName,
                 'tag' => $tag,
                 'id_saham' => $id_saham,
-                'id_user' => Auth::id()
+                //'id_user' => Auth::id()
             ]);
-            return 'berhasil';
+            return response()->json([
+                'status' => 'success',
+                'data' => $post
+            ], 200);
+            //return 'berhasil';
         } else {
             $post = PostModel::create([
                 'title' => $title,
@@ -122,7 +128,11 @@ class PostController extends Controller
                 'id_saham' => $id_saham,
                 'id_user' => Auth::id()
             ]);
-            return 'berhasil';
+            return response()->json([
+                'status' => 'success',
+                'data' => $post
+            ], 200);
+            //return 'berhasil';
         }
     }
 
