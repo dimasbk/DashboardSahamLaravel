@@ -85,6 +85,7 @@ Route::post('/portofoliobeli/editbeli', [PortofolioBeliController::class, 'editD
 Route::get('/portofoliobeli/delete/{id_portofolio_beli}', [PortofolioBeliController::class, 'deleteData']);
 
 Route::get('/report/{year}', [ReportController::class, 'report']);
+Route::get('/portosemua', [ReportController::class, 'portosemua']);
 Route::get('/report', [ReportController::class, 'getYear']);
 Route::get('/reportporto/range', [ReportController::class, 'reportRange']);
 Route::get('/reportporto', [ReportController::class, 'range']);
@@ -146,7 +147,7 @@ Route::get('/updatestock', [StockAPIController::class, 'updateStock']);
 
 Auth::routes();
 
-
+Route::get('/abc', [LandingPageController::class, 'technical']);
 Route::get('/landing-page', [LandingPageController::class, 'index']);
 Route::get('/post', [LandingPageController::class, 'post']);
 Route::get('/search', [LandingPageController::class, 'emitenSearch']);

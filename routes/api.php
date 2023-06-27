@@ -38,7 +38,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 //contoh param request = {'param' => 'ldr', 'comparison' => '>', 'num' => 5, 'start' => yyyy-mm-dd, 'end' => yyyy-mm-dd}
-Route::get('/search/technical', [TechnicalAPIController::class, 'technical']);
+Route::get('/technical', [TechnicalAPIController::class, 'technical']);
 
 Route::get('/report/{year}', [ReportAPIController::class, 'report']);
 Route::get('/report', [ReportAPIController::class, 'getYear']);
@@ -62,13 +62,26 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
    // Route::get('/reportdetail/{year}', [ReportAPIController::class, 'reportt']);
 
+   Route::get('/post/delete/{id_post}', [PostAPIController::class, 'deletePostt']);
+
+   Route::get('/post/managee', [PostAPIController::class, 'getuserPostt']);
+//baru ditambahin api, blm jadi
+   Route::post('/post/add', [PostAPIController::class, 'addPost']);
+
     Route::get('/post/view/', [PostAPIController::class, 'vieww']);
 
     Route::get('/post', [PostAPIController::class, 'postt']);
 
     Route::get('/emiten', [FundamentalAPIController::class, 'emitenDataa']);
 
+    Route::get('/trending', [FundamentalAPIController::class, 'trend']);
+
     Route::get('/report', [ReportAPIController::class, 'getYearr']);
+
+    Route::get('/portosemua', [ReportAPIController::class, 'reportt']);
+
+    Route::get('/portosemuaa', [ReportAPIController::class, 'DetailReportt']);
+
 
     Route::get('/portofolio/beli', [PortofolioAPIController::class, 'getPortoBeli']);
 
@@ -91,7 +104,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Route::get('/portofolio/sell', [PortofolioAPIController::class, 'sellData']);
     // Route::get('/portofolio/{user_id}', [PortofolioAPIController::class, 'getData']);
     Route::post('/portofolio/add', [PortofolioAPIController::class, 'insertData']);
-    Route::post('/portofolio/edit', [PortofolioAPIController::class, 'editData']);
+    Route::post('/portofolio/editbeli', [PortofolioAPIController::class, 'editDataBeli']);
     Route::post('/portofolio/delete', [PortofolioAPIController::class, 'deleteData']);
     Route::post('/berita', [HomeController::class, 'index']);
 

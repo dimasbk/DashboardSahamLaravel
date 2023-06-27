@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\PostModel;
+use App\Models\SahamModel;
 use App\Models\SubscriberModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,6 +34,51 @@ class PostAPIController extends Controller
                 'data' => $postData
             ], 200);
         }
+    }
+
+    public function getUserPostt()
+    {
+        $id_user = Auth::id();
+        if (Auth::user()->id_roles == 2) {
+            $postData = PostModel::where('id_user', $id_user)
+                ->join('users', 'tb_post.id_user', '=', 'users.id')
+                ->get();
+
+            $saham = SahamModel::all();
+
+            $mine = $postData->merge($saham);
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $postData
+            ], 200);
+
+            //return view('postmanage', compact(['postData', 'saham']));
+        } else {
+
+
+            // return response()->json([
+            //     'status' => 'success',
+            //     'data' => $mine
+            // ], 200);
+          //  return redirect('/');
+        }
+    }
+
+    public function deletePostt($id_post, PostModel $postModel)
+    {
+        if (!Gate::allows('update-delete-post', $postModel)) {
+            abort(403);
+        }
+        $post = PostModel::where('id_post', $id_post)->firstOrFail();
+        if ($post) {
+            $image = $post->picture;
+            if ($image) {
+                File::delete(public_path("images/public_images/" . $image));
+            }
+            $post->delete();
+        }
+       // return redirect('/post/manage');
     }
 
     public function vieww($id)
@@ -135,6 +181,50 @@ class PostAPIController extends Controller
                 'status' => 'success',
                 'data' => $postData
             ], 200);
+        }
+    }
+
+    public function addPost(Request $request)
+    {
+        $title = $request->input('title');
+        $content = $request->input('content');
+        $tag = $request->input('tag');
+        if ($request->input('emitenSaham')) {
+            $id_saham = $request->input('emitenSaham');
+        } else {
+            $id_saham = null;
+        }
+        $image = $request->file('image');
+        if ($image) {
+            $fileName = time() . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('public_images', $fileName, 'local_images');
+
+            $post = PostModel::create([
+                'title' => $title,
+                'content' => $content,
+                'picture' => $fileName,
+                'tag' => $tag,
+                'id_saham' => $id_saham,
+                //'id_user' => Auth::id()
+            ]);
+            return response()->json([
+                'status' => 'success',
+                'data' => $post
+            ], 200);
+            //return 'berhasil';
+        } else {
+            $post = PostModel::create([
+                'title' => $title,
+                'content' => $content,
+                'tag' => $tag,
+                'id_saham' => $id_saham,
+                'id_user' => Auth::id()
+            ]);
+            return response()->json([
+                'status' => 'success',
+                'data' => $post
+            ], 200);
+            //return 'berhasil';
         }
     }
 }
