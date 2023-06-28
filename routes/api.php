@@ -105,6 +105,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Route::get('/portofolio/{user_id}', [PortofolioAPIController::class, 'getData']);
     Route::post('/portofolio/add', [PortofolioAPIController::class, 'insertData']);
     Route::post('/portofolio/editbeli', [PortofolioAPIController::class, 'editDataBeli']);
+    Route::post('/portofolio/editjual', [PortofolioAPIController::class, 'editDataJual']);
     Route::post('/portofolio/delete', [PortofolioAPIController::class, 'deleteData']);
     Route::post('/berita', [HomeController::class, 'index']);
 
