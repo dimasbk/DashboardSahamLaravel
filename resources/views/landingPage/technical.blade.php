@@ -52,7 +52,8 @@
                         <th scope="col">#</th>
                         <th scope="col">Emiten</th>
                         <th scope="col">Trend</th>
-                        <th scope="col">Trend Changes</th>
+                        <th scope="col">Trend Changes (from last period)</th>
+                        <th scope="col">Trend Changes (MA)</th>
                         <th scope="col">DER</th>
                         <th scope="col">Loan to Deposit</th>
                     </tr>
@@ -69,6 +70,7 @@
                     <td>{{$data['ticker']}}</td>
                     <td>{{$data['trend']}}</td>
                     <td>{{$data['change']}}</td>
+                    <td>{{$data['MAPercantage']}}</td>
                     <td>{{$data['der']}}</td>
                     <td>{{$data['ldr']}}</td>
                     @endforeach

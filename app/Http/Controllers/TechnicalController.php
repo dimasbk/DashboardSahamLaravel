@@ -18,7 +18,7 @@ class TechnicalController extends Controller
         return view('landingPage/technical', compact(['filteredData']));
     }
 
-    public function trend($prices)
+    public function trend($prices = null)
     {
         /*
         $stock = 'ACES';
@@ -35,7 +35,6 @@ class TechnicalController extends Controller
 
         $historical = $response['data']['results'];
                 */
-
         $historical = $prices;
 
         $fridayData = array_filter($historical, function ($entry) {
@@ -50,14 +49,14 @@ class TechnicalController extends Controller
             array_push($closePrice, $data['close']);
         }
 
-        $firstHalf = $closePrice;
-        $secondHalf = array_splice(
-            $firstHalf,
-            -count($firstHalf) / 2
+        $longPeriod = $closePrice;
+        $shortPeriod = array_splice(
+            $longPeriod,
+            -count($longPeriod) / 2
         );
 
-        $firstHalf = array_sum($firstHalf) / count($firstHalf);
-        $secondHalf = array_sum($closePrice) / count($closePrice);
+        $longPeriod = array_sum($longPeriod) / count($longPeriod);
+        $shortPeriod = array_sum($shortPeriod) / count($shortPeriod);
 
         //dd(compact(['firstHalf', 'secondHalf']));
 
@@ -84,7 +83,8 @@ class TechnicalController extends Controller
 
         $percentage = round(((count($num) + 1) / count($trends)), 2) * 100;
         $trendString = $trends[0];
-        $dataArray = compact(['percentage', 'trendString']);
+        $MAPercentage = round(((($longPeriod - $shortPeriod) / $shortPeriod) * 100), 2);
+        $dataArray = compact(['percentage', 'MAPercentage', 'trendString']);
 
         return $dataArray;
     }
@@ -130,7 +130,7 @@ class TechnicalController extends Controller
             $ldr = $output->loan_to_depo_ratio * 100;
 
             $trend = $this->trend($data);
-            $array = ["ticker" => "{$stock}", "trend" => "{$trend['trendString']}", "change" => "{$trend['percentage']}", "der" => "{$der}", "ldr" => "{$ldr}"];
+            $array = ["ticker" => "{$stock}", "MAPercentage" => "{$trend['MAPercentage']}", "trend" => "{$trend['trendString']}", "change" => "{$trend['percentage']}", "der" => "{$der}", "ldr" => "{$ldr}"];
             array_push($trends, $array);
 
         }

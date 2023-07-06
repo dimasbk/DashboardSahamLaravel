@@ -98,7 +98,6 @@ Route::get('/technical', [TechnicalController::class, 'index']);
 Route::get('/trend', [TechnicalController::class, 'trend']);
 Route::get('/search/technical', [TechnicalController::class, 'technical']);
 
-
 Route::get('/subscribe', [AnalystController::class, 'subscribe']);
 Route::get('/subscribe/update/{id}', [AnalystController::class, 'update']);
 Route::get('/getPaymentToken', [AnalystController::class, 'pay']);
