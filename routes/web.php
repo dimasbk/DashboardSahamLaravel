@@ -98,8 +98,12 @@ Route::get('/technical', [TechnicalController::class, 'index']);
 Route::get('/trend', [TechnicalController::class, 'trend']);
 Route::get('/search/technical', [TechnicalController::class, 'technical']);
 
-Route::post('/follow', [AnalystController::class, 'follow']);
+
+Route::get('/subscribe', [AnalystController::class, 'subscribe']);
+Route::get('/subscribe/update/{id}', [AnalystController::class, 'update']);
+Route::get('/getPaymentToken', [AnalystController::class, 'pay']);
 Route::post('/profile/mini', [AnalystController::class, 'profileMini']);
+Route::get('/profile/{id}', [AnalystController::class, 'profile']);
 Route::get('/profile/{id}', [AnalystController::class, 'profile']);
 
 Route::get('/post/analyst/{id}', [PostController::class, 'analystPost']);

@@ -10,12 +10,13 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\SubscriberModel;
 use Illuminate\Support\Facades\Auth;
+use SebastianBergmann\Timer\Duration;
 
 class AnalystController extends Controller
 {
     public function index()
     {
-        $notToFollow = SubscriberModel::where('id_subscriber', Auth::id())->pluck('id_analyst')->toArray();
+        $notToFollow = SubscriberModel::where('id_subscriber', Auth::id())->where('status', 'subscribed')->pluck('id_analyst')->toArray();
         array_push($notToFollow, Auth::id());
         $toFollow = User::where('id_roles', 2)->whereNotIn('id', $notToFollow)->get()->toArray();
         $existing = SubscriberModel::where('id_subscriber', Auth::id())
@@ -26,6 +27,74 @@ class AnalystController extends Controller
 
         //dd($existing);
         return view('landingPage/analyst', $data);
+    }
+
+    public function subscribe(Request $request)
+    {
+        $analystId = $request->id;
+        $analystData = User::where('id', $analystId)
+            ->join('tb_analyst_price', 'users.id', '=', 'tb_analyst_price.id_analyst')
+            ->first();
+
+        return view('landingPage/subscribe', compact(['analystData']));
+    }
+
+    public function pay(Request $request)
+    {
+        $grossAmount = $request->price * $request->duration;
+        $expired = Carbon::today()->addMonths($request->duration)->toDateString();
+        //return $expired;
+        $subscribe = SubscriberModel::create([
+            'id_subscriber' => Auth::id(),
+            'id_analyst' => $request->id,
+            'expired' => $expired,
+            'status' => 'pending'
+        ]);
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = config('midtrans.server_key');
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
+
+        $params = array(
+            'transaction_details' => array(
+                'order_id' => $subscribe->id_subscription,
+                'gross_amount' => $grossAmount,
+            ),
+            'customer_details' => array(
+                'name' => auth()->user()->name,
+                'email' => auth()->user()->email,
+            ),
+        );
+        
+        $subscribeID = $subscribe->id_subscription;
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+        return compact(['snapToken', 'subscribeID']);
+    }
+
+    public function update($id){
+        $subscribe = SubscriberModel::where('id_subscription', $id)->first();
+        $subscribe->update([
+            'status' => 'subscribed'
+        ]);
+
+        return redirect('/analyst');
+    }
+    
+    public function paymentCallback(Request $request){
+        $serverKey = config('midtrans.server_key');
+        $hashed = hash("sha512", $request->order_id.$request->status_code.$request->gross_amount.$serverKey);
+        if($hashed==$request->signature_key){
+            if($request->transaction_status == 'capture'){
+                $subscribe = SubscriberModel::where('id_subsscription', $request->order_id)->first();
+                $subscribe->update([
+                    'status' => 'subscribed'
+                ]);
+            }
+        }
     }
 
     public function follow(Request $request)
@@ -46,7 +115,9 @@ class AnalystController extends Controller
     {
         $userId = $request->userId;
 
-        $userData = User::where('id', $userId)->first()->toArray();
+        $userData = User::where('id', $userId)
+            ->join('tb_analyst_price', 'users.id', '=', 'tb_analyst_price.id_analyst')
+            ->first()->toArray();
 
         $followers = SubscriberModel::where('id_analyst', $userId)->get()->count();
 
@@ -63,9 +134,11 @@ class AnalystController extends Controller
     {
         $isSubscribed = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', $id)->where('status', 'subscribed')->first();
 
-        if ($isSubscribed) {
+        if ($isSubscribed || Auth::id() == $id) {
             $followers = SubscriberModel::where('id_analyst', $id)->get()->count();
-            $profileData = User::where('id', $id)->first()->toArray();
+            $profileData = User::where('id', $id)
+                ->join('tb_analyst_price', 'users.id', '=', 'tb_analyst_price.id_analyst')
+                ->first()->toArray();
             $post = PostModel::where('id_user', $id)->take(3)->get()->toArray();
             $postCount = PostModel::where('id_user', $id)->get()->count();
             $portoBeli = PortofolioBeliModel::where('user_id', $id)->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')->get()->toArray();

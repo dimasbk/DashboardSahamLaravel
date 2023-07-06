@@ -19,7 +19,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->call(function () {
-            SubscriberModel::where('expired', '<', Carbon::today()->toDateString())->delete();
+            SubscriberModel::where('expired', '<', Carbon::today()->toDateString())->update([
+                'status' => 'expired'
+            ]);
         })->daily();
     }
 

@@ -22,6 +22,8 @@ use App\Http\Controllers\API\ReportAPIController;
 |
 */
 
+
+Route::get('/subscribe/callback', [AnalystController::class, 'paymentCallback']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

@@ -13,6 +13,7 @@ class SubscriberModel extends Model
         'id_subscriber',
         'id_analyst',
         'status',
+        'expired'
     ];
     protected $primaryKey = 'id_subscription';
 }

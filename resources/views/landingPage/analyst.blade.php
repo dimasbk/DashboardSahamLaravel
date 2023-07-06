@@ -31,12 +31,11 @@
                             <li class="person">
                                 <span class="person-name">{{$follow['name']}}</span>
                                 <div class="buttonProp">
-                                    <button type="button" class="btn btn-primary profile-button"
-                                        data-user-id="{{$follow['id']}}">
-                                        Launch demo modal
-                                    </button>
-                                    <button class="follow-button follow-btn btn"
-                                        data-user-id="{{$follow['id']}}">Subscribe</button>
+                                    <form action="/subscribe" method="GET">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{$follow['id']}}">
+                                        <button type="submit" class="follow-button follow-btn btn">Subscribe</button>
+                                    </form>
                                 </div>
                             </li>
                             @endforeach

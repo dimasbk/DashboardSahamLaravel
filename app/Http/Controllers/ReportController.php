@@ -180,7 +180,7 @@ class ReportController extends Controller
         foreach ($beli as &$item) {
             $tanggal_beli = new DateTime($item['tanggal_beli']);
             $tanggal = $tanggal_beli->format('d-m-Y');
-            $item['tanggal'] = $tanggal;
+            $item["tanggal"] = $tanggal;
             $item["harga"] = $item["harga_beli"];
             $item["tag"] = 'beli';
             unset($item['harga_beli']);
@@ -200,44 +200,42 @@ class ReportController extends Controller
         $data = array_merge($beli, $jual);
 
         usort($data, function ($a, $b) {
-            $tanggal_a = strtotime($a['tanggal']);
-            $tanggal_b = strtotime($b['tanggal']);
+            $tanggalA = DateTime::createFromFormat('d-m-Y', $a['tanggal']);
+            $tanggalB = DateTime::createFromFormat('d-m-Y', $b['tanggal']);
 
-            if ($tanggal_a == $tanggal_b) {
-                return 0;
-            }
-
-            return ($tanggal_a < $tanggal_b) ? -1 : 1;
+            return $tanggalA <=> $tanggalB;
         });
 
-        $beli_total = null;
-        $jual_total = null;
-        foreach ($data as $item) {
-            if ($item["tag"] == "beli") {
-                $beli_total += $item["volume"];
-            } else if ($item["tag"] == "jual") {
-                $jual_total += $item["volume"];
+        $beli_total = 0;
+        $jual_total = 0;
+        foreach ($data as $rep) {
+            if ($rep["tag"] == "beli") {
+                $beli_total += $rep["volume"];
             }
         }
+        foreach ($data as $rep) {
+            if ($rep["tag"] == "jual") {
+                $jual_total += $rep["volume"];
+            }
+        }
+        //dd($data);
         $response = Http::acceptJson()
             ->withHeaders([
                 'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
             ])->get('https://api.goapi.id/v1/stock/idx/prices', [
-                'symbols' => $emiten
-            ])->json();
+                    'symbols' => $emiten
+                ])->json();
 
         $totalLot = ($beli_total - $jual_total) * 100;
         $hargaclose = $response['data']['results'][0]['close'];
         $avgBeli = $dataReport[0]['avg_harga_beli'];
         $avgJual = $dataReport[0]['avg_harga_jual'];
         $keuntungan = ($totalLot * $avgBeli) - ($totalLot * $hargaclose);
-        //dd($keuntungan);
-
         $realisasi = ($totalLot * $avgBeli) - ($totalLot * $avgJual);
+
         if ($function === 1) {
             return compact(['keuntungan', 'realisasi']);
         }
-
         return view('reportDetail', compact(['data', 'keuntungan', 'realisasi']));
     }
 

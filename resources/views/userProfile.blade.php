@@ -20,25 +20,31 @@
         <div class="profile-user-page card">
             <div class="img-user-profile">
                 <div class="profile-bgHome" style="background-color: black"></div>
-                <img class="avatar" src="http://gravatar.com/avatar/288ce55a011c709f4e17aef7e3c86c64?s=200"
-                    alt="jofpin" />
+                @if ($data['profileData']['profile_picture'])
+                <img class="avatar" src="{{$data['profileData']['profile_picture']}}" alt="profile_picture" />
+                @else
+                <img class="avatar" src="{{asset('default.jpg')}}" alt="profile_picture" />
+                @endif
             </div>
             <div class="user-profile-data">
                 <h1>{{$data['profileData']['name']}}</h1>
                 <p>Analyst</p>
             </div>
-            <div class="description-profile">Front-end | Security Researcher | CSS Warrior | <a
-                    href="https://twitter.com/bullgit" title="bullgit"><strong>@bullgit</strong></a> | I love to create
-                small things for the internet!</div>
+            <div class="description-profile">Harga Per Bulan : Rp.
+                {{number_format($data['profileData']['price_per_month'])}}</div>
             <ul class="data-user">
                 <li><a><strong>{{$data['postCount']}}</strong><span>Posts</span></a></li>
                 <li><a><strong>{{$data['followers']}}</strong><span>Followers</span></a></li>
-
             </ul>
             <div class="description-profile" style="margin-bottom: 10px">
                 <p class="lead fw-normal mb-0">Recent stock transaction</p>
+                @if (Auth::id() == $data['profileData']['id'])
+                <p class="mb-0"><a href="/portofoliobeli/" class="text-muted">Show
+                        all</a></p>
+                @else
                 <p class="mb-0"><a href="/portofoliobeli/analyst/{{$data['profileData']['id']}}" class="text-muted">Show
                         all</a></p>
+                @endif
             </div>
             <div class="row">
                 <div class="col-xl-12">

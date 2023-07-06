@@ -51,7 +51,8 @@
                         <td></td>
                         <td>{{ $report['nama_sekuritas']}}</td>
                     </tr>
-                    @else
+                    @endif
+                    @if($report['tag'] == 'jual')
                     <tr>
                         <td>{{ $report['nama_saham'] }}</td>
                         <td>{{ $report['tanggal'] }}</td>
