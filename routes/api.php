@@ -49,7 +49,6 @@ Route::get('/post/analyst/{id}', [PostAPIController::class, 'analystPost']);
 Route::get('/post/view/{id}', [PostAPIController::class, 'view']);
 Route::get('/postt', [PostAPIController::class, 'post']);
 
-Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenData']);
 
 
 //Protecting Routes
@@ -70,7 +69,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('/post', [PostAPIController::class, 'postt']);
 
-    Route::get('/emiten', [FundamentalAPIController::class, 'emitenDataa']);
+    //Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenDataa']);
+    Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenData']);
+
 
     Route::get('/trending', [FundamentalAPIController::class, 'trend']);
 
@@ -79,7 +80,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/portosemua', [ReportAPIController::class, 'reportt']);
 
     Route::get('/portosemuaa', [ReportAPIController::class, 'DetailReportt']);
-
 
     Route::get('/portofolio/beli', [PortofolioAPIController::class, 'getPortoBeli']);
 

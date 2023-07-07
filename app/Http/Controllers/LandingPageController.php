@@ -8,7 +8,7 @@ use App\Models\PostModel;
 use App\Models\SahamModel;
 use App\Models\InputFundamentalModel;
 use App\Models\OutputFundamentalModel;
-use Http;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 
 class LandingPageController extends Controller
@@ -88,11 +88,11 @@ class LandingPageController extends Controller
             }
 
         }
-        //return $trends;
-        return response()->json([
-            'status' => 'success',
-            'data' => $trends
-        ], 200);
+        return $trends;
+        // return response()->json([
+        //     'status' => 'success',
+        //     'data' => $trends
+        // ], 200);
         //return response()->json(['messsage'=>'Berhasil', 'data'=>$trends]);
     }
 
@@ -237,6 +237,7 @@ class LandingPageController extends Controller
             //dd($data);
 
             return view('landingPage/chart', $data);
+
 
         } else {
             $inputData = $input->toArray();
