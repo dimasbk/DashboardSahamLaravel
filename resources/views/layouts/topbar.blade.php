@@ -40,8 +40,13 @@
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @if (Auth::user()->profile_picture == null)
+                    <img class="rounded-circle header-profile-user" src="{{ asset ('default.jpg') }}"
+                        alt="Header Avatar">
+                    @else
                     <img class="rounded-circle header-profile-user"
                         src="{{ URL::asset ('/assets/images/users/avatar-1.jpg') }}" alt="Header Avatar">
+                    @endif
                     <span class="d-none d-xl-inline-block ms-1" key="t-henry">{{ucfirst(Auth::user()->name)}}</span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>

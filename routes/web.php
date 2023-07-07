@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PlanController;
 use App\Http\Controllers\SekuritasController;
 use App\Http\Controllers\TechnicalController;
 use Illuminate\Support\Facades\Route;
@@ -75,6 +76,7 @@ Route::post('/portofoliojual/editjual', [PortofolioJualController::class, 'editD
 Route::get('/portofoliojual/delete/{id_portofolio_jual}', [PortofolioJualController::class, 'deleteData']);
 
 Route::get('/portofoliobeli', [PortofolioBeliController::class, 'getData']);
+Route::get('/portofoliobeli/create', [PortofolioBeliController::class, 'create']);
 Route::post('/portofoliobeli/addbeli', [PortofolioBeliController::class, 'insertData']);
 Route::get('/portofoliobeli/edit/{id_portofolio_beli}', [PortofolioBeliController::class, 'getEdit']);
 Route::post('/portofoliobeli/editbeli', [PortofolioBeliController::class, 'editData']);
@@ -98,7 +100,10 @@ Route::get('/technical', [TechnicalController::class, 'index']);
 Route::get('/trend', [TechnicalController::class, 'trend']);
 Route::get('/search/technical', [TechnicalController::class, 'technical']);
 
-Route::get('/subscribe', [AnalystController::class, 'subscribe']);
+Route::get('/plan/manage', [PlanController::class, 'index']);
+
+Route::post('/plan', [AnalystController::class, 'plan']);
+Route::post('/subscribe', [AnalystController::class, 'subscribe']);
 Route::get('/subscribe/update/{id}', [AnalystController::class, 'update']);
 Route::get('/getPaymentToken', [AnalystController::class, 'pay']);
 Route::post('/profile/mini', [AnalystController::class, 'profileMini']);

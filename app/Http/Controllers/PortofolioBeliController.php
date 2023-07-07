@@ -23,6 +23,16 @@ class PortofolioBeliController extends Controller
     }
 
 
+    public function create()
+    {
+        $emiten = SahamModel::all();
+        $jenis_saham = JenisSahamModel::all();
+        $sekuritas = SekuritasModel::all();
+        $data = compact(['emiten'], ['jenis_saham'], ['sekuritas']);
+        //dd($data);
+        return view('createPortofoliobeli', $data);
+    }
+
     public function getdata(PortofolioBeliModel $portoBeli)
     {
         $dataporto = PortofolioBeliModel::where('user_id', Auth::id())
@@ -94,9 +104,6 @@ class PortofolioBeliController extends Controller
 
     public function getEdit($id_portofolio_beli, PortofolioBeliModel $portoBeli)
     {
-        if (!Gate::allows('update-delete-portobeli', $portoBeli)) {
-            abort(403);
-        }
         $dataporto = PortofolioBeliModel::where('id_portofolio_beli', $id_portofolio_beli)->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')->get();
         $emiten = SahamModel::all();
         $jenis_saham = JenisSahamModel::all();
@@ -126,9 +133,6 @@ class PortofolioBeliController extends Controller
     public function editData(Request $request, PortofolioBeliModel $portoBeli)
     {
 
-        if (!Gate::allows('update-delete-portobeli', $portoBeli)) {
-            abort(403);
-        }
         $dataporto = PortofolioBeliModel::where('id_portofolio_beli', $request->id_portofolio_beli)->firstOrFail();
         $id = Auth::id();
         //dd($dataporto);
@@ -142,7 +146,7 @@ class PortofolioBeliController extends Controller
         $dataporto->save();
 
 
-        return redirect()->to('portofoliobeli/' . $id);
+        return redirect()->to('/portofoliobeli');
     }
 
     public function editDataAdmin(Request $request, PortofolioBeliModel $portoBeli)

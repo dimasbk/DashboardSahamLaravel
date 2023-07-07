@@ -37,6 +37,7 @@
 
 
         @auth
+        @if ($laporan)
         <div class="row">
             <div class="col-md-6">
                 <div class="card shadow mb-4">
@@ -228,10 +229,17 @@
                         </table>
                     </div>
                 </div>
-
-                @endauth
             </div>
         </div>
+        @else
+        <h4>Belum subscribe</h4>
+        <form action="/plan" method="POST">
+            @csrf
+            <input type="hidden" name="id" value="7">
+            <button type="submit" class="follow-button follow-btn btn">Subscribe</button>
+        </form>
+        @endif
+        @endauth
         <div>
             <div class="row mt-5">
                 @if ($post)
@@ -249,7 +257,8 @@
                                 <div><strong>{{Str::camel($posts['tag'])}}</strong></div>
                                 <div><strong>Written by : </strong>{{$posts['name']}}</div>
                                 <div class="preview-card__text">{{Str::limit($posts['content'], 100)}}</div>
-                                <a href="/post/view/{{$posts['id_post']}}" class="preview-card__button">READ MORE</a>
+                                <a href="/post/view/{{$posts['id_post']}}" class="preview-card__button">READ
+                                    MORE</a>
                             </div>
                         </div>
 

@@ -151,6 +151,7 @@ class LandingPageController extends Controller
 
     public function emitenData($ticker)
     {
+        $laporan = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', 7)->where('status', 'subscribed')->first();
         $emiten = SahamModel::where('nama_saham', $ticker)->value('id_saham');
         $input = InputFundamentalModel::where('tb_input.id_saham', $emiten)
             ->where('user_id', Auth::id())
@@ -223,7 +224,7 @@ class LandingPageController extends Controller
             );
 
             $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
-            $data = compact(['inputData'], ['outputData'], ['ticker'], ['check'], ['post']);
+            $data = compact(['inputData'], ['outputData'], ['ticker'], ['check'], ['post'], ['laporan']);
             //dd($data);
 
             return view('landingPage/chart', $data);
@@ -275,7 +276,7 @@ class LandingPageController extends Controller
             );
 
             $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
-            $data = compact(['inputData'], ['outputData'], ['ticker'], ['check'], ['post']);
+            $data = compact(['inputData'], ['outputData'], ['ticker'], ['check'], ['post'], ['laporan']);
 
             //dd($data);
             return view('landingPage/chart', $data);

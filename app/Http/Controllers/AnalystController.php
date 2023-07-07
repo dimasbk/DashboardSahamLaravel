@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PortofolioBeliModel;
 use App\Models\PortofolioJualModel;
 use App\Models\PostModel;
+use App\Models\PriceModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -29,14 +30,22 @@ class AnalystController extends Controller
         return view('landingPage/analyst', $data);
     }
 
+    public function plan(Request $request)
+    {
+        $analystData = User::where('id', $request->id)->first();
+        $prices = PriceModel::where('id_analyst', $request->id)->get();
+
+        //dd($analystData);
+        return view('landingPage/plan', compact(['analystData', 'prices']));
+    }
+
     public function subscribe(Request $request)
     {
-        $analystId = $request->id;
-        $analystData = User::where('id', $analystId)
-            ->join('tb_analyst_price', 'users.id', '=', 'tb_analyst_price.id_analyst')
-            ->first();
+        $analystData = User::where('id', $request->id)->first();
+        $prices = PriceModel::where('id_price', $request->id_price)->first();
 
-        return view('landingPage/subscribe', compact(['analystData']));
+        //dd($analystData);
+        return view('landingPage/subscribe', compact(['analystData', 'prices']));
     }
 
     public function pay(Request $request)
@@ -69,13 +78,14 @@ class AnalystController extends Controller
                 'email' => auth()->user()->email,
             ),
         );
-        
+
         $subscribeID = $subscribe->id_subscription;
         $snapToken = \Midtrans\Snap::getSnapToken($params);
         return compact(['snapToken', 'subscribeID']);
     }
 
-    public function update($id){
+    public function update($id)
+    {
         $subscribe = SubscriberModel::where('id_subscription', $id)->first();
         $subscribe->update([
             'status' => 'subscribed'
@@ -83,12 +93,13 @@ class AnalystController extends Controller
 
         return redirect('/analyst');
     }
-    
-    public function paymentCallback(Request $request){
+
+    public function paymentCallback(Request $request)
+    {
         $serverKey = config('midtrans.server_key');
-        $hashed = hash("sha512", $request->order_id.$request->status_code.$request->gross_amount.$serverKey);
-        if($hashed==$request->signature_key){
-            if($request->transaction_status == 'capture'){
+        $hashed = hash("sha512", $request->order_id . $request->status_code . $request->gross_amount . $serverKey);
+        if ($hashed == $request->signature_key) {
+            if ($request->transaction_status == 'capture') {
                 $subscribe = SubscriberModel::where('id_subsscription', $request->order_id)->first();
                 $subscribe->update([
                     'status' => 'subscribed'

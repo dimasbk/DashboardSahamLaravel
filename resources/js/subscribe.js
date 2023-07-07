@@ -2,6 +2,10 @@ $("#getToken").on("click", function () {
     var id = $("#id").val();
     var duration = $("#duration").val();
     var price = $("#price").val();
+    ajax(id, duration, price);
+});
+
+function ajax(id, duration, price) {
     $.ajax({
         type: "GET",
         url: "/getPaymentToken",
@@ -35,6 +39,7 @@ $("#getToken").on("click", function () {
                 onClose: function () {
                     /* You may add your own implementation here */
                     alert("you closed the popup without finishing the payment");
+                    $("#getToken").prop("disabled", false);
                 },
             });
         },
@@ -42,4 +47,4 @@ $("#getToken").on("click", function () {
             console.log(error);
         },
     });
-});
+}

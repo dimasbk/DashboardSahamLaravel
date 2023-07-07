@@ -44,6 +44,7 @@
                         <li><a href="/post" key="t-saas">Analyst Post</a></li>
                         @if (Auth::user()->id_roles == 2)
                         <li><a href="/post/manage" key="t-saas">Manage Your Post</a></li>
+                        <li><a href="/plan/manage" key="t-saas">Manage Your Subscription Plan</a></li>
                         @endif
                     </ul>
                 </li>

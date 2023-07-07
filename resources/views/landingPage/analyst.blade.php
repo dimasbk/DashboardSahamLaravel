@@ -31,7 +31,7 @@
                             <li class="person">
                                 <span class="person-name">{{$follow['name']}}</span>
                                 <div class="buttonProp">
-                                    <form action="/subscribe" method="GET">
+                                    <form action="/plan" method="POST">
                                         @csrf
                                         <input type="hidden" name="id" value="{{$follow['id']}}">
                                         <button type="submit" class="follow-button follow-btn btn">Subscribe</button>
