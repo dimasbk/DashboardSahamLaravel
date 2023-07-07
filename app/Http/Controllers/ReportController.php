@@ -67,7 +67,72 @@ class ReportController extends Controller
 
         return view('report', compact(['data', 'tahun']));
 
+
+        $returnData = compact(['data', 'tahun']);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $data
+        ], 200);
+
+
     }
+
+    public function portosemua(Request $request)
+    {
+        //$year = $request->year;
+        $year = 2023;
+        $id_user = Auth::id();
+        $data = PortofolioBeliModel::join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
+            ->select('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_beli.volume) AS total_volume_beli'), DB::raw('AVG(tb_portofolio_beli.harga_beli) AS avg_harga_beli'))
+            ->where('tb_portofolio_beli.user_id', '=', $id_user)
+            ->whereYear('tanggal_beli', $year)
+            ->groupBy('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham')
+            ->get()->toArray();
+
+        for ($i = 0; $i < count($data); $i++) {
+            $id = $data[$i]['id_saham'];
+            $saham = $data[$i]['nama_saham'];
+            $jualReport = PortofolioJualModel::join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
+                ->select('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_jual.volume) AS total_volume_jual'), DB::raw('AVG(tb_portofolio_jual.harga_jual) AS avg_harga_jual'))
+                ->where('tb_portofolio_jual.user_id', '=', $id_user)
+                ->where('tb_portofolio_jual.id_saham', '=', $id)
+                ->whereYear('tanggal_jual', $year)
+                ->groupBy('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham')
+                ->get()->toArray();
+
+            if (!$jualReport) {
+                $data[$i]['total_volume_jual'] = 0;
+                $data[$i]['avg_harga_jual'] = 0;
+            } else {
+                $data[$i]['total_volume_jual'] = $jualReport[0]['total_volume_jual'];
+                $data[$i]['avg_harga_jual'] = $jualReport[0]['avg_harga_jual'];
+            }
+        }
+
+        $beli = PortofolioBeliModel::select('id_portofolio_beli as id', 'id_saham', 'user_id', 'jenis_saham', 'volume', 'tanggal_beli', 'harga_beli', 'id_sekuritas')
+            ->addSelect(DB::raw('NULL as close_persen, "beli" as tag'))
+            ->where('user_id', Auth::id())
+            ->get()->toArray();
+
+        $jual = PortofolioJualModel::select('id_portofolio_jual as id', 'id_saham', 'user_id', 'jenis_saham', 'volume', 'tanggal_jual', 'harga_jual', 'id_sekuritas', 'close_persen')
+            ->addSelect(DB::raw('"jual" as tag'))
+            ->where('user_id', Auth::id())
+            ->get()->toArray();
+
+        $result = array_merge($beli, $jual);
+        $tahun = $year;
+        //dd($data);
+        $returnData = compact(['data', 'tahun']);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $returnData
+        ], 200);
+
+        //  return view('portosemua', compact(['data', 'tahun']));
+    }
+
 
     public function range()
     {
@@ -236,7 +301,15 @@ class ReportController extends Controller
         if ($function === 1) {
             return compact(['keuntungan', 'realisasi']);
         }
-        return view('reportDetail', compact(['data', 'keuntungan', 'realisasi']));
+
+        $detailData = compact(['data', 'keuntungan', 'realisasi']);
+
+        // return view('reportDetail', compact(['data', 'keuntungan', 'realisasi']));
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $detailData
+        ], 200);
     }
 
     public function getYear()

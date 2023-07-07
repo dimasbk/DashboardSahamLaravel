@@ -19,9 +19,14 @@ class PortofolioBeliAPIController extends Controller
     public function allData()
     {
 
-        $dataporto = PortofolioBeliModel::all();
-        return response()->json(['messsage' => 'Berhasil', 'data' => $dataporto]);
+        $id_user = Auth::id();
+        $dataporto = PortofolioBeliModel::join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
+        ->join('tb_sekuritas', 'tb_portofolio_beli.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
+        ->where('user_id', $id_user)
+        ->orderBy('tanggal_beli', 'desc')
+        ->get();
 
+        return response()->json(['messsage'=>'Berhasil', 'data'=>$dataporto]);
     }
 
     public function getdata($user_id)
@@ -56,7 +61,24 @@ class PortofolioBeliAPIController extends Controller
             return response()->json(['messsage' => 'Berhasil', 'data' => $insert]);
         }
     }
-    public function editData(Request $request)
+
+    public function updateData(Request $request)
+    {
+
+        $dataporto = PortofolioBeliModel::where('id_portofolio_beli', $request->id_portofolio_beli)->firstOrFail();
+        $id = Auth::id();
+
+        $dataporto->volume = $request->volume;
+        $dataporto->tanggal_beli = $request->tanggal_beli;
+        $dataporto->harga_beli = $request->harga_beli;
+        $dataporto->save();
+
+
+        return response()->json(['messsage' => 'Data Berhasil di Update']);
+    }
+
+
+    public function  editData(Request $request)
     {
 
         $dataporto = PortofolioBeliModel::where('id_portofolio_beli', $request->id_portofolio_beli)->firstOrFail();
@@ -64,13 +86,13 @@ class PortofolioBeliAPIController extends Controller
         //dd($dataporto);
 
 
-        $dataporto->id_saham = $request->id_saham;
-        $dataporto->user_id = $id;
-        $dataporto->jenis_saham = $request->id_jenis_saham;
+        // $dataporto->id_saham = $request->id_saham;
+        // $dataporto->user_id = $id;
+        // $dataporto->jenis_saham = $request->id_jenis_saham;
         $dataporto->volume = $request->volume;
         $dataporto->tanggal_beli = $request->tanggal_beli;
         $dataporto->harga_beli = $request->harga_beli;
-        $dataporto->fee_beli_persen = $request->fee_beli_persen;
+        // $dataporto->fee_beli_persen = $request->fee_beli_persen;
         $dataporto->save();
 
 

@@ -88,6 +88,7 @@ class ChartController extends Controller
 
             return view('chartdetailBank', $data);
 
+
         } else {
             $inputData = $input->toArray();
             $output = OutputFundamentalModel::where('id_input', $input->id_input)
@@ -125,7 +126,11 @@ class ChartController extends Controller
             $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
             $data = compact(['inputData'], ['outputData'], ['ticker'], ['check']);
 
-            return view('chartdetailBank', $data);
+            //return view('chartdetailBank', $data);
+            return response()->json([
+                'status' => 'success',
+                'data' => $data
+            ], 200);
         }
 
     }

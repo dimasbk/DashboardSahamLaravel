@@ -8,7 +8,7 @@ use App\Models\PostModel;
 use App\Models\SahamModel;
 use App\Models\InputFundamentalModel;
 use App\Models\OutputFundamentalModel;
-use Http;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
 
 class LandingPageController extends Controller
@@ -79,8 +79,8 @@ class LandingPageController extends Controller
                 $array = ["ticker" => "{$stock}", "trend" => "uptrend", "change" => "{$change}"];
                 array_push($trends, $array);
             } else if ($ma50 < $ma200) {
-                $array = ["ticker" => "{$stock}", "trend" => "downtrend", "change" => "{$change}"];
                 $change = $ma200 / $ma50;
+                $array = ["ticker" => "{$stock}", "trend" => "downtrend", "change" => "{$change}"];
                 array_push($trends, $array);
             } else {
                 $array = ["ticker" => "{$stock}", "trend" => "sideways", "change" => "0"];
@@ -89,6 +89,11 @@ class LandingPageController extends Controller
 
         }
         return $trends;
+        // return response()->json([
+        //     'status' => 'success',
+        //     'data' => $trends
+        // ], 200);
+        //return response()->json(['messsage'=>'Berhasil', 'data'=>$trends]);
     }
 
     public function post()
@@ -228,6 +233,7 @@ class LandingPageController extends Controller
             //dd($data);
 
             return view('landingPage/chart', $data);
+
 
         } else {
             $inputData = $input->toArray();
