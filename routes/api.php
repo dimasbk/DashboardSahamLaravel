@@ -92,21 +92,24 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     //baru ditambahin api, blm jadi
     Route::post('/post/add', [PostAPIController::class, 'addPost']);
 
-   Route::get('/post/delete/{id_post}', [PostAPIController::class, 'deletePostt']);
+    Route::get('/post/delete/{id_post}', [PostAPIController::class, 'deletePostt']);
 
-   Route::get('/post/managee', [PostAPIController::class, 'getuserPostt']);
-//baru ditambahin api, blm jadi
-   Route::post('/post/add', [PostAPIController::class, 'addPost']);
+    Route::get('/post/managee', [PostAPIController::class, 'getuserPostt']);
+    //baru ditambahin api, blm jadi
+    Route::post('/post/add', [PostAPIController::class, 'addPost']);
 
     Route::get('/post/view/', [PostAPIController::class, 'vieww']);
 
     Route::get('/post', [PostAPIController::class, 'postt']);
 
-<<<<<<< HEAD
+
     Route::post('/post/edit', [PostAPIController::class, 'edit']);
 
     //Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenDataa']);
-    Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenDataa']);
+
+    //Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenDataa']);
+    Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenData']);
+
 
 
     Route::get('/trending', [FundamentalAPIController::class, 'trend']);
@@ -117,22 +120,18 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 
 
-=======
     Route::get('/emiten', [FundamentalAPIController::class, 'emitenDataa']);
 
     Route::get('/trending', [FundamentalAPIController::class, 'trend']);
 
     Route::get('/report', [ReportAPIController::class, 'getYearr']);
 
-<<<<<<< HEAD
->>>>>>> b3833b0 (edit sumtin)
-=======
+
     Route::get('/portosemua', [ReportAPIController::class, 'reportt']);
 
     Route::get('/portosemuaa', [ReportAPIController::class, 'DetailReportt']);
 
 
->>>>>>> 4298d08 (add sumtin lagi)
     Route::get('/portofolio/beli', [PortofolioAPIController::class, 'getPortoBeli']);
 
     Route::get('/technical/jenistrend', [PortofolioAPIController::class, 'getJenisTrend']);
@@ -161,10 +160,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Route::get('/portofolio/{user_id}', [PortofolioAPIController::class, 'getData']);
     Route::post('/portofolio/add', [PortofolioAPIController::class, 'insertData']);
     Route::post('/portofolio/editbeli', [PortofolioAPIController::class, 'editDataBeli']);
-<<<<<<< HEAD
     Route::post('/portofolio/editjual', [PortofolioAPIController::class, 'editDataJual']);
-=======
->>>>>>> 4298d08 (add sumtin lagi)
     Route::post('/portofolio/delete', [PortofolioAPIController::class, 'deleteData']);
     Route::post('/berita', [HomeController::class, 'index']);
 
