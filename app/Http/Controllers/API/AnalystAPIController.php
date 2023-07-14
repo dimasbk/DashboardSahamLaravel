@@ -19,7 +19,7 @@ class AnalystAPIController extends Controller
 
     public function profile($id)
     {
-       // $id = $request->id;
+        // $id = $request->id;
         $id_user = Auth::id();
         $isSubscribed = SubscriberModel::where('id_subscriber', $id_user)->where('id_analyst', $id)->where('status', 'subscribed')->first();
 
@@ -157,7 +157,7 @@ class AnalystAPIController extends Controller
         // ], 200);
 
 
-       return view('landingPage/plan', compact(['analystData', 'prices']));
+        return view('landingPage/plan', compact(['analystData', 'prices']));
     }
 
 
@@ -174,7 +174,7 @@ class AnalystAPIController extends Controller
         ], 200);
 
 
-       // return view('landingPage/plan', compact(['analystData', 'prices']));
+        // return view('landingPage/plan', compact(['analystData', 'prices']));
     }
     public function subscribe(Request $request)
     {
@@ -242,4 +242,4 @@ class AnalystAPIController extends Controller
     }
 
 
-    }
+}

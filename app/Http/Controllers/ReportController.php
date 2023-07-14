@@ -409,7 +409,6 @@ class ReportController extends Controller
         //dd($data);
 
         return view('reportYear', compact(['data']));
-
     }
 
 }
