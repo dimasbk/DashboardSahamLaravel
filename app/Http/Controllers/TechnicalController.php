@@ -157,7 +157,12 @@ class TechnicalController extends Controller
 
         //return $filteredData;
         //dd(compact(['filteredData']));
-        return view('landingPage/technical', compact(['filteredData']));
+        //return view('landingPage/technical', compact(['filteredData']));
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $filteredData
+        ], 200);
     }
 
     public function getChartData(Request $request, $emiten)

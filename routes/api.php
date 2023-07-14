@@ -12,6 +12,7 @@ use App\Http\Controllers\API\PortofolioBeliAPIController;
 use App\Http\Controllers\API\ReportAPIController;
 use App\Http\Controllers\API\SekuritasController;
 use App\Http\Controllers\API\PortofolioAPIController;
+use App\Http\Controllers\API\AnalystAPIController;
 use App\Http\Controllers\API\LandingPageController;
 
 /*
@@ -30,6 +31,8 @@ Route::get('/subscribe/callback', [AnalystController::class, 'paymentCallback'])
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
 
 Route::get('trends', [LandingPageController::class, 'trendSaham']);
 
@@ -59,6 +62,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         return auth()->user();
     });
 
+    Route::get('/analyst', [AnalystAPIController::class, 'getAnalyst']);
+    // Route::get('/plan', [AnalystAPIController::class, 'plan']);
+    Route::get('/plan/{id}', [AnalystAPIController::class, 'planApi']);
+
+
    // Route::get('/reportdetail/{year}', [ReportAPIController::class, 'reportt']);
 
    Route::get('/post/delete/{id_post}', [PostAPIController::class, 'deletePostt']);
@@ -70,6 +78,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/post/view/', [PostAPIController::class, 'vieww']);
 
     Route::get('/post', [PostAPIController::class, 'postt']);
+
+    Route::post('/post/edit', [PostAPIController::class, 'edit']);
 
     //Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenDataa']);
     Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenData']);

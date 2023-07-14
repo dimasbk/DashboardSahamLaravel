@@ -14,28 +14,30 @@ use Illuminate\Support\Facades\Http;
 
 class FundamentalAPIController extends Controller
 {
-    public function emitenData($ticker)
-    {
+    public function emitenData(Request $request)
+    {   $ticker = $request->ticker;
+        $id_user = Auth::id();
+        $laporan = SubscriberModel::where('id_subscriber', $id_user)->where('id_analyst', 7)->where('status', 'subscribed')->first();
         $emiten = SahamModel::where('nama_saham', $ticker)->value('id_saham');
         $input = InputFundamentalModel::where('tb_input.id_saham', $emiten)
-            ->where('user_id', Auth::id())
+            ->where('user_id', $id_user)
             ->join('tb_detail_input', 'tb_input.id_detail_input', '=', 'tb_detail_input.id_detail_input')
             ->join('tb_saham', 'tb_input.id_saham', '=', 'tb_saham.id_saham')
             ->latest('tahun')->first();
 
-        $subscribed = SubscriberModel::where('id_subscriber', Auth::id())->pluck('id_analyst')->toArray();
+        $subscribed = SubscriberModel::where('id_subscriber', $id_user)->pluck('id_analyst')->toArray();
         $postData = PostModel::where('id_saham', $emiten)->where('tag', 'public')
             ->join('users', 'tb_post.id_user', '=', 'users.id')
             ->get()->toArray();
         $includedID = PostModel::where('id_saham', $emiten)->where('tag', 'public')->pluck('id_post')->toArray();
-        $analystPost = PostModel::where('id_saham', $emiten)->where('tag', 'public')
+        $analystPost = PostModel::where('id_saham', $emiten)->where('tag', 'private')
             ->whereIn('id_user', $subscribed)
             ->whereNotIn('id_post', $includedID)
             ->join('users', 'tb_post.id_user', '=', 'users.id')
             ->get()->toArray();
 
         $post = array_merge($postData, $analystPost);
-        //dd($post);
+        //dd($analystPost);
 
         if (!$input) {
             $inputData = array(
@@ -88,13 +90,11 @@ class FundamentalAPIController extends Controller
             );
 
             $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
-            $data = compact(['inputData'], ['outputData'], ['ticker'], ['check'], ['post']);
+            $data = compact(['inputData'], ['outputData'], ['ticker'], ['check'], ['post'], ['laporan']);
             //dd($data);
 
-            return response()->json([
-                'status' => 'success',
-                'data' => $data
-            ], 200);
+            return view('landingPage/chart', $data);
+
 
         } else {
             $inputData = $input->toArray();
@@ -107,9 +107,21 @@ class FundamentalAPIController extends Controller
             } else {
                 $peg = $output->peg;
             }
+
+            if ($output->der == null) {
+                $der = 0;
+            } else {
+                $der = $output->der;
+            }
+
+            if ($output->loan_to_depo_ratio == null) {
+                $loan_to_depo_ratio = 0;
+            } else {
+                $loan_to_depo_ratio = $output->loan_to_depo_ratio;
+            }
             $outputData = array(
-                "der" => $output->der * 100,
-                "loan_to_depo_ratio" => $output->loan_to_depo_ratio * 100,
+                "der" => $der * 100,
+                "loan_to_depo_ratio" => $loan_to_depo_ratio * 100,
                 "annualized_roe" => $output->annualized_roe * 100,
                 "dividen" => $output->dividen,
                 "dividen_yield" => $output->dividen_yield * 100,
@@ -131,9 +143,11 @@ class FundamentalAPIController extends Controller
             );
 
             $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
-            $data = compact(['inputData'], ['outputData'], ['ticker'], ['check'], ['post']);
+            $data = compact(['inputData'], ['outputData'], ['ticker'], ['check'], ['post'], ['laporan']);
 
             //dd($data);
+            //return view('landingPage/chart', $data);
+
             return response()->json([
                 'status' => 'success',
                 'data' => $data

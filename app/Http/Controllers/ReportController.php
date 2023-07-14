@@ -317,7 +317,9 @@ class ReportController extends Controller
         if ($function === 1) {
             return compact(['keuntungan', 'realisasi']);
         }
+
         return view('reportDetail', compact(['data', 'keuntungan', 'realisasi']));
+
     }
 
     public function getYear()
@@ -407,6 +409,10 @@ class ReportController extends Controller
         //dd($data);
 
         return view('reportYear', compact(['data']));
+        // return response()->json([
+        //     'status' => 'success',
+        //     'data' => $data
+        // ], 200);
     }
 
 }
