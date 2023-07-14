@@ -11,9 +11,34 @@ use App\Models\PortofolioBeliModel;
 use App\Models\PortofolioJualModel;
 use DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Models\SubscriberModel;
 
 class ReportAPIController extends Controller
 {
+
+    public function getAnalyst(Request $request)
+    {
+        $id_user = Auth::id();
+        $notToFollow = SubscriberModel::where('id_subscriber', $id_user)->where('status', 'subscribed')->pluck('id_analyst')->toArray();
+        array_push($notToFollow, $id_user);
+        $toFollow = User::where('id_roles', 2)->whereNotIn('id', $notToFollow)->get()->toArray();
+        $existing = SubscriberModel::where('id_subscriber', $id_user)
+            ->join('users', 'tb_subscription.id_analyst', '=', 'users.id')
+            ->get()->toArray();
+
+        $data = compact(['toFollow', 'existing']);
+
+        //dd($existing);
+        return response()->json([
+            'status' => 'success',
+            'data' => $toFollow
+        ], 200);
+
+
+        //return view('landingPage/analyst', $data);
+    }
+
     public function report($year)
     {
 
@@ -291,19 +316,20 @@ class ReportAPIController extends Controller
         ], 200);
     }
 
-    public function DetailReportt (Request $request, $function = null) //($emiten)
+    public function DetailReportt (Request $request, $emiten,  $function = null) //($emiten)
     {
         $year = 2023;
         $emiten = $request->emiten;
+        $id_user = Auth::id();
         $idEmiten = SahamModel::where('nama_saham', $emiten)->value('id_saham');
-        $beli = PortofolioBeliModel::where('user_id', Auth::id())
+        $beli = PortofolioBeliModel::where('user_id', $id_user)
             ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
             ->join('tb_sekuritas', 'tb_portofolio_beli.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
             ->where('tb_portofolio_beli.id_saham', $idEmiten)
             ->whereYear('tanggal_beli', $year)
             ->get()->toArray();
 
-        $jual = PortofolioJualModel::where('user_id', Auth::id())
+        $jual = PortofolioJualModel::where('user_id', $id_user)
             ->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
             ->join('tb_sekuritas', 'tb_portofolio_jual.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
             ->where('tb_portofolio_jual.id_saham', $idEmiten)
@@ -312,7 +338,7 @@ class ReportAPIController extends Controller
 
         $dataReport = PortofolioBeliModel::join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
             ->select('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_beli.volume) AS total_volume_beli'), DB::raw('AVG(tb_portofolio_beli.harga_beli) AS avg_harga_beli'))
-            ->where('tb_portofolio_beli.user_id', '=', Auth::id())
+            ->where('tb_portofolio_beli.user_id', '=', $id_user)
             ->where('tb_portofolio_beli.id_saham', '=', $idEmiten)
             ->whereYear('tanggal_beli', $year)
             ->groupBy('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham')
@@ -323,7 +349,7 @@ class ReportAPIController extends Controller
             $saham = $dataReport[$i]['nama_saham'];
             $jualReport = PortofolioJualModel::join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
                 ->select('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_jual.volume) AS total_volume_jual'), DB::raw('AVG(tb_portofolio_jual.harga_jual) AS avg_harga_jual'))
-                ->where('tb_portofolio_jual.user_id', '=', Auth::id())
+                ->where('tb_portofolio_jual.user_id', '=', $id_user)
                 ->where('tb_portofolio_jual.id_saham', '=', $idEmiten)
                 ->whereYear('tanggal_jual', $year)
                 ->groupBy('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham')
@@ -466,7 +492,9 @@ class ReportAPIController extends Controller
         ], 200);
     }
 
-    public function getYearr()
+
+
+    public function getYearr(Request $request)
     {
         $id_user = Auth::id();
         $tahun = PortofolioBeliModel::selectRaw('EXTRACT(YEAR FROM tanggal_beli) as tahun')

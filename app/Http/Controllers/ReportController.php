@@ -304,12 +304,12 @@ class ReportController extends Controller
 
         $detailData = compact(['data', 'keuntungan', 'realisasi']);
 
-        // return view('reportDetail', compact(['data', 'keuntungan', 'realisasi']));
+         return view('reportDetail', compact(['data', 'keuntungan', 'realisasi']));
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $detailData
-        ], 200);
+        // return response()->json([
+        //     'status' => 'success',
+        //     'data' => $detailData
+        // ], 200);
     }
 
     public function getYear()
@@ -365,6 +365,10 @@ class ReportController extends Controller
         }
 
         return view('reportYear', compact(['data']));
+        // return response()->json([
+        //     'status' => 'success',
+        //     'data' => $data
+        // ], 200);
     }
 
 }

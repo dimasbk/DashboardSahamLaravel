@@ -11,6 +11,29 @@ use Illuminate\Support\Facades\Auth;
 
 class PostAPIController extends Controller
 {
+
+    public function  edit(Request $request)
+    {
+
+        $dataPost = PostModel::where('id_post', $request->id_post)->firstOrFail();
+        $id = Auth::id();
+        //dd($dataPost);
+
+
+        // $dataPost->id_saham = $request->id_saham;
+        // $dataPost->user_id = $id;
+        // $dataPost->jenis_saham = $request->id_jenis_saham;
+        $dataPost->title = $request->title;
+        $dataPost->content = $request->content;
+       // $dataPost->harga_beli = $request->harga_beli;
+        // $dataPost->fee_beli_persen = $request->fee_beli_persen;
+        $dataPost->save();
+
+
+        return response()->json(['messsage' => 'Data Berhasil di Update']);
+    }
+
+
     public function view($id)
     {
         $postData = PostModel::where('id_post', $id)->first();
@@ -65,7 +88,29 @@ class PostAPIController extends Controller
         }
     }
 
-    public function deletePostt($id_post, PostModel $postModel)
+    public function deletePostt($id_post)
+    {
+        // if (!Gate::allows('update-delete-post', $postModel)) {
+        //     abort(403);
+        // }
+        // $post = PostModel::where('id_post', $id_post)->firstOrFail();
+        // if ($post) {
+        //     $image = $post->picture;
+        //     if ($image) {
+        //         File::delete(public_path("images/public_images/" . $image));
+        //     }
+        //     $post->delete();
+        // }
+
+
+        $post = PostModel::where('id_post', $id_post)->firstOrFail();
+        $post->delete();
+        $id = Auth::id();
+        return response()->json(['messsage' => 'Data Berhasil di Delete']);
+       // return redirect('/post/manage');
+    }
+
+    public function deletePosttt($id_post, PostModel $postModel)
     {
         if (!Gate::allows('update-delete-post', $postModel)) {
             abort(403);

@@ -27,16 +27,26 @@ class AnalystController extends Controller
         $data = compact(['toFollow', 'existing']);
 
         //dd($existing);
-        return view('landingPage/analyst', $data);
+        // return response()->json([
+        //     'status' => 'success',
+        //     'data' => $data
+        // ], 200);
+       return view('landingPage/analyst', $data);
     }
 
     public function plan(Request $request)
     {
         $analystData = User::where('id', $request->id)->first();
         $prices = PriceModel::where('id_analyst', $request->id)->get();
+        $data = compact(['analystData', 'prices']);
+
+        // return response()->json([
+        //     'status' => 'success',
+        //     'data' => $data
+        // ], 200);
 
         //dd($analystData);
-        return view('landingPage/plan', compact(['analystData', 'prices']));
+       return view('landingPage/plan', compact(['analystData', 'prices']));
     }
 
     public function subscribe(Request $request)
