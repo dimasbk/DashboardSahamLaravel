@@ -11,9 +11,34 @@ use App\Models\PortofolioBeliModel;
 use App\Models\PortofolioJualModel;
 use DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Models\SubscriberModel;
 
 class ReportAPIController extends Controller
 {
+
+    public function getAnalyst(Request $request)
+    {
+        $id_user = Auth::id();
+        $notToFollow = SubscriberModel::where('id_subscriber', $id_user)->where('status', 'subscribed')->pluck('id_analyst')->toArray();
+        array_push($notToFollow, $id_user);
+        $toFollow = User::where('id_roles', 2)->whereNotIn('id', $notToFollow)->get()->toArray();
+        $existing = SubscriberModel::where('id_subscriber', $id_user)
+            ->join('users', 'tb_subscription.id_analyst', '=', 'users.id')
+            ->get()->toArray();
+
+        $data = compact(['toFollow', 'existing']);
+
+        //dd($existing);
+        return response()->json([
+            'status' => 'success',
+            'data' => $toFollow
+        ], 200);
+
+
+        //return view('landingPage/analyst', $data);
+    }
+
     public function report($year)
     {
 
@@ -349,7 +374,9 @@ class ReportAPIController extends Controller
         ], 200);
     }
 
-    public function getYearr()
+
+
+    public function getYearr(Request $request)
     {
         $id_user = Auth::id();
         $tahun = PortofolioBeliModel::selectRaw('EXTRACT(YEAR FROM tanggal_beli) as tahun')
