@@ -18,7 +18,7 @@ class StockAPIController extends Controller
     {
         $response = Http::acceptJson()
             ->withHeaders([
-                'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
+                'X-API-KEY' => config('midtrans.server_key')
             ])->get('https://api.goapi.id/v1/stock/idx/companies')->json();
 
 
@@ -40,7 +40,7 @@ class StockAPIController extends Controller
     {
         $response = Http::acceptJson()
             ->withHeaders([
-                'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
+                'X-API-KEY' => config('midtrans.server_key')
             ])->get('https://api.goapi.id/v1/stock/idx/' . $emiten)->json();
 
         dd($response);
@@ -50,7 +50,7 @@ class StockAPIController extends Controller
     {
         $response = Http::acceptJson()
             ->withHeaders([
-                'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
+                'X-API-KEY' => config('midtrans.server_key')
             ])->get('https://api.goapi.id/v1/stock/idx/companies')->json();
 
         $data = $response['data']['results'];

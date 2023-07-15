@@ -86,7 +86,7 @@ class PortofolioBeliController extends Controller
     {
 
         $id = Auth::id();
-
+        dd($request);
         $insert = PortofolioBeliModel::create([
             'id_saham' => $request->emitenSaham,
             'user_id' => $id,
