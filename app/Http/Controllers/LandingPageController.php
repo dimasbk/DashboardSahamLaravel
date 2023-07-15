@@ -19,21 +19,21 @@ class LandingPageController extends Controller
             ->orderBy('created_at', 'DESC')
             ->take(3)->get()->toArray();
 
-        // $topGainers = Http::acceptJson()
-        //     ->withHeaders([
-        //         'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
-        //     ])->get('https://api.goapi.id/v1/stock/idx/top_gainer')->json();
+        $topGainers = Http::acceptJson()
+            ->withHeaders([
+                'X-API-KEY' => config('midtrans.server_key')
+            ])->get('https://api.goapi.id/v1/stock/idx/top_gainer')->json();
 
         // $topGainers = array_splice($topGainers['data']['results'], 0, 10);
 
-        // $topLosers = Http::acceptJson()
-        //     ->withHeaders([
-        //         'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
-        //     ])->get('https://api.goapi.id/v1/stock/idx/top_loser')->json();
+        $topLosers = Http::acceptJson()
+            ->withHeaders([
+                'X-API-KEY' => config('midtrans.server_key')
+            ])->get('https://api.goapi.id/v1/stock/idx/top_loser')->json();
 
         // $topLosers = array_splice($topLosers['data']['results'], 0, 10);
 
-       // $trends = $this->technical();
+        // $trends = $this->technical();
         //return view('landingPage/landing_page', compact(['post', 'topGainers', 'topLosers', 'trends']));
         return view('landingPage/landing_page', compact(['post']));
     }
@@ -48,7 +48,7 @@ class LandingPageController extends Controller
             $yearBefore = date('Y-m-d', strtotime($todayDate . ' -1 year'));
             $response = Http::acceptJson()
                 ->withHeaders([
-                    'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
+                    'X-API-KEY' => config('midtrans.server_key')
                 ])->get('https://api.goapi.id/v1/stock/idx/' . $stock . '/historical', [
                         'to' => $todayDate,
                         'from' => $yearBefore
@@ -160,7 +160,7 @@ class LandingPageController extends Controller
         $laporan = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', 7)->where('status', 'subscribed')->first();
         $emiten = SahamModel::where('nama_saham', $ticker)->value('id_saham');
         $input = InputFundamentalModel::where('tb_input.id_saham', $emiten)
-          //  ->where('user_id', Auth::id())
+            //  ->where('user_id', Auth::id())
             ->join('tb_detail_input', 'tb_input.id_detail_input', '=', 'tb_detail_input.id_detail_input')
             ->join('tb_saham', 'tb_input.id_saham', '=', 'tb_saham.id_saham')
             ->latest('tahun')->first();
