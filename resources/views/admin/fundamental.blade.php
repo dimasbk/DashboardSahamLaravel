@@ -1,4 +1,4 @@
-@extends('template.master')
+@extends('layouts.master')
 
 @section('content')
 
@@ -42,8 +42,9 @@
     <div class="content">
         <div class="container">
             <h3 class="mt-3">Data Fundamental {{$emiten}}</h3>
-            <a href="" class="btn btn-default btn-rounded mt-4 mb-4" data-toggle="modal"
-                data-target="#modalContactForm">Buat Data Fundamental</a>
+            <a class="btn btn-default btn-rounded mt-4 mb-4" data-bs-toggle="modal"
+                data-bs-target="#modalContactForm">Buat
+                Data Fundamental</a>
             @if (session('status'))
             <div style="margin-top: 10px" class="alert alert-success alert-dismissible" role="alert">
                 {{session('status')}}
