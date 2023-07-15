@@ -56,6 +56,7 @@
                         <th scope="col">Trend Changes (MA)</th>
                         <th scope="col">DER</th>
                         <th scope="col">Loan to Deposit</th>
+                        <th scope="col">Chart</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,11 +69,12 @@
                     $i++
                     @endphp
                     <td>{{$data['ticker']}}</td>
-                    <td>{{$data['trend']}}</td>
-                    <td>{{$data['change']}}</td>
-                    <td>{{$data['MAPercentage']}}</td>
+                    <td>{{ucfirst($data['trend'])}}</td>
+                    <td>{{$data['change']}}%</td>
+                    <td>{{$data['MAPercentage']}}%</td>
                     <td>{{$data['der']}}</td>
                     <td>{{$data['ldr']}}</td>
+                    <td><a href="/emiten/{{$data['ticker']}}">View</a></td>
                     @endforeach
                 </tbody>
             </table>

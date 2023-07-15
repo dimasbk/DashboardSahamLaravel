@@ -147,7 +147,7 @@
                 <div class="card shadow mb-4">
                     <div class="card-body">
                         <h3>Finansial ({{$inputData['tahun']}})</h3>
-                        @if (Auth::user()->rolse == 1)
+                        @if (Auth::user()->roles == 1)
                         <a href="/fundamental/input/{{$ticker}}">Finansial Tahun Lainnya...</a>
                         @endif
                         <table class="table table-bordered table-striped">
