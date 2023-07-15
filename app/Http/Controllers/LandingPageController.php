@@ -151,8 +151,8 @@ class LandingPageController extends Controller
 
     public function emitenSearch()
     {
-
-        return view('landingPage/emitenSearch');
+        $emiten = SahamModel::pluck('nama_saham');
+        return view('landingPage/emitenSearch', ['data' => $emiten]);
     }
 
     public function emitenData($ticker)

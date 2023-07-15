@@ -1,4 +1,4 @@
-@extends('template.master')
+@extends('layouts.master')
 
 @section('content')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
