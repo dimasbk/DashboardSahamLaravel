@@ -6,11 +6,14 @@
 
 <div class="container">
     <div style="margin-top: 100px">
+        @auth
         <div>
             @if (Auth::user()->id_roles == 2)
             <a href="/post/manage" class="btn btn-primary">Manage Post</a>
             @endif
         </div>
+        @endauth
+
         <section class="articles">
             @foreach ($postData as $item)
             <article>
