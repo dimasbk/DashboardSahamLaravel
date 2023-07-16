@@ -41,7 +41,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 //contoh param request = {'param' => 'ldr', 'comparison' => '>', 'num' => 5, 'start' => yyyy-mm-dd, 'end' => yyyy-mm-dd}
-Route::get('/technical', [TechnicalAPIController::class, 'technical']);
+Route::get('/search/technical/saham', [TechnicalAPIController::class, 'technical']);
 
 Route::get('/report/{year}', [ReportAPIController::class, 'report']);
 Route::get('/report', [ReportAPIController::class, 'getYear']);
@@ -94,6 +94,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/portosemuaa', [ReportAPIController::class, 'DetailReportt']);
 
     Route::get('/portofolio/beli', [PortofolioAPIController::class, 'getPortoBeli']);
+
+    Route::get('/technical/jenistrend', [PortofolioAPIController::class, 'getJenisTrend']);
+
+    Route::get('/company', [PortofolioAPIController::class, 'company']);
 
 
     Route::post('/portofolio/paytagihan', [PortofolioAPIController::class, 'payTagihan']);

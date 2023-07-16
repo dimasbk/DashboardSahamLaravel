@@ -14,6 +14,7 @@ use App\Models\SahamModel;
 use App\Models\SekuritasModel;
 use App\Models\PaymentChannelModel;
 use App\Models\JenisSahamModel;
+use App\Models\TechnicalModel;
 use App\Models\User;
 use App\Models\TagihanModel;
 use Illuminate\Support\Facades\Auth;
@@ -376,6 +377,26 @@ class PortofolioAPIController extends Controller
         }
 
         return response()->json(['message' => 'Success', 'data' => $jenisSaham]);
+    }
+
+    public function company() {
+        $namaCompany = SahamModel::all();
+
+        if ($namaCompany->isEmpty()) {
+            return response()->json(['message' => 'No jenis saham found'], 404);
+        }
+
+        return response()->json(['message' => 'Success', 'data' => $namaCompany]);
+    }
+
+    public function getJenisTrend() {
+        $jenisTrend = TechnicalModel::all();
+
+        if ($jenisTrend->isEmpty()) {
+            return response()->json(['message' => 'No jenis trend found'], 404);
+        }
+
+        return response()->json(['message' => 'Success', 'data' => $jenisTrend]);
     }
 
 

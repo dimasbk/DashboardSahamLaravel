@@ -10,6 +10,7 @@ use App\Models\SahamModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class TechnicalAPIController extends Controller
 {
@@ -73,27 +74,31 @@ class TechnicalAPIController extends Controller
         return $dataArray;
     }
 
-    public function technical(Request $request)
+    public function technical(Request $request )
     {
         $trends = [];
         $year = explode('-', '2068-06-15');
-        $output = DetailOutputFundamentalModel::where($request->param, $request->comparison, $request->num / 100)->where('tahun', 2018)->pluck('id_output');
+       // echo(int)$num;
+        // settype($num, 'integer');
+        // parseInt(num);
+        $output = DetailOutputFundamentalModel::where($request->param, $request->comparison, intval($request->num) / 100)->where('tahun', 2018)->pluck('id_output');
         $input = OutputFundamentalModel::whereIn('id_detail_output', $output)->pluck('id_input');
         $id_emiten = InputFundamentalModel::whereIn('id_input', $input)->pluck('id_saham');
         $stocks = SahamModel::whereIn('id_saham', $id_emiten)->pluck('nama_saham');
         //dd($stocks);
         //$stocks = ['BBCA', 'BRIS', 'GOTO', 'ANTM', 'ACES', 'ROTI'];
         foreach ($stocks as $stock) {
+            Log::info("1");
             //$today = date("Y-m-d");
             $end = $request->end;
             $start = $request->start;
             $response = Http::acceptJson()
                 ->withHeaders([
-                    'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
+                    'X-API-KEY' => '1hzlCQzlW2UqjegV5GFoiS78vaW9tF'
                 ])->get('https://api.goapi.id/v1/stock/idx/' . $stock . '/historical', [
-                    'to' => $end,
-                    'from' => $start
-                ])->json();
+                        'to' => $end,
+                        'from' => $start
+                    ])->json();
 
             $data = $response['data']['results'];
             $startPrice = $data[count($data) - 1]['close'];
@@ -114,34 +119,49 @@ class TechnicalAPIController extends Controller
             $ldr = $output->loan_to_depo_ratio * 100;
 
             $trend = $this->trend($data);
-            $array = ["ticker" => "{$stock}", "trend" => "{$trend['trendString']}", "change" => "{$trend['percentage']}", "der" => "{$der}", "ldr" => "{$ldr}"];
+            Log::info($trend);
+            $array = ["ticker" => "{$stock}", "MAPercentage" => "{$trend['percentage']}", "trend" => "{$trend['trendString']}", "change" => "{$trend['percentage']}", "der" => "{$der}", "ldr" => "{$ldr}"];
             array_push($trends, $array);
 
         }
         $filteredData = [];
         if ($request->trend == 'uptrend') {
+            Log::info("2");
             foreach ($trends as $item) {
+                Log::info("3");
                 if ($item['trend'] === 'uptrend') {
+                    Log::info("4");
                     $filteredData[] = $item;
                 }
             }
         } else if ($request->trend == 'downtrend') {
+            Log::info("5");
             foreach ($trends as $item) {
+                Log::info("6");
                 if ($item['trend'] === 'downtrend') {
+                    Log::info("7");
                     $filteredData[] = $item;
                 }
             }
         } else {
             foreach ($trends as $item) {
+                Log::info("8");
                 if ($item['trend'] === 'sideways') {
+                    Log::info("9");
                     $filteredData[] = $item;
                 }
             }
         }
+        Log::info($filteredData);
+
+        //return $filteredData;
+        //dd(compact(['filteredData']));
+        // return view('landingPage/technical', compact(['filteredData']));
 
         return response()->json([
             'status' => 'success',
             'data' => $filteredData
         ], 200);
+        //Log::info(filteredData);
     }
 }
