@@ -48,9 +48,15 @@ class AnalystController extends Controller
         return view('landingPage/subscribe', compact(['analystData', 'prices']));
     }
 
+    public function delete($id)
+    {
+        $data = SubscriberModel::where('id_subscription', $id)->delete();
+        return redirect('/analyst');
+    }
+
     public function pay(Request $request)
     {
-        $grossAmount = $request->price * $request->duration;
+        $grossAmount = $request->price;
         $expired = Carbon::today()->addMonths($request->duration)->toDateString();
         //return $expired;
         $subscribe = SubscriberModel::create([

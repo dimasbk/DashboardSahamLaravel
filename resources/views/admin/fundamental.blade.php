@@ -56,163 +56,169 @@
             </div>
             @endif
             <h3>Tabel Keuangan</h3>
-            <table id="input" class="table table-bordered table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th style="display:none;"></th>
-                        <th scope="col">No </th>
-                        <th scope="col">Tahun</th>
-                        <th scope="col">Aset</th>
-                        @if ($check == 1)
-                        <th scope="col">Simpanan</th>
-                        <th scope="col">Pinjaman</th>
-                        @else
-                        <th scope="col">Hutang & Obligasi</th>
-                        @endif
-                        <th scope="col">Saldo Laba</th>
-                        <th scope="col">Ekuitas</th>
-                        <th scope="col">Jumlah Saham Beredar</th>
-                        <th scope="col">Pendapatan</th>
-                        <th scope="col">Laba Kotor</th>
-                        <th scope="col">Laba Bersih</th>
-                        <th scope="col">Harga Saham</th>
-                        <th scope="col">Operating Cash Flow</th>
-                        <th scope="col">Investing Cash Flow</th>
-                        <th scope="col">Total Dividen</th>
-                        <th scope="col">Stock Split</th>
-                        <th scope="col">EPS</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $i = 1 ?>
+            <div style="overflow-x:auto;">
+                <table id="input" class="table table-bordered table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th style="display:none;"></th>
+                            <th scope="col">No </th>
+                            <th scope="col">Tahun</th>
+                            <th scope="col">Aset</th>
+                            @if ($check == 1)
+                            <th scope="col">Simpanan</th>
+                            <th scope="col">Pinjaman</th>
+                            @else
+                            <th scope="col">Hutang & Obligasi</th>
+                            @endif
+                            <th scope="col">Saldo Laba</th>
+                            <th scope="col">Ekuitas</th>
+                            <th scope="col">Jumlah Saham Beredar</th>
+                            <th scope="col">Pendapatan</th>
+                            <th scope="col">Laba Kotor</th>
+                            <th scope="col">Laba Bersih</th>
+                            <th scope="col">Harga Saham</th>
+                            <th scope="col">Operating Cash Flow</th>
+                            <th scope="col">Investing Cash Flow</th>
+                            <th scope="col">Total Dividen</th>
+                            <th scope="col">Stock Split</th>
+                            <th scope="col">EPS</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $i = 1 ?>
 
-                    @foreach ($input as $item)
-                    <tr scope="row">
-                        <td style="display:none;">{{$item->id_detail_input}}</td>
-                        <td>{{$i }}</td>
-                        <?php $i++ ?>
-                        <td>{{$item -> tahun}}</td>
-                        <td>Rp.{{number_format($item -> aset)}}</td>
-                        @if ($check == 1)
-                        <td>Rp.{{number_format($item -> simpanan)}}</td>
-                        <td>Rp.{{number_format($item -> pinjaman)}}</td>
-                        @else
-                        <td>Rp.{{number_format($item -> hutang_obligasi)}}</td>
-                        @endif
-                        <td>Rp.{{number_format($item -> saldo_laba)}}</td>
-                        <td>Rp.{{number_format($item -> ekuitas)}}</td>
-                        <td>{{number_format($item -> jml_saham_edar)}}</td>
-                        <td>Rp.{{number_format($item -> pendapatan)}}</td>
-                        <td>Rp.{{number_format($item -> laba_kotor)}}</td>
-                        <td>Rp.{{number_format($item -> laba_bersih)}}</td>
-                        <td>{{number_format($item -> harga_saham)}}</td>
-                        <td>Rp.{{number_format($item -> operating_cash_flow)}}</td>
-                        <td>Rp.{{number_format($item -> investing_cash_flow)}}</td>
-                        <td>{{number_format($item -> total_dividen)}}</td>
-                        <td>{{$item -> stock_split}}</td>
-                        <td>{{$item -> eps}}</td>
-                        <td>
-                            <button onclick="location.href='/admin/fundamental/edit/{{$item->id_input}}'"
-                                class="btn btn-success" type="button"><i class="fas fa-edit"></i></button>
-                            <button data-toggle="modal" data-target="#delete" type="button" class="btn btn-danger"><i
-                                    class="far fa-trash-alt"></i></button>
-                        </td>
-                        <div id="delete" class="modal fade">
-                            <div class="modal-dialog modal-confirm">
-                                <div class="modal-content">
-                                    <div class="modal-header flex-column">
-                                        <div class="icon-box">
-                                            <i class="fa-solid fa-circle-xmark"></i>
+                        @foreach ($input as $item)
+                        <tr scope="row">
+                            <td style="display:none;">{{$item->id_detail_input}}</td>
+                            <td>{{$i }}</td>
+                            <?php $i++ ?>
+                            <td>{{$item -> tahun}}</td>
+                            <td>Rp.{{number_format($item -> aset)}}</td>
+                            @if ($check == 1)
+                            <td>Rp.{{number_format($item -> simpanan)}}</td>
+                            <td>Rp.{{number_format($item -> pinjaman)}}</td>
+                            @else
+                            <td>Rp.{{number_format($item -> hutang_obligasi)}}</td>
+                            @endif
+                            <td>Rp.{{number_format($item -> saldo_laba)}}</td>
+                            <td>Rp.{{number_format($item -> ekuitas)}}</td>
+                            <td>{{number_format($item -> jml_saham_edar)}}</td>
+                            <td>Rp.{{number_format($item -> pendapatan)}}</td>
+                            <td>Rp.{{number_format($item -> laba_kotor)}}</td>
+                            <td>Rp.{{number_format($item -> laba_bersih)}}</td>
+                            <td>{{number_format($item -> harga_saham)}}</td>
+                            <td>Rp.{{number_format($item -> operating_cash_flow)}}</td>
+                            <td>Rp.{{number_format($item -> investing_cash_flow)}}</td>
+                            <td>{{number_format($item -> total_dividen)}}</td>
+                            <td>{{$item -> stock_split}}</td>
+                            <td>{{$item -> eps}}</td>
+                            <td>
+                                <button onclick="location.href='/admin/fundamental/edit/{{$item->id_input}}'"
+                                    class="btn btn-success" type="button"><i class="fas fa-edit"></i></button>
+                                <button data-toggle="modal" data-target="#delete" type="button"
+                                    class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                            </td>
+                            <div id="delete" class="modal fade">
+                                <div class="modal-dialog modal-confirm">
+                                    <div class="modal-content">
+                                        <div class="modal-header flex-column">
+                                            <div class="icon-box">
+                                                <i class="fa-solid fa-circle-xmark"></i>
+                                            </div>
+                                            <h4 class="modal-title w-100">Are you sure?</h4>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-hidden="true">&times;</button>
                                         </div>
-                                        <h4 class="modal-title w-100">Are you sure?</h4>
-                                        <button type="button" class="close" data-dismiss="modal"
-                                            aria-hidden="true">&times;</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>Apakah Anda Yakin Untuk Menghapus Data?</p>
-                                    </div>
-                                    <div class="modal-footer justify-content-center">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Cancel</button>
-                                        <button onclick="location.href='/admin/fundamental/delete/{{$item->id_input}}'"
-                                            type="button" class="btn btn-primary">Delete</button>
+                                        <div class="modal-body">
+                                            <p>Apakah Anda Yakin Untuk Menghapus Data?</p>
+                                        </div>
+                                        <div class="modal-footer justify-content-center">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Cancel</button>
+                                            <button
+                                                onclick="location.href='/admin/fundamental/delete/{{$item->id_input}}'"
+                                                type="button" class="btn btn-primary">Delete</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
             <h3 style="margin-top: 20px">Tabel Fundamental</h3>
-            <table id="output" class="table table-bordered table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th style="display:none;"></th>
-                        <th scope="col">No </th>
-                        <th scope="col">Tahun</th>
-                        @if ($check == 1)
-                        <th scope="col">Loan to Deposit Ratio</th>
-                        @else
-                        <th scope="col">DER</th>
-                        @endif
-                        <th scope="col">Annualized ROE</th>
-                        <th scope="col">Dividen</th>
-                        <th scope="col">Dividen Yield</th>
-                        <th scope="col">Dividen Payout Ratio</th>
-                        <th scope="col">Price to Book</th>
-                        <th scope="col">Annualized PER</th>
-                        <th scope="col">Annualized ROA</th>
-                        <th scope="col">Gross to Profit Margin</th>
-                        <th scope="col">Net Profit Margin</th>
-                        <th scope="col">Earnings to Equity Ratio</th>
-                        <th scope="col">Earnings to Asset Ratio</th>
-                        <th scope="col">Market Cap</th>
-                        <th scope="col">Market Cap to Asset Ratio</th>
-                        <th scope="col">CFO to Sales Ratio</th>
-                        <th scope="col">Capex to CFO Ratio</th>
-                        <th scope="col">Market Cap to CFO Ratio</th>
-                        <th scope="col">PER to EPS Growth</th>
-                        <th scope="col">Harga Saham+Dividen</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $i = 1 ?>
+            <div style="overflow-x:auto;">
+                <table id="output" class="table table-bordered table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th style="display:none;"></th>
+                            <th scope="col">No </th>
+                            <th scope="col">Tahun</th>
+                            @if ($check == 1)
+                            <th scope="col">Loan to Deposit Ratio</th>
+                            @else
+                            <th scope="col">DER</th>
+                            @endif
+                            <th scope="col">Annualized ROE</th>
+                            <th scope="col">Dividen</th>
+                            <th scope="col">Dividen Yield</th>
+                            <th scope="col">Dividen Payout Ratio</th>
+                            <th scope="col">Price to Book</th>
+                            <th scope="col">Annualized PER</th>
+                            <th scope="col">Annualized ROA</th>
+                            <th scope="col">Gross to Profit Margin</th>
+                            <th scope="col">Net Profit Margin</th>
+                            <th scope="col">Earnings to Equity Ratio</th>
+                            <th scope="col">Earnings to Asset Ratio</th>
+                            <th scope="col">Market Cap</th>
+                            <th scope="col">Market Cap to Asset Ratio</th>
+                            <th scope="col">CFO to Sales Ratio</th>
+                            <th scope="col">Capex to CFO Ratio</th>
+                            <th scope="col">Market Cap to CFO Ratio</th>
+                            <th scope="col">PER to EPS Growth</th>
+                            <th scope="col">Harga Saham+Dividen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $i = 1 ?>
 
-                    @foreach ($output as $item)
-                    <tr scope="row">
-                        <td style="display:none;">{{$item->id_detail_input}}</td>
-                        <td>{{$i }}</td>
-                        <?php $i++ ?>
-                        <td>{{$item -> tahun}}</td>
-                        @if ($check == 1)
-                        <td>{{$item->loan_to_depo_ratio}}%</td>
-                        @else
-                        <td>{{$item->der}}%</td>
-                        @endif
-                        <td>{{$item->annualized_roe}}%</td>
-                        <td>{{$item->dividen}}</td>
-                        <td>{{$item->dividen_yield}}%</td>
-                        <td>{{$item->dividen_payout_ratio}}%</td>
-                        <td>{{$item->pbv}}</td>
-                        <td>{{$item->annualized_per}}</td>
-                        <td>{{$item->annualized_roa}}%</td>
-                        <td>{{$item->gpm}}%</td>
-                        <td>{{$item->npm}}%</td>
-                        <td>{{$item->eer}}%</td>
-                        <td>{{$item->ear}}%</td>
-                        <td>{{$item->market_cap}}</td>
-                        <td>{{$item->market_cap_asset_ratio}}%</td>
-                        <td>{{$item->cfo_sales_ratio}}%</td>
-                        <td>{{$item->capex_cfo_ratio}}%</td>
-                        <td>{{$item->market_cap_cfo_ratio}}</td>
-                        <td>{{$item->peg}}</td>
-                        <td>{{$item->harga_saham_sum_dividen}}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                        @foreach ($output as $item)
+                        <tr scope="row">
+                            <td style="display:none;">{{$item->id_detail_input}}</td>
+                            <td>{{$i }}</td>
+                            <?php $i++ ?>
+                            <td>{{$item -> tahun}}</td>
+                            @if ($check == 1)
+                            <td>{{$item->loan_to_depo_ratio}}%</td>
+                            @else
+                            <td>{{$item->der}}%</td>
+                            @endif
+                            <td>{{$item->annualized_roe}}%</td>
+                            <td>{{$item->dividen}}</td>
+                            <td>{{$item->dividen_yield}}%</td>
+                            <td>{{$item->dividen_payout_ratio}}%</td>
+                            <td>{{$item->pbv}}</td>
+                            <td>{{$item->annualized_per}}</td>
+                            <td>{{$item->annualized_roa}}%</td>
+                            <td>{{$item->gpm}}%</td>
+                            <td>{{$item->npm}}%</td>
+                            <td>{{$item->eer}}%</td>
+                            <td>{{$item->ear}}%</td>
+                            <td>{{$item->market_cap}}</td>
+                            <td>{{$item->market_cap_asset_ratio}}%</td>
+                            <td>{{$item->cfo_sales_ratio}}%</td>
+                            <td>{{$item->capex_cfo_ratio}}%</td>
+                            <td>{{$item->market_cap_cfo_ratio}}</td>
+                            <td>{{$item->peg}}</td>
+                            <td>{{$item->harga_saham_sum_dividen}}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
     <div class="modal fade" id="modalContactForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"

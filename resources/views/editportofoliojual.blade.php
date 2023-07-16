@@ -18,10 +18,10 @@
                 @endforeach
 
             </select>
-            @foreach ($dataporto as $item)
-            <input name="id_saham_hidden" type="hidden" id="id_saham_hidden" value="{{$item->id_saham}}"
+
+            <input name="id_saham_hidden" type="hidden" id="id_saham_hidden" value="{{$dataporto->id_saham}}"
                 class="form-control validate">
-            @endforeach
+
             <div class="invalid-feedback"></div>
 
         </div>
@@ -36,40 +36,40 @@
                 @endforeach
 
             </select>
-            @foreach ($dataporto as $item)
-            <input name="id_jenis_saham_hidden" type="hidden" id="id_jenis_saham_hidden" value="{{ $item->jenis_saham}}"
-                class="form-control validate">
-            @endforeach
+
+            <input name="id_jenis_saham_hidden" type="hidden" id="id_jenis_saham_hidden"
+                value="{{ $dataporto->jenis_saham}}" class="form-control validate">
+
             <div class="invalid-feedback"></div>
         </div>
 
         <div>
-            @foreach ($dataporto as $item)
-            <input name="id_portofolio_jual" type="hidden" id="id_portofolio_jual" value="{{$item->id_portofolio_jual}}"
-                class="form-control validate">
-            @endforeach
+
+            <input name="id_portofolio_jual" type="hidden" id="id_portofolio_jual"
+                value="{{$dataporto->id_portofolio_jual}}" class="form-control validate">
+
         </div>
         <div class="md-form mb-5">
             <label data-error="wrong" data-success="right" for="form32">Volume</label>
-            @foreach ($dataporto as $item)
-            <input name="volume" type="number" id="volume" value="{{$item->volume}}" class="form-control validate">
-            @endforeach
+
+            <input name="volume" type="number" id="volume" value="{{$dataporto->volume}}" class="form-control validate">
+
         </div>
 
         <div class="md-form mb-5">
             <label data-error="wrong" data-success="right" for="form32">Tanggal jual</label>
-            @foreach ($dataporto as $item)
-            <input name="tanggal_jual" type="date" id="tanggal_jual" value="{{$item->tanggal_jual}}"
+
+            <input name="tanggal_jual" type="date" id="tanggal_jual" value="{{$dataporto->tanggal_jual}}"
                 class="form-control validate">
-            @endforeach
+
         </div>
 
         <div class="md-form mb-5">
             <label data-error="wrong" data-success="right" for="form32">Harga jual</label>
-            @foreach ($dataporto as $item)
-            <input name="harga_jual" type="number" id="harga_jual" value="{{$item->harga_jual}}"
+
+            <input name="harga_jual" type="number" id="harga_jual" value="{{$dataporto->harga_jual}}"
                 class="form-control validate">
-            @endforeach
+
         </div>
         <div class="md-form mb-5">
             <label for="sekuritas">Sekuritas</label>
@@ -78,10 +78,10 @@
                 @foreach($sekuritas as $item)
                 <option value="{{ $item->id_sekuritas}}">{{ $item->nama_sekuritas}}</option>
                 @endforeach
-                @foreach ($dataporto as $item)
-                <input name="id_sekuritas" type="hidden" id="id_sekuritas" value="{{ $item->id_sekuritas}}"
+
+                <input name="id_sekuritas" type="hidden" id="id_sekuritas" value="{{ $dataporto->id_sekuritas}}"
                     class="form-control validate">
-                @endforeach
+
             </select>
         </div>
     </div>

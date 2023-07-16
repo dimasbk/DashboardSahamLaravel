@@ -18,7 +18,7 @@ class StockAPIController extends Controller
     {
         $response = Http::acceptJson()
             ->withHeaders([
-                'X-API-KEY' => config('midtrans.server_key')
+                'X-API-KEY' => config('goapi.apikey')
             ])->get('https://api.goapi.id/v1/stock/idx/companies')->json();
 
 
@@ -30,7 +30,7 @@ class StockAPIController extends Controller
 
     public function getDataAdmin()
     {
-        $data = SahamModel::all()->sortBy('nama_saham');
+        $data = SahamModel::paginate(25);
         //dd($data);
 
         return view('admin/emiten', ['data' => $data]);
@@ -40,7 +40,7 @@ class StockAPIController extends Controller
     {
         $response = Http::acceptJson()
             ->withHeaders([
-                'X-API-KEY' => config('midtrans.server_key')
+                'X-API-KEY' => config('goapi.apikey')
             ])->get('https://api.goapi.id/v1/stock/idx/' . $emiten)->json();
 
         dd($response);
@@ -50,7 +50,7 @@ class StockAPIController extends Controller
     {
         $response = Http::acceptJson()
             ->withHeaders([
-                'X-API-KEY' => config('midtrans.server_key')
+                'X-API-KEY' => config('goapi.apikey')
             ])->get('https://api.goapi.id/v1/stock/idx/companies')->json();
 
         $data = $response['data']['results'];

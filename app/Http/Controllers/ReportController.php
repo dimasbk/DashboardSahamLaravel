@@ -22,7 +22,10 @@ class ReportController extends Controller
 
     public function report($year)
     {
-
+        $currentYear = date('Y');
+        if ($year == $currentYear) {
+            return redirect('report');
+        }
 
         $data = PortofolioBeliModel::join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
             ->select('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_beli.volume) AS total_volume_beli'), DB::raw('AVG(tb_portofolio_beli.harga_beli) AS avg_harga_beli'))
@@ -133,6 +136,10 @@ class ReportController extends Controller
 
     public function detailReport($year, $emiten, $function = null)
     {
+        $currentYear = date('Y');
+        if ($year == $currentYear) {
+            return redirect('report');
+        }
         $idEmiten = SahamModel::where('nama_saham', $emiten)->value('id_saham');
         $beli = PortofolioBeliModel::where('user_id', Auth::id())
             ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
@@ -219,13 +226,22 @@ class ReportController extends Controller
             }
         }
         //dd($data);
+        $lastDayOfYear = new DateTime("{$year}-12-31");
+
+        // Loop backwards from the last day of the year until a working day is found
+        while ($lastDayOfYear->format('N') > 5) {
+            $lastDayOfYear->modify('-1 day');
+        }
+
+        $lastWorkingDay = $lastDayOfYear->format('Y-m-d');
+
         $response = Http::acceptJson()
             ->withHeaders([
-                'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
-            ])->get('https://api.goapi.id/v1/stock/idx/prices', [
-                    'symbols' => $emiten
+                'X-API-KEY' => config('goapi.apikey')
+            ])->get('https://api.goapi.id/v1/stock/idx/' . $emiten . '/historical', [
+                    'to' => $lastWorkingDay,
+                    'from' => $lastWorkingDay
                 ])->json();
-
         $totalLot = ($beli_total - $jual_total) * 100;
         $hargaclose = $response['data']['results'][0]['close'];
         $avgBeli = $dataReport[0]['avg_harga_beli'];
@@ -246,6 +262,17 @@ class ReportController extends Controller
             ->groupBy(DB::raw('EXTRACT(YEAR FROM tanggal_beli)'))
             ->get()->toArray();
 
+        $currentYear = date('Y'); // Get the current year
+
+        $filteredArray = array_filter($tahun, function ($item) use ($currentYear) {
+            return $item['tahun'] != $currentYear;
+        });
+
+        $filteredArray = array_values($filteredArray);
+        $tahun = $filteredArray;
+
+        //dd($tahun);
+
         $years = [];
 
         foreach ($tahun as $year) {
@@ -258,7 +285,7 @@ class ReportController extends Controller
             //dd($dataReport);
             if ($dataReport) {
                 foreach ($dataReport as $data) {
-                    $report = $this->detailReport($year, $data->nama_saham, 1);
+                    $report = $this->detailReport($year['tahun'], $data->nama_saham, 1);
                     array_push($keuntungan, $report['keuntungan']);
                     array_push($realisasi, $report['realisasi']);
                 }
@@ -273,23 +300,46 @@ class ReportController extends Controller
 
         //dd($years);
 
-        $data = [];
+        $profitPercentage = 0;
 
-        foreach ($years as $key => $year) {
-            $percent = 0;
-            if ($key != 0) {
-                $percent = $years[$key]['keuntungan'] / $years[$key - 1]['keuntungan'];
+        for ($i = 1; $i < count($years); $i++) {
+            $previousYearProfit = $years[$i - 1]['keuntungan'];
+            $previousYearRealisasi = $years[$i - 1]['realisasi'];
+            $currentYearProfit = $years[$i]['keuntungan'];
+            $currentYearRealisasi = $years[$i]['realisasi'];
+
+            if ($previousYearProfit == 0) {
+                $previousYearProfit = 1;
             }
 
-            $arr = [
-                'year' => $years[$key]['year'],
-                'keuntungan' => $years[$key]['keuntungan'],
-                'realisasi' => $years[$key]['realisasi'],
-                'keuntunganPercent' => $percent
-            ];
+            $profitPercentage = (($currentYearProfit - $previousYearProfit) / abs($previousYearProfit)) * 100;
+            $realisasiOercentage = (($currentYearRealisasi - $previousYearRealisasi) / abs($previousYearRealisasi)) * 100;
 
-            array_push($data, $arr);
+            $years[$i]['keuntunganPercent'] = $profitPercentage;
+            $years[$i]['realisasiPercent'] = $realisasiOercentage;
         }
+
+        $years[0]['keuntunganPercent'] = 0;
+        $years[0]['realisasiPercent'] = 0;
+        // foreach ($years as $key => $year) {
+        //     $percent = 0;
+        //     if ($key != 0) {
+        //         //$percent = $years[$key]['keuntungan'] / $years[$key - 1]['keuntungan'];
+        //         $percent = $percent == 0 ? 0 : ($years[$key]['keuntungan'] / $years[$key - 1]['keuntungan']);
+        //     }
+
+        //     $arr = [
+        //         'year' => $years[$key]['year'],
+        //         'keuntungan' => $years[$key]['keuntungan'],
+        //         'realisasi' => $years[$key]['realisasi'],
+        //         'keuntunganPercent' => $percent
+        //     ];
+
+        //     array_push($data, $arr);
+        // }
+
+        $data = $years;
+        //dd($data);
 
         return view('reportYear', compact(['data']));
     }

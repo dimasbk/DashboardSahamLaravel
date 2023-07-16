@@ -105,7 +105,7 @@ class TechnicalController extends Controller
             $start = $request->start;
             $response = Http::acceptJson()
                 ->withHeaders([
-                    'X-API-KEY' => config('midtrans.server_key')
+                    'X-API-KEY' => config('goapi.apikey')
                 ])->get('https://api.goapi.id/v1/stock/idx/' . $stock . '/historical', [
                         'to' => $end,
                         'from' => $start

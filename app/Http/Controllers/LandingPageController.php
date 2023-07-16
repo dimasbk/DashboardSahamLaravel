@@ -21,14 +21,14 @@ class LandingPageController extends Controller
 
         $topGainers = Http::acceptJson()
             ->withHeaders([
-                'X-API-KEY' => config('midtrans.server_key')
+                'X-API-KEY' => config('goapi.apikey')
             ])->get('https://api.goapi.id/v1/stock/idx/top_gainer')->json();
 
         $topGainers = array_splice($topGainers['data']['results'], 0, 10);
 
         $topLosers = Http::acceptJson()
             ->withHeaders([
-                'X-API-KEY' => config('midtrans.server_key')
+                'X-API-KEY' => config('goapi.apikey')
             ])->get('https://api.goapi.id/v1/stock/idx/top_loser')->json();
 
         $topLosers = array_splice($topLosers['data']['results'], 0, 10);
@@ -47,7 +47,7 @@ class LandingPageController extends Controller
             $yearBefore = date('Y-m-d', strtotime($todayDate . ' -1 year'));
             $response = Http::acceptJson()
                 ->withHeaders([
-                    'X-API-KEY' => config('midtrans.server_key')
+                    'X-API-KEY' => config('goapi.apikey')
                 ])->get('https://api.goapi.id/v1/stock/idx/' . $stock . '/historical', [
                         'to' => $todayDate,
                         'from' => $yearBefore

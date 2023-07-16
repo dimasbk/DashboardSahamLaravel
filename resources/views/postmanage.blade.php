@@ -42,7 +42,7 @@
                 <h6 class="m-0 font-weight-bold">Manage Post</h6>
             </div>
             <div class="card-body">
-                <a href="" class="btn btn-default btn-rounded mt-4 mb-4" data-toggle="modal"
+                <a href="/post/create" class="btn btn-default btn-rounded mt-4 mb-4" data-toggle="modal"
                     data-target="#modalPost">Buat Post Baru</a>
                 <table class="table table-bordered table-striped">
                     <thead>
@@ -71,8 +71,8 @@
                             <td>
                                 <button onclick="location.href='/post/edit/{{$item->id_post}}'" class="btn btn-success"
                                     type="button"><i class="fas fa-edit"></i></button>
-                                <button data-toggle="modal" data-target="#delete" type="button"
-                                    class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                <!--<button data-bs-toggle="modal" data-bs-target="#delete" type="button"
+                                    class="btn btn-danger"><i class="far fa-trash-alt"></i></button>-->
                                 <button onclick="location.href='/post/delete/{{$item->id_post}}'" type="button"
                                     class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                             </td>

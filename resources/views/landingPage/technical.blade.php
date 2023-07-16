@@ -52,8 +52,8 @@
                         <th scope="col">#</th>
                         <th scope="col">Emiten</th>
                         <th scope="col">Trend</th>
-                        <th scope="col">Trend Changes (from last period)</th>
-                        <th scope="col">Trend Changes (MA)</th>
+                        <th scope="col">Trend Changes from last period*</th>
+                        <th scope="col">Moving Average Change</th>
                         <th scope="col">DER</th>
                         <th scope="col">Loan to Deposit</th>
                         <th scope="col">Chart</th>
@@ -78,6 +78,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="mb-3">
+                <p>*Menghitung berapa periode terakhir yang memiliki trend yang sama</p>
+            </div>
         </div>
     </div>
 </div>

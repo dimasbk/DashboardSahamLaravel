@@ -14,7 +14,8 @@
                         <th>Tahun</th>
                         <th>Keuntungan</th>
                         <th>Realisasi</th>
-                        <th>Keuntungan (dari tahun lalu)</th>
+                        <th>Keuntungan %</th>
+                        <th>Realisasi %</th>
                         <th>Detail</th>
                     </tr>
                 </thead>
@@ -23,9 +24,10 @@
                     <tr>
 
                         <td>{{ $year['year'] }}</td>
-                        <td>{{ $year['keuntungan'] }}</td>
-                        <td>{{ $year['realisasi'] }}</td>
-                        <td>{{ $year['keuntunganPercent'] }}%</td>
+                        <td>{{ number_format($year['keuntungan'],2) }}</td>
+                        <td>{{ number_format($year['realisasi'], 2) }}</td>
+                        <td>{{ number_format($year['keuntunganPercent'],2) }}%</td>
+                        <td>{{ number_format($year['realisasiPercent'],2) }}%</td>
                         <td><button class="btn btn-primary" onclick="location.href='/report/{{$year['year']}}'"
                                 type="button">
                                 Detail</button></td>
