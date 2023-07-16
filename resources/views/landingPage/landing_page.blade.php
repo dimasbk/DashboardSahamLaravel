@@ -115,7 +115,7 @@
         </div>
     </div>
 </section>
-<div class="container">
+{{-- <div class="container">
     <div class="row" style="margin-top: 50px;">
         <div class="col-md-6">
             <h1>Top Gainer Saham</h1>
@@ -198,7 +198,7 @@
             </tbody>
         </table>
     </div>
-</div>
+</div> --}}
 
 
 @endsection
