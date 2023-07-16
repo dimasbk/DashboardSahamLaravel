@@ -63,6 +63,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     Route::get('/analyst', [AnalystAPIController::class, 'getAnalyst']);
+    Route::get('/detailsubscribe/{id}', [AnalystAPIController::class, 'subscribe']);
     // Route::get('/plan', [AnalystAPIController::class, 'plan']);
     Route::get('/plan/{id}', [AnalystAPIController::class, 'planApi']);
 
