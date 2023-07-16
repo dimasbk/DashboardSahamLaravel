@@ -19,22 +19,23 @@ class LandingPageController extends Controller
             ->orderBy('created_at', 'DESC')
             ->take(3)->get()->toArray();
 
-        $topGainers = Http::acceptJson()
-            ->withHeaders([
-                'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
-            ])->get('https://api.goapi.id/v1/stock/idx/top_gainer')->json();
+        // $topGainers = Http::acceptJson()
+        //     ->withHeaders([
+        //         'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
+        //     ])->get('https://api.goapi.id/v1/stock/idx/top_gainer')->json();
 
-        $topGainers = array_splice($topGainers['data']['results'], 0, 10);
+        // $topGainers = array_splice($topGainers['data']['results'], 0, 10);
 
-        $topLosers = Http::acceptJson()
-            ->withHeaders([
-                'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
-            ])->get('https://api.goapi.id/v1/stock/idx/top_loser')->json();
+        // $topLosers = Http::acceptJson()
+        //     ->withHeaders([
+        //         'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
+        //     ])->get('https://api.goapi.id/v1/stock/idx/top_loser')->json();
 
-        $topLosers = array_splice($topLosers['data']['results'], 0, 10);
+        // $topLosers = array_splice($topLosers['data']['results'], 0, 10);
 
-        $trends = $this->technical();
-        return view('landingPage/landing_page', compact(['post', 'topGainers', 'topLosers', 'trends']));
+       // $trends = $this->technical();
+        //return view('landingPage/landing_page', compact(['post', 'topGainers', 'topLosers', 'trends']));
+        return view('landingPage/landing_page', compact(['post']));
     }
 
     public function technical()

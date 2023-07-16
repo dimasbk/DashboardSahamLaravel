@@ -70,7 +70,7 @@
                     <td>{{$data['ticker']}}</td>
                     <td>{{$data['trend']}}</td>
                     <td>{{$data['change']}}</td>
-                    <td>{{$data['MAPercantage']}}</td>
+                    <td>{{$data['MAPercentage']}}</td>
                     <td>{{$data['der']}}</td>
                     <td>{{$data['ldr']}}</td>
                     @endforeach
