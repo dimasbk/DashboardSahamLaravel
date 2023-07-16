@@ -131,7 +131,8 @@
                 <tbody>
                     @foreach ($topGainers as $topGainer)
                     <tr>
-                        <td>{{$topGainer['ticker']}}</td>
+                        <td><a style="text-decoration: none; color: black"
+                                href="/emiten/{{$topGainer['ticker']}}">{{$topGainer['ticker']}}</a></td>
                         <td>{{$topGainer['close']}}</td>
                         <td>{{$topGainer['change']}}</td>
                         <td style="color: green">{{round($topGainer['percent'], 2)}}%</td>
@@ -154,7 +155,10 @@
                 <tbody>
                     @foreach ($topLosers as $topLoser)
                     <tr>
-                        <td>{{$topLoser['ticker']}}</td>
+                        <td>
+                            <a style="text-decoration: none; color: black"
+                                href="/emiten/{{$topLoser['ticker']}}">{{$topLoser['ticker']}}</a>
+                        </td>
                         <td>{{$topLoser['close']}}</td>
                         <td>{{$topLoser['change']}}</td>
                         <td style="color: red">{{round($topLoser['percent'], 2)}}%</td>
@@ -165,7 +169,7 @@
         </div>
     </div>
     <div>
-        <h1>Top Gainer Saham</h1>
+        <h1>Tren Saham</h1>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -177,7 +181,8 @@
             <tbody>
                 @foreach ($trends as $trend)
                 <tr>
-                    <td>{{$trend['ticker']}}</td>
+                    <td><a style="text-decoration: none; color: black"
+                            href="/emiten/{{$trend['ticker']}}">{{$trend['ticker']}}</a></td>
                     <td>{{Str::title($trend['trend'])}}</td>
                     @if ($trend['trend'] == 'uptrend')
                     <td style="color: green">{{round($trend['change'], 2)}}%</td>

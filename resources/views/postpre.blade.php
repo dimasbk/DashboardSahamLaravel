@@ -1,4 +1,7 @@
-<div class="container">
+@extends('landingPage.template')
+
+@section('content')
+<div class="">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
         </div>
@@ -65,3 +68,4 @@
         font-size: 1.1em;
     }
 </style>
+@endsection

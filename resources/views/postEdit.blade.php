@@ -43,6 +43,24 @@
         <div class="card-body">
             <form action="/post/edit" id="form_beli" name="postedit" method="post" enctype="multipart/form-data">
                 @csrf
+                <div class="form-group">
+                    <input type="hidden" name="id_saham_hidden" id="id_saham_hidden" value="{{$post[0]['id_saham']}}">
+                    <label for="first-dropdown">Post type:</label>
+                    <select id="first-dropdown" class="form-select">
+                        <option value="a">General</option>
+                        <option value="b">Analisis</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="emitenSaham">Emiten Saham</label>
+                    <select id="emitenSaham" name="emitenSaham" disabled>
+                        <option value="">Select Emiten Saham</option>
+                        @foreach($saham as $item)
+                        <option value="{{ $item->id_saham}}">{{ $item->nama_saham}}</option>
+                        @endforeach
+                    </select>
+                    <div class="invalid-feedback"></div>
+                </div>
                 <input type="hidden" name="id" value="{{$post[0]['id_post']}}">
                 <div class="form-group">
                     <label for="title">Title</label>
@@ -84,9 +102,11 @@
                     <textarea style="height: auto" class="form-control" name="content" id="content"
                         rows="3">{{$post[0]['content']}}</textarea>
                 </div>
+                <br>
                 <div class="form-group">
                     <img id="preview" style="max-height: 200px"
-                        src="{{asset('images')}}/public_images/{{$post[0]['picture']}}" alt="" /><br>
+                        src="{{asset('images')}}/public_images/{{$post[0]['picture']}}" alt="" />
+                    <br>
                     <label for="image">Image</label>
                     <input type="file" name="image" class="form-control-file" id="image" onchange="previewImage()">
                 </div>
@@ -94,6 +114,7 @@
             </form>
         </div>
     </div>
+    @vite(['resources/js/editPost.js'])
     @section('page-js-files')
     <script>
         $(document).ready(function() {

@@ -30,8 +30,6 @@
                 <h1>{{$data['profileData']['name']}}</h1>
                 <p>Analyst</p>
             </div>
-            {{-- <div class="description-profile">Harga Per Bulan : Rp.
-                {{number_format($data['profileData']['price_per_month'])}}</div> --}}
             <ul class="data-user">
                 <li><a><strong>{{$data['postCount']}}</strong><span>Posts</span></a></li>
                 <li><a><strong>{{$data['followers']}}</strong><span>Followers</span></a></li>

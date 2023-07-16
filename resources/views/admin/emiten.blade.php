@@ -39,15 +39,6 @@
 <body>
     <div class="content">
         <div class="container">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Beli</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/portofoliojual">Jual</a>
-                </li>
-            </ul>
-
             <div class="container">
                 @if (session('status'))
                 <div style="margin-top: 10px" class="alert alert-success alert-dismissible" role="alert">
@@ -61,7 +52,7 @@
                 @endif
                 <div class="card shadow mb-4" style="margin-top: 10px">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold">Portofolio Beli</h6>
+                        <h6 class="m-0 font-weight-bold">Emiten</h6>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -101,6 +92,7 @@
 
                                 </tbody>
                             </table>
+                            {{ $data->links() }}
                         </div>
                     </div>
                 </div>

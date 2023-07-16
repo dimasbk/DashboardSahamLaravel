@@ -39,7 +39,7 @@
 <body>
 
     <div class="container">
-        <h4>Buat Portofolio Beli</h4>
+        <h4>Buat Portofolio Jual</h4>
         @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -49,7 +49,7 @@
             </ul>
         </div>
         @endif
-        <form id="formBeli" class="needs-validation" novalidate method="post" action="/portofoliobeli/addbeli">
+        <form id="formBeli" class="needs-validation" novalidate method="post" action="/portofoliojual/addjual">
             @csrf
             <div class="form-group mb-4">
                 <label for="emitenSaham">Emiten Saham</label>
@@ -77,13 +77,13 @@
                 <div class="invalid-feedback">Please enter a valid volume.</div>
             </div>
             <div class="form-group mb-4">
-                <label for="tanggalBeli">Tanggal Beli</label>
-                <input type="date" class="form-control" id="tanggalBeli" name="tanggalBeli" required>
+                <label for="tanggalBeli">Tanggal Jual</label>
+                <input type="date" class="form-control" id="tanggalJual" name="tanggalJual" required>
                 <div class="invalid-feedback">Please enter a valid tanggal beli.</div>
             </div>
             <div class="form-group mb-4">
-                <label for="hargaBeli">Harga Beli</label>
-                <input type="number" class="form-control" id="hargaBeli" name="hargaBeli" min="0" step="0.01" required>
+                <label for="hargaBeli">Harga Jual</label>
+                <input type="number" class="form-control" id="hargaJual" name="hargaJual" min="0" step="0.01" required>
                 <div class="invalid-feedback">Please enter a valid harga beli.</div>
             </div>
             <div class="form-group mb-4">

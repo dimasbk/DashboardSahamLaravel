@@ -70,6 +70,7 @@ Route::get('/portofoliobeli/analyst/{user_id}', [PortofolioBeliController::class
 Route::get('/portofoliojual/analyst/{user_id}', [PortofolioJualController::class, 'getdataAnalyst']);
 
 Route::get('/portofoliojual', [PortofolioJualController::class, 'getdata']);
+Route::get('/portofoliojual/create', [PortofolioJualController::class, 'create']);
 Route::post('/portofoliojual/addjual', [PortofolioJualController::class, 'insertData']);
 Route::get('/portofoliojual/edit/{id_portofolio_jual}', [PortofolioJualController::class, 'getEdit']);
 Route::post('/portofoliojual/editjual', [PortofolioJualController::class, 'editData']);
@@ -102,10 +103,17 @@ Route::get('/trend', [TechnicalController::class, 'trend']);
 Route::get('/search/technical', [TechnicalController::class, 'technical']);
 
 Route::get('/plan/manage', [PlanController::class, 'index']);
+Route::get('/plan/create', [PlanController::class, 'create']);
+Route::post('/plan/insert', [PlanController::class, 'insert']);
+Route::get('/plan/edit/{id}', [PlanController::class, 'edit']);
+Route::get('/plan/delete/{id}', [PlanController::class, 'delete']);
+
+
 
 Route::post('/plan', [AnalystController::class, 'plan']);
 Route::post('/subscribe', [AnalystController::class, 'subscribe']);
 Route::get('/subscribe/update/{id}', [AnalystController::class, 'update']);
+Route::get('/subscribe/delete/{id}', [AnalystController::class, 'delete']);
 Route::get('/getPaymentToken', [AnalystController::class, 'pay']);
 Route::post('/profile/mini', [AnalystController::class, 'profileMini']);
 //Route::get('/profile/{id}', [AnalystController::class, 'profile']);
@@ -116,6 +124,7 @@ Route::get('/post/view/{id}', [PostController::class, 'view']);
 
 Route::get('/post/view', [PostController::class, 'getPost']);
 Route::get('/post/manage', [PostController::class, 'getuserPost']);
+Route::post('/post/create', [PostController::class, 'create']);
 Route::post('/post/add', [PostController::class, 'addPost']);
 Route::get('/post/edit/{id}', [PostController::class, 'editPost']);
 Route::post('/post/edit', [PostController::class, 'edit']);

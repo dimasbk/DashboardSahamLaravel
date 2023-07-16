@@ -52,8 +52,8 @@
                 <h6 class="m-0 font-weight-bold">Manage Sekuritas</h6>
             </div>
             <div class="card-body">
-                <a href="" class="btn btn-default btn-rounded mt-4 mb-4" data-toggle="modal"
-                    data-target="#modalSekuritas">Buat Sekuritas Baru</a>
+                <a href="" class="btn btn-default btn-rounded mt-4 mb-4" data-bs-toggle="modal"
+                    data-bs-target="#modalSekuritas">Buat Sekuritas Baru</a>
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
@@ -77,8 +77,6 @@
                             <td>
                                 <button onclick="location.href='/admin/sekuritas/edit/{{$item->id_sekuritas}}'"
                                     class="btn btn-success" type="button"><i class="fas fa-edit"></i></button>
-                                <button data-toggle="modal" data-target="#delete" type="button"
-                                    class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                                 <button onclick="location.href='/admin/sekuritas/delete/{{$item->id_sekuritas}}'"
                                     type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                             </td>

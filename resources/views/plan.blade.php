@@ -20,18 +20,6 @@
 
     <!-- Style -->
     <link rel="stylesheet" href="{{asset('style')}}/table/css/style.css">
-    <style>
-        .pic {
-            max-height: 100px;
-            width: auto;
-        }
-
-        img {
-            margin-top: 10px;
-            max-width: 450px;
-            height: auto;
-        }
-    </style>
     @stop
 </head>
 
@@ -42,16 +30,15 @@
                 <h6 class="m-0 font-weight-bold">Manage Plan</h6>
             </div>
             <div class="card-body">
-                <a href="" class="btn btn-default btn-rounded mt-4 mb-4" data-toggle="modal"
+                <a href="/plan/create" class="btn btn-default btn-rounded mt-4 mb-4" data-toggle="modal"
                     data-target="#modalplan">Buat Plan Baru</a>
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>No </th>
-                            <th class="w-25">Jumlah Bulan</th>
-                            <th>Harga</th>
-                            <th>Sction</th>
-
+                            <th class="w-25">Harga</th>
+                            <th>Jumlah Bulan</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="post-table-body">

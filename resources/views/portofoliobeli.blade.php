@@ -47,9 +47,17 @@
                     <a class="nav-link" href="/portofoliojual/{{Auth::id()}}">Jual</a>
                 </li>
             </ul>
-
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
             <div class="container">
-                <a href="" class="btn btn-default btn-rounded mt-4 mb-4" data-toggle="modal"
+                <a href="portofoliobeli/create" class="btn btn-default btn-rounded mt-4 mb-4" data-toggle="modal"
                     data-target="#modalbeli">Buat Data Portofolio</a>
 
                 <div class="card shadow mb-4">

@@ -86,19 +86,28 @@ class PortofolioBeliController extends Controller
     {
 
         $id = Auth::id();
-        dd($request);
+        //dd($request->all());
+        $validated = $request->validate([
+            'emitenSaham' => 'required',
+            'jenisSaham' => 'required',
+            'volume' => 'required',
+            'tanggalBeli' => 'required',
+            'hargaBeli' => 'required',
+            'sekuritas' => 'required'
+        ]);
+
         $insert = PortofolioBeliModel::create([
-            'id_saham' => $request->emitenSaham,
+            'id_saham' => $validated['emitenSaham'],
             'user_id' => $id,
-            'jenis_saham' => $request->jenisSaham,
-            'volume' => $request->volume,
-            'tanggal_beli' => $request->tanggalBeli,
-            'harga_beli' => $request->hargaBeli,
-            'id_sekuritas' => $request->sekuritas,
+            'jenis_saham' => $validated['jenisSaham'],
+            'volume' => $validated['volume'],
+            'tanggal_beli' => $validated['tanggalBeli'],
+            'harga_beli' => $validated['hargaBeli'],
+            'id_sekuritas' => $validated['sekuritas'],
         ]);
 
         if ($insert) {
-            return redirect()->action([PortofolioBeliController::class, 'getData'], ['user_id' => $id]);
+            return redirect('/portofoliobeli')->with('status', 'Data Berhasil Dimasukkan');
         }
     }
 

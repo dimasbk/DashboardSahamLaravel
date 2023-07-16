@@ -33,13 +33,15 @@ function ajax(id, duration, price) {
                 },
                 onError: function (result) {
                     /* You may add your own implementation here */
-                    alert("payment failed!");
+                    window.location.href =
+                        "/subscribe/delete/" + response["subscribeID"];
                     console.log(result);
                 },
                 onClose: function () {
                     /* You may add your own implementation here */
-                    alert("you closed the popup without finishing the payment");
                     $("#getToken").prop("disabled", false);
+                    window.location.href =
+                        "/subscribe/delete/" + response["subscribeID"];
                 },
             });
         },
