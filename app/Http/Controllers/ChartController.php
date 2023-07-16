@@ -143,7 +143,7 @@ class ChartController extends Controller
         $weekBefore = date('Y-m-d', strtotime($today . ' -1 week'));
         $response = Http::acceptJson()
             ->withHeaders([
-                'X-API-KEY' => config('midtrans.server_key')
+                'X-API-KEY' => config('goapi.apikey')
             ])->get('https://api.goapi.id/v1/stock/idx/' . $ticker . '/historical', [
                     'to' => $today,
                     'from' => $weekBefore
@@ -164,7 +164,7 @@ class ChartController extends Controller
         $monthBefore = date('Y-m-d', strtotime($today . ' -1 month'));
         $response = Http::acceptJson()
             ->withHeaders([
-                'X-API-KEY' => config('midtrans.server_key')
+                'X-API-KEY' => config('goapi.apikey')
             ])->get('https://api.goapi.id/v1/stock/idx/' . $ticker . '/historical', [
                     'to' => $today,
                     'from' => $monthBefore
@@ -184,7 +184,7 @@ class ChartController extends Controller
         $yearBefore = date('Y-m-d', strtotime($today . ' -1 year'));
         $response = Http::acceptJson()
             ->withHeaders([
-                'X-API-KEY' => config('midtrans.server_key')
+                'X-API-KEY' => config('goapi.apikey')
             ])->get('https://api.goapi.id/v1/stock/idx/' . $ticker . '/historical', [
                     'to' => $today,
                     'from' => $yearBefore
@@ -226,7 +226,7 @@ class ChartController extends Controller
             $yearBefore = date('Y-m-d', strtotime($todayDate . ' -1 year'));
             $response = Http::acceptJson()
                 ->withHeaders([
-                    'X-API-KEY' => config('midtrans.server_key')
+                    'X-API-KEY' => config('goapi.apikey')
                 ])->get('https://api.goapi.id/v1/stock/idx/' . $stock . '/historical', [
                         'to' => $todayDate,
                         'from' => $yearBefore
