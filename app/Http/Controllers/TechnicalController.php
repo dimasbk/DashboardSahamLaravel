@@ -9,12 +9,14 @@ use App\Models\SahamModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class TechnicalController extends Controller
 {
     public function index()
     {
         $filteredData = [];
+
         return view('landingPage/technical', compact(['filteredData']));
     }
 
@@ -100,6 +102,7 @@ class TechnicalController extends Controller
         //dd($stocks);
         //$stocks = ['BBCA', 'BRIS', 'GOTO', 'ANTM', 'ACES', 'ROTI'];
         foreach ($stocks as $stock) {
+            Log::info("1");
             //$today = date("Y-m-d");
             $end = $request->end;
             $start = $request->start;
@@ -136,24 +139,33 @@ class TechnicalController extends Controller
         }
         $filteredData = [];
         if ($request->trend == 'uptrend') {
+            Log::info("2");
             foreach ($trends as $item) {
+                Log::info("3");
                 if ($item['trend'] === 'uptrend') {
+                    Log::info("4");
                     $filteredData[] = $item;
                 }
             }
         } else if ($request->trend == 'downtrend') {
+            Log::info("5");
             foreach ($trends as $item) {
+                Log::info("6");
                 if ($item['trend'] === 'downtrend') {
+                    Log::info("7");
                     $filteredData[] = $item;
                 }
             }
         } else {
             foreach ($trends as $item) {
+                Log::info("8");
                 if ($item['trend'] === 'sideways') {
+                    Log::info("9");
                     $filteredData[] = $item;
                 }
             }
         }
+        Log::info($filteredData);
 
         //return $filteredData;
         //dd(compact(['filteredData']));
@@ -161,8 +173,9 @@ class TechnicalController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'data' => $filteredData
+            'data' => compact(['filteredData'])
         ], 200);
+        //Log::info(filteredData);
     }
 
     public function getChartData(Request $request, $emiten)
