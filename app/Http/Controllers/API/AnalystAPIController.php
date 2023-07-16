@@ -240,6 +240,20 @@ class AnalystAPIController extends Controller
             "redirect_url" => $paymentUrl->redirect_url
         );
     }
+    public function subscribe(Request $request)
+    {
+        $analystData = User::where('id', $request->id)->first();
+        $prices = PriceModel::where('id_price', $request->id_price)->first();
+        $data = compact(['analystData', 'prices']);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $data
+        ], 200);
+
+        //dd($analystData);
+        //return view('landingPage/subscribe', compact(['analystData', 'prices']));
+    }
 
 
 }
