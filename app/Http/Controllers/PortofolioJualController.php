@@ -100,8 +100,6 @@ class PortofolioJualController extends Controller
             'sekuritas' => 'required'
         ]);
 
-        //dd($validated['sekuritas']);
-
         $id = Auth::id();
 
         $getEmiten = SahamModel::select('nama_saham')
@@ -194,6 +192,7 @@ class PortofolioJualController extends Controller
             'harga_jual' => 'required',
             'sekuritas' => 'required'
         ]);
+
         $dataporto = PortofolioJualModel::where('id_portofolio_jual', $request->id_portofolio_jual)->first();
         //dd($dataporto);
 
