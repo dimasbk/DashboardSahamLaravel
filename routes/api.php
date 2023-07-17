@@ -83,7 +83,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/post/edit', [PostAPIController::class, 'edit']);
 
     //Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenDataa']);
-    Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenData']);
+    Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenDataa']);
 
 
     Route::get('/trending', [FundamentalAPIController::class, 'trend']);
