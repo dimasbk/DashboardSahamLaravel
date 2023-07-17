@@ -309,7 +309,6 @@ class LandingPageController extends Controller
 
 
 
-
         } else {
             $inputData = $input->toArray();
             $output = OutputFundamentalModel::where('id_input', $input->id_input)
