@@ -302,6 +302,11 @@ class LandingPageController extends Controller
             $data = compact(['inputData'], ['outputData'], ['ticker'], ['check'], ['post'], ['laporan']);
 
             return view('landingPage/chart', $data);
+            // return response()->json([
+            //     'status' => 'success',
+            //     'data' => $data
+            // ], 200);
+
 
 
         } else {
@@ -355,6 +360,7 @@ class LandingPageController extends Controller
 
             //dd($data);
             return view('landingPage/chart', $data);
+
         }
     }
 }
