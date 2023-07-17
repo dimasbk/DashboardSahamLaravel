@@ -155,10 +155,11 @@ class FundamentalAPIController extends Controller
         }
     }
 
-    public function emitenDataa(Request $request)
+    public function emitenDataa($ticker)
     {
-        $ticker = $request->ticker;
+        //$ticker = $request->ticker;
         $id_user = Auth::id();
+        $laporan = SubscriberModel::where('id_subscriber', $id_user)->where('id_analyst', 7)->where('status', 'subscribed')->first();
         $emiten = SahamModel::where('nama_saham', $ticker)->value('id_saham');
         $input = InputFundamentalModel::where('tb_input.id_saham', $emiten)
             ->where('user_id', $id_user)
