@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\SahamModel;
 use DateTime;
-use Http;
+//use Http;
 use Illuminate\Http\Request;
 use App\Models\PortofolioBeliModel;
 use App\Models\PortofolioJualModel;
@@ -13,6 +13,7 @@ use DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\SubscriberModel;
+use Illuminate\Support\Facades\Http;
 
 class ReportAPIController extends Controller
 {
@@ -316,10 +317,10 @@ class ReportAPIController extends Controller
         ], 200);
     }
 
-    public function DetailReportt (Request $request, $emiten,  $function = null) //($emiten)
+    public function DetailReportt (Request $request,$emiten,  $function = null) //($emiten)
     {
         $year = 2023;
-        $emiten = $request->emiten;
+       // $emiten = $request->emiten;
         $id_user = Auth::id();
         $idEmiten = SahamModel::where('nama_saham', $emiten)->value('id_saham');
         $beli = PortofolioBeliModel::where('user_id', $id_user)
@@ -409,7 +410,7 @@ class ReportAPIController extends Controller
         }
         $response = Http::acceptJson()
             ->withHeaders([
-                'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
+                'X-API-KEY' => '1hzlCQzlW2UqjegV5GFoiS78vaW9tF'
             ])->get('https://api.goapi.id/v1/stock/idx/prices', [
                     'symbols' => $emiten
                 ])->json();
@@ -430,7 +431,7 @@ class ReportAPIController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'data' => $data
+            'data' => $returnData
         ], 200);
     }
 

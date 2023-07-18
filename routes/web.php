@@ -108,7 +108,7 @@ Route::post('/subscribe', [AnalystController::class, 'subscribe']);
 Route::get('/subscribe/update/{id}', [AnalystController::class, 'update']);
 Route::get('/getPaymentToken', [AnalystController::class, 'pay']);
 Route::post('/profile/mini', [AnalystController::class, 'profileMini']);
-Route::get('/profile/{id}', [AnalystController::class, 'profile']);
+//Route::get('/profile/{id}', [AnalystController::class, 'profile']);
 Route::get('/profile/{id}', [AnalystController::class, 'profile']);
 
 Route::get('/post/analyst/{id}', [PostController::class, 'analystPost']);

@@ -16,6 +16,7 @@ use App\Models\JenisSahamModel;
 use App\Models\TechnicalModel;
 use App\Models\User;
 use App\Models\TagihanModel;
+use App\Models\SubscriberModel;
 use Illuminate\Support\Facades\Auth;
 
 class PortofolioAPIController extends Controller
@@ -180,6 +181,21 @@ class PortofolioAPIController extends Controller
         try {
             $tagihan = TagihanModel::where('status',$status)->where('user_id',$id)->get();
             return response()->json(['messsage'=>'Berhasil', 'data'=>$tagihan ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => $th
+            ]);
+        }
+    }
+
+    public function getSubscribe(Request $request){
+        $id = Auth::id();
+        $status = $request->status;
+
+        try {
+            $subs = SubscriberModel::where('status',$status)->where('user_id',$id)->get();
+            return response()->json(['messsage'=>'Berhasil', 'data'=>$subs ]);
         } catch (\Throwable $th) {
             return response()->json([
                 'success' => false,
@@ -413,15 +429,15 @@ public function PortoJual()
                     'id_sekuritas' => $idSekuritas
 
                 ]);
-                $total = (($request->volume * $request->harga) * $request->fee) + ($request->volume * $request->harga);
-                $tagihan = TagihanModel::create([
-                    'reference' => strtoupper($unique_id),
-                    'nama_tagihan' => 'Transaksi Saham',
-                    'tgl_tagihan' => $currentDateTime,
-                    'jumlah' => $total,
-                    'status' => 'Menunggu Pembayaran',
-                    'user_id' => $id,
-                ]);
+                // $total = (($request->volume * $request->harga) * $request->fee) + ($request->volume * $request->harga);
+                // $tagihan = TagihanModel::create([
+                //     'reference' => strtoupper($unique_id),
+                //     'nama_tagihan' => 'Transaksi Saham',
+                //     'tgl_tagihan' => $currentDateTime,
+                //     'jumlah' => $total,
+                //     'status' => 'Menunggu Pembayaran',
+                //     'user_id' => $id,
+                // ]);
             }else if($reqType=='jual') {
                 $insert = PortofolioJualModel::create([
                     'id_saham' => $saham->id_saham,
