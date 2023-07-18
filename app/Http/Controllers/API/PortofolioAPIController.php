@@ -17,6 +17,7 @@ use App\Models\JenisSahamModel;
 use App\Models\TechnicalModel;
 use App\Models\User;
 use App\Models\TagihanModel;
+use App\Models\SubscriberModel;
 use Illuminate\Support\Facades\Auth;
 
 class PortofolioAPIController extends Controller
@@ -191,6 +192,22 @@ class PortofolioAPIController extends Controller
         try {
             $tagihan = TagihanModel::where('status', $status)->where('user_id', $id)->get();
             return response()->json(['messsage' => 'Berhasil', 'data' => $tagihan]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => $th
+            ]);
+        }
+    }
+
+    public function getSubscribe(Request $request)
+    {
+        $id = Auth::id();
+        $status = $request->status;
+
+        try {
+            $subs = SubscriberModel::where('status', $status)->where('user_id', $id)->get();
+            return response()->json(['messsage' => 'Berhasil', 'data' => $subs]);
         } catch (\Throwable $th) {
             return response()->json([
                 'success' => false,
@@ -379,7 +396,8 @@ class PortofolioAPIController extends Controller
         return response()->json(['message' => 'Success', 'data' => $jenisSaham]);
     }
 
-    public function company() {
+    public function company()
+    {
         $namaCompany = SahamModel::all();
 
         if ($namaCompany->isEmpty()) {
@@ -389,7 +407,8 @@ class PortofolioAPIController extends Controller
         return response()->json(['message' => 'Success', 'data' => $namaCompany]);
     }
 
-    public function getJenisTrend() {
+    public function getJenisTrend()
+    {
         $jenisTrend = TechnicalModel::all();
 
         if ($jenisTrend->isEmpty()) {

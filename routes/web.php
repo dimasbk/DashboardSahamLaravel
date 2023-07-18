@@ -117,11 +117,16 @@ Route::get('/subscribe/update/{id}', [AnalystController::class, 'update']);
 Route::get('/subscribe/delete/{id}', [AnalystController::class, 'delete']);
 Route::get('/getPaymentToken', [AnalystController::class, 'pay']);
 Route::post('/profile/mini', [AnalystController::class, 'profileMini']);
+<<<<<<< HEAD
 Route::get('/profile/{id}', [AnalystController::class, 'profile']);
 Route::get('/profile', [UserController::class, 'index']);
 Route::post('/profile/update', [UserController::class, 'update']);
 Route::get('/profile/request/analyst', [UserController::class, 'request']);
 Route::get('/delete-photo', [UserController::class, 'deletePhoto']);
+=======
+//Route::get('/profile/{id}', [AnalystController::class, 'profile']);
+Route::get('/profile/{id}', [AnalystController::class, 'profile']);
+>>>>>>> 1be1ca3 (add sumtin more)
 
 Route::get('/post/analyst/{id}', [PostController::class, 'analystPost']);
 Route::get('/post/view/{id}', [PostController::class, 'view']);

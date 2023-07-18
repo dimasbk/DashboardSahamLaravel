@@ -12,12 +12,13 @@ use App\Models\User;
 use App\Models\SubscriberModel;
 use Illuminate\Support\Facades\Auth;
 use SebastianBergmann\Timer\Duration;
+use Illuminate\Support\Facades\Log;
 
 class AnalystController extends Controller
 {
     public function index()
     {
-        $notToFollow = SubscriberModel::where('id_subscriber', Auth::id())->where('status', 'subscribed')->pluck('id_analyst')->toArray();
+        $notToFollow = SubscriberModel::where('id_subscriber', Auth::id())->where('status', 'pending')->pluck('id_analyst')->toArray();
         array_push($notToFollow, Auth::id());
         $toFollow = User::where('id_roles', 2)->whereNotIn('id', $notToFollow)->get()->toArray();
         $existing = SubscriberModel::where('id_subscriber', Auth::id())
@@ -204,9 +205,14 @@ class AnalystController extends Controller
             $porto = array_slice($porto, 0, 5);
 
             $data = compact(['followers', 'profileData', 'post', 'postCount', 'porto']);
+            //$data1 = compact(['data']);
             //dd($data);
 
-            return view('userProfile')->with('data', $data);
+          // return view('userProfile')->with('data', $data);
+            return response()->json([
+                'status' => 'success',
+                'data' => $data
+            ], 200);
         } else {
             return redirect('/');
         }

@@ -69,7 +69,7 @@ class PostAPIController extends Controller
 
             $saham = SahamModel::all();
 
-            $mine = $postData->merge($saham);
+            $mine =  compact(['postData', 'saham']);
 
             return response()->json([
                 'status' => 'success',
