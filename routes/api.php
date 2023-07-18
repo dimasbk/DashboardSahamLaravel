@@ -56,17 +56,29 @@ Route::get('/postt', [PostAPIController::class, 'post']);
 
 
 
+
+
+
+
 //Protecting Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function (Request $request) {
         return auth()->user();
     });
-
+    Route::get('/portosemuaa/{emiten}', [ReportAPIController::class, 'DetailReportt']);
+    Route::get('/analystExisting', [AnalystAPIController::class, 'getAnalystExisting']);
     Route::get('/analyst', [AnalystAPIController::class, 'getAnalyst']);
+
+    Route::get('/profile/{id}', [AnalystAPIController::class, 'profile']);
+
+
+
     Route::get('/detailsubscribe/{id}', [AnalystAPIController::class, 'subscribe']);
     // Route::get('/plan', [AnalystAPIController::class, 'plan']);
-    Route::get('/plan/{id}', [AnalystAPIController::class, 'planApi']);
+    Route::post('/plan/{id}', [AnalystAPIController::class, 'planApi']);
 
+    Route::post('/createPayment', [AnalystAPIController::class, 'pay']);
+    Route::post('/subscribe/setPaid/{id}', [AnalystAPIController::class, 'setSubscribed']);
 
    // Route::get('/reportdetail/{year}', [ReportAPIController::class, 'reportt']);
 
@@ -92,13 +104,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('/portosemua', [ReportAPIController::class, 'reportt']);
 
-    Route::get('/portosemuaa', [ReportAPIController::class, 'DetailReportt']);
+
 
     Route::get('/portofolio/beli', [PortofolioAPIController::class, 'getPortoBeli']);
 
     Route::get('/technical/jenistrend', [PortofolioAPIController::class, 'getJenisTrend']);
 
     Route::get('/company', [PortofolioAPIController::class, 'company']);
+
+    Route::post('/notifsubs', [PortofolioAPIController::class, 'getSubscribe']);
 
 
     Route::post('/portofolio/paytagihan', [PortofolioAPIController::class, 'payTagihan']);
