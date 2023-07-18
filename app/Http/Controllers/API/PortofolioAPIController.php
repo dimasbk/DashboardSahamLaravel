@@ -216,6 +216,22 @@ class PortofolioAPIController extends Controller
         }
     }
 
+    public function getSubscribe(Request $request)
+    {
+        $id = Auth::id();
+        $status = $request->status;
+
+        try {
+            $subs = SubscriberModel::where('status', $status)->where('user_id', $id)->get();
+            return response()->json(['messsage' => 'Berhasil', 'data' => $subs]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => $th
+            ]);
+        }
+    }
+
 
     public function getAnalystData(Request $request)
     {

@@ -43,10 +43,6 @@ class PostController extends Controller
             //     'status' => 'success',
             //     'data' => $mine
             // ], 200);
-
-
-            return view('postmanage', compact(['postData', 'saham']));
-        } else {
             return redirect('/');
         }
     }

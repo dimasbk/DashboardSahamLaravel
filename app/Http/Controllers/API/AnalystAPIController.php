@@ -255,5 +255,55 @@ class AnalystAPIController extends Controller
         //return view('landingPage/subscribe', compact(['analystData', 'prices']));
     }
 
+    public function setSubscribed($id)
+    {
+        $subscribe = SubscriberModel::where('id_subscription', $id)->first();
+        $subscribe->update([
+            'status' => 'subscribed'
+        ]);
+        return $subscribe;
+    }
+
+    public function pay(Request $request)
+    {
+        \Log::info("asjdhsf");
+        $grossAmount = $request->price;
+        $expired = Carbon::today()->addMonths($request->duration)->toDateString();
+        //return $expired;
+        $subscribe = SubscriberModel::create([
+            'id_subscriber' => Auth::id(),
+            'id_analyst' => $request->id,
+            'expired' => $expired,
+            'status' => 'pending'
+        ]);
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = config('midtrans.server_key');
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
+
+        $params = array(
+            'transaction_details' => array(
+                'order_id' => $subscribe->id_subscription,
+                'gross_amount' => $grossAmount,
+            ),
+            'customer_details' => array(
+                'name' => auth()->user()->name,
+                'email' => auth()->user()->email,
+            ),
+        );
+
+        $subscribeID = $subscribe->id_subscription;
+        $paymentUrl = \Midtrans\Snap::createTransaction($params);
+        // \Log::info($paymentUrl->redirect_url);
+
+        return array(
+            "redirect_url" => $paymentUrl->redirect_url
+        );
+    }
+
 
 }
