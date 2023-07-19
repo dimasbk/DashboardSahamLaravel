@@ -162,7 +162,7 @@ class FundamentalAPIController extends Controller
         $laporan = SubscriberModel::where('id_subscriber', $id_user)->where('id_analyst', 7)->where('status', 'subscribed')->first();
         $emiten = SahamModel::where('nama_saham', $ticker)->value('id_saham');
         $input = InputFundamentalModel::where('tb_input.id_saham', $emiten)
-            ->where('user_id', $id_user)
+       //     ->where('user_id', $id_user)
             ->join('tb_detail_input', 'tb_input.id_detail_input', '=', 'tb_detail_input.id_detail_input')
             ->join('tb_saham', 'tb_input.id_saham', '=', 'tb_saham.id_saham')
             ->latest('tahun')->first();
