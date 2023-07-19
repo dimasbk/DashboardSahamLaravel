@@ -272,7 +272,7 @@ class AnalystAPIController extends Controller
         //return $expired;
         $subscribe = SubscriberModel::create([
             'id_subscriber' => Auth::id(),
-            'id_analyst' => $request->id,
+            'id_analyst' => $request->id_analyst,
             'expired' => $expired,
             'status' => 'pending'
         ]);

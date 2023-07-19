@@ -58,7 +58,8 @@ class AnalystController extends Controller
         $prices = PriceModel::where('id_price', $request->id_price)->first();
 
         // $data = compact(['analystData', 'prices']);
-//         return response()->json([
+
+        //         return response()->json([
 //             'status' => 'success',
 //             'data' => $data
 //         ], 200);
