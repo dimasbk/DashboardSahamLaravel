@@ -48,7 +48,7 @@ Route::get('/report', [ReportAPIController::class, 'getYear']);
 
 //contoh param request = {'from' => yyyy-mm-dd, 'to' => yyyy-mm-dd}
 Route::get('/reportporto/range', [ReportAPIController::class, 'reportRange']);
-Route::get('/report/{year}/{emiten}', [ReportAPIController::class, 'detailReport']);
+
 
 Route::get('/post/analyst/{id}', [PostAPIController::class, 'analystPost']);
 Route::get('/post/view/{id}', [PostAPIController::class, 'view']);
@@ -65,9 +65,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function (Request $request) {
         return auth()->user();
     });
+
+    Route::get('/report/{year}/{emiten}', [ReportAPIController::class, 'detailReport']);
+
     Route::get('/portosemuaa/{emiten}', [ReportAPIController::class, 'DetailReportt']);
     Route::get('/analystExisting', [AnalystAPIController::class, 'getAnalystExisting']);
     Route::get('/analyst', [AnalystAPIController::class, 'getAnalyst']);
+    Route::get('/admin', [AnalystAPIController::class, 'getAdmin']);
 
     Route::get('/profile/{id}', [AnalystAPIController::class, 'profile']);
 
