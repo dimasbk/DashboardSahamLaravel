@@ -16,13 +16,24 @@
                     @csrf
                     <div class="form-group">
                         <label for="email"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                        <input type="text" name="email" id="email" placeholder="Your Name" required autocomplete="email"
-                            autofocus />
+                        <input class="@error('email') is-invalid @enderror" type=" text" name="email" id="email"
+                            placeholder="Your Name" required autocomplete="email" autofocus
+                            value="{{ old('email') }}" />
+                        @error('email')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="password"><i class="zmdi zmdi-lock"></i></label>
-                        <input type="password" name="password" id="password" placeholder="Password" required
-                            autocomplete="current-password" />
+                        <input class="@error('password') is-invalid @enderror" type="password" name="password"
+                            id="password" placeholder="Password" required autocomplete="current-password" />
+                        @error('password')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />

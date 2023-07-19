@@ -3,6 +3,7 @@
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\SekuritasController;
 use App\Http\Controllers\TechnicalController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PortofolioBeliController;
 use App\Http\Controllers\PortofolioJualController;
@@ -116,14 +117,17 @@ Route::get('/subscribe/delete/{id}', [AnalystController::class, 'delete']);
 Route::get('/getPaymentToken', [AnalystController::class, 'pay']);
 Route::post('/profile/mini', [AnalystController::class, 'profileMini']);
 Route::get('/profile/{id}', [AnalystController::class, 'profile']);
-Route::get('/profile/{id}', [AnalystController::class, 'profile']);
+Route::get('/profile', [UserController::class, 'index']);
+Route::post('/profile/update', [UserController::class, 'update']);
+Route::get('/profile/request/analyst', [UserController::class, 'request']);
+Route::get('/delete-photo', [UserController::class, 'deletePhoto']);
 
 Route::get('/post/analyst/{id}', [PostController::class, 'analystPost']);
 Route::get('/post/view/{id}', [PostController::class, 'view']);
 
 Route::get('/post/view', [PostController::class, 'getPost']);
 Route::get('/post/manage', [PostController::class, 'getuserPost']);
-Route::post('/post/create', [PostController::class, 'create']);
+Route::get('/post/create', [PostController::class, 'create']);
 Route::post('/post/add', [PostController::class, 'addPost']);
 Route::get('/post/edit/{id}', [PostController::class, 'editPost']);
 Route::post('/post/edit', [PostController::class, 'edit']);
@@ -148,6 +152,7 @@ Route::get('/post', [LandingPageController::class, 'post']);
 Route::get('/search', [LandingPageController::class, 'emitenSearch']);
 Route::get('/search/data', [LandingPageController::class, 'emitenList']);
 Route::get('/emiten/{emiten}', [LandingPageController::class, 'emitenData']);
+Route::get('/emiten/{emiten}/fundamental', [LandingPageController::class, 'fundamental']);
 Route::get('/news', [LandingPageController::class, 'news']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/', [App\Http\Controllers\LandingPageController::class, 'index']);

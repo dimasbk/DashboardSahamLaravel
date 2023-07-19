@@ -38,7 +38,7 @@ class PortofolioBeliController extends Controller
         $dataporto = PortofolioBeliModel::where('user_id', Auth::id())
             ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
             ->join('tb_sekuritas', 'tb_portofolio_beli.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
-            ->get();
+            ->paginate(10);
         $emiten = SahamModel::all();
         $jenis_saham = JenisSahamModel::all();
         $sekuritas = SekuritasModel::all();
@@ -54,7 +54,7 @@ class PortofolioBeliController extends Controller
             ->join('tb_sekuritas', 'tb_portofolio_beli.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
             ->join('users', 'tb_portofolio_beli.user_id', '=', 'users.id')
             ->orderBy('user_id', 'asc')
-            ->get();
+            ->paginate(25);
 
         $data = compact(['dataporto']);
         //dd($data);
@@ -68,7 +68,7 @@ class PortofolioBeliController extends Controller
             $dataporto = PortofolioBeliModel::where('user_id', $user_id)
                 ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
                 ->join('tb_sekuritas', 'tb_portofolio_beli.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
-                ->get();
+                ->paginate(25);
             $emiten = SahamModel::all();
             $jenis_saham = JenisSahamModel::all();
             $sekuritas = SekuritasModel::all();

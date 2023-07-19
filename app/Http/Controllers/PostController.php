@@ -61,16 +61,17 @@ class PostController extends Controller
 
     public function view($id)
     {
+
         $postData = PostModel::where('id_post', $id)->first();
         if ($postData->tag == 'private') {
-            $isSubscribed = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', $postData->id_user)->where('status', 'subscribed')->first();
-            if ($isSubscribed) {
-                //dd('test1');
-                return view('postpre', compact(['postData']));
-            } else {
-                //dd('test2');
-                return redirect('/');
+            if (Auth::check()) {
+                $isSubscribed = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', $postData->id_user)->where('status', 'subscribed')->first();
+                if ($isSubscribed) {
+                    //dd('test1');
+                    return view('postpre', compact(['postData']));
+                }
             }
+            return redirect('/');
         } else {
             //dd('test3');
             return view('postpre', compact(['postData']));
@@ -103,6 +104,11 @@ class PostController extends Controller
 
     public function addPost(Request $request)
     {
+        $validated = $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+            'tag' => 'required',
+        ]);
         $title = $request->input('title');
         $content = $request->input('content');
         $tag = $request->input('tag');

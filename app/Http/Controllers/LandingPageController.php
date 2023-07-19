@@ -147,6 +147,76 @@ class LandingPageController extends Controller
     {
         $emiten = SahamModel::pluck('nama_saham');
         return view('landingPage/emitenSearch', ['data' => $emiten]);
+
+    }
+
+    public function fundamental($ticker)
+    {
+        $emiten = SahamModel::where('nama_saham', $ticker)->value('id_saham');
+        $input = InputFundamentalModel::where('tb_input.id_saham', $emiten)
+            ->join('tb_detail_input', 'tb_input.id_detail_input', '=', 'tb_detail_input.id_detail_input')
+            ->join('tb_saham', 'tb_input.id_saham', '=', 'tb_saham.id_saham')
+            ->latest('tahun')->get();
+
+        $inputData = $input->toArray();
+        $outputData = [];
+        $dataFundamental = [];
+
+        foreach ($input as $data) {
+            $output = OutputFundamentalModel::where('id_input', $data->id_input)
+                ->join('tb_detail_output', 'tb_output.id_detail_output', '=', 'tb_detail_output.id_output')
+                ->first();
+
+            if ($output->peg == null) {
+                $peg = 0;
+            } else {
+                $peg = $output->peg;
+            }
+
+            if ($output->der == null) {
+                $der = 0;
+            } else {
+                $der = $output->der;
+            }
+
+            if ($output->loan_to_depo_ratio == null) {
+                $loan_to_depo_ratio = 0;
+            } else {
+                $loan_to_depo_ratio = $output->loan_to_depo_ratio;
+            }
+            $dataOutput = array(
+                "der" => $der * 100,
+                "loan_to_depo_ratio" => $loan_to_depo_ratio * 100,
+                "annualized_roe" => $output->annualized_roe * 100,
+                "dividen" => $output->dividen,
+                "dividen_yield" => $output->dividen_yield * 100,
+                "dividen_payout_ratio" => $output->dividen_payout_ratio * 100,
+                "pbv" => $output->pbv * 100,
+                "annualized_per" => $output->annualized_per,
+                "annualized_roa" => $output->annualized_roa * 100,
+                "gpm" => $output->gpm * 100,
+                "npm" => $output->npm * 100,
+                "eer" => $output->eer * 100,
+                "ear" => $output->ear * 100,
+                "market_cap" => $output->market_cap,
+                "market_cap_asset_ratio" => $output->market_cap_asset_ratio * 100,
+                "cfo_sales_ratio" => $output->cfo_sales_ratio * 100,
+                "capex_cfo_ratio" => $output->capex_cfo_ratio * 100,
+                "market_cap_cfo_ratio" => $output->market_cap_cfo_ratio * 100,
+                "peg" => $peg * 100,
+                "harga_saham_sum_dividen" => $output->harga_saham_sum_dividen,
+            );
+            $fundamental = [$dataOutput, $data->toArray()];
+            //dd($fundamental);
+            array_push($dataFundamental, $fundamental);
+        }
+
+        $laporan = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', 7)->where('status', 'subscribed')->first();
+        $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
+        $data = compact(['dataFundamental'], ['ticker'], ['laporan'], ['check']);
+
+        //dd($data);
+        return view('landingPage/fundamental', $data);
     }
 
     public function emitenData($ticker)
@@ -154,7 +224,6 @@ class LandingPageController extends Controller
         $laporan = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', 7)->where('status', 'subscribed')->first();
         $emiten = SahamModel::where('nama_saham', $ticker)->value('id_saham');
         $input = InputFundamentalModel::where('tb_input.id_saham', $emiten)
-            ->where('user_id', Auth::id())
             ->join('tb_detail_input', 'tb_input.id_detail_input', '=', 'tb_detail_input.id_detail_input')
             ->join('tb_saham', 'tb_input.id_saham', '=', 'tb_saham.id_saham')
             ->latest('tahun')->first();
@@ -171,7 +240,7 @@ class LandingPageController extends Controller
             ->get()->toArray();
 
         $post = array_merge($postData, $analystPost);
-        //dd($analystPost);
+        //dd($input);
 
         if (!$input) {
             $inputData = array(
@@ -225,7 +294,6 @@ class LandingPageController extends Controller
 
             $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
             $data = compact(['inputData'], ['outputData'], ['ticker'], ['check'], ['post'], ['laporan']);
-            //dd($data);
 
             return view('landingPage/chart', $data);
 
