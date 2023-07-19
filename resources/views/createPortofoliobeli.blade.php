@@ -21,8 +21,6 @@
 
     <!-- Style -->
     <link rel="stylesheet" href="{{asset('style')}}/table/css/style.css">
-    <link rel="stylesheet" href="{{asset('style')}}/table/css/style.css">
-    <link rel="stylesheet" href="{{asset('style')}}/portoBeli.css">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
         integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
@@ -40,15 +38,6 @@
 
     <div class="container">
         <h4>Buat Portofolio Beli</h4>
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
         <form id="formBeli" class="needs-validation" novalidate method="post" action="/portofoliobeli/addbeli">
             @csrf
             <div class="form-group mb-4">
@@ -59,7 +48,9 @@
                     <option value="{{ $item->id_saham}}">{{ $item->nama_saham}}</option>
                     @endforeach
                 </select>
-                <div class="invalid-feedback">Please select an emiten saham.</div>
+                @if ($errors->any())
+                <strong style="color: red">{{ $errors->first('emitenSaham') }}</strong>
+                @endif
             </div>
             <div class="form-group mb-4">
                 <label for="jenisSaham">Jenis Saham</label>
@@ -69,22 +60,30 @@
                     <option value="{{ $item->id_jenis_saham}}">{{ $item->jenis_saham}}</option>
                     @endforeach
                 </select>
-                <div class="invalid-feedback">Please select a jenis saham.</div>
+                @if ($errors->any())
+                <strong style="color: red">{{ $errors->first('jenisSaham') }}</strong>
+                @endif
             </div>
             <div class="form-group mb-4">
                 <label for="volume">Volume</label>
                 <input type="number" class="form-control" id="volume" name="volume" min="0" step="1" required>
-                <div class="invalid-feedback">Please enter a valid volume.</div>
+                @if ($errors->any())
+                <strong style="color: red">{{ $errors->first('volume') }}</strong>
+                @endif
             </div>
             <div class="form-group mb-4">
                 <label for="tanggalBeli">Tanggal Beli</label>
                 <input type="date" class="form-control" id="tanggalBeli" name="tanggalBeli" required>
-                <div class="invalid-feedback">Please enter a valid tanggal beli.</div>
+                @if ($errors->any())
+                <strong style="color: red">{{ $errors->first('tanggalBeli') }}</strong>
+                @endif
             </div>
             <div class="form-group mb-4">
                 <label for="hargaBeli">Harga Beli</label>
                 <input type="number" class="form-control" id="hargaBeli" name="hargaBeli" min="0" step="0.01" required>
-                <div class="invalid-feedback">Please enter a valid harga beli.</div>
+                @if ($errors->any())
+                <strong style="color: red">{{ $errors->first('hargaBeli') }}</strong>
+                @endif
             </div>
             <div class="form-group mb-4">
                 <label for="sekuritas">Sekuritas</label>
@@ -94,7 +93,9 @@
                     <option value="{{ $item->id_sekuritas}}">{{ $item->nama_sekuritas}}</option>
                     @endforeach
                 </select>
-                <div class="invalid-feedback">Please select a sekuritas.</div>
+                @if ($errors->any())
+                <strong style="color: red">{{ $errors->first('sekuritas') }}</strong>
+                @endif
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
@@ -109,7 +110,6 @@
         integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://kit.fontawesome.com/ce0d5ffb27.js" crossorigin="anonymous"></script>
-    @vite(['resources/js/portofolioBeli.js'])
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
     @stop
 </body>

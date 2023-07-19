@@ -171,7 +171,7 @@ class AnalystController extends Controller
         $isSubscribed = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', $id)->where('status', 'subscribed')->first();
 
         if ($isSubscribed || Auth::id() == $id) {
-            $followers = SubscriberModel::where('id_analyst', $id)->get()->count();
+            $followers = SubscriberModel::where('id_analyst', $id)->where('status', 'subscribed')->get()->count();
             $profileData = User::where('id', $id)
                 ->join('tb_analyst_price', 'users.id', '=', 'tb_analyst_price.id_analyst')
                 ->first()->toArray();

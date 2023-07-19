@@ -130,15 +130,14 @@ class PortofolioJualController extends Controller
         ]; 
         */
 
-        dd($validated);
         $insert = PortofolioJualModel::create([
             'id_saham' => $validated['emitenSaham'],
             'user_id' => $id,
-            'jenis_saham' => $request->jenisSaham,
-            'volume' => $request->volume,
-            'tanggal_jual' => $request->tanggalJual,
-            'harga_jual' => $request->hargaJual,
-            'id_sekuritas' => $request->sekuritas,
+            'jenis_saham' => $validated['jenisSaham'],
+            'volume' => $validated['volume'],
+            'tanggal_jual' => $validated['tanggalJual'],
+            'harga_jual' => $validated['hargaJual'],
+            'id_sekuritas' => $validated['sekuritas'],
             'close_persen' => $close_persen
 
         ]);
@@ -192,6 +191,14 @@ class PortofolioJualController extends Controller
     public function editData(Request $request, PortofolioJualModel $portoJual)
     {
 
+        $validated = $request->validate([
+            'emitenSaham' => 'required',
+            'jenisSaham' => 'required',
+            'volume' => 'required',
+            'tanggalJual' => 'required',
+            'hargaJual' => 'required',
+            'sekuritas' => 'required'
+        ]);
         $dataporto = PortofolioJualModel::where('id_portofolio_jual', $request->id_portofolio_jual)->first();
         //dd($dataporto);
 

@@ -44,7 +44,7 @@
                     <a class="nav-link active" href="#">Beli</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/portofoliojual/{{Auth::id()}}">Jual</a>
+                    <a class="nav-link" href="/portofoliojual">Jual</a>
                 </li>
             </ul>
             @if ($errors->any())
@@ -130,6 +130,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            {{ $dataporto->links() }}
                         </div>
                     </div>
                 </div>

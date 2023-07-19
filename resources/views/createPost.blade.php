@@ -59,12 +59,16 @@
             <div class="form-group">
                 <label for="post-title">Title</label>
                 <input type="text" class="form-control" id="post-title" name="title" required>
-                <div class="invalid-feedback" id="title-invalid-feedback"></div>
+                @if ($errors->any())
+                <strong style="color: red">{{ $errors->first('title') }}</strong>
+                @endif
             </div>
             <div class="form-group">
                 <label for="post-content">Content</label>
                 <textarea class="form-control" id="post-content" name="content" rows="4" required></textarea>
-                <div class="invalid-feedback" id="content-invalid-feedback"></div>
+                @if ($errors->any())
+                <strong style="color: red">{{ $errors->first('content') }}</strong>
+                @endif
             </div>
             <div class="form-group">
                 <label>
@@ -76,7 +80,9 @@
                     <input type="radio" name="tag" value="private">
                     Private
                 </label>
-                <div class="invalid-feedback" id="tag-invalid-feedback"></div>
+                @if ($errors->any())
+                <strong style="color: red">{{ $errors->first('tag') }}</strong>
+                @endif
             </div>
             <div class="form-group">
                 <label for="post-image">Image (optional)</label>

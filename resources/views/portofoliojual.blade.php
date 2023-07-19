@@ -46,7 +46,7 @@
         </li>
       </ul>
       <div class="container">
-        <a href="portofoliojual/create" class="btn btn-default btn-rounded mt-4 mb-4" data-toggle="modal"
+        <a href="/portofoliojual/create" class="btn btn-default btn-rounded mt-4 mb-4" data-toggle="modal"
           data-target="#modalbeli">Buat Data Portofolio</a>
       </div>
       <div class="card shadow mb-4">
