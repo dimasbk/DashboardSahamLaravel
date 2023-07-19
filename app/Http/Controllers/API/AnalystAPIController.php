@@ -101,6 +101,28 @@ class AnalystAPIController extends Controller
         //return view('landingPage/analyst', $data);
     }
 
+    public function getAdmin(Request $request)
+    {
+        $id_user = Auth::id();
+        $notToFollow = SubscriberModel::where('id_subscriber', $id_user)->where('status', 'subscribed')->pluck('id_analyst')->toArray();
+        array_push($notToFollow, $id_user);
+        $toFollow = User::where('id_roles', 1)->whereNotIn('id', $notToFollow)->get()->toArray();
+        $existing = SubscriberModel::where('id_subscriber', $id_user)
+            ->join('users', 'tb_subscription.id_analyst', '=', 'users.id')
+            ->get()->toArray();
+
+        $data = compact(['toFollow', 'existing']);
+
+        //dd($existing);
+        return response()->json([
+            'status' => 'success',
+            'data' => $data
+        ], 200);
+
+
+        //return view('landingPage/analyst', $data);
+    }
+
     public function getAnalystExisting(Request $request)
     {
         $id_user = Auth::id();
@@ -186,7 +208,7 @@ class AnalystAPIController extends Controller
         //return $expired;
         $subscribe = SubscriberModel::create([
             'id_subscriber' => Auth::id(),
-            'id_analyst' => $request->id,
+            'id_analyst' => $request->id_analyst,
             'expired' => $expired,
             'status' => 'pending'
         ]);

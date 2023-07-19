@@ -35,6 +35,8 @@ class AnalystController extends Controller
        return view('landingPage/analyst', $data);
     }
 
+
+
     public function plan(Request $request)
     {
         $analystData = User::where('id', $request->id)->first();
@@ -47,13 +49,19 @@ class AnalystController extends Controller
         // ], 200);
 
         //dd($analystData);
-       return view('landingPage/plan', compact(['analystData', 'prices']));
+     return view('landingPage/plan', compact(['analystData', 'prices']));
     }
 
     public function subscribe(Request $request)
     {
         $analystData = User::where('id', $request->id)->first();
         $prices = PriceModel::where('id_price', $request->id_price)->first();
+
+// $data = compact(['analystData', 'prices']);
+//         return response()->json([
+//             'status' => 'success',
+//             'data' => $data
+//         ], 200);
 
         //dd($analystData);
         return view('landingPage/subscribe', compact(['analystData', 'prices']));
