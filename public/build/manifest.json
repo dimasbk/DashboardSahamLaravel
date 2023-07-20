@@ -17,13 +17,148 @@
     "src": "resources/js/landingPage.js",
     "isEntry": true
   },
-  "resources/js/app.css": {
-    "file": "assets/app.a51d8c0b.css",
-    "src": "resources/js/app.css"
+  "resources/js/analyst.js": {
+    "file": "assets/analyst.48829431.js",
+    "src": "resources/js/analyst.js",
+    "isEntry": true
+  },
+  "resources/js/chart.js": {
+    "file": "assets/chart.b0d2ad1e.js",
+    "src": "resources/js/chart.js",
+    "isEntry": true
+  },
+  "resources/js/editPortofolioBeli.js": {
+    "file": "assets/editPortofolioBeli.905341b9.js",
+    "src": "resources/js/editPortofolioBeli.js",
+    "isEntry": true
+  },
+  "resources/js/editPortofolioJual.js": {
+    "file": "assets/editPortofolioJual.6c40ee49.js",
+    "src": "resources/js/editPortofolioJual.js",
+    "isEntry": true
+  },
+  "resources/js/editPost.js": {
+    "file": "assets/editPost.cd5947f4.js",
+    "src": "resources/js/editPost.js",
+    "isEntry": true
+  },
+  "resources/js/emitenAdmin.js": {
+    "file": "assets/emitenAdmin.ff36912d.js",
+    "src": "resources/js/emitenAdmin.js",
+    "isEntry": true
+  },
+  "resources/js/fundamentalBank.js": {
+    "file": "assets/fundamentalBank.d1aff71f.js",
+    "src": "resources/js/fundamentalBank.js",
+    "isEntry": true
+  },
+  "resources/js/landing.js": {
+    "file": "assets/landing.849ef1f0.js",
+    "src": "resources/js/landing.js",
+    "isEntry": true
+  },
+  "resources/js/main.js": {
+    "file": "assets/main.a48a11b8.js",
+    "src": "resources/js/main.js",
+    "isEntry": true
+  },
+  "resources/js/portofolioBeli.js": {
+    "file": "assets/portofolioBeli.b34975b3.js",
+    "src": "resources/js/portofolioBeli.js",
+    "isEntry": true
+  },
+  "resources/js/portofolioJual.js": {
+    "file": "assets/portofolioJual.73ddfe44.js",
+    "src": "resources/js/portofolioJual.js",
+    "isEntry": true
+  },
+  "resources/js/post.js": {
+    "file": "assets/post.9d594625.js",
+    "src": "resources/js/post.js",
+    "isEntry": true
+  },
+  "resources/js/search.js": {
+    "file": "assets/search.153b8d16.js",
+    "src": "resources/js/search.js",
+    "isEntry": true
+  },
+  "resources/js/stockData.js": {
+    "file": "assets/stockData.836e2336.js",
+    "src": "resources/js/stockData.js",
+    "isEntry": true
+  },
+  "resources/js/subscribe.js": {
+    "file": "assets/subscribe.9fd0d144.js",
+    "src": "resources/js/subscribe.js",
+    "isEntry": true
+  },
+  "resources/js/technical.js": {
+    "file": "assets/technical.021405f9.js",
+    "src": "resources/js/technical.js",
+    "isEntry": true
+  },
+  "resources/js/template.js": {
+    "file": "assets/template.0a9fd24f.js",
+    "src": "resources/js/template.js",
+    "isEntry": true
+  },
+  "resources/sass/_variables.scss": {
+    "file": "assets/_variables.4cf20fa5.js",
+    "src": "resources/sass/_variables.scss",
+    "isEntry": true
+  },
+  "resources/sass/newsArticle.scss": {
+    "file": "assets/newsArticle.78c2a9792.js",
+    "src": "resources/sass/newsArticle.scss",
+    "isEntry": true
+  },
+  "resources/sass/landing.scss": {
+    "file": "assets/landing.f3c876de.css",
+    "src": "resources/sass/landing.scss",
+    "isEntry": true
   },
   "resources/css/landingPage.css": {
     "file": "assets/landingPage.a51d8c0b.css",
     "src": "resources/css/landingPage.css",
+    "isEntry": true
+  },
+  "resources/js/app.css": {
+    "file": "assets/app.a51d8c0b.css",
+    "src": "resources/js/app.css"
+  },
+  "resources/css/newsArticle.css": {
+    "file": "assets/newsArticle.658622d4.css",
+    "src": "resources/css/newsArticle.css",
+    "isEntry": true
+  },
+  "resources/css/landing.css": {
+    "file": "assets/landing.9add6192.css",
+    "src": "resources/css/landing.css",
+    "isEntry": true
+  },
+  "resources/css/article.css": {
+    "file": "assets/article.8f9ad4dc.css",
+    "src": "resources/css/article.css",
+    "isEntry": true
+  },
+  "resources/css/fundamental.css": {
+    "file": "assets/fundamental.593f8aea.css",
+    "src": "resources/css/fundamental.css",
+    "isEntry": true
+  },
+  "resources/css/analyst.css": {
+    "file": "assets/analyst.bf3ad747.css",
+    "src": "resources/css/analyst.css",
+    "isEntry": true
+  },
+  "resources/css/userProfile.css": {
+    "file": "assets/userProfile.a90b9290.css",
+    "src": "resources/css/userProfile.css",
+    "isEntry": true
+  },
+  "resources/css/template.css": {
+    "file": "assets/template.a23e7dbd.css",
+    "src": "resources/css/template.css",
     "isEntry": true
   },
   "resources/sass/landingPage.scss": {
@@ -31,9 +166,44 @@
     "src": "resources/sass/landingPage.scss",
     "isEntry": true
   },
+  "resources/css/plan.css": {
+    "file": "assets/plan.a427368e.css",
+    "src": "resources/css/plan.css",
+    "isEntry": true
+  },
+  "resources/css/search.css": {
+    "file": "assets/search.7d23b62f.css",
+    "src": "resources/css/search.css",
+    "isEntry": true
+  },
+  "resources/sass/home.scss": {
+    "file": "assets/home.3313b4cc.css",
+    "src": "resources/sass/home.scss",
+    "isEntry": true
+  },
+  "resources/css/animate.css": {
+    "file": "assets/animate.a6719692.css",
+    "src": "resources/css/animate.css",
+    "isEntry": true
+  },
+  "resources/sass/style.scss": {
+    "file": "assets/style.efcf889e.css",
+    "src": "resources/sass/style.scss",
+    "isEntry": true
+  },
+  "resources/sass/chart.scss": {
+    "file": "assets/chart.5ff319c5.css",
+    "src": "resources/sass/chart.scss",
+    "isEntry": true
+  },
   "resources/sass/app.scss": {
     "file": "assets/app.525f5899.css",
     "src": "resources/sass/app.scss",
+    "isEntry": true
+  },
+  "resources/sass/post.scss": {
+    "file": "assets/post.dbd99c49.css",
+    "src": "resources/sass/post.scss",
     "isEntry": true
   }
 }

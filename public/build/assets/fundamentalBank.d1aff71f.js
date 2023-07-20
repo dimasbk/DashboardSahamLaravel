@@ -1,0 +1,1 @@
+$(document).ready(function(){$("#input").DataTable({scrollY:"300px",scrollX:!0,scrollCollapse:!0,paging:!1,columnDefs:[{width:"20%",targets:0}],fixedColumns:!0}),$("#output").DataTable({scrollY:"300px",scrollX:!0,scrollCollapse:!0,paging:!1,columnDefs:[{width:"20%",targets:0}],fixedColumns:!0}),$('[data-toggle="tooltip"]').tooltip()});
