@@ -256,7 +256,7 @@ class PostController extends Controller
                 }
                 $post->delete();
             }
-            return redirect('/admin/post/manage');
+            return redirect('/admin/post');
         }
         return redirect('/');
     }
