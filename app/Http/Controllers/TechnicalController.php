@@ -130,7 +130,7 @@ class TechnicalController extends Controller
             $ldr = $output->loan_to_depo_ratio * 100;
 
             $trend = $this->trend($data);
-            $array = ["ticker" => "{$stock}", "MAPercentage" => "{$trend['MAPercentage']}", "trend" => "{$trend['trendString']}", "change" => "{$trend['percentage']}", "der" => "{$der}", "ldr" => "{$ldr}"];
+            $array = ["ticker" => "{$stock}", "MAPercentage" => "{$trend['MAPercentage']}", "trend" => "{$trend['trendString']}", "change" => "{$trend['percentage']}", "der" => "{$der}", "ldr" => "{$ldr}", "start" => $start, "end" => $end];
             array_push($trends, $array);
 
         }
@@ -158,5 +158,43 @@ class TechnicalController extends Controller
         //return $filteredData;
         //dd(compact(['filteredData']));
         return view('landingPage/technical', compact(['filteredData']));
+    }
+
+    public function getChartData(Request $request, $emiten)
+    {
+        $start = $request->start;
+        $end = $request->end;
+
+        return view('landingPage/technicalChart', compact(['start', 'end', 'emiten']));
+    }
+    public function technicalChart(Request $request)
+    {
+
+        $response = Http::acceptJson()
+            ->withHeaders([
+                'X-API-KEY' => config('goapi.apikey')
+            ])->get('https://api.goapi.id/v1/stock/idx/' . $request->emiten . '/historical', [
+                    'to' => $request->end,
+                    'from' => $request->start
+                ])->json();
+
+        $historical = $response['data']['results'];
+
+        $fridayData = array_filter($historical, function ($entry) {
+            $date = Carbon::parse($entry['date']); // Parse the date using Carbon
+            return $date->isFriday();
+        });
+
+        $closePrice = [];
+
+        foreach ($fridayData as $data) {
+            array_push($closePrice, $data);
+        }
+
+        $closePrice = array_reverse($closePrice);
+
+        return $closePrice;
+
+
     }
 }

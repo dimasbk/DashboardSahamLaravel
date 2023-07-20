@@ -72,9 +72,15 @@
                     <td>{{ucfirst($data['trend'])}}</td>
                     <td>{{$data['change']}}%</td>
                     <td>{{$data['MAPercentage']}}%</td>
-                    <td>{{$data['der']}}</td>
-                    <td>{{$data['ldr']}}</td>
-                    <td><a href="/emiten/{{$data['ticker']}}">View</a></td>
+                    <td>{{$data['der']}}%</td>
+                    <td>{{$data['ldr']}}%</td>
+                    <td>
+                        <form action="/emiten/technical/{{$data['ticker']}}" method="get" target="_blank">
+                            <input type="hidden" name="start" value="{{$data['start']}}">
+                            <input type="hidden" name="end" value="{{$data['end']}}">
+                            <button type="submit" class="btn btn-primary">View</button>
+                        </form>
+                    </td>
                     @endforeach
                 </tbody>
             </table>
