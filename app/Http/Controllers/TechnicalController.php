@@ -168,13 +168,9 @@ class TechnicalController extends Controller
         Log::info($filteredData);
 
         //return $filteredData;
-        //dd(compact(['filteredData']));
-        //return view('landingPage/technical', compact(['filteredData']));
+        dd(compact(['filteredData']));
+        return view('landingPage/technical', compact(['filteredData']));
 
-        return response()->json([
-            'status' => 'success',
-            'data' => compact(['filteredData'])
-        ], 200);
         //Log::info(filteredData);
     }
 
