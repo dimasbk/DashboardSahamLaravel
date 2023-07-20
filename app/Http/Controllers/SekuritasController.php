@@ -21,7 +21,11 @@ class SekuritasController extends Controller
 
     public function create(Request $request)
     {
-        //dd($request->namaSekuritas);
+        $validated = $request->validate([
+            'namaSekuritas' => 'required',
+            'feeBeli' => 'required',
+            'feeJual' => 'required'
+        ]);
         $data = SekuritasModel::create([
             'nama_sekuritas' => strtoupper($request->namaSekuritas),
             'fee_beli' => $request->feeBeli / 100,

@@ -47,6 +47,15 @@
             {{session('deleted')}}
         </div>
         @endif
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
         <div style="margin-top: 10px" class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold">Manage Sekuritas</h6>
@@ -129,16 +138,25 @@
                                 <label for="namaSekuritas">Nama Sekuritas</label>
                                 <input type="text" class="form-control" id="namaSekuritas" name="namaSekuritas"
                                     placeholder="Enter Nama Sekuritas">
+                                @if ($errors->any())
+                                <strong style="color: red">{{ $errors->first('namaSekuritas') }}</strong>
+                                @endif
                             </div>
                             <div class="form-group">
                                 <label for="feeBeli">Fee Beli</label>
                                 <input type="number" class="form-control" id="feeBeli" placeholder="Enter Fee Beli"
                                     name="feeBeli">
+                                @if ($errors->any())
+                                <strong style="color: red">{{ $errors->first('feeBeli') }}</strong>
+                                @endif
                             </div>
                             <div class="form-group">
                                 <label for="feeJual">Fee Jual</label>
                                 <input type="number" class="form-control" id="feeJual" placeholder="Enter Fee Jual"
                                     name="feeJual">
+                                @if ($errors->any())
+                                <strong style="color: red">{{ $errors->first('feeJual') }}</strong>
+                                @endif
                             </div>
                             <button type="submit" class="btn btn-primary">Save changes</button>
                         </form>
