@@ -209,6 +209,5 @@ class TechnicalController extends Controller
 
         return $closePrice;
 
-
     }
 }
