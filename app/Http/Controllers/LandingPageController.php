@@ -24,18 +24,18 @@ class LandingPageController extends Controller
                 'X-API-KEY' => config('goapi.apikey')
             ])->get('https://api.goapi.id/v1/stock/idx/top_gainer')->json();
 
-        // $topGainers = array_splice($topGainers['data']['results'], 0, 10);
+        $topGainers = array_splice($topGainers['data']['results'], 0, 10);
 
         $topLosers = Http::acceptJson()
             ->withHeaders([
                 'X-API-KEY' => config('goapi.apikey')
             ])->get('https://api.goapi.id/v1/stock/idx/top_loser')->json();
 
-        // $topLosers = array_splice($topLosers['data']['results'], 0, 10);
+        $topLosers = array_splice($topLosers['data']['results'], 0, 10);
 
-        // $trends = $this->technical();
-        //return view('landingPage/landing_page', compact(['post', 'topGainers', 'topLosers', 'trends']));
-        return view('landingPage/landing_page', compact(['post']));
+        $trends = $this->technical();
+        return view('landingPage/landing_page', compact(['post', 'topGainers', 'topLosers', 'trends']));
+        //return view('landingPage/landing_page', compact(['post']));
     }
 
     public function technical()
