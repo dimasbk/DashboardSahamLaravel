@@ -108,7 +108,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $dataporto->postData() }}
+                {{ $postData->postData() }}
             </div>
         </div>
         <div class="modal fade" id="modalPost" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
