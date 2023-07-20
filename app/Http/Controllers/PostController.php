@@ -35,7 +35,7 @@ class PostController extends Controller
         if (Auth::user()->id_roles == 2) {
             $postData = PostModel::where('id_user', Auth::id())
                 ->join('users', 'tb_post.id_user', '=', 'users.id')
-                ->get();
+                ->paginate(10);
 
             $saham = SahamModel::all();
 
@@ -48,7 +48,7 @@ class PostController extends Controller
     public function getUserPostAdmin()
     {
         if (Auth::user()->id_roles == 1) {
-            $postData = PostModel::join('users', 'tb_post.id_user', '=', 'users.id')->get();
+            $postData = PostModel::join('users', 'tb_post.id_user', '=', 'users.id')->paginate(10);
 
             $saham = SahamModel::all();
 

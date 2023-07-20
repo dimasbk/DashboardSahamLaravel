@@ -11,7 +11,7 @@ class PlanController extends Controller
 {
     public function index()
     {
-        $prices = PriceModel::where('id_analyst', Auth::id())->get();
+        $prices = PriceModel::where('id_analyst', Auth::id())->paginate(10);
 
         return view('plan', compact(['prices']));
     }

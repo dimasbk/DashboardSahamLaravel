@@ -115,9 +115,9 @@
                   </div>
                 </div>
                 @endforeach
-
               </tbody>
             </table>
+            {{ $dataporto->links() }}
           </div>
         </div>
       </div>

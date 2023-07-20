@@ -14,7 +14,7 @@ class SekuritasController extends Controller
     }
     public function index()
     {
-        $data = SekuritasModel::all();
+        $data = SekuritasModel::paginate(10);
 
         return view('admin/sekuritas', compact(['data']));
     }

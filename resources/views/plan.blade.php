@@ -65,6 +65,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{ $prices->links() }}
             </div>
         </div>
         <div class="modal fade" id="modalplan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
