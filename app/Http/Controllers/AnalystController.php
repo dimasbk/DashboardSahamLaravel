@@ -18,7 +18,7 @@ class AnalystController extends Controller
 {
     public function index()
     {
-        $notToFollow = SubscriberModel::where('id_subscriber', Auth::id())->where('status', 'pending')->pluck('id_analyst')->toArray();
+        $notToFollow = SubscriberModel::where('id_subscriber', Auth::id())->where('status', 'pending')->orWhere('status', 'subscribed')->pluck('id_analyst')->toArray();
         array_push($notToFollow, Auth::id());
         $toFollow = User::where('id_roles', 2)->whereNotIn('id', $notToFollow)->get()->toArray();
         $existing = SubscriberModel::where('id_subscriber', Auth::id())
