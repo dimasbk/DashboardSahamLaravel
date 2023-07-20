@@ -56,6 +56,11 @@
                 </ul>
             </div>
             @endif
+            @if (session('status'))
+            <div style="margin-top: 10px" class="alert alert-success alert-dismissible" role="alert">
+                {{session('status')}}
+            </div>
+            @endif
             <div class="container">
                 <a href="portofoliobeli/create" class="btn btn-default btn-rounded mt-4 mb-4" data-toggle="modal"
                     data-target="#modalbeli">Buat Data Portofolio</a>
@@ -98,8 +103,10 @@
                                                 onclick="location.href='/portofoliobeli/edit/{{$item->id_portofolio_beli}}'"
                                                 class="btn btn-success" type="button"><i
                                                     class="fas fa-edit"></i></button>
-                                            <button data-toggle="modal" data-target="#delete" type="button"
-                                                class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                            <button
+                                                onclick="location.href='/portofoliobeli/delete/{{$item->id_portofolio_beli}}'"
+                                                type="button" class="btn btn-danger"><i
+                                                    class="far fa-trash-alt"></i></button>
                                         </td>
 
                                         <div id="delete" class="modal fade">

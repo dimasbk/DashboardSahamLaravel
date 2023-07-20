@@ -100,6 +100,8 @@ class PortofolioJualController extends Controller
             'sekuritas' => 'required'
         ]);
 
+        //dd($validated['sekuritas']);
+
         $id = Auth::id();
 
         $getEmiten = SahamModel::select('nama_saham')
@@ -142,15 +144,8 @@ class PortofolioJualController extends Controller
 
         ]);
 
-        $insert->save();
-        //dd($data);
-        //dd($request);
-        //$this->PortofolioJualModel->insertData($data);
         if ($data) {
-            return redirect()->action(
-                [PortofolioJualController::class, 'getdata'],
-                ['user_id' => $id]
-            );
+            return redirect('portofoliojual')->with('status', 'Data berhasil dibuat');
         }
     }
 
@@ -195,8 +190,8 @@ class PortofolioJualController extends Controller
             'emitenSaham' => 'required',
             'jenisSaham' => 'required',
             'volume' => 'required',
-            'tanggalJual' => 'required',
-            'hargaJual' => 'required',
+            'tanggal_jual' => 'required',
+            'harga_jual' => 'required',
             'sekuritas' => 'required'
         ]);
         $dataporto = PortofolioJualModel::where('id_portofolio_jual', $request->id_portofolio_jual)->first();
@@ -205,7 +200,7 @@ class PortofolioJualController extends Controller
         $id = Auth::id();
         //dd($dataporto);
         $getEmiten = SahamModel::select('nama_saham')
-            ->where('id_saham', $request->id_saham)
+            ->where('id_saham', $request->emitenSaham)
             ->first();
         $emiten = $getEmiten->nama_saham;
 
@@ -221,9 +216,9 @@ class PortofolioJualController extends Controller
         $harga_jual = $request->harga_jual;
         $close_persen = round((($harga_jual - $closeprice) / $harga_jual) * 100);
 
-        $dataporto->id_saham = $request->id_saham;
+        $dataporto->id_saham = $request->emitenSaham;
         $dataporto->user_id = $id;
-        $dataporto->jenis_saham = $request->id_jenis_saham;
+        $dataporto->jenis_saham = $request->jenisSaham;
         $dataporto->volume = $request->volume;
         $dataporto->tanggal_jual = $request->tanggal_jual;
         $dataporto->harga_jual = $harga_jual;
@@ -232,7 +227,7 @@ class PortofolioJualController extends Controller
         $dataporto->save();
 
 
-        return redirect()->to('portofoliojual/' . $id);
+        return redirect()->to('portofoliojual/')->with('status', 'Data berhasil diubah');
 
     }
 
@@ -272,7 +267,7 @@ class PortofolioJualController extends Controller
             $dataporto->save();
 
 
-            return redirect()->to('admin/portofoliojual/');
+            return redirect()->to('admin/portofoliojual/')->with('status', 'Data berhasil dihapus');
         }
         abort(403);
 
@@ -280,13 +275,13 @@ class PortofolioJualController extends Controller
 
     public function deleteData($id_portofolio_jual, PortofolioJualModel $portoJual)
     {
-        if (!Gate::allows('update-delete-portojual', $portoJual)) {
-            abort(403);
-        }
         $dataporto = PortofolioJualModel::where('id_portofolio_jual', $id_portofolio_jual)->firstOrFail();
-        $dataporto->delete();
-        $id = Auth::id();
-        return redirect()->to('portofoliojual/' . $id);
+        if ($dataporto->user_id == Auth::id()) {
+            $dataporto->delete();
+            $id = Auth::id();
+            return redirect()->to('portofoliojual/')->with('status', 'Data berhasil dihapus');
+        }
+        abort(403);
     }
 
     public function deleteDataAdmin($id_portofolio_jual)
@@ -294,7 +289,7 @@ class PortofolioJualController extends Controller
         if (Auth::user()->id_roles == 1) {
             $dataporto = PortofolioJualModel::where('id_portofolio_jual', $id_portofolio_jual)->firstOrFail();
             $dataporto->delete();
-            return redirect()->to('admin/portofoliojual');
+            return redirect()->to('admin/portofoliojual')->with('status', 'Data berhasil dihapus');
         }
         abort(403);
     }

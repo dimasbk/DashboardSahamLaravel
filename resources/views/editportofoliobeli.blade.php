@@ -22,7 +22,9 @@
             <input name="id_saham_hidden" type="hidden" id="id_saham_hidden" value="{{$item->id_saham}}"
                 class="form-control validate">
             @endforeach
-            <div class="invalid-feedback"></div>
+            @if ($errors->any())
+            <strong style="color: red">{{ $errors->first('id_saham') }}</strong>
+            @endif
 
         </div>
 
@@ -40,7 +42,9 @@
             <input name="id_jenis_saham_hidden" type="hidden" id="id_jenis_saham_hidden" value="{{ $item->jenis_saham}}"
                 class="form-control validate">
             @endforeach
-            <div class="invalid-feedback"></div>
+            @if ($errors->any())
+            <strong style="color: red">{{ $errors->first('id_jenis_saham') }}</strong>
+            @endif
         </div>
 
         <div>
@@ -54,6 +58,9 @@
             @foreach ($dataporto as $item)
             <input name="volume" type="number" id="volume" value="{{$item->volume}}" class="form-control validate">
             @endforeach
+            @if ($errors->any())
+            <strong style="color: red">{{ $errors->first('volume') }}</strong>
+            @endif
         </div>
 
         <div class="md-form mb-5">
@@ -62,6 +69,9 @@
             <input name="tanggal_beli" type="date" id="tanggal_beli" value="{{$item->tanggal_beli}}"
                 class="form-control validate">
             @endforeach
+            @if ($errors->any())
+            <strong style="color: red">{{ $errors->first('tanggal_beli') }}</strong>
+            @endif
         </div>
 
         <div class="md-form mb-5">
@@ -70,6 +80,9 @@
             <input name="harga_beli" type="number" id="harga_beli" value="{{$item->harga_beli}}"
                 class="form-control validate">
             @endforeach
+            @if ($errors->any())
+            <strong style="color: red">{{ $errors->first('harga_beli') }}</strong>
+            @endif
         </div>
         <div class="md-form mb-5">
             <label for="sekuritas">Sekuritas</label>
@@ -83,6 +96,9 @@
                     class="form-control validate">
                 @endforeach
             </select>
+            @if ($errors->any())
+            <strong style="color: red">{{ $errors->first('sekuritas') }}</strong>
+            @endif
         </div>
     </div>
     <div class="modal-footer d-flex justify-content-center">

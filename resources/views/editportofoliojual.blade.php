@@ -10,7 +10,7 @@
     <div class="modal-body mx-3">
         <div class="md-form mb-5">
             <label data-error="wrong" data-success="right" for="form34">Emiten Saham</label><br>
-            <select name="id_saham" id="id_saham" class="category">
+            <select name="emitenSaham" id="id_saham" class="category">
                 <option disable selected @error('id_saham') is-invalid @enderror>--Pilih Saham--</option>
 
                 @foreach($emiten as $item)
@@ -22,13 +22,15 @@
             <input name="id_saham_hidden" type="hidden" id="id_saham_hidden" value="{{$dataporto->id_saham}}"
                 class="form-control validate">
 
-            <div class="invalid-feedback"></div>
+            @if ($errors->any())
+            <strong style="color: red">{{ $errors->first('emitenSaham') }}</strong>
+            @endif
 
         </div>
 
         <div class="md-form mb-5">
             <label data-error="wrong" data-success="right" for="form29">Jenis Saham</label><br>
-            <select name="id_jenis_saham" id="id_jenis_saham" class="category">
+            <select name="jenisSaham" id="id_jenis_saham" class="category">
                 <option disable selected>--Pilih Jenis--</option>
 
                 @foreach($jenis_saham as $item)
@@ -40,7 +42,9 @@
             <input name="id_jenis_saham_hidden" type="hidden" id="id_jenis_saham_hidden"
                 value="{{ $dataporto->jenis_saham}}" class="form-control validate">
 
-            <div class="invalid-feedback"></div>
+            @if ($errors->any())
+            <strong style="color: red">{{ $errors->first('jenisSaham') }}</strong>
+            @endif
         </div>
 
         <div>
@@ -53,7 +57,9 @@
             <label data-error="wrong" data-success="right" for="form32">Volume</label>
 
             <input name="volume" type="number" id="volume" value="{{$dataporto->volume}}" class="form-control validate">
-
+            @if ($errors->any())
+            <strong style="color: red">{{ $errors->first('volume') }}</strong>
+            @endif
         </div>
 
         <div class="md-form mb-5">
@@ -61,7 +67,9 @@
 
             <input name="tanggal_jual" type="date" id="tanggal_jual" value="{{$dataporto->tanggal_jual}}"
                 class="form-control validate">
-
+            @if ($errors->any())
+            <strong style="color: red">{{ $errors->first('tanggal_jual') }}</strong>
+            @endif
         </div>
 
         <div class="md-form mb-5">
@@ -69,7 +77,9 @@
 
             <input name="harga_jual" type="number" id="harga_jual" value="{{$dataporto->harga_jual}}"
                 class="form-control validate">
-
+            @if ($errors->any())
+            <strong style="color: red">{{ $errors->first('harga_jual') }}</strong>
+            @endif
         </div>
         <div class="md-form mb-5">
             <label for="sekuritas">Sekuritas</label>
@@ -84,6 +94,9 @@
 
             </select>
         </div>
+        @if ($errors->any())
+        <strong style="color: red">{{ $errors->first('sekuritas') }}</strong>
+        @endif
     </div>
     <div class="modal-footer d-flex justify-content-center">
         <button id="btn_send" type="submit" class="btn btn-unique">Send <i

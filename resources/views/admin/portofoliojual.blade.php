@@ -45,6 +45,11 @@
           <a class="nav-link active" href="#">Jual</a>
         </li>
       </ul>
+      @if (session('status'))
+      <div style="margin-top: 10px" class="alert alert-success alert-dismissible" role="alert">
+        {{session('status')}}
+      </div>
+      @endif
       <div class="card shadow mb-4" style="margin-top: 10px">
         <div class="card-header py-3">
           <h6 class="m-0 font-weight-bold">Portofolio Jual</h6>
@@ -81,8 +86,8 @@
                   <td>
                     <button onclick="location.href='/admin/portofoliojual/edit/{{$item->id_portofolio_jual}}'"
                       class="btn btn-success" type="button"><i class="fas fa-edit"></i></button>
-                    <button data-toggle="modal" data-target="#deletemodal" type="button" class="btn btn-danger"><i
-                        class="far fa-trash-alt"></i></button>
+                    <button onclick="location.href='/admin/portofoliojual/delete/{{$item->id_portofolio_beli}}'"
+                      type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                   </td>
 
                 </tr>

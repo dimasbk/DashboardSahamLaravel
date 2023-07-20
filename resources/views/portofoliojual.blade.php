@@ -45,6 +45,12 @@
           <a class="nav-link active" href="#">Jual</a>
         </li>
       </ul>
+
+      @if (session('status'))
+      <div style="margin-top: 10px" class="alert alert-success alert-dismissible" role="alert">
+        {{session('status')}}
+      </div>
+      @endif
       <div class="container">
         <a href="/portofoliojual/create" class="btn btn-default btn-rounded mt-4 mb-4" data-toggle="modal"
           data-target="#modalbeli">Buat Data Portofolio</a>
@@ -82,8 +88,8 @@
                   <td>
                     <button onclick="location.href='/portofoliojual/edit/{{$item->id_portofolio_jual}}'"
                       class="btn btn-success" type="button"><i class="fas fa-edit"></i></button>
-                    <button data-toggle="modal" data-target="#deletemodal" type="button" class="btn btn-danger"><i
-                        class="far fa-trash-alt"></i></button>
+                    <button onclick="location.href='/portofoliojual/delete/{{$item->id_portofolio_jual}}'" type="button"
+                      class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                   </td>
 
                 </tr>

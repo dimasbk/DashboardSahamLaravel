@@ -141,7 +141,14 @@ class PortofolioBeliController extends Controller
 
     public function editData(Request $request, PortofolioBeliModel $portoBeli)
     {
-
+        $validated = $request->validate([
+            'id_saham' => 'required',
+            'id_jenis_saham' => 'required',
+            'volume' => 'required',
+            'tanggal_beli' => 'required',
+            'harga_beli' => 'required',
+            'sekuritas' => 'required'
+        ]);
         $dataporto = PortofolioBeliModel::where('id_portofolio_beli', $request->id_portofolio_beli)->firstOrFail();
         $id = Auth::id();
         //dd($dataporto);
@@ -155,7 +162,7 @@ class PortofolioBeliController extends Controller
         $dataporto->save();
 
 
-        return redirect()->to('/portofoliobeli');
+        return redirect()->to('/portofoliobeli')->with('status', 'Data berhasil diubah');
     }
 
     public function editDataAdmin(Request $request, PortofolioBeliModel $portoBeli)
@@ -173,7 +180,7 @@ class PortofolioBeliController extends Controller
             $dataporto->save();
 
 
-            return redirect()->to('admin/portofoliobeli');
+            return redirect()->to('admin/portofoliobeli')->with('status', 'Data berhasil diubah');
         }
 
         abort(403);
@@ -181,13 +188,13 @@ class PortofolioBeliController extends Controller
 
     public function deleteData($id_portofolio_beli, PortofolioBeliModel $portoBeli)
     {
-        if (!Gate::allows('update-delete-portobeli', $portoBeli)) {
-            abort(403);
-        }
         $dataporto = PortofolioBeliModel::where('id_portofolio_beli', $id_portofolio_beli)->firstOrFail();
-        $dataporto->delete();
-        $id = Auth::id();
-        return redirect()->to('portofoliobeli/' . $id);
+        if ($dataporto->user_id == Auth::id()) {
+            $dataporto->delete();
+            $id = Auth::id();
+            return redirect()->back()->with('status', 'Data berhasil dihapus');
+        }
+        abort(403);
     }
 
     public function deleteDataAdmin($id_portofolio_beli)
@@ -196,7 +203,7 @@ class PortofolioBeliController extends Controller
             $dataporto = PortofolioBeliModel::where('id_portofolio_beli', $id_portofolio_beli)->firstOrFail();
             $dataporto->delete();
             $id = Auth::id();
-            return redirect()->to('admin/portofoliobeli');
+            return redirect()->to('admin/portofoliobeli')->with('status', 'Data berhasil dihapus');
         }
         abort(403);
     }
