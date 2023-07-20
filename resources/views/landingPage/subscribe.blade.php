@@ -1,7 +1,7 @@
 @extends('landingPage.template')
 
 @section('content')
-@vite(['resources/js/subscribe.js', 'resources/css/subscribe.css'])
+@vite(['resources/js/subscribe.js'])
 
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
