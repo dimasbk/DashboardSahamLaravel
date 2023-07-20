@@ -1,0 +1,1 @@
+$("#searchBar").on("keydown",function(n){if(n.keyCode===13){n.preventDefault();const e=$(this).val().trim();e!==""&&$.ajax({url:"/search/data",method:"GET",success:function(a){a.includes(e)?window.location.href="/emiten/"+e:alert("Data Tidak Ditemukan")},error:function(a){console.error(a)}})}});
