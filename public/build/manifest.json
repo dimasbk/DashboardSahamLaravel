@@ -73,7 +73,7 @@
     "isEntry": true
   },
   "resources/js/post.js": {
-    "file": "assets/post.9d594625.js",
+    "file": "assets/post.63c8e383.js",
     "src": "resources/js/post.js",
     "isEntry": true
   },
@@ -112,9 +112,14 @@
     "src": "resources/sass/newsArticle.scss",
     "isEntry": true
   },
-  "resources/sass/landing.scss": {
-    "file": "assets/landing.f3c876de.css",
-    "src": "resources/sass/landing.scss",
+  "resources/js/chartTechnical.js": {
+    "file": "assets/chartTechnical.f6ceb217.js",
+    "src": "resources/js/chartTechnical.js",
+    "isEntry": true
+  },
+  "resources/css/analyst.css": {
+    "file": "assets/analyst.bf3ad747.css",
+    "src": "resources/css/analyst.css",
     "isEntry": true
   },
   "resources/css/landingPage.css": {
@@ -126,19 +131,14 @@
     "file": "assets/app.a51d8c0b.css",
     "src": "resources/js/app.css"
   },
-  "resources/css/newsArticle.css": {
-    "file": "assets/newsArticle.658622d4.css",
-    "src": "resources/css/newsArticle.css",
-    "isEntry": true
-  },
   "resources/css/landing.css": {
     "file": "assets/landing.9add6192.css",
     "src": "resources/css/landing.css",
     "isEntry": true
   },
-  "resources/css/article.css": {
-    "file": "assets/article.8f9ad4dc.css",
-    "src": "resources/css/article.css",
+  "resources/sass/landing.scss": {
+    "file": "assets/landing.f3c876de.css",
+    "src": "resources/sass/landing.scss",
     "isEntry": true
   },
   "resources/css/fundamental.css": {
@@ -146,14 +146,9 @@
     "src": "resources/css/fundamental.css",
     "isEntry": true
   },
-  "resources/css/analyst.css": {
-    "file": "assets/analyst.bf3ad747.css",
-    "src": "resources/css/analyst.css",
-    "isEntry": true
-  },
-  "resources/css/userProfile.css": {
-    "file": "assets/userProfile.a90b9290.css",
-    "src": "resources/css/userProfile.css",
+  "resources/css/plan.css": {
+    "file": "assets/plan.a427368e.css",
+    "src": "resources/css/plan.css",
     "isEntry": true
   },
   "resources/css/template.css": {
@@ -161,24 +156,9 @@
     "src": "resources/css/template.css",
     "isEntry": true
   },
-  "resources/sass/landingPage.scss": {
-    "file": "assets/landingPage.3954176e.css",
-    "src": "resources/sass/landingPage.scss",
-    "isEntry": true
-  },
-  "resources/css/plan.css": {
-    "file": "assets/plan.a427368e.css",
-    "src": "resources/css/plan.css",
-    "isEntry": true
-  },
-  "resources/css/search.css": {
-    "file": "assets/search.7d23b62f.css",
-    "src": "resources/css/search.css",
-    "isEntry": true
-  },
-  "resources/sass/home.scss": {
-    "file": "assets/home.3313b4cc.css",
-    "src": "resources/sass/home.scss",
+  "resources/sass/app.scss": {
+    "file": "assets/app.525f5899.css",
+    "src": "resources/sass/app.scss",
     "isEntry": true
   },
   "resources/css/animate.css": {
@@ -186,9 +166,9 @@
     "src": "resources/css/animate.css",
     "isEntry": true
   },
-  "resources/sass/style.scss": {
-    "file": "assets/style.efcf889e.css",
-    "src": "resources/sass/style.scss",
+  "resources/sass/landingPage.scss": {
+    "file": "assets/landingPage.3954176e.css",
+    "src": "resources/sass/landingPage.scss",
     "isEntry": true
   },
   "resources/sass/chart.scss": {
@@ -196,14 +176,39 @@
     "src": "resources/sass/chart.scss",
     "isEntry": true
   },
-  "resources/sass/app.scss": {
-    "file": "assets/app.525f5899.css",
-    "src": "resources/sass/app.scss",
+  "resources/sass/home.scss": {
+    "file": "assets/home.3313b4cc.css",
+    "src": "resources/sass/home.scss",
     "isEntry": true
   },
   "resources/sass/post.scss": {
     "file": "assets/post.dbd99c49.css",
     "src": "resources/sass/post.scss",
+    "isEntry": true
+  },
+  "resources/css/newsArticle.css": {
+    "file": "assets/newsArticle.658622d4.css",
+    "src": "resources/css/newsArticle.css",
+    "isEntry": true
+  },
+  "resources/css/userProfile.css": {
+    "file": "assets/userProfile.a90b9290.css",
+    "src": "resources/css/userProfile.css",
+    "isEntry": true
+  },
+  "resources/css/search.css": {
+    "file": "assets/search.7d23b62f.css",
+    "src": "resources/css/search.css",
+    "isEntry": true
+  },
+  "resources/sass/style.scss": {
+    "file": "assets/style.efcf889e.css",
+    "src": "resources/sass/style.scss",
+    "isEntry": true
+  },
+  "resources/css/article.css": {
+    "file": "assets/article.8f9ad4dc.css",
+    "src": "resources/css/article.css",
     "isEntry": true
   }
 }
