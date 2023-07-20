@@ -70,15 +70,6 @@ class ReportController extends Controller
 
         return view('report', compact(['data', 'tahun']));
 
-
-        $returnData = compact(['data', 'tahun']);
-
-        return response()->json([
-            'status' => 'success',
-            'data' => $data
-        ], 200);
-
-
     }
 
     public function portosemua(Request $request)
@@ -409,10 +400,7 @@ class ReportController extends Controller
         //dd($data);
 
         return view('reportYear', compact(['data']));
-        // return response()->json([
-        //     'status' => 'success',
-        //     'data' => $data
-        // ], 200);
+
     }
 
 }

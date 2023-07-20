@@ -20,6 +20,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @if (isset($data[0]['year']))
                     @foreach ($data as $year)
                     <tr>
 
@@ -33,6 +34,7 @@
                                 Detail</button></td>
                     </tr>
                     @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>
