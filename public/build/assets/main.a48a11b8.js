@@ -1,0 +1,1 @@
+(function(d){d("nav .dropdown").hover(function(){var a=d(this);a.addClass("show"),a.find("> a").attr("aria-expanded",!0),a.find(".dropdown-menu").addClass("show")},function(){var a=d(this);a.removeClass("show"),a.find("> a").attr("aria-expanded",!1),a.find(".dropdown-menu").removeClass("show")})})(jQuery);
