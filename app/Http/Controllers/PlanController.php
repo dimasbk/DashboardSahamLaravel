@@ -25,7 +25,7 @@ class PlanController extends Controller
     {
         $price = PriceModel::where('id_price', $id)->firstOrFail();
         $price->delete();
-        return redirect('/plan/manage');
+        return redirect('/plan/manage')->with('status', 'Plan berhasil dihapus');
     }
 
 
