@@ -151,7 +151,7 @@ class ReportAPIController extends Controller
 
         $to = $request->to;
 
-        $beli = PortofolioBeliModel::where('user_id', Auth::id())
+        $beli = PortofolioBeliModel::where('user_id', $request->user_id)
             ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
             ->join('tb_sekuritas', 'tb_portofolio_beli.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
             ->whereBetween('tanggal_beli', [$from, $to])
@@ -439,7 +439,7 @@ class ReportAPIController extends Controller
     public function getYear($user_id)
     {
         $tahun = PortofolioBeliModel::selectRaw('EXTRACT(YEAR FROM tanggal_beli) as tahun')
-            ->where('tb_portofolio_beli.user_id', Auth::id())
+            ->where('tb_portofolio_beli.user_id', $user_id)
             ->groupBy(DB::raw('EXTRACT(YEAR FROM tanggal_beli)'))
             ->get()->toArray();
 
@@ -449,7 +449,7 @@ class ReportAPIController extends Controller
             $keuntungan = [];
             $realisasi = [];
             $dataReport = PortofolioBeliModel::whereYear('tanggal_beli', $year)
-                ->where('user_id', Auth::id())
+                ->where('user_id', $user_id)
                 ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
                 ->get();
             //dd($dataReport);

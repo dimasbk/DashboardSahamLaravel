@@ -544,7 +544,6 @@ class PortofolioAPIController extends Controller
             $dataporto = PortofolioJualModel::where('id_portofolio_jual', $request->id_portofolio_jual)->firstOrFail();
             // $id = Auth::id();
 
-
             $dataporto->volume = $request->volume;
             $dataporto->tanggal_jual = $request->tanggal_jual;
             $dataporto->harga_jual = $request->harga_jual;

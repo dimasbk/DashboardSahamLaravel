@@ -60,7 +60,6 @@ class PortofolioJualAPIController extends Controller
     {
 
 
-
         $dataporto = PortofolioJualModel::where('user_id', $user_id)->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')->get();
         $emiten = SahamModel::all();
         $jenis_saham = JenisSahamModel::all();

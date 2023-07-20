@@ -44,9 +44,9 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/search/technical/saham', [TechnicalAPIController::class, 'technical']);
 
 Route::get('/report/{year}', [ReportAPIController::class, 'report']);
-Route::get('/report', [ReportAPIController::class, 'getYear']);
+Route::get('/report/{user_id}', [ReportAPIController::class, 'getYear']);
 
-//contoh param request = {'from' => yyyy-mm-dd, 'to' => yyyy-mm-dd}
+//contoh param request = {'from' => yyyy-mm-dd, 'to' => yyyy-mm-dd, 'user_id' => id}
 Route::get('/reportporto/range', [ReportAPIController::class, 'reportRange']);
 
 
