@@ -1,0 +1,1 @@
+$(document).ready(function(){$("#first-dropdown").change(function(){$(this).val()==="a"?($("#emitenSaham").prop("disabled",!0),$("#emitenSaham").val($("#emitenSaham option:first").val())):$("#emitenSaham").prop("disabled",!1)})});
