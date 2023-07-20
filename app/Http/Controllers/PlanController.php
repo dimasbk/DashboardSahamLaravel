@@ -41,18 +41,23 @@ class PlanController extends Controller
             return redirect('/');
         }
 
+        $validated = $request->validate([
+            'month' => 'required',
+            'price' => 'required'
+        ]);
+
         $price = PriceModel::updateOrCreate(
             [
                 'id_analyst' => Auth::id(),
-                'month' => $request->month
+                'month' => $validated['month']
 
             ],
             [
-                'price' => $request->price,
+                'price' => $validated['price']
             ]
         );
 
-        return redirect('/plan/manage');
+        return redirect('/plan/manage')->with('status', 'Plan berhasil dibuat/diubah');
     }
 
 }

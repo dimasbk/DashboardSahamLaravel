@@ -31,13 +31,17 @@
                 @csrf
                 <div class="form-group">
                     <label for="price">Price:</label>
-                    <input type="number" class="form-control" id="price" name="price" placeholder="Enter price"
-                        required>
+                    <input type="number" class="form-control" id="price" name="price" placeholder="Enter price">
+                    @if ($errors->any())
+                    <strong style="color: red">{{ $errors->first('price') }}</strong>
+                    @endif
                 </div>
                 <div class="form-group">
                     <label for="month">Month:</label>
-                    <input type="number" class="form-control" id="month" name="month" placeholder="Enter month"
-                        required>
+                    <input type="number" class="form-control" id="month" name="month" placeholder="Enter month">
+                    @if ($errors->any())
+                    <strong style="color: red">{{ $errors->first('month') }}</strong>
+                    @endif
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
