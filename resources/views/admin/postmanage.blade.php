@@ -74,8 +74,6 @@
                             <td>
                                 <button onclick="location.href='/admin/post/edit/{{$item->id_post}}'"
                                     class="btn btn-success" type="button"><i class="fas fa-edit"></i></button>
-                                <button data-toggle="modal" data-target="#delete" type="button"
-                                    class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                                 <button onclick="location.href='/admin/post/delete/{{$item->id_post}}'" type="button"
                                     class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                             </td>
