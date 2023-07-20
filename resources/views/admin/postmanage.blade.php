@@ -41,6 +41,11 @@
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold">Manage Post</h6>
             </div>
+            @if (session('status'))
+            <div style="margin-top: 10px" class="alert alert-success alert-dismissible" role="alert">
+                {{session('status')}}
+            </div>
+            @endif
             <div class="card-body">
                 <table class="table table-bordered table-striped">
                     <thead>

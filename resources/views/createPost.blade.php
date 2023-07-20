@@ -37,7 +37,7 @@
 
 <body>
     <div class="container">
-        <form id="post-form" method="post" enctype="multipart/form-data">
+        <form action="/post/add" id="post-form" method="post" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="form-group">
                 <label for="first-dropdown">Post type:</label>
@@ -58,14 +58,14 @@
             </div>
             <div class="form-group">
                 <label for="post-title">Title</label>
-                <input type="text" class="form-control" id="post-title" name="title" required>
+                <input type="text" class="form-control" id="post-title" name="title">
                 @if ($errors->any())
                 <strong style="color: red">{{ $errors->first('title') }}</strong>
                 @endif
             </div>
             <div class="form-group">
                 <label for="post-content">Content</label>
-                <textarea class="form-control" id="post-content" name="content" rows="4" required></textarea>
+                <textarea class="form-control" id="post-content" name="content" rows="4"></textarea>
                 @if ($errors->any())
                 <strong style="color: red">{{ $errors->first('content') }}</strong>
                 @endif
@@ -134,7 +134,7 @@
     <script src="{{asset('style')}}/table/js/main.js"></script>
 
     <script src="https://kit.fontawesome.com/ce0d5ffb27.js" crossorigin="anonymous"></script>
-    <script src="{{asset('template')}}/js/post.js"></script>
+    <!--<script src="{{asset('template')}}/js/post.js"></script>-->
 
     @stop
 </body>

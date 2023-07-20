@@ -130,7 +130,7 @@ class PostController extends Controller
                 'id_saham' => $id_saham,
                 'id_user' => Auth::id()
             ]);
-            return 'berhasil';
+            return redirect('/post/manage')->with('status', 'Post berhasil dibuat');
         } else {
             $post = PostModel::create([
                 'title' => $title,
@@ -139,7 +139,7 @@ class PostController extends Controller
                 'id_saham' => $id_saham,
                 'id_user' => Auth::id()
             ]);
-            return 'berhasil';
+            return redirect('/post/manage')->with('status', 'Post berhasil dibuat');
         }
     }
 
@@ -175,7 +175,7 @@ class PostController extends Controller
                 'content' => $request->content,
                 'tag' => $request->tag,
             ]);
-            return redirect('/post/manage');
+            return redirect('/post/manage')->with('status', 'Post berhasil diubah');
         } else {
             $oldimage = PostModel::where('id_post', $request->id)->value('picture');
             $image = $request->file('image');
@@ -190,7 +190,7 @@ class PostController extends Controller
             if ($oldimage) {
                 File::delete(public_path("images/public_images/" . $oldimage));
             }
-            return redirect('/post/manage');
+            return redirect('/post/manage')->with('status', 'Post berhasil diubah');
         }
     }
 
@@ -204,7 +204,7 @@ class PostController extends Controller
                     'content' => $request->content,
                     'tag' => $request->tag,
                 ]);
-                return redirect('/admin/post');
+                return redirect('/admin/post')->with('status', 'Post berhasil diubah');
             } else {
                 $oldimage = PostModel::where('id_post', $request->id)->value('picture');
                 $image = $request->file('image');
@@ -219,7 +219,7 @@ class PostController extends Controller
                 if ($oldimage) {
                     File::delete(public_path("images/public_images/" . $oldimage));
                 }
-                return redirect('/admin/post');
+                return redirect('/admin/post')->with('status', 'Post berhasil diubah');
             }
         }
 
