@@ -38,12 +38,10 @@ class PostController extends Controller
                 ->paginate(10);
 
             $saham = SahamModel::all();
-            $mine = compact(['postData', 'saham']);
-            //  return response()->json([
-            //     'status' => 'success',
-            //     'data' => $mine
-            // ], 200);
+            return view('postmanage', compact(['postData', 'saham']));
+        } else {
             return redirect('/');
+
         }
     }
 
