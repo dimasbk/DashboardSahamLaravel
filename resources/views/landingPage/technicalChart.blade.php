@@ -28,8 +28,14 @@
                 <span class="sr-only">Loading...</span>
             </div>
         </div>
-        <div id="chart_div1" style="width: 100%; height: 500px;"></div>
-        <div id="chart_div" style="width: 100%; height: 500px;"></div>
+        <div class="row">
+            <div class="col-sm">
+            <div id="chart_div1" style="width: 100%; height: 500px;"></div>
+            </div>
+            <div class="col-sm">
+             <div id="chart_div" style="width: 100%; height: 500px;"></div>
+            </div>
+        </div>
     </div>
 </div>
 
