@@ -140,6 +140,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::post('/notifsubs', [PortofolioAPIController::class, 'getSubscribe']);
 
+    Route::post('/request', [AnalystAPIController::class, 'requestAnalyst']);
+    Route::post('/request', [AnalystAPIController::class, 'request']);
+
 
     Route::post('/portofolio/paytagihan', [PortofolioAPIController::class, 'payTagihan']);
     Route::post('/portofolio/tagihan', [PortofolioAPIController::class, 'getTagihan']);

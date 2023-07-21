@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\PriceModel;
 use App\Models\PortofolioBeliModel;
 use App\Models\PortofolioJualModel;
+use App\Models\RequestModel;
 use Carbon\Carbon;
 
 class AnalystAPIController extends Controller
@@ -77,6 +78,37 @@ class AnalystAPIController extends Controller
         } else {
             //return redirect('/');
         }
+    }
+
+    public function requestAnalyst(Request $request)
+    {
+
+        $id = Auth::id();
+        $insert = RequestModel::create([
+            'id_saham' => $request->id_saham,
+            'user_id' => $id,
+            'status' => $request->status,
+
+        ]);
+
+        //dd($data);
+        //dd($request);
+        if ($insert) {
+            //$insert->save();
+            return response()->json(['messsage' => 'Berhasil', 'data' => $insert]);
+        }
+    }
+
+    public function request()
+    {
+
+        $request = RequestModel::createOrUpdate([
+            'user_id' => Auth::id(),
+        ], [
+            'status' => 'pending'
+        ]);
+
+        return redirect()->back()->with('status', 'Request berhasil dibuat mohon menunggu konfirmasi admin');
     }
 
     public function getAnalyst(Request $request)

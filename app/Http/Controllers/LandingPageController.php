@@ -299,11 +299,11 @@ class LandingPageController extends Controller
             $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
             $data = compact(['inputData'], ['outputData'], ['ticker'], ['check'], ['post'], ['laporan']);
 
-            return view('landingPage/chart', $data);
-            // return response()->json([
-            //     'status' => 'success',
-            //     'data' => $data
-            // ], 200);
+           // return view('landingPage/chart', $data);
+            return response()->json([
+                'status' => 'success',
+                'data' => $data
+            ], 200);
 
 
 
@@ -356,8 +356,13 @@ class LandingPageController extends Controller
             $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
             $data = compact(['inputData'], ['outputData'], ['ticker'], ['check'], ['post'], ['laporan']);
 
+            return response()->json([
+                'status' => 'success',
+                'data' => $data
+            ], 200);
+
             //dd($data);
-            return view('landingPage/chart', $data);
+         //   return view('landingPage/chart', $data);
 
         }
     }
