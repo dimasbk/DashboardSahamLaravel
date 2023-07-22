@@ -80,23 +80,43 @@ class AnalystAPIController extends Controller
         }
     }
 
-    public function requestAnalyst(Request $request)
-    {
+    public function requestAnalyst(){
+    //try{
 
-        $id = Auth::id();
+        //$id = Auth::id();
+
+        // $validator = Validator::make([
+        //    // 'name' => 'required|string|max:255',
+        //     'user_id' => 'unique:users',
+        //    // 'password' => 'required|string|min:8'
+        // ]);
+
+        // if($validator->fails()){
+        //     return response()->json(['message'=> 'anda sudah request menjadi analyst']);
+        // }
+
+
         $insert = RequestModel::create([
-            'id_saham' => $request->id_saham,
-            'user_id' => $id,
-            'status' => $request->status,
+            //'id_saham' => $request->id_saham,
+            'user_id' => Auth::id(),
+            'status' => "pending",
 
         ]);
 
+        return response()->json(['messsage'=>'Berhasil', 'data'=>$insert ]);
+
         //dd($data);
-        //dd($request);
-        if ($insert) {
-            //$insert->save();
-            return response()->json(['messsage' => 'Berhasil', 'data' => $insert]);
-        }
+        // dd($request);
+        // dd($insert);
+        // if ($insert) {
+        //     $insert->save();
+        //     return response()->json(['messsage' => 'Berhasil', 'data' => $insert]);
+        // }
+    // }catch (\Exception $e) {
+    //     return response()->json([
+    //         'success' => false,
+    //         'message' => $e
+    //     ]);}
     }
 
     public function request()
@@ -108,7 +128,12 @@ class AnalystAPIController extends Controller
             'status' => 'pending'
         ]);
 
-        return redirect()->back()->with('status', 'Request berhasil dibuat mohon menunggu konfirmasi admin');
+        return response()->json([
+            'status' => 'success',
+            'data' => "sukese"
+        ], 200);
+
+        //return redirect()->back()->with('status', 'Request berhasil dibuat mohon menunggu konfirmasi admin');
     }
 
     public function getAnalyst(Request $request)

@@ -161,6 +161,8 @@ class FundamentalAPIController extends Controller
         //$ticker = $request->ticker;
        // $id_user = Auth::id();
        $laporan = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', 7)->where('status', 'subscribed')->first();
+      // if $laporan == null {$laporan = array("status" => kosong)};
+     //  $laporan = "subscribed"
        $emiten = SahamModel::where('nama_saham', $ticker)->value('id_saham');
        $input = InputFundamentalModel::where('tb_input.id_saham', $emiten)
          //  ->where('user_id', Auth::id())
@@ -181,6 +183,21 @@ class FundamentalAPIController extends Controller
 
        $post = array_merge($postData, $analystPost);
        //dd($analystPost);
+
+       if(!$laporan){
+
+        $laporan = array("status" => 'blmsubs', "ayam" => "iniayam");
+        // $obj = (object) $laporan;
+        // $abc = json_encode($obj);
+       // $arrayData = json_decode($laporan, true);
+       // $laporan = json_decode($data, true);
+       }
+
+    // if(!$laporan){
+    //     $laporan = json(['status' => 'blmsubs']);
+    //    }
+
+
 
        if (!$input) {
            $inputData = array(
@@ -233,7 +250,7 @@ class FundamentalAPIController extends Controller
            );
 
            $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
-           $data = compact(['inputData'], ['outputData'], ['ticker'], ['check'], ['post'], ['laporan']);
+           $data = compact(['inputData'], ['outputData'], ['laporan'],['ticker'], ['check'], ['post'], );
 
             //dd($data);
             return response()->json([
@@ -287,7 +304,7 @@ class FundamentalAPIController extends Controller
             );
 
             $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
-            $data = compact(['inputData'], ['outputData'], ['ticker'], ['check'], ['post'], ['laporan']);
+            $data = compact(['inputData'], ['outputData'],['laporan'], ['ticker'], ['check'], ['post']);
 
             //dd($data);
             return response()->json([
