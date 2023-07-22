@@ -15,12 +15,15 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(),[
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8'
+            'password' => 'required|string|min:8',
+            //'fcm_token' => 'nullable'
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors());
         }
+
+
 
         $user = User::create([
             'name' => $request->name,
@@ -59,6 +62,10 @@ class AuthController extends Controller
                 ->json(['message' => 'Wrong username or password'], 401);
         }
 
+        // if ($request->filled('fcm_token')){
+        //     Auth::user()->update(['fcm_token' => $request->fcm_token]);
+        // }
+
         $user = User::where('email', $request['email'])->firstOrFail();
         $user = User::where('email', $request['email'])
             ->join('tb_roles', 'users.id_roles', '=', 'tb_roles.id_roles')
@@ -70,7 +77,7 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()
-            ->json(['name'=>$name,'message' => 'Hi '.$user->name.', welcome to home','access_token' => $token, 'token_type' => 'Bearer','id_role'=>$idRole, 'role'=>$roleName ]);
+            ->json(['name'=>$name,'message' => 'Hi '.$user->name.', welcome to StockApp','access_token' => $token, 'token_type' => 'Bearer','id_role'=>$idRole, 'role'=>$roleName ]);
     }
 
     // method for user logout and delete token

@@ -60,11 +60,14 @@ Route::get('/postt', [PostAPIController::class, 'post']);
 
 
 
+
+
 //Protecting Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function (Request $request) {
         return auth()->user();
     });
+    Route::post('/request', [AnalystAPIController::class, 'requestAnalyst']);
 
     Route::get('/report/{year}/{emiten}', [ReportAPIController::class, 'detailReport']);
 
@@ -118,8 +121,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::post('/notifsubs', [PortofolioAPIController::class, 'getSubscribe']);
 
-    Route::post('/request', [AnalystAPIController::class, 'requestAnalyst']);
-    Route::post('/request', [AnalystAPIController::class, 'request']);
+
+    Route::get('/requestt', [AnalystAPIController::class, 'request']);
 
 
     Route::post('/portofolio/paytagihan', [PortofolioAPIController::class, 'payTagihan']);
