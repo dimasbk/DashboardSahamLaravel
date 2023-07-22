@@ -99,7 +99,7 @@ class LandingPageController extends Controller
 
     public function post()
     {
-        $postData = PostModel::where('tag', 'public')->where('id_saham', null)->join('users', 'tb_post.id_user', '=', 'users.id')->get();
+        $postData = PostModel::where('tag', 'public')->join('users', 'tb_post.id_user', '=', 'users.id')->get();
 
         if (Auth::check()) {
             $analystId = [];

@@ -64,7 +64,8 @@ class PostController extends Controller
     public function view($id)
     {
 
-        $postData = PostModel::where('id_post', $id)->first();
+        $postData = PostModel::where('id_post', $id)
+            ->join('users', 'tb_post.id_user', '=', 'users.id')->first();
         if ($postData->tag == 'private') {
             if (Auth::check()) {
                 $isSubscribed = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', $postData->id_user)->where('status', 'subscribed')->first();
