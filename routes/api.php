@@ -83,6 +83,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/detailsubscribe/{id}', [AnalystAPIController::class, 'subscribe']);
     // Route::get('/plan', [AnalystAPIController::class, 'plan']);
     Route::post('/plan/{id}', [AnalystAPIController::class, 'planApi']);
+    //Route::get('/plan/manage', [AnalystAPIController::class, 'index']);
+    //Route::get('/plan/create', [AnalystAPIController::class, 'create']);
+    Route::post('/plan/insert', [AnalystAPIController::class, 'insert']);
+    Route::get('/plan/edit/{id}', [AnalystAPIController::class, 'edit']);
+    Route::get('/plan/delete/{id}', [AnalystAPIController::class, 'delete']);
 
     Route::post('/createPayment', [AnalystAPIController::class, 'pay']);
     Route::post('/subscribe/setPaid/{id}', [AnalystAPIController::class, 'setSubscribed']);
