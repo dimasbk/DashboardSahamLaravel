@@ -104,6 +104,12 @@ Route::get('/search/technical', [TechnicalController::class, 'technical']);
 Route::get('/plan/manage', [PlanController::class, 'index']);
 
 Route::post('/plan', [AnalystController::class, 'plan']);
+Route::get('/plan/create', [AnalystController::class, 'create']);
+Route::post('/plan/insert', [AnalystController::class, 'insert']);
+Route::get('/plan/edit/{id}', [AnalystController::class, 'edit']);
+Route::get('/plan/delete/{id}', [AnalystController::class, 'delete']);
+
+
 Route::post('/subscribe', [AnalystController::class, 'subscribe']);
 Route::get('/subscribe/update/{id}', [AnalystController::class, 'update']);
 Route::get('/getPaymentToken', [AnalystController::class, 'pay']);
