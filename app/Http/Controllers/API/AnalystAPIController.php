@@ -298,55 +298,100 @@ class AnalystAPIController extends Controller
         );
     }
 
-    // public function index()
-    // {
-    //     $prices = PriceModel::where('id_analyst', Auth::id())->paginate(10);
+    public function index()
+    {
+        $id_user = Auth::id();
+        $data = PriceModel::where('id_analyst', $id_user)->get();
 
-    //     return view('plan', compact(['prices']));
-    // }
+
+        // $id_user = Auth::id();
+        // if (Auth::user()->id_roles == 2) {
+        //     $postData = PostModel::where('id_user', $id_user)
+        //         ->join('users', 'tb_post.id_user', '=', 'id_analyst')
+        //         ->get();
+
+        //     $saham = SahamModel::all();
+
+        //     $mine =  compact(['postData', 'saham']);
+
+
+        // }
+        return response()->json([
+            'status' => 'success',
+            'data' => $data
+        ], 200);
+
+        // return response()->json([
+        //     'status' => 'success',
+        //     'data' => $prices
+        // ], 200);
+
+       // return view('plan', compact(['prices']));
+    }
 
     // public function create()
     // {
     //     return view('createPlan');
     // }
 
-    public function delete($id)
+    public function delete($id_price)
     {
-        $price = PriceModel::where('id_price', $id)->firstOrFail();
+        $price = PriceModel::where('id_price', $id_price)->firstOrFail();
         $price->delete();
-        return redirect('/plan/manage');
+        $id = Auth::id();
+        return response()->json(['messsage' => 'Data Berhasil di Delete']);
+        //return redirect('/plan/manage');
     }
 
 
-    public function edit($id)
+    public function editPlan(Request $request)
     {
-        $price = PriceModel::where('id_price', $id)->firstOrFail();
-        return view('editPlan', compact(['price']));
+        //$price = PriceModel::where('id_price', $id)->firstOrFail();
+      //  return view('editPlan', compact(['price']));
+
+        $Edit = PriceModel::where('id_price', $request->id_price)->firstOrFail();
+        $id = Auth::id();
+       // dd($Edit);
+
+
+        // $price->id_saham = $request->id_saham;
+        // $price->user_id = $id;
+        // $price->jenis_saham = $request->id_jenis_saham;
+      //  $price->user_id = $id;
+        $Edit->price = $request->price;
+        $Edit->month = $request->month;
+       // $price->harga_beli = $request->harga_beli;
+        // $price->fee_beli_persen = $request->fee_beli_persen;
+        $Edit->save();
+
+
+        return response()->json(['messsage' => 'Data Berhasil di Update']);
     }
 
     public function insert(Request $request)
     {
-        if (Auth::user()->id_roles == 3) {
-            return redirect('/');
-        }
+        // $id = Auth::id();
+     //   Log::info("message");($request->all);
+        // $id_analyst = PriceModel::where('id_analyst', $id)->first();
 
-        $validated = $request->validate([
-            'month' => 'required',
-            'price' => 'required'
+        $insert = PriceModel::create([
+
+            'price' => $request->price,
+            'month' => $request->month,
+
         ]);
+        //$insert->save();
+        //$insert->save();
+        return response()->json(['status' => 'Berhasil', 'data' => $insert]);
+        // if ($insert) {
+        //   //  $insert->save();
+        //     //Log::info($request);
+        //     return response()->json(['messsage' => 'Berhasil', 'data' => $insert]);
 
-        $price = PriceModel::updateOrCreate(
-            [
-                'id_analyst' => Auth::id(),
-                'month' => $validated['month']
+        // }
 
-            ],
-            [
-                'price' => $validated['price']
-            ]
-        );
 
-        return redirect('/plan/manage')->with('status', 'Plan berhasil dibuat/diubah');
+       // return redirect('/plan/manage')->with('status', 'Plan berhasil dibuat/diubah');
     }
 
 
@@ -378,7 +423,7 @@ class AnalystAPIController extends Controller
 
     public function pay(Request $request)
     {
-        \Log::info("asjdhsf");
+     //   \Log::info("asjdhsf");
         $grossAmount = $request->price;
         $expired = Carbon::today()->addMonths($request->duration)->toDateString();
         //return $expired;

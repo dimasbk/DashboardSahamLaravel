@@ -200,8 +200,22 @@ class PortofolioAPIController extends Controller
         }
     }
 
-    public function getSubscribe(Request $request)
-    {
+    public function getSubs(Request $request){
+        $id = Auth::id();
+        $status = $request->status;
+
+        try {
+            $historySubscription = SubscriberModel::where('status',$status)->where('user_id',$id)->get();
+            return response()->json(['messsage'=>'Berhasil', 'data'=>$historySubscription ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => $th
+            ]);
+        }
+    }
+
+    public function getSubscribe(Request $request){
         $id = Auth::id();
         $status = $request->status;
 

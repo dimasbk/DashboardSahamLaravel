@@ -57,7 +57,7 @@ class PortofolioBeliAPIController extends Controller
         //dd($data);
         //dd($request);
         if ($insert) {
-            //$insert->save();
+            $insert->save();
             return response()->json(['messsage' => 'Berhasil', 'data' => $insert]);
         }
     }

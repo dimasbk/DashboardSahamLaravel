@@ -115,6 +115,12 @@ Route::get('/plan/delete/{id}', [PlanController::class, 'delete']);
 
 
 Route::post('/plan', [AnalystController::class, 'plan']);
+Route::get('/plan/create', [AnalystController::class, 'create']);
+Route::post('/plan/insert', [AnalystController::class, 'insert']);
+Route::get('/plan/edit/{id}', [AnalystController::class, 'edit']);
+Route::get('/plan/delete/{id}', [AnalystController::class, 'delete']);
+
+
 Route::post('/subscribe', [AnalystController::class, 'subscribe']);
 Route::get('/subscribe/update/{id}', [AnalystController::class, 'update']);
 Route::get('/subscribe/delete/{id}', [AnalystController::class, 'delete']);
