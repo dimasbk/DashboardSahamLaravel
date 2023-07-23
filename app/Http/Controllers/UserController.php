@@ -25,7 +25,6 @@ class UserController extends Controller
 
     public function request()
     {
-
         $request = RequestModel::createOrUpdate([
             'user_id' => Auth::id(),
         ], [

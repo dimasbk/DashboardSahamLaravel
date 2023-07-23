@@ -19,6 +19,7 @@
                         <li><a href="/admin/post" key="t-saas">Analyst Post</a></li>
                         <li><a href="/admin/emiten" key="t-crypto">List Emiten</a></li>
                         <li><a href="/admin/sekuritas" key="t-crypto">Data Sekuritas</a></li>
+                        <li><a href="/admin/request" key="t-crypto">Data Request</a></li>
                     </ul>
                 </li>
                 @else

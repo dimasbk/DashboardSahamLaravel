@@ -63,6 +63,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::post('/fundamental/insert', [FundamentalController::class, 'insert']);
     Route::post('/fundamental/update', [FundamentalController::class, 'update']);
 
+    Route::get('/request', [AnalystController::class, 'adminRequest']);
+    Route::get('/request/{id_request}/accept', [AnalystController::class, 'accept']);
+    Route::get('/request/{id_request}/reject', [AnalystController::class, 'reject']);
 });
 
 Route::get('/analyst', [AnalystController::class, 'index']);

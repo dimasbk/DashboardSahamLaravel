@@ -6,6 +6,7 @@ use App\Models\PortofolioBeliModel;
 use App\Models\PortofolioJualModel;
 use App\Models\PostModel;
 use App\Models\PriceModel;
+use App\Models\RequestModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -225,5 +226,37 @@ class AnalystController extends Controller
         } else {
             return redirect('/');
         }
+    }
+
+    public function adminRequest()
+    {
+        $data = RequestModel::join('users', 'tb_request.user_id', '=', 'users.id')
+            ->paginate(15);
+
+        //dd($data);
+
+        return view('admin/request', compact(['data']));
+    }
+
+    public function accept($id)
+    {
+        $data = RequestModel::where('id_request', $id)->firstOrFail();
+
+        $user = User::where('id', $data->user_id)->update([
+            'id_roles' => 2
+        ]);
+
+        $update = RequestModel::where('id_request', $id)->update([
+            'status' => 'approved'
+        ]);
+        return redirect()->back()->with('status', 'Data berhasil disetujui');
+    }
+
+    public function reject($id)
+    {
+        $update = RequestModel::where('id_request', $id)->update([
+            'status' => 'rejected'
+        ]);
+        return redirect()->back()->with('deleted', 'Data berhasil ditolak');
     }
 }
