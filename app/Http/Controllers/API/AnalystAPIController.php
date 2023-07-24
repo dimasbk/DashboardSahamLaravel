@@ -13,6 +13,8 @@ use App\Models\PriceModel;
 use App\Models\PortofolioBeliModel;
 use App\Models\PortofolioJualModel;
 use App\Models\RequestModel;
+use App\Models\JenisSahamModel;
+use App\Models\SekuritasModel;
 use Carbon\Carbon;
 
 class AnalystAPIController extends Controller
@@ -78,6 +80,57 @@ class AnalystAPIController extends Controller
         } else {
             //return redirect('/');
         }
+    }
+
+    public function getdataAnalystBeli($user_id)
+    {
+        $isSubscribed = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', $user_id)->where('status', 'subscribed')->first();
+        if ($isSubscribed) {
+            $dataporto = PortofolioBeliModel::where('user_id', $user_id)
+                ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
+                ->join('tb_sekuritas', 'tb_portofolio_beli.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
+                ->get();
+            $emiten = SahamModel::all();
+            $jenis_saham = JenisSahamModel::all();
+            $sekuritas = SekuritasModel::all();
+            $userData = User::where('id', $user_id)->first();
+
+            $data = compact(['dataporto'], ['emiten'], ['jenis_saham'], ['sekuritas'], ['userData']);
+            //dd($data);
+            return response()->json([
+                'status' => 'success',
+                'data' => $data
+            ], 200);
+            //return view('portofoliobeliAnalyst', $data);
+        } else {
+            //print();
+         //   return redirect('/');
+        }
+    }
+
+    public function getdataAnalystJual($user_id)
+    {
+        // $isSubscribed = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', $user_id)->where('status', 'subscribed')->first();
+        // if ($isSubscribed) {
+            $dataportojual = PortofolioJualModel::where('user_id', $user_id)
+                ->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
+                ->join('tb_sekuritas', 'tb_portofolio_jual.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
+                ->get();
+            $emiten = SahamModel::all();
+            $jenis_saham = JenisSahamModel::all();
+            $sekuritas = SekuritasModel::all();
+            $userData = User::where('id', $user_id)->first();
+
+            $data = compact(['dataportojual'],['emiten'],['jenis_saham'], ['sekuritas'], ['userData']);
+            //dd($dataporto);
+            return response()->json([
+                'status' => 'success',
+                'data' => $data
+            ], 200);
+           // return view('portofoliojualAnalyst', $data);
+        // } else {
+        //     return redirect('/');
+       // }
     }
 
     public function requestAnalyst(){
@@ -368,21 +421,28 @@ class AnalystAPIController extends Controller
         return response()->json(['messsage' => 'Data Berhasil di Update']);
     }
 
-    public function insert(Request $request)
+    public function insertPlan(Request $request)
     {
         // $id = Auth::id();
      //   Log::info("message");($request->all);
         // $id_analyst = PriceModel::where('id_analyst', $id)->first();
 
+        $price = $request->input('price');
+        $month = $request->input('month');
+
         $insert = PriceModel::create([
 
-            'price' => $request->price,
-            'month' => $request->month,
+            'price' => $price,
+            'month' => $month,
+            'id_analyst' => Auth::id()
 
         ]);
         //$insert->save();
-        //$insert->save();
-        return response()->json(['status' => 'Berhasil', 'data' => $insert]);
+        $insert->save();
+        return response()->json([
+            'status' => 'success',
+            'data' => $insert
+        ], 200);
         // if ($insert) {
         //   //  $insert->save();
         //     //Log::info($request);

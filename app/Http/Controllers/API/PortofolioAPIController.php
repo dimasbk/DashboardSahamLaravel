@@ -19,6 +19,7 @@ use App\Models\User;
 use App\Models\TagihanModel;
 use App\Models\SubscriberModel;
 use Illuminate\Support\Facades\Auth;
+use App\Models\PriceModel;
 
 class PortofolioAPIController extends Controller
 {
@@ -198,6 +199,39 @@ class PortofolioAPIController extends Controller
                 'message' => $th
             ]);
         }
+    }
+
+    public function insertPlan(Request $request)
+    {
+        // $id = Auth::id();
+     //   Log::info("message");($request->all);
+        // $id_analyst = PriceModel::where('id_analyst', $id)->first();
+
+        $price = $request->input('price');
+        $month = $request->input('month');
+
+        $insert = PriceModel::create([
+
+            'price' => $price,
+            'month' => $month,
+            'id_analyst' => Auth::id()
+
+        ]);
+        //$insert->save();
+        $insert->save();
+        return response()->json([
+            'status' => 'success',
+            'data' => $insert
+        ], 200);
+        // if ($insert) {
+        //   //  $insert->save();
+        //     //Log::info($request);
+        //     return response()->json(['messsage' => 'Berhasil', 'data' => $insert]);
+
+        // }
+
+
+       // return redirect('/plan/manage')->with('status', 'Plan berhasil dibuat/diubah');
     }
 
     public function getSubs(Request $request){

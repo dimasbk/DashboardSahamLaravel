@@ -262,11 +262,11 @@ class AnalystController extends Controller
             //$data1 = compact(['data']);
             //dd($data);
 
-            // return view('userProfile')->with('data', $data);
-            return response()->json([
-                'status' => 'success',
-                'data' => $data
-            ], 200);
+           return view('userProfile')->with('data', $data);
+            // return response()->json([
+            //     'status' => 'success',
+            //     'data' => $data
+            // ], 200);
         } else {
             return redirect('/');
         }
