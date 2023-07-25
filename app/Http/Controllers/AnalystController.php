@@ -17,6 +17,11 @@ use Illuminate\Support\Facades\Log;
 
 class AnalystController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'verified']);
+    }
+
     public function index()
     {
         $notToFollow = SubscriberModel::where('id_subscriber', Auth::id())->where('status', 'pending')->orWhere('status', 'subscribed')->pluck('id_analyst')->toArray();
@@ -35,8 +40,6 @@ class AnalystController extends Controller
         // ], 200);
         return view('landingPage/analyst', $data);
     }
-
-
 
     public function plan(Request $request)
     {
