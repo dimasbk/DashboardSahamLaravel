@@ -45,100 +45,142 @@
             <div class="col-md-6">
                 <div class="card shadow mb-4">
                     <div class="card-body">
-                        <h3>Analisis ({{$inputData['tahun']}})</h3>
+                        <h3>Analisis</h3>
                         @if (Auth::user()->rolse == 1)
                         <a href="/fundamental">Analisis Tahun Lainnya...</a>
                         @endif
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped table-responsive" style="overflow-x: auto;">
                             <thead class="thead-dark">
                                 <tr>
                                     <th>Parameter</th>
-                                    <th>Value</th>
+                                    @foreach ($outputData as $dataOutput)
+                                    <th>{{$dataOutput['tahun']}} {{$dataOutput['kuartal']}}</th>
+                                    @endforeach
                                 </tr>
                             </thead>
                             <tbody>
                                 @if ($check == 1)
                                 <tr>
-                                    <td>Loan to Deposit Ratio</td>
-                                    <td>{{$outputData['loan_to_depo_ratio']}}%</td>
+                                    <th>Loan to Deposit Ratio</th>
+                                    @foreach ($outputData as $dataOutput)
+                                    <td>{{$dataOutput['loan_to_depo_ratio']}}%</td>
+                                    @endforeach
                                 </tr>
                                 @else
                                 <tr>
                                     <td>DER</td>
-                                    <td>{{$outputData['der']}}%</td>
+                                    @foreach ($outputData as $dataOutput)
+                                    <td>{{$dataOutput['der']}}%</td>
+                                    @endforeach
                                 </tr>
                                 @endif
                                 <tr>
                                     <td>Annualized ROE</td>
-                                    <td>{{$outputData['annualized_roe']}}%</td>
+                                    @foreach ($outputData as $dataOutput)
+                                    <td>{{$dataOutput['annualized_roe']}}%</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>Dividend</td>
-                                    <td>{{$outputData['dividen']}}</td>
+                                    @foreach ($outputData as $dataOutput)
+                                    <td>{{$dataOutput['dividen']}}%</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>Dividend Yield</td>
-                                    <td>{{$outputData['dividen_yield']}}%</td>
+                                    @foreach ($outputData as $dataOutput)
+                                    <td>{{$dataOutput['dividen_yield']}}%</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>Dividend Payout Ratio</td>
-                                    <td>{{$outputData['dividen_payout_ratio']}}%</td>
+                                    @foreach ($outputData as $dataOutput)
+                                    <td>{{$dataOutput['dividen_payout_ratio']}}%</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>PBV</td>
-                                    <td>{{$outputData['pbv']}}</td>
+                                    @foreach ($outputData as $dataOutput)
+                                    <td>{{$dataOutput['pbv']}}%</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>Annualized PER</td>
-                                    <td>{{$outputData['annualized_per']}}</td>
+                                    @foreach ($outputData as $dataOutput)
+                                    <td>{{$dataOutput['annualized_per']}}%</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>Annualized ROA</td>
-                                    <td>{{$outputData['annualized_roa']}}%</td>
+                                    @foreach ($outputData as $dataOutput)
+                                    <td>{{$dataOutput['annualized_roa']}}%</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>GPM</td>
-                                    <td>{{$outputData['gpm']}}%</td>
+                                    @foreach ($outputData as $dataOutput)
+                                    <td>{{$dataOutput['gpm']}}%</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>NPM</td>
-                                    <td>{{$outputData['npm']}}%</td>
+                                    @foreach ($outputData as $dataOutput)
+                                    <td>{{$dataOutput['npm']}}%</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>EER</td>
-                                    <td>{{$outputData['eer']}}%</td>
+                                    @foreach ($outputData as $dataOutput)
+                                    <td>{{$dataOutput['eer']}}%</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>EAR</td>
-                                    <td>{{$outputData['ear']}}%</td>
+                                    @foreach ($outputData as $dataOutput)
+                                    <td>{{$dataOutput['ear']}}%</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>Market Cap</td>
-                                    <td>Rp. {{$outputData['market_cap']}}</td>
+                                    @foreach ($outputData as $dataOutput)
+                                    <td>{{$dataOutput['market_cap']}}</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>Market Cap to Assets Ratio</td>
-                                    <td>{{$outputData['market_cap_asset_ratio']}}</td>
+                                    @foreach ($outputData as $dataOutput)
+                                    <td>{{$dataOutput['market_cap_asset_ratio']}}%</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>CFO to Sales Ratio</td>
-                                    <td>{{$outputData['cfo_sales_ratio']}}%</td>
+                                    @foreach ($outputData as $dataOutput)
+                                    <td>{{$dataOutput['annualized_roa']}}%</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>Capex to CFO Ratio</td>
-                                    <td>{{$outputData['capex_cfo_ratio']}}</td>
+                                    @foreach ($outputData as $dataOutput)
+                                    <td>{{$dataOutput['capex_cfo_ratio']}}%</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>Market Cap to CFO Ratio</td>
-                                    <td>{{$outputData['market_cap_cfo_ratio']}}</td>
+                                    @foreach ($outputData as $dataOutput)
+                                    <td>{{$dataOutput['market_cap_cfo_ratio']}}%</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>PEG</td>
-                                    <td>{{$outputData['peg']}}</td>
+                                    @foreach ($outputData as $dataOutput)
+                                    <td>{{$dataOutput['peg']}}%</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>Harga Saham+Dividen</td>
-                                    <td>{{$outputData['harga_saham_sum_dividen']}}</td>
+                                    @foreach ($outputData as $dataOutput)
+                                    <td>{{$dataOutput['harga_saham_sum_dividen']}}%</td>
+                                    @endforeach
                                 </tr>
                             </tbody>
                         </table>
@@ -149,84 +191,118 @@
             <div class="col-md-6">
                 <div class="card shadow mb-4">
                     <div class="card-body">
-                        <h3>Finansial ({{$inputData['tahun']}})</h3>
+                        <h3>Finansial</h3>
                         @if (Auth::user()->roles == 1)
                         <a href="/fundamental/input/{{$ticker}}">Finansial Tahun Lainnya...</a>
                         @endif
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped table-responsive" style="overflow-x: auto;">
                             <thead class="thead-dark">
                                 <tr>
                                     <th>Metric</th>
-                                    <th>Value</th>
+                                    @foreach ($inputData as $data)
+                                    <th>{{$data['tahun']}} {{$data['type']}}</th>
+                                    @endforeach
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>Aset</td>
-                                    <td>Rp. {{number_format($inputData['aset'])}}</td>
+                                    @foreach ($inputData as $data)
+                                    <td>Rp. {{number_format($data['aset'])}}</td>
+                                    @endforeach
                                 </tr>
                                 @if ($check == 1)
                                 <tr>
                                     <td>Simpanan</td>
-                                    <td>Rp. {{number_format($inputData['simpanan'])}}</td>
+                                    @foreach ($inputData as $data)
+                                    <td>Rp. {{number_format($data['simpanan'])}}</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>Pinjaman</td>
-                                    <td>Rp. {{number_format($inputData['pinjaman'])}}</td>
+                                    @foreach ($inputData as $data)
+                                    <td>Rp. {{number_format($data['pinjaman'])}}</td>
+                                    @endforeach
                                 </tr>
                                 @else
                                 <tr>
                                     <td>Hutang Obligasi</td>
-                                    <td>Rp. {{number_format($inputData['hutang_obligasi'])}}</td>
+                                    @foreach ($inputData as $data)
+                                    <td>Rp. {{number_format($data['hutang_obligasi'])}}</td>
+                                    @endforeach
                                 </tr>
                                 @endif
                                 <tr>
                                     <td>Saldo Laba</td>
-                                    <td>Rp. {{number_format($inputData['saldo_laba'])}}</td>
+                                    @foreach ($inputData as $data)
+                                    <td>Rp. {{number_format($data['saldo_laba'])}}</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>Ekuitas</td>
-                                    <td>Rp. {{number_format($inputData['ekuitas'])}}</td>
+                                    @foreach ($inputData as $data)
+                                    <td>Rp. {{number_format($data['ekuitas'])}}</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>Jumlah Saham Beredar</td>
-                                    <td>{{number_format($inputData['jml_saham_edar'])}}</td>
+                                    @foreach ($inputData as $data)
+                                    <td>{{number_format($data['jml_saham_edar'])}}</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>Pendapatan</td>
-                                    <td>Rp. {{number_format($inputData['pendapatan'])}}</td>
+                                    @foreach ($inputData as $data)
+                                    <td>Rp. {{number_format($data['pendapatan'])}}</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>Laba Kotor</td>
-                                    <td>Rp. {{number_format($inputData['laba_kotor'])}}</td>
+                                    @foreach ($inputData as $data)
+                                    <td>Rp. {{number_format($data['laba_kotor'])}}</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>Laba Bersih</td>
-                                    <td>Rp. {{number_format($inputData['laba_bersih'])}}</td>
+                                    @foreach ($inputData as $data)
+                                    <td>Rp. {{number_format($data['laba_bersih'])}}</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>Harga Saham</td>
-                                    <td>Rp. {{number_format($inputData['harga_saham'])}}</td>
+                                    @foreach ($inputData as $data)
+                                    <td>Rp. {{number_format($data['harga_saham'])}}</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>Operating Cashflow</td>
-                                    <td>Rp. {{number_format($inputData['operating_cash_flow'])}}</td>
+                                    @foreach ($inputData as $data)
+                                    <td>Rp. {{number_format($data['operating_cash_flow'])}}</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>Investing Cashflow</td>
-                                    <td>Rp. {{number_format($inputData['investing_cash_flow'])}}</td>
+                                    @foreach ($inputData as $data)
+                                    <td>Rp. {{number_format($data['investing_cash_flow'])}}</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>Total Dividen</td>
-                                    <td>{{number_format($inputData['total_dividen'])}}</td>
+                                    @foreach ($inputData as $data)
+                                    <td>{{number_format($data['total_dividen'])}}</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>Stock Split</td>
-                                    <td>{{number_format($inputData['stock_split'])}}</td>
+                                    @foreach ($inputData as $data)
+                                    <td>{{number_format($data['stock_split'])}}</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <td>Earnings Per Share</td>
-                                    <td>{{$inputData['eps']}}</td>
+                                    @foreach ($inputData as $data)
+                                    <td>{{number_format($data['eps'])}}</td>
+                                    @endforeach
                                 </tr>
                             </tbody>
                         </table>

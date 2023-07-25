@@ -117,6 +117,7 @@ class TechnicalController extends Controller
             $data = $response['data']['results'];
             $startPrice = $data[count($data) - 1]['close'];
             $endPrice = $data[0]['close'];
+            $startEnd = (($endPrice - $startPrice) - $startPrice) * 100;
 
             $id_stock = SahamModel::where('nama_saham', $stock)->value('id_saham');
 
@@ -133,7 +134,7 @@ class TechnicalController extends Controller
             $ldr = $output->loan_to_depo_ratio * 100;
 
             $trend = $this->trend($data);
-            $array = ["ticker" => "{$stock}", "MAPercentage" => "{$trend['MAPercentage']}", "trend" => "{$trend['trendString']}", "change" => "{$trend['percentage']}", "der" => "{$der}", "ldr" => "{$ldr}", "start" => $start, "end" => $end];
+            $array = ["ticker" => "{$stock}", "startEnd" => $startEnd, "MAPercentage" => "{$trend['MAPercentage']}", "trend" => "{$trend['trendString']}", "change" => "{$trend['percentage']}", "der" => "{$der}", "ldr" => "{$ldr}", "start" => $start, "end" => $end];
             array_push($trends, $array);
 
         }
