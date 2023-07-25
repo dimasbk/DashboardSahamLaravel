@@ -52,6 +52,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Emiten</th>
                         <th scope="col">Trend</th>
+                        <th scope="col">Start End Percentage</th>
                         <th scope="col">Trend Changes from last period*</th>
                         <th scope="col">Moving Average Change</th>
                         <th scope="col">DER</th>
@@ -70,6 +71,7 @@
                     @endphp
                     <td>{{$data['ticker']}}</td>
                     <td>{{ucfirst($data['trend'])}}</td>
+                    <td>{{$data['startEnd']}}%</td>
                     <td>{{$data['change']}}%</td>
                     <td>{{$data['MAPercentage']}}%</td>
                     <td>{{$data['der']}}%</td>

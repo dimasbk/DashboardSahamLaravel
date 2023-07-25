@@ -268,7 +268,7 @@ class LandingPageController extends Controller
         $input = InputFundamentalModel::where('tb_input.id_saham', $emiten)
             ->join('tb_detail_input', 'tb_input.id_detail_input', '=', 'tb_detail_input.id_detail_input')
             ->join('tb_saham', 'tb_input.id_saham', '=', 'tb_saham.id_saham')
-            ->latest('tahun')->first();
+            ->latest('tahun')->get();
 
         $subscribed = SubscriberModel::where('id_subscriber', Auth::id())->pluck('id_analyst')->toArray();
         $postData = PostModel::where('id_saham', $emiten)->where('tag', 'public')
@@ -347,49 +347,60 @@ class LandingPageController extends Controller
 
         } else {
             $inputData = $input->toArray();
-            $output = OutputFundamentalModel::where('id_input', $input->id_input)
+            $inputID = [];
+            foreach ($input as $id) {
+                array_push($inputID, $id->id_input);
+            }
+            $output = OutputFundamentalModel::whereIn('id_input', $inputID)
                 ->join('tb_detail_output', 'tb_output.id_detail_output', '=', 'tb_detail_output.id_output')
-                ->first();
+                ->get();
+            //dd($output);
+            $outputData = [];
+            foreach ($output as $data) {
+                if ($data->peg == null) {
+                    $peg = 0;
+                } else {
+                    $peg = $data->peg;
+                }
 
-            if ($output->peg == null) {
-                $peg = 0;
-            } else {
-                $peg = $output->peg;
-            }
+                if ($data->der == null) {
+                    $der = 0;
+                } else {
+                    $der = $data->der;
+                }
 
-            if ($output->der == null) {
-                $der = 0;
-            } else {
-                $der = $output->der;
-            }
+                if ($data->loan_to_depo_ratio == null) {
+                    $loan_to_depo_ratio = 0;
+                } else {
+                    $loan_to_depo_ratio = $data->loan_to_depo_ratio;
+                }
+                $push = array(
+                    "der" => $der * 100,
+                    "loan_to_depo_ratio" => $loan_to_depo_ratio * 100,
+                    "annualized_roe" => $data->annualized_roe * 100,
+                    "dividen" => $data->dividen,
+                    "dividen_yield" => $data->dividen_yield * 100,
+                    "dividen_payout_ratio" => $data->dividen_payout_ratio * 100,
+                    "pbv" => $data->pbv * 100,
+                    "annualized_per" => $data->annualized_per,
+                    "annualized_roa" => $data->annualized_roa * 100,
+                    "gpm" => $data->gpm * 100,
+                    "npm" => $data->npm * 100,
+                    "eer" => $data->eer * 100,
+                    "ear" => $data->ear * 100,
+                    "market_cap" => $data->market_cap,
+                    "market_cap_asset_ratio" => $data->market_cap_asset_ratio * 100,
+                    "cfo_sales_ratio" => $data->cfo_sales_ratio * 100,
+                    "capex_cfo_ratio" => $data->capex_cfo_ratio * 100,
+                    "market_cap_cfo_ratio" => $data->market_cap_cfo_ratio * 100,
+                    "peg" => $peg * 100,
+                    "harga_saham_sum_dividen" => $data->harga_saham_sum_dividen,
+                    "tahun" => $data->tahun,
+                    "kuartal" => $data->type
+                );
 
-            if ($output->loan_to_depo_ratio == null) {
-                $loan_to_depo_ratio = 0;
-            } else {
-                $loan_to_depo_ratio = $output->loan_to_depo_ratio;
+                array_push($outputData, $push);
             }
-            $outputData = array(
-                "der" => $der * 100,
-                "loan_to_depo_ratio" => $loan_to_depo_ratio * 100,
-                "annualized_roe" => $output->annualized_roe * 100,
-                "dividen" => $output->dividen,
-                "dividen_yield" => $output->dividen_yield * 100,
-                "dividen_payout_ratio" => $output->dividen_payout_ratio * 100,
-                "pbv" => $output->pbv * 100,
-                "annualized_per" => $output->annualized_per,
-                "annualized_roa" => $output->annualized_roa * 100,
-                "gpm" => $output->gpm * 100,
-                "npm" => $output->npm * 100,
-                "eer" => $output->eer * 100,
-                "ear" => $output->ear * 100,
-                "market_cap" => $output->market_cap,
-                "market_cap_asset_ratio" => $output->market_cap_asset_ratio * 100,
-                "cfo_sales_ratio" => $output->cfo_sales_ratio * 100,
-                "capex_cfo_ratio" => $output->capex_cfo_ratio * 100,
-                "market_cap_cfo_ratio" => $output->market_cap_cfo_ratio * 100,
-                "peg" => $peg * 100,
-                "harga_saham_sum_dividen" => $output->harga_saham_sum_dividen,
-            );
 
             $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
             $data = compact(['inputData'], ['outputData'], ['laporan'],['ticker'], ['check'], ['post'], );
