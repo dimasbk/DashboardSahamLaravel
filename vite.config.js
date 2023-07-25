@@ -48,6 +48,7 @@ export default defineConfig({
                 "resources/sass/style.scss",
                 "resources/js/chartTechnical.js",
                 "resources/js/chartFundamental.js",
+                "resources/css/subscribe.css",
             ],
             refresh: true,
         }),
