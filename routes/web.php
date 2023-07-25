@@ -158,6 +158,7 @@ Route::get('/search/data', [LandingPageController::class, 'emitenList']);
 Route::get('/emiten/{emiten}', [LandingPageController::class, 'emitenData']);
 Route::get('/emiten/technical/{emiten}', [TechnicalController::class, 'getChartData']);
 Route::get('/emiten/technical/chart/get', [TechnicalController::class, 'technicalChart']);
+Route::get('/emiten/fundamental/chart/get', [LandingPageController::class, 'getFundamental']);
 Route::get('/emiten/{emiten}/fundamental', [LandingPageController::class, 'fundamental']);
 Route::get('/news', [LandingPageController::class, 'news']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

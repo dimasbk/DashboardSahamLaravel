@@ -18,15 +18,17 @@
 <div style="margin-top: 100px;">
     <h4 hidden id="ticker">{{$ticker}}</h4>
     <div class="container">
-        <div class="btn-group m-3" role="group" aria-label="First group">
-            <button type="button" class="btn btn-dark btn-round mr-md-3 mb-md-0 mb-2" id="oneWeek">Satu
-                Minggu</button>
-            <button type="button" class="btn btn-dark btn-round mr-md-3 mb-md-0 mb-2" id="oneMonth">Satu
-                Bulan</button>
-            <button type="button" class="btn btn-dark btn-round mr-md-3 mb-md-0 mb-2" id="oneYear">Satu
-                Tahun</button>
-            <button type="button" class="btn btn-dark btn-round mr-md-3 mb-md-0 mb-2" id="threeYear">Tiga
-                Tahun</button>
+        <div class="d-flex align-items-center justify-content-center">
+            <div class="btn-group m-3" role="group" aria-label="First group">
+                <button type="button" class="btn btn-dark btn-round mr-md-3 mb-md-0 mb-2" id="oneWeek">Satu
+                    Minggu</button>
+                <button type="button" class="btn btn-dark btn-round mr-md-3 mb-md-0 mb-2" id="oneMonth">Satu
+                    Bulan</button>
+                <button type="button" class="btn btn-dark btn-round mr-md-3 mb-md-0 mb-2" id="oneYear">Satu
+                    Tahun</button>
+                <button type="button" class="btn btn-dark btn-round mr-md-3 mb-md-0 mb-2" id="threeYear">Tiga
+                    Tahun</button>
+            </div>
         </div>
         <div class="d-flex justify-content-center align-items-center">
             <div id="loader" class="spinner-border display-none" role="status">

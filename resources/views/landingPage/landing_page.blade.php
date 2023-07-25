@@ -118,7 +118,7 @@
 <div class="container">
     <div class="row" style="margin-top: 50px;">
         <div class="col-md-6">
-            <h1>Top Gainer Saham</h1>
+            <h1>Top Gainer Saham*</h1>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -142,7 +142,7 @@
             </table>
         </div>
         <div class="col-md-6">
-            <h1>Top Loser Saham</h1>
+            <h1>Top Loser Saham*</h1>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -168,6 +168,7 @@
             </table>
         </div>
     </div>
+    <h6>*Data tidak realtime (Berdasarkan close sebelumnya)</h6>
     <div>
         <h1>Tren Saham</h1>
         <table class="table table-striped">

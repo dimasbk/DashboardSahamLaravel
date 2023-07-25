@@ -4,7 +4,7 @@
 @vite(['resources/js/search.js', 'resources/css/search.css'])
 
 <div class="container">
-    <div style="margin-top: 300px">
+    <div style="margin-top: 100px">
         <div style="display:flex; justify-content:center;">
             <h3>Cari Emiten</h3>
         </div>
@@ -34,6 +34,33 @@
 
                 </div>
             </div>
+        </div>
+        <div>
+            <table id="emiten" class="table custom-table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Ticker Emiten</th>
+                        <th scope="col">Nama Emiten</th>
+                        <th scope="col">Detail Chart</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $i = 1; ?>
+                    @foreach ($data as $item)
+                    <tr>
+                        <td>{{$i}}</td>
+                        <?php $i++; ?>
+                        <td>{{$item->nama_saham}}</td>
+                        <td>{{$item->nama_perusahaan}}</td>
+                        <td>
+                            <a href="/emiten/{{$item->nama_saham}}" type="button" class="btn btn-primary">View</a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            {{ $data->links() }}
         </div>
     </div>
 </div>
