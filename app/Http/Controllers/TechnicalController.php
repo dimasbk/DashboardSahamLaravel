@@ -117,7 +117,7 @@ class TechnicalController extends Controller
             $data = $response['data']['results'];
             $startPrice = $data[count($data) - 1]['close'];
             $endPrice = $data[0]['close'];
-            $startEnd = (($endPrice - $startPrice) - $startPrice) * 100;
+            $startEnd = round((($endPrice - $startPrice) / $startPrice) * 100);
 
             $id_stock = SahamModel::where('nama_saham', $stock)->value('id_saham');
 
