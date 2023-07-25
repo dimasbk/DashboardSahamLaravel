@@ -9,6 +9,12 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class PlanController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['auth', 'verified']);
+    }
+
     public function index()
     {
         $prices = PriceModel::where('id_analyst', Auth::id())->paginate(10);

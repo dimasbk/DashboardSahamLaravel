@@ -155,6 +155,7 @@ Route::get('/updatestock', [StockAPIController::class, 'updateStock']);
 
 
 Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/abc', [LandingPageController::class, 'technical']);
 Route::get('/landing-page', [LandingPageController::class, 'index']);

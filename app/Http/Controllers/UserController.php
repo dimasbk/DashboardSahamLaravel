@@ -11,6 +11,11 @@ use stdClass;
 
 class UserController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['auth', 'verified']);
+    }
     public function index()
     {
         $request = RequestModel::where('user_id', Auth::id())
