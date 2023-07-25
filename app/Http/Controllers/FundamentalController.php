@@ -40,7 +40,7 @@ class FundamentalController extends Controller
 
     public function insert(Request $request)
     {
-
+        //dd($request->all());
         $check = SahamModel::where('nama_saham', $request->emiten)->value('id_jenis_fundamental');
         //DD($check);
         if ($check === 1) {
@@ -67,6 +67,7 @@ class FundamentalController extends Controller
         $stock_split = $request->stock_split;
         $eps = $laba_bersih / ($jml_saham_edar * $stock_split);
         $tahun = $request->tahun;
+        $kuartal = $request->kuartal;
         $emiten = $request->emiten;
         $idEmiten = SahamModel::where('nama_saham', $emiten)->value('id_saham');
 
@@ -87,7 +88,8 @@ class FundamentalController extends Controller
             'total_dividen' => $total_dividen,
             'stock_split' => $stock_split,
             'eps' => $eps,
-            'tahun' => $tahun
+            'tahun' => $tahun,
+            'kuartal' => $kuartal
         ]);
 
 
@@ -206,6 +208,7 @@ class FundamentalController extends Controller
             'peg' => $peg,
             'harga_saham_sum_dividen' => $harga_saham_sum_dividen,
             'tahun' => $tahun,
+            'kuartal' => $kuartal
         ]);
 
         $insertOutput = OutputFundamentalModel::create([
@@ -266,6 +269,7 @@ class FundamentalController extends Controller
         $eps = $laba_bersih / ($jml_saham_edar * $stock_split);
         $tahun = $request->tahun;
         $emiten = $request->emiten;
+        $kuartal = $request->kuartal;
         $idEmiten = SahamModel::where('nama_saham', $emiten)->value('id_saham');
 
         $insertDetailInput = DetailInputFundamentalModel::where('id_detail_input', $request->id_detail_input)->update([
@@ -285,7 +289,8 @@ class FundamentalController extends Controller
             'total_dividen' => $total_dividen,
             'stock_split' => $stock_split,
             'eps' => $eps,
-            'tahun' => $tahun
+            'tahun' => $tahun,
+            'kuartal' => $kuartal
         ]);
 
 

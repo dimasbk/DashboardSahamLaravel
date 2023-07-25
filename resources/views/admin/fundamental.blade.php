@@ -349,6 +349,28 @@
                                 type="number" id="tahun" name="tahun" class="form-control" required>
                             <div class="invalid-feedback"></div>
                         </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="radio" name="kuartal" value="">
+                                Tahunan
+                            </label>
+                            <label>
+                                <input type="radio" name="kuartal" value="Q1">
+                                Q1
+                            </label>
+                            <label>
+                                <input type="radio" name="kuartal" value="Q2">
+                                Q2
+                            </label>
+                            <label>
+                                <input type="radio" name="kuartal" value="Q3">
+                                Q3
+                            </label>
+                            <label>
+                                <input type="radio" name="kuartal" value="Q4">
+                                Q4
+                            </label>
+                        </div>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button id="submit-button" type="submit" class="btn btn-primary">Submit</button>
                     </form>

@@ -151,12 +151,13 @@ class LandingPageController extends Controller
 
     public function emitenSearch()
     {
-
-        return view('landingPage/emitenSearch');
+        $data = SahamModel::paginate(25);
+        return view('landingPage/emitenSearch', compact(['data']));
     }
 
-    public function fundamental($ticker)
+    public function getFundamental(Request $request)
     {
+        $ticker = $request->ticker;
         $emiten = SahamModel::where('nama_saham', $ticker)->value('id_saham');
         $input = InputFundamentalModel::where('tb_input.id_saham', $emiten)
             ->join('tb_detail_input', 'tb_input.id_detail_input', '=', 'tb_detail_input.id_detail_input')
@@ -172,6 +173,11 @@ class LandingPageController extends Controller
             $output = OutputFundamentalModel::where('id_input', $data->id_input)
                 ->join('tb_detail_output', 'tb_output.id_detail_output', '=', 'tb_detail_output.id_output')
                 ->first();
+
+            $inputLoop = InputFundamentalModel::where('tb_input.id_input', $data->id_input)
+                ->join('tb_detail_input', 'tb_input.id_detail_input', '=', 'tb_detail_input.id_detail_input')
+                ->join('tb_saham', 'tb_input.id_saham', '=', 'tb_saham.id_saham')
+                ->latest('tahun')->first();
 
             if ($output->peg == null) {
                 $peg = 0;
@@ -229,6 +235,8 @@ class LandingPageController extends Controller
                 "market_cap_cfo_ratio" => $output->market_cap_cfo_ratio * 100,
                 "peg" => $peg * 100,
                 "harga_saham_sum_dividen" => $output->harga_saham_sum_dividen,
+                "tahun" => $output->tahun,
+                'eps' => $inputLoop->eps
             );
             $fundamental = [$dataOutput, $data->toArray()];
             //dd($fundamental);
@@ -238,7 +246,6 @@ class LandingPageController extends Controller
 
         $laporan = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', 7)->where('status', 'subscribed')->first();
         $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
-        $data = compact(['dataFundamental'], ['ticker'], ['laporan'], ['check']);
 
         //dd($data);
         // return response()->json([
@@ -247,6 +254,13 @@ class LandingPageController extends Controller
         // ], 200);
         return view('landingPage/fundamental', $data);
     }
+
+    public function fundamental($ticker)
+    {
+
+        return view('landingPage/fundamental', compact(['ticker']));
+    }
+
     public function emitenData($ticker)
     {
         $laporan = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', 7)->where('status', 'subscribed')->first();
