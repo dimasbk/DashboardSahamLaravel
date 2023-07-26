@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <div class="container" style="margin-top: 200px">
+    <div class="container" style="margin-top: 50px">
         <h1 class="mt-4">Subscription Details</h1>
         <label for="name">Subscription For</label>
         <input type="text" id="name" name="name" value="{{$analystData->name}}" disabled />
