@@ -24,16 +24,16 @@ class AnalystController extends Controller
 
     public function index()
     {
-        $notToFollow = SubscriberModel::where('id_subscriber', Auth::id())->where('status', 'pending')->orWhere('status', 'subscribed')->pluck('id_analyst')->toArray();
+        $notToFollow = SubscriberModel::where('id_subscriber', Auth::id())->where('status', 'subscribed')->pluck('id_analyst')->toArray();
         array_push($notToFollow, Auth::id());
         $toFollow = User::where('id_roles', 2)->whereNotIn('id', $notToFollow)->get()->toArray();
-        $existing = SubscriberModel::where('id_subscriber', Auth::id())
+        $existing = SubscriberModel::where('id_subscriber', Auth::id())->where('status', 'subscribed')
             ->join('users', 'tb_subscription.id_analyst', '=', 'users.id')
             ->get()->toArray();
 
         $data = compact(['toFollow', 'existing']);
 
-        //dd($existing);
+        //dd($data);
         // return response()->json([
         //     'status' => 'success',
         //     'data' => $data
