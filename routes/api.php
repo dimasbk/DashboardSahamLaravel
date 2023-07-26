@@ -138,7 +138,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/report', [ReportAPIController::class, 'getYearr']);
 
 
-    Route::get('/portosemua', [ReportAPIController::class, 'reportt']);
+   // Route::get('/portosemua', [ReportAPIController::class, 'reportt']);
 
     Route::get('/portosemuaa', [ReportAPIController::class, 'DetailReportt']);
 

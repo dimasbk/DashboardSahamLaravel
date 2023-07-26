@@ -23,7 +23,7 @@ class User extends Authenticatable
         'profile_picture',
         'password',
         'id_roles',
-       // 'fcm_token'
+       'fcm_token'
     ];
 
     /**
@@ -34,7 +34,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-      //  'fcm_token'
+       'fcm_token'
     ];
 
     /**

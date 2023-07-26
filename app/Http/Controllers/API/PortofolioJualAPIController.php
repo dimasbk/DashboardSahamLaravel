@@ -46,11 +46,20 @@ class PortofolioJualAPIController extends Controller
     {
 
 
-        $dataporto = [
-            'portojual' => $this->PortofolioJualModel->allData(),
-        ];
-        return response()->json(['messsage' => 'Berhasil', 'data' => $dataporto]);
+        // $dataporto = [
+        //     'portojual' => $this->PortofolioJualModel->allData(),
+        // ];
+        // return response()->json(['messsage' => 'Berhasil', 'data' => $dataporto]);
 
+
+        // return response()->json(['messsage' => 'Berhasil', 'data' => $dataporto]);
+
+        $id_user = Auth::id();
+        $dataporto = PortofolioJualModel::join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
+            ->join('tb_sekuritas', 'tb_portofolio_jual.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
+            ->where('user_id', $id_user)
+            ->orderBy('tanggal_jual', 'desc')
+            ->get();
 
         return response()->json(['messsage' => 'Berhasil', 'data' => $dataporto]);
     }
