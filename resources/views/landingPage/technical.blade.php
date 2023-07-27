@@ -62,7 +62,7 @@
                 </thead>
                 <tbody>
                     @foreach ($filteredData as $data)
-                    <tr>
+
                     @php
                     $i = 1;
                     @endphp
@@ -84,7 +84,7 @@
                             <button type="submit" class="btn btn-primary">View</button>
                         </form>
                     </td>
-                    </tr>
+
                     @endforeach
                 </tbody>
             </table>
