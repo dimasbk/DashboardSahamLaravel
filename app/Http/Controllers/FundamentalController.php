@@ -89,7 +89,7 @@ class FundamentalController extends Controller
             'stock_split' => $stock_split,
             'eps' => $eps,
             'tahun' => $tahun,
-            'kuartal' => $kuartal
+            'type' => $kuartal
         ]);
 
 
@@ -208,7 +208,7 @@ class FundamentalController extends Controller
             'peg' => $peg,
             'harga_saham_sum_dividen' => $harga_saham_sum_dividen,
             'tahun' => $tahun,
-            'kuartal' => $kuartal
+            'type' => $kuartal
         ]);
 
         $insertOutput = OutputFundamentalModel::create([
@@ -290,7 +290,7 @@ class FundamentalController extends Controller
             'stock_split' => $stock_split,
             'eps' => $eps,
             'tahun' => $tahun,
-            'kuartal' => $kuartal
+            'type' => $kuartal
         ]);
 
 
@@ -402,6 +402,7 @@ class FundamentalController extends Controller
             'peg' => $peg,
             'harga_saham_sum_dividen' => $harga_saham_sum_dividen,
             'tahun' => $tahun,
+            'type' => $kuartal
         ]);
 
 
