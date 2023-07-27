@@ -247,13 +247,13 @@ class FundamentalController extends Controller
         if ($check === 1) {
             $simpanan = $request->simpanan;
             $pinjaman = $request->pinjaman;
-            $hutang_obligasi = 0;
+            $hutang_obligasi = null;
         } else {
             $hutang_obligasi = $request->hutang_obligasi;
-            $simpanan = 0;
-            $pinjaman = 0;
+            $simpanan = null;
+            $pinjaman = null;
         }
-
+        //dd($request->all());
         $aset = $request->aset;
         $saldo_laba = $request->saldo_laba;
         $ekuitas = $request->ekuitas;
@@ -305,6 +305,7 @@ class FundamentalController extends Controller
             $loan_to_depo_ratio = null;
             $der = round($hutang_obligasi / $ekuitas, 4);
         } else {
+            dd('test');
             $loan_to_depo_ratio = round($pinjaman / $simpanan, 4);
             $der = null;
         }
