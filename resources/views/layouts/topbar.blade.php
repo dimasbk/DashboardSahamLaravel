@@ -45,7 +45,7 @@
                         alt="Header Avatar">
                     @else
                     <img class="rounded-circle header-profile-user"
-                        src="{{ URL::asset ('/assets/images/users/avatar-1.jpg') }}" alt="Header Avatar">
+                        src="{{asset('images')}}/profile_picture/{{Auth::user()->profile_picture}}" alt="Header Avatar">
                     @endif
                     <span class="d-none d-xl-inline-block ms-1" key="t-henry">{{ucfirst(Auth::user()->name)}}</span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
