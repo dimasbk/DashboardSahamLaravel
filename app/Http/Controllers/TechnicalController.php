@@ -95,7 +95,14 @@ class TechnicalController extends Controller
     {
         $trends = [];
         $year = explode('-', '2068-06-15');
-        $output = DetailOutputFundamentalModel::where($request->param, $request->comparison, $request->num / 100)->where('tahun', 2018)->pluck('id_output');
+        if ($request->param == 'der') {
+            $output = DetailOutputFundamentalModel::where($request->param, $request->comparison, $request->num / 100)
+                ->where('tahun', date("Y"))->where('loan_to_depo_ratio', null)->pluck('id_output');
+        } else {
+            $output = DetailOutputFundamentalModel::where($request->param, $request->comparison, $request->num / 100)
+                ->where('tahun', date("Y"))->where('der', null)->pluck('id_output');
+        }
+
         $input = OutputFundamentalModel::whereIn('id_detail_output', $output)->pluck('id_input');
         $id_emiten = InputFundamentalModel::whereIn('id_input', $input)->pluck('id_saham');
         $stocks = SahamModel::whereIn('id_saham', $id_emiten)->pluck('nama_saham');
