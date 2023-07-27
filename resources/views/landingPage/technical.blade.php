@@ -45,9 +45,6 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
-            @php
-            dd($filteredData);
-            @endphp
             <table class="table table-striped table-hover mt-4" id="tableData">
                 <thead class="table-dark">
                     <tr>
