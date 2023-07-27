@@ -169,6 +169,7 @@
         </div>
     </div>
     <h6>*Data tidak realtime (Berdasarkan close sebelumnya)</h6>
+    <!--
     <div>
         <h1>Tren Saham</h1>
         <table class="table table-striped">
@@ -199,6 +200,7 @@
             </tbody>
         </table>
     </div>
+    -->
 </div>
 
 
