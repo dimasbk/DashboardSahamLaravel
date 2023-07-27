@@ -30,7 +30,7 @@ class DetailOutputFundamentalModel extends Model
         'peg',
         'harga_saham_sum_dividen',
         'tahun',
-         'kuartal'
+         'type'
     ];
 
     public $timestamps = false;
