@@ -22,6 +22,7 @@ class TechnicalController extends Controller
 
     public function trend($prices = null)
     {
+        //dd($prices);
         /*
         $stock = 'ACES';
         $start = '2023-03-01';
@@ -43,7 +44,7 @@ class TechnicalController extends Controller
             $date = Carbon::parse($entry['date']); // Parse the date using Carbon
             return $date->isFriday();
         });
-
+        //dd($fridayData);
         $closePrice = [];
         $trends = [];
 
@@ -75,6 +76,7 @@ class TechnicalController extends Controller
         }
 
         $num = [];
+        //dd($trends);
         for ($i = 0; $i < count($trends); $i++) {
             if ($trends[$i] === $trends[$i + 1]) {
                 array_push($num, $i);
@@ -95,13 +97,9 @@ class TechnicalController extends Controller
     {
         $trends = [];
         $year = explode('-', '2068-06-15');
-        if ($request->param == 'der') {
-            $output = DetailOutputFundamentalModel::where($request->param, $request->comparison, $request->num / 100)
-                ->where('tahun', date("Y"))->where('loan_to_depo_ratio', null)->pluck('id_output');
-        } else {
-            $output = DetailOutputFundamentalModel::where($request->param, $request->comparison, $request->num / 100)
-                ->where('tahun', date("Y"))->where('der', null)->pluck('id_output');
-        }
+        $output = DetailOutputFundamentalModel::where($request->param, $request->comparison, $request->num / 100)
+            ->where('tahun', date("Y", strtotime("-1 year")))
+            ->pluck('id_output');
 
         $input = OutputFundamentalModel::whereIn('id_detail_output', $output)->pluck('id_input');
         $id_emiten = InputFundamentalModel::whereIn('id_input', $input)->pluck('id_saham');
