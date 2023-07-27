@@ -30,7 +30,7 @@ class UserController extends Controller
 
     public function request()
     {
-        $request = RequestModel::createOrUpdate([
+        $request = RequestModel::updateOrCreate([
             'user_id' => Auth::id(),
         ], [
             'status' => 'pending'
