@@ -25,7 +25,7 @@ class DetailInputFundamentalModel extends Model
         'stock_split',
         'eps',
         'tahun',
-        'kuartal'
+        'type'
     ];
 
     public $timestamps = false;
