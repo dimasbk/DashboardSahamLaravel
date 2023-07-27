@@ -31,6 +31,38 @@ class PortofolioAPIController extends Controller
         $this->middleware('auth');
     }
 
+    private function countSMA($data, $period)
+    {
+        $sma = array();
+        for ($i = $period; $i < count($data); $i++) {
+            $sum = 0;
+            for ($j = $i - $period; $j < $i; $j++) {
+                $sum += $data[$j];
+            }
+            $sma[$i] = $sum / $period;
+        }
+        return $sma;
+    }
+
+    private function countRSI($data, $period)
+    {
+        $rsi = array();
+        for ($i = $period; $i < count($data); $i++) {
+            $up = 0;
+            $down = 0;
+            for ($j = $i - $period; $j < $i; $j++) {
+                if ($data[$j] > $data[$j - 1]) {
+                    $up += $data[$j] - $data[$j - 1];
+                } else {
+                    $down += $data[$j - 1] - $data[$j];
+                }
+            }
+            $rs = ($up / $period) / ($down / $period);
+            $rsi[$i] = 100 - (100 / (1 + $rs));
+        }
+        return $rsi;
+    }
+
     public function getAnalyst(Request $request)
     {
 
