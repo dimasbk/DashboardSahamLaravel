@@ -29,7 +29,8 @@ class DetailOutputFundamentalModel extends Model
         'market_cap_cfo_ratio',
         'peg',
         'harga_saham_sum_dividen',
-        'tahun'
+        'tahun',
+         'kuartal'
     ];
 
     public $timestamps = false;
