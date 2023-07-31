@@ -505,6 +505,11 @@ class ReportAPIController extends Controller
             ->get()->toArray();
 
         $years = [];
+        $isSubscribed = SubscriberModel::where('id_subscriber', $id_user)->where('id_analyst', $id_user)->where('status', 'subscribed')->first();
+        if ($isSubscribed || $id_user) {
+            $followers = SubscriberModel::where('id_analyst', $id_user)->get()->count();
+        $followers = SubscriberModel::get()->count();
+        }
 
         foreach ($tahun as $year) {
             $keuntungan = [];
@@ -543,7 +548,8 @@ class ReportAPIController extends Controller
                 'year' => $years[$key]['year'],
                 'keuntungan' => $years[$key]['keuntungan'],
                 'realisasi' => $years[$key]['realisasi'],
-                'keuntunganPercent' => $percent
+                'keuntunganPercent' => $percent,
+                'followers' => $followers
             ];
 
             array_push($data, $arr);
