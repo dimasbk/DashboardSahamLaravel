@@ -10,8 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\PriceModel;
-use App\Models\PortofolioBeliModel;
 use App\Models\PortofolioJualModel;
+use App\Models\PortofolioBeliModel;
 use App\Models\RequestModel;
 use App\Models\JenisSahamModel;
 use App\Models\SekuritasModel;
@@ -95,7 +95,7 @@ class AnalystAPIController extends Controller
             $sekuritas = SekuritasModel::all();
             $userData = User::where('id', $user_id)->first();
 
-            $data = compact(['dataporto'], ['emiten'], ['jenis_saham'], ['sekuritas'], ['userData']);
+            $data = compact(['dataporto'], ['jenis_saham'], ['sekuritas'], ['userData']);
             //dd($data);
             return response()->json([
                 'status' => 'success',
@@ -110,9 +110,9 @@ class AnalystAPIController extends Controller
 
     public function getdataAnalystJual($user_id)
     {
-        // $isSubscribed = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', $user_id)->where('status', 'subscribed')->first();
-        // if ($isSubscribed) {
-            $dataportojual = PortofolioJualModel::where('user_id', $user_id)
+        $isSubscribed = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', $user_id)->where('status', 'subscribed')->first();
+        if ($isSubscribed) {
+            $dataporto = PortofolioJualModel::where('user_id', $user_id)
                 ->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
                 ->join('tb_sekuritas', 'tb_portofolio_jual.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
                 ->get();
@@ -121,17 +121,43 @@ class AnalystAPIController extends Controller
             $sekuritas = SekuritasModel::all();
             $userData = User::where('id', $user_id)->first();
 
-            $data = compact(['dataportojual'],['emiten'],['jenis_saham'], ['sekuritas'], ['userData']);
-            //dd($dataporto);
+            $data = compact(['dataporto'],  ['jenis_saham'], ['sekuritas'], ['userData']);
+            //dd($data);
             return response()->json([
                 'status' => 'success',
                 'data' => $data
             ], 200);
-           // return view('portofoliojualAnalyst', $data);
-        // } else {
-        //     return redirect('/');
-       // }
+            //return view('portofoliobeliAnalyst', $data);
+        } else {
+            //print();
+         //   return redirect('/');
+        }
     }
+
+    // public function getdataAnalystJual($user_id)
+    // {
+    //     // $isSubscribed = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', $user_id)->where('status', 'subscribed')->first();
+    //     // if ($isSubscribed) {
+    //         $dataportojual = PortofolioJualModel::where('user_id', $user_id)
+    //             ->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
+    //             ->join('tb_sekuritas', 'tb_portofolio_jual.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
+    //             ->get();
+    //         $emiten = SahamModel::all();
+    //         $jenis_saham = JenisSahamModel::all();
+    //         $sekuritas = SekuritasModel::all();
+    //         $userData = User::where('id', $user_id)->first();
+
+    //         $data = compact(['dataportojual'],['emiten'],['jenis_saham'], ['sekuritas'], ['userData']);
+    //         //dd($dataporto);
+    //         return response()->json([
+    //             'status' => 'success',
+    //             'data' => $data
+    //         ], 200);
+    //        // return view('portofoliojualAnalyst', $data);
+    //     // } else {
+    //     //     return redirect('/');
+    //    // }
+    // }
 
     public function requestAnalyst(){
     //try{

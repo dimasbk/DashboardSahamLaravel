@@ -166,6 +166,7 @@ class LandingPageController extends Controller
         $inputData = $input->toArray();
         $outputData = [];
         $dataFundamental = [];
+        $simpanan = [];
 
         foreach ($input as $data) {
             $output = OutputFundamentalModel::where('id_input', $data->id_input)
@@ -183,6 +184,24 @@ class LandingPageController extends Controller
             } else {
                 $der = $output->der;
             }
+
+            if ($simpanan == null) {
+                $simpanan = 0;
+            } else {
+                $simpanan = $simpanan;
+            }
+
+            // if ($output->pinjaman == null) {
+            //     $pinjaman = 0;
+            // } else {
+            //     $pinjaman = $output->pinjaman;
+            // }
+
+            // if ($output->id_jenis_fundamental == null) {
+            //     $id_jenis_fundamental = 0;
+            // } else {
+            //     $id_jenis_fundamental = $output->id_jenis_fundamental;
+            // }
 
             if ($output->loan_to_depo_ratio == null) {
                 $loan_to_depo_ratio = 0;
@@ -221,7 +240,11 @@ class LandingPageController extends Controller
         $data = compact(['dataFundamental'], ['ticker'], ['laporan'], ['check']);
 
         //dd($data);
-        return view('landingPage/fundamental', $data);
+        return response()->json([
+            'status' => 'success',
+            'data' => $data
+        ], 200);
+      //  return view('landingPage/fundamental', $data);
     }
     public function emitenData($ticker)
     {
@@ -358,6 +381,20 @@ class LandingPageController extends Controller
 
             // return response()->json([
             //     'status' => 'success',
+            //     'data' => $data
+            // ], 200);
+
+            //dd($data);
+            // return response()->json([
+            //     'status' => 'success',
+            //     'data' => $data
+            // ], 200);
+          return view('landingPage/chart', $data);
+
+        }
+    }
+}
+uccess',
             //     'data' => $data
             // ], 200);
 

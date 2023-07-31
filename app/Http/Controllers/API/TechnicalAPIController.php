@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\DetailOutputFundamentalModel;
 use App\Models\InputFundamentalModel;
 use App\Models\OutputFundamentalModel;
+use App\Models\SubscriberModel;
 use App\Models\SahamModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class TechnicalAPIController extends Controller
 {
@@ -292,9 +294,114 @@ public function getFundamental(Request $request)
         return $data;
     }
 
-    public function fundamental($ticker)
+    public function fundamentall($ticker)
     {
+        $laporan = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', 7)->where('status', 'subscribed')->first();
+        $emiten = SahamModel::where('nama_saham', $ticker)->value('id_saham');
+        $input = InputFundamentalModel::where('tb_input.id_saham', $emiten)
+            ->join('tb_detail_input', 'tb_input.id_detail_input', '=', 'tb_detail_input.id_detail_input')
+            ->join('tb_saham', 'tb_input.id_saham', '=', 'tb_saham.id_saham')
+            ->latest('tahun')->get();
 
-        return view('landingPage/fundamental', compact(['ticker']));
+        $inputData = $input->toArray();
+        $outputData = [];
+        $dataFundamental = [];
+
+        // if(!$laporan){
+
+        //     $laporan = array("status" => 'blmsubs', "ayam" => "iniayam");
+        //     // $obj = (object) $laporan;
+        //     // $abc = json_encode($obj);
+        //    // $arrayData = json_decode($laporan, true);
+        //    // $laporan = json_decode($data, true);
+        //    }
+
+
+        foreach ($input as $data) {
+            $output = OutputFundamentalModel::where('id_input', $data->id_input)
+                ->join('tb_detail_output', 'tb_output.id_detail_output', '=', 'tb_detail_output.id_output')
+                ->first();
+
+            if ($output->peg == null) {
+                $peg = 0;
+            } else {
+                $peg = $output->peg;
+            }
+
+            // if ($output->type == null) {
+            //     $type = "dwdw";
+            // } else {
+            //     $type = $output->type;
+            // }
+
+            if ($output->der == null) {
+                $der = 0;
+            } else {
+                $der = $output->der;
+            }
+
+            if ($output->simpanan == null) {
+                $simpanan = 0;
+            } else {
+                $simpanan = $output->simpanan;
+            }
+
+            if ($output->pinjaman == null) {
+                $pinjaman = 0;
+            } else {
+                $pinjaman = $output->pinjaman;
+            }
+
+            if ($output->id_jenis_fundamental == null) {
+                $id_jenis_fundamental = 2;
+            } else {
+                $id_jenis_fundamental = $output->id_jenis_fundamental;
+            }
+
+
+            if ($output->loan_to_depo_ratio == null) {
+                $loan_to_depo_ratio = 0;
+            } else {
+                $loan_to_depo_ratio = $output->loan_to_depo_ratio;
+            }
+            $dataOutput = array(
+                "der" => $der * 100,
+                "loan_to_depo_ratio" => $loan_to_depo_ratio * 100,
+                "annualized_roe" => $output->annualized_roe * 100,
+                "dividen" => $output->dividen,
+               // "id_jenis_fundamental" => $output->id_jenis_fundamental + 1,
+                "dividen_yield" => $output->dividen_yield * 100,
+                "dividen_payout_ratio" => $output->dividen_payout_ratio * 100,
+                "pbv" => $output->pbv * 100,
+                "annualized_per" => $output->annualized_per,
+                "annualized_roa" => $output->annualized_roa * 100,
+                "gpm" => $output->gpm * 100,
+                "npm" => $output->npm * 100,
+                "eer" => $output->eer * 100,
+                "ear" => $output->ear * 100,
+                "market_cap" => $output->market_cap,
+                "market_cap_asset_ratio" => $output->market_cap_asset_ratio * 100,
+                "cfo_sales_ratio" => $output->cfo_sales_ratio * 100,
+                "capex_cfo_ratio" => $output->capex_cfo_ratio * 100,
+                "market_cap_cfo_ratio" => $output->market_cap_cfo_ratio * 100,
+                "peg" => $peg * 100,
+                "harga_saham_sum_dividen" => $output->harga_saham_sum_dividen,
+
+            );
+            $fundamental = [$dataOutput, $data->toArray()];
+            //dd($fundamental);
+            array_push($dataFundamental, $fundamental);
+        }
+
+
+        $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
+        $data = compact(['dataFundamental'], ['ticker'], ['laporan'], ['check']);
+
+        //dd($data);
+        return response()->json([
+            'status' => 'success',
+            'data' => $data
+        ], 200);
+      //  return view('landingPage/fundamental', $data);
     }
 }

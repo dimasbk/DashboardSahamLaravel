@@ -119,11 +119,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     //Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenDataa']);
 
     //Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenDataa']);
-    Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenData']);
+    Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenDataa']);
     Route::get('/emiten/technical/{emiten}', [TechnicalAPIController::class, 'getChartData']);
     Route::get('/emiten/technical/chart/get', [TechnicalAPIController::class, 'technicalChart']);
     Route::get('/emiten/fundamental/chart/get', [TechnicalAPIController::class, 'getFundamental']);
-    Route::get('/emiten/{emiten}/fundamental', [TechnicalAPIController::class, 'fundamental']);
+    Route::get('/emiten/fundamental/{emiten}', [TechnicalAPIController::class, 'fundamentall']);
 
 
 

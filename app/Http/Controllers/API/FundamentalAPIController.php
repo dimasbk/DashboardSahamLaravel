@@ -193,6 +193,8 @@ class FundamentalAPIController extends Controller
        // $laporan = json_decode($data, true);
        }
 
+
+
     // if(!$laporan){
     //     $laporan = json(['status' => 'blmsubs']);
     //    }
@@ -302,6 +304,15 @@ class FundamentalAPIController extends Controller
                 "peg" => $peg * 100,
                 "harga_saham_sum_dividen" => $output->harga_saham_sum_dividen,
             );
+
+            // if(!$inputData){
+
+            //     $inputData = array("nama_saham" => 'blmsubs', "ayam" => "iniayam");
+            //     // $obj = (object) $laporan;
+            //     // $abc = json_encode($obj);
+            //    // $arrayData = json_decode($laporan, true);
+            //    // $laporan = json_decode($data, true);
+            //    }
 
             $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
             $data = compact(['inputData'], ['outputData'],['laporan'], ['ticker'], ['check'], ['post']);

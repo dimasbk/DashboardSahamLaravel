@@ -113,11 +113,11 @@ class AnalystController extends Controller
         return view('landingPage/subscribe', compact(['analystData', 'prices']));
     }
 
-    public function delete($id)
-    {
-        $data = SubscriberModel::where('id_subscription', $id)->delete();
-        return redirect('/analyst');
-    }
+    // public function delete($id)
+    // {
+    //     $data = SubscriberModel::where('id_subscription', $id)->delete();
+    //     return redirect('/analyst');
+    // }
 
     public function pay(Request $request)
     {
@@ -262,7 +262,7 @@ class AnalystController extends Controller
             //$data1 = compact(['data']);
             //dd($data);
 
-           return view('userProfile')->with('data', $data);
+          return view('userProfile')->with('data', $data);
             // return response()->json([
             //     'status' => 'success',
             //     'data' => $data
