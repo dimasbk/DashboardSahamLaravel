@@ -233,6 +233,7 @@ class LandingPageController extends Controller
             $fundamental = [$dataOutput, $data->toArray()];
             //dd($fundamental);
             array_push($dataFundamental, $fundamental);
+
         }
 
         $laporan = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', 7)->where('status', 'subscribed')->first();
@@ -240,11 +241,11 @@ class LandingPageController extends Controller
         $data = compact(['dataFundamental'], ['ticker'], ['laporan'], ['check']);
 
         //dd($data);
-        return response()->json([
-            'status' => 'success',
-            'data' => $data
-        ], 200);
-      //  return view('landingPage/fundamental', $data);
+        // return response()->json([
+        //     'status' => 'success',
+        //     'data' => $data
+        // ], 200);
+        return view('landingPage/fundamental', $data);
     }
     public function emitenData($ticker)
     {
