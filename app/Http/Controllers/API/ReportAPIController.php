@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\SubscriberModel;
 use Illuminate\Support\Facades\Http;
+use App\Models\PostModel;
 
 class ReportAPIController extends Controller
 {
@@ -506,9 +507,10 @@ class ReportAPIController extends Controller
 
         $years = [];
         $isSubscribed = SubscriberModel::where('id_subscriber', $id_user)->where('id_analyst', $id_user)->where('status', 'subscribed')->first();
-        if ($isSubscribed || $id_user) {
+        if ($isSubscribed || $id_user == $id_user) {
             $followers = SubscriberModel::where('id_analyst', $id_user)->get()->count();
-        $followers = SubscriberModel::get()->count();
+            $postCount = PostModel::where('id_user', $id_user)->get()->count();
+       // $followers = SubscriberModel::get()->count();
         }
 
         foreach ($tahun as $year) {
@@ -549,7 +551,8 @@ class ReportAPIController extends Controller
                 'keuntungan' => $years[$key]['keuntungan'],
                 'realisasi' => $years[$key]['realisasi'],
                 'keuntunganPercent' => $percent,
-                'followers' => $followers
+                'followers' => $followers,
+                'postCount' => $postCount
             ];
 
             array_push($data, $arr);

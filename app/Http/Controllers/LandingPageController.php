@@ -394,13 +394,13 @@ class LandingPageController extends Controller
         }
     }
 }
-uccess',
-            //     'data' => $data
-            // ], 200);
+// uccess',
+//             //     'data' => $data
+//             // ], 200);
 
-            //dd($data);
-          return view('landingPage/chart', $data);
+//             //dd($data);
+//           return view('landingPage/chart', $data);
 
-        }
-    }
-}
+//         }
+//     }
+// }
