@@ -115,12 +115,15 @@ class ReportAPIController extends Controller
                 ->groupBy('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham')
                 ->get()->toArray();
 
+
             if (!$jualReport) {
                 $data[$i]['total_volume_jual'] = 0;
                 $data[$i]['avg_harga_jual'] = 0;
+                $data[$i]['total_volume'] = $data[$i]['total_volume_beli'];
             } else {
                 $data[$i]['total_volume_jual'] = $jualReport[0]['total_volume_jual'];
                 $data[$i]['avg_harga_jual'] = $jualReport[0]['avg_harga_jual'];
+                $data[$i]['total_volume'] = $data[$i]['total_volume_beli']-$jualReport[0]['total_volume_jual'];
             }
         }
 
