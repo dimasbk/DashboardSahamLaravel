@@ -97,6 +97,7 @@ class ReportAPIController extends Controller
     {
         $year = 2023;
         $id_user = Auth::id();
+        //$id_user = 12;
         $data = PortofolioBeliModel::join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
             ->select('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_beli.volume) AS total_volume_beli'), DB::raw('AVG(tb_portofolio_beli.harga_beli) AS avg_harga_beli'))
             ->where('tb_portofolio_beli.user_id', '=', $id_user)
@@ -107,6 +108,8 @@ class ReportAPIController extends Controller
         for ($i = 0; $i < count($data); $i++) {
             $id = $data[$i]['id_saham'];
             $saham = $data[$i]['nama_saham'];
+            $beforeDate = date('Y-m-d', strtotime("-1 day", strtotime(date("Y-m-d"))));
+           // $yearBefore = date('Y-m-d', strtotime($beforeDate . ' -1 year'));
             $jualReport = PortofolioJualModel::join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
                 ->select('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_jual.volume) AS total_volume_jual'), DB::raw('AVG(tb_portofolio_jual.harga_jual) AS avg_harga_jual'))
                 ->where('tb_portofolio_jual.user_id', '=', $id_user)
@@ -115,15 +118,33 @@ class ReportAPIController extends Controller
                 ->groupBy('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham')
                 ->get()->toArray();
 
+            $untung = Http::acceptJson()
+            ->withHeaders([
+                'X-API-KEY' => '1hzlCQzlW2UqjegV5GFoiS78vaW9tF'
+            ])->get('https://api.goapi.id/v1/stock/idx/' . $saham . '/historical', [
+                'to' => $beforeDate,
+                'from' => $beforeDate
+            ])->json();
+            $hargaclose = $untung['data']['results'][0]['close'];
+               // return $untung;
+
 
             if (!$jualReport) {
                 $data[$i]['total_volume_jual'] = 0;
                 $data[$i]['avg_harga_jual'] = 0;
                 $data[$i]['total_volume'] = $data[$i]['total_volume_beli'];
+                $data[$i]['keuntungan'] = ($data[$i]['total_volume']* $data[$i]['avg_harga_beli']) - ($data[$i]['total_volume']* $data[$i]['avg_harga_jual']);
+                $data[$i]['aset_sisa'] = $data[$i]['total_volume']*$data[$i]['avg_harga_beli'];
+                // $data[$i]['keuntungan'] = (string)$data[$i]['keuntungan'];
+
             } else {
                 $data[$i]['total_volume_jual'] = $jualReport[0]['total_volume_jual'];
                 $data[$i]['avg_harga_jual'] = $jualReport[0]['avg_harga_jual'];
                 $data[$i]['total_volume'] = $data[$i]['total_volume_beli']-$jualReport[0]['total_volume_jual'];
+                //$data[$i]['keuntungan'] = 0;
+                $data[$i]['keuntungan'] = ($data[$i]['total_volume'] * $data[$i]['avg_harga_beli']) - ($data[$i]['total_volume'] *$hargaclose );
+                $data[$i]['aset_sisa'] = $data[$i]['total_volume']*$data[$i]['avg_harga_beli'];
+              //  $data[$i]['keuntungan'] = (string)$data[$i]['keuntungan'];
             }
         }
 
