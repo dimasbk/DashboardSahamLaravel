@@ -159,89 +159,107 @@ class FundamentalAPIController extends Controller
     public function emitenDataa($ticker)
     {
         //$ticker = $request->ticker;
-        $id_user = Auth::id();
-        $laporan = SubscriberModel::where('id_subscriber', $id_user)->where('id_analyst', 7)->where('status', 'subscribed')->first();
-        $emiten = SahamModel::where('nama_saham', $ticker)->value('id_saham');
-        $input = InputFundamentalModel::where('tb_input.id_saham', $emiten)
-            //     ->where('user_id', $id_user)
-            ->join('tb_detail_input', 'tb_input.id_detail_input', '=', 'tb_detail_input.id_detail_input')
-            ->join('tb_saham', 'tb_input.id_saham', '=', 'tb_saham.id_saham')
-            ->latest('tahun')->first();
+       // $id_user = Auth::id();
+       $laporan = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', 7)->where('status', 'subscribed')->first();
+      // if $laporan == null {$laporan = array("status" => kosong)};
+     //  $laporan = "subscribed"
+       $emiten = SahamModel::where('nama_saham', $ticker)->value('id_saham');
+       $input = InputFundamentalModel::where('tb_input.id_saham', $emiten)
+         //  ->where('user_id', Auth::id())
+           ->join('tb_detail_input', 'tb_input.id_detail_input', '=', 'tb_detail_input.id_detail_input')
+           ->join('tb_saham', 'tb_input.id_saham', '=', 'tb_saham.id_saham')
+           ->latest('tahun')->first();
 
-        $subscribed = SubscriberModel::where('id_subscriber', $id_user)->pluck('id_analyst')->toArray();
-        $postData = PostModel::where('id_saham', $emiten)->where('tag', 'public')
-            ->join('users', 'tb_post.id_user', '=', 'users.id')
-            ->get()->toArray();
-        $includedID = PostModel::where('id_saham', $emiten)->where('tag', 'public')->pluck('id_post')->toArray();
-        $analystPost = PostModel::where('id_saham', $emiten)->where('tag', 'public')
-            ->whereIn('id_user', $subscribed)
-            ->whereNotIn('id_post', $includedID)
-            ->join('users', 'tb_post.id_user', '=', 'users.id')
-            ->get()->toArray();
+       $subscribed = SubscriberModel::where('id_subscriber', Auth::id())->pluck('id_analyst')->toArray();
+       $postData = PostModel::where('id_saham', $emiten)->where('tag', 'public')
+           ->join('users', 'tb_post.id_user', '=', 'users.id')
+           ->get()->toArray();
+       $includedID = PostModel::where('id_saham', $emiten)->where('tag', 'public')->pluck('id_post')->toArray();
+       $analystPost = PostModel::where('id_saham', $emiten)->where('tag', 'private')
+           ->whereIn('id_user', $subscribed)
+           ->whereNotIn('id_post', $includedID)
+           ->join('users', 'tb_post.id_user', '=', 'users.id')
+           ->get()->toArray();
 
-        $post = array_merge($postData, $analystPost);
-        //dd($post);
+       $post = array_merge($postData, $analystPost);
+       //dd($analystPost);
 
-        if (!$input) {
-            $inputData = array(
-                "id_input" => 0,
-                "id_detail_input" => 0,
-                "id_saham" => 0,
-                "user_id" => 0,
-                "aset" => 0,
-                "hutang_obligasi" => 0,
-                "simpanan" => 0,
-                "pinjaman" => 0,
-                "saldo_laba" => 0,
-                "ekuitas" => 0,
-                "jml_saham_edar" => 0,
-                "pendapatan" => 0,
-                "laba_kotor" => 0,
-                "laba_bersih" => 0,
-                "harga_saham" => 0,
-                "operating_cash_flow" => 0,
-                "investing_cash_flow" => 0,
-                "total_dividen" => 0,
-                "stock_split" => 0,
-                "eps" => 0,
-                "tahun" => "N/A",
-                "nama_saham" => $ticker,
-                "id_jenis_fundamental" => 0,
-            );
+       if(!$laporan){
 
-            $outputData = array(
-                "der" => 0,
-                "loan_to_depo_ratio" => 0,
-                "annualized_roe" => 0,
-                "dividen" => 0,
-                "dividen_yield" => 0,
-                "dividen_payout_ratio" => 0,
-                "pbv" => 0,
-                "annualized_per" => 0,
-                "annualized_roa" => 0,
-                "gpm" => 0,
-                "npm" => 0,
-                "eer" => 0,
-                "ear" => 0,
-                "market_cap" => 0,
-                "market_cap_asset_ratio" => 0,
-                "cfo_sales_ratio" => 0,
-                "capex_cfo_ratio" => 0,
-                "market_cap_cfo_ratio" => 0,
-                "peg" => 0,
-                "harga_saham_sum_dividen" => 0,
-            );
+        $laporan = array("status" => 'blmsubs', "ayam" => "iniayam");
+        // $obj = (object) $laporan;
+        // $abc = json_encode($obj);
+       // $arrayData = json_decode($laporan, true);
+       // $laporan = json_decode($data, true);
+       }
 
-            $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
-            $data = compact(['inputData'], ['outputData'], ['ticker'], ['check'], ['post']);
+
+
+    // if(!$laporan){
+    //     $laporan = json(['status' => 'blmsubs']);
+    //    }
+
+
+
+       if (!$input) {
+           $inputData = array(
+               "id_input" => 0,
+               "id_detail_input" => 0,
+               "id_saham" => 0,
+               "user_id" => 0,
+               "aset" => 0,
+               "hutang_obligasi" => 0,
+               "simpanan" => 0,
+               "pinjaman" => 0,
+               "saldo_laba" => 0,
+               "ekuitas" => 0,
+               "jml_saham_edar" => 0,
+               "pendapatan" => 0,
+               "laba_kotor" => 0,
+               "laba_bersih" => 0,
+               "harga_saham" => 0,
+               "operating_cash_flow" => 0,
+               "investing_cash_flow" => 0,
+               "total_dividen" => 0,
+               "stock_split" => 0,
+               "eps" => 0,
+               "tahun" => "N/A",
+               "nama_saham" => $ticker,
+               "id_jenis_fundamental" => 0,
+           );
+
+           $outputData = array(
+               "der" => 0,
+               "loan_to_depo_ratio" => 0,
+               "annualized_roe" => 0,
+               "dividen" => 0,
+               "dividen_yield" => 0,
+               "dividen_payout_ratio" => 0,
+               "pbv" => 0,
+               "annualized_per" => 0,
+               "annualized_roa" => 0,
+               "gpm" => 0,
+               "npm" => 0,
+               "eer" => 0,
+               "ear" => 0,
+               "market_cap" => 0,
+               "market_cap_asset_ratio" => 0,
+               "cfo_sales_ratio" => 0,
+               "capex_cfo_ratio" => 0,
+               "market_cap_cfo_ratio" => 0,
+               "peg" => 0,
+               "harga_saham_sum_dividen" => 0,
+           );
+
+           $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
+           $data = compact(['inputData'], ['outputData'], ['laporan'],['ticker'], ['check'], ['post'], );
+
             //dd($data);
-
             return response()->json([
                 'status' => 'success',
                 'data' => $data
             ], 200);
-
-        } else {
+        }else {
             $inputData = $input->toArray();
             $output = OutputFundamentalModel::where('id_input', $input->id_input)
                 ->join('tb_detail_output', 'tb_output.id_detail_output', '=', 'tb_detail_output.id_output')
@@ -252,9 +270,21 @@ class FundamentalAPIController extends Controller
             } else {
                 $peg = $output->peg;
             }
+
+            if ($output->der == null) {
+                $der = 0;
+            } else {
+                $der = $output->der;
+            }
+
+            if ($output->loan_to_depo_ratio == null) {
+                $loan_to_depo_ratio = 0;
+            } else {
+                $loan_to_depo_ratio = $output->loan_to_depo_ratio;
+            }
             $outputData = array(
-                "der" => $output->der * 100,
-                "loan_to_depo_ratio" => $output->loan_to_depo_ratio * 100,
+                "der" => $der * 100,
+                "loan_to_depo_ratio" => $loan_to_depo_ratio * 100,
                 "annualized_roe" => $output->annualized_roe * 100,
                 "dividen" => $output->dividen,
                 "dividen_yield" => $output->dividen_yield * 100,
@@ -275,14 +305,25 @@ class FundamentalAPIController extends Controller
                 "harga_saham_sum_dividen" => $output->harga_saham_sum_dividen,
             );
 
+            // if(!$inputData){
+
+            //     $inputData = array("nama_saham" => 'blmsubs', "ayam" => "iniayam");
+            //     // $obj = (object) $laporan;
+            //     // $abc = json_encode($obj);
+            //    // $arrayData = json_decode($laporan, true);
+            //    // $laporan = json_decode($data, true);
+            //    }
+
             $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
-            $data = compact(['inputData'], ['outputData'], ['ticker'], ['check'], ['post']);
+            $data = compact(['inputData'], ['outputData'],['laporan'], ['ticker'], ['check'], ['post']);
 
             //dd($data);
             return response()->json([
                 'status' => 'success',
                 'data' => $data
             ], 200);
+          //  return view('landingPage/chart', $data);
+
         }
     }
 

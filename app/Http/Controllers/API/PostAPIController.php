@@ -265,6 +265,7 @@ class PostAPIController extends Controller
                 'id_saham' => $id_saham,
                 'id_user' => Auth::id()
             ]);
+            $post->save();
             return response()->json([
                 'status' => 'success',
                 'data' => $post

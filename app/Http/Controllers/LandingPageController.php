@@ -167,6 +167,7 @@ class LandingPageController extends Controller
         $inputData = $input->toArray();
         $outputData = [];
         $dataFundamental = [];
+        $simpanan = [];
 
         foreach ($input as $data) {
             $output = OutputFundamentalModel::where('id_input', $data->id_input)
@@ -189,6 +190,24 @@ class LandingPageController extends Controller
             } else {
                 $der = $output->der;
             }
+
+            if ($simpanan == null) {
+                $simpanan = 0;
+            } else {
+                $simpanan = $simpanan;
+            }
+
+            // if ($output->pinjaman == null) {
+            //     $pinjaman = 0;
+            // } else {
+            //     $pinjaman = $output->pinjaman;
+            // }
+
+            // if ($output->id_jenis_fundamental == null) {
+            //     $id_jenis_fundamental = 0;
+            // } else {
+            //     $id_jenis_fundamental = $output->id_jenis_fundamental;
+            // }
 
             if ($output->loan_to_depo_ratio == null) {
                 $loan_to_depo_ratio = 0;
@@ -222,6 +241,7 @@ class LandingPageController extends Controller
             $fundamental = [$dataOutput, $data->toArray()];
             //dd($fundamental);
             array_push($dataFundamental, $fundamental);
+
         }
 
         $laporan = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', 7)->where('status', 'subscribed')->first();
@@ -386,11 +406,30 @@ class LandingPageController extends Controller
             }
 
             $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
-            $data = compact(['inputData'], ['outputData'], ['ticker'], ['check'], ['post'], ['laporan']);
+            $data = compact(['inputData'], ['outputData'], ['laporan'], ['ticker'], ['check'], ['post'], );
+
+            // return response()->json([
+            //     'status' => 'success',
+            //     'data' => $data
+            // ], 200);
 
             //dd($data);
+            // return response()->json([
+            //     'status' => 'success',
+            //     'data' => $data
+            // ], 200);
             return view('landingPage/chart', $data);
 
         }
     }
 }
+// uccess',
+//             //     'data' => $data
+//             // ], 200);
+
+//             //dd($data);
+//           return view('landingPage/chart', $data);
+
+//         }
+//     }
+// }

@@ -56,6 +56,50 @@ class AnalystController extends Controller
         return view('landingPage/plan', compact(['analystData', 'prices']));
     }
 
+    public function create()
+    {
+        return view('createPlan');
+    }
+
+    public function delete($id)
+    {
+        $price = PriceModel::where('id_price', $id)->firstOrFail();
+        $price->delete();
+        return redirect('/plan/manage');
+    }
+
+
+    public function edit($id)
+    {
+        $price = PriceModel::where('id_price', $id)->firstOrFail();
+        return view('editPlan', compact(['price']));
+    }
+
+    public function insert(Request $request)
+    {
+        if (Auth::user()->id_roles == 3) {
+            return redirect('/');
+        }
+
+        $validated = $request->validate([
+            'month' => 'required',
+            'price' => 'required'
+        ]);
+
+        $price = PriceModel::updateOrCreate(
+            [
+                'id_analyst' => Auth::id(),
+                'month' => $validated['month']
+
+            ],
+            [
+                'price' => $validated['price']
+            ]
+        );
+
+        return redirect('/plan/manage')->with('status', 'Plan berhasil dibuat/diubah');
+    }
+
     public function subscribe(Request $request)
     {
         $analystData = User::where('id', $request->id)->first();
@@ -72,11 +116,11 @@ class AnalystController extends Controller
         return view('landingPage/subscribe', compact(['analystData', 'prices']));
     }
 
-    public function delete($id)
-    {
-        $data = SubscriberModel::where('id_subscription', $id)->delete();
-        return redirect('/analyst');
-    }
+    // public function delete($id)
+    // {
+    //     $data = SubscriberModel::where('id_subscription', $id)->delete();
+    //     return redirect('/analyst');
+    // }
 
     public function pay(Request $request)
     {

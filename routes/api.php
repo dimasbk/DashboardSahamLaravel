@@ -60,11 +60,14 @@ Route::get('/postt', [PostAPIController::class, 'post']);
 
 
 
+
+
 //Protecting Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function (Request $request) {
         return auth()->user();
     });
+    Route::post('/request', [AnalystAPIController::class, 'requestAnalyst']);
 
     Route::get('/report/{year}/{emiten}', [ReportAPIController::class, 'detailReport']);
 
@@ -74,12 +77,20 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/admin', [AnalystAPIController::class, 'getAdmin']);
 
     Route::get('/profile/{id}', [AnalystAPIController::class, 'profile']);
+    Route::get('/profile/portobeli/{user_id}', [AnalystAPIController::class, 'getdataAnalystBeli']);
+    Route::get('/profile/portojual/{user_id}', [AnalystAPIController::class, 'getdataAnalystJual']);
 
 
 
     Route::get('/detailsubscribe/{id}', [AnalystAPIController::class, 'subscribe']);
     // Route::get('/plan', [AnalystAPIController::class, 'plan']);
     Route::post('/plan/{id}', [AnalystAPIController::class, 'planApi']);
+
+    Route::get('/plan/manage', [AnalystAPIController::class, 'index']);
+    //Route::get('/plan/create', [AnalystAPIController::class, 'create']);
+    Route::post('/addPlan', [PortofolioAPIController::class, 'insertPlan']);
+    Route::post('/editPlanSendiri', [AnalystAPIController::class, 'editPlan']);
+    Route::get('/plan/delete/{id_price}', [AnalystAPIController::class, 'delete']);
 
     Route::post('/createPayment', [AnalystAPIController::class, 'pay']);
     Route::post('/subscribe/setPaid/{id}', [AnalystAPIController::class, 'setSubscribed']);
@@ -108,13 +119,17 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     //Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenDataa']);
 
     //Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenDataa']);
-    Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenData']);
+    Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenDataa']);
+    Route::get('/emiten/technical/{emiten}', [TechnicalAPIController::class, 'getChartData']);
+    Route::get('/emiten/technical/chart/get', [TechnicalAPIController::class, 'technicalChart']);
+    Route::get('/emiten/fundamental/chart/get', [TechnicalAPIController::class, 'getFundamental']);
+    Route::get('/emiten/fundamental/{emiten}', [TechnicalAPIController::class, 'fundamentall']);
 
 
 
     Route::get('/trending', [FundamentalAPIController::class, 'trend']);
 
-    Route::get('/report', [ReportAPIController::class, 'getYearr']);
+   // Route::get('/report', [ReportAPIController::class, 'getYearr']);
 
     Route::get('/portosemua', [ReportAPIController::class, 'reportt']);
 
@@ -124,10 +139,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('/trending', [FundamentalAPIController::class, 'trend']);
 
-    Route::get('/report', [ReportAPIController::class, 'getYearr']);
+    Route::get('/reportku', [ReportAPIController::class, 'getYearr']);
 
 
-    Route::get('/portosemua', [ReportAPIController::class, 'reportt']);
+   // Route::get('/portosemua', [ReportAPIController::class, 'reportt']);
 
     Route::get('/portosemuaa', [ReportAPIController::class, 'DetailReportt']);
 
@@ -139,6 +154,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/company', [PortofolioAPIController::class, 'company']);
 
     Route::post('/notifsubs', [PortofolioAPIController::class, 'getSubscribe']);
+
+
+    Route::get('/requestt', [AnalystAPIController::class, 'request']);
+
+    Route::post('/history/subscribe', [PortofolioAPIController::class, 'getSubs']);
+
+
+    Route::get('/portofoliojual/analyst/{user_id}', [AnalystAPIController::class, 'getdataAnalystJual']);
 
 
     Route::post('/portofolio/paytagihan', [PortofolioAPIController::class, 'payTagihan']);

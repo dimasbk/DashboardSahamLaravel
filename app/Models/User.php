@@ -23,7 +23,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'profile_picture',
         'password',
-        'id_roles'
+        'id_roles',
+       'fcm_token'
     ];
 
     /**
@@ -34,6 +35,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password',
         'remember_token',
+       'fcm_token'
     ];
 
     /**

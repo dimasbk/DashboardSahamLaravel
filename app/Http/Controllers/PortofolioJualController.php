@@ -126,7 +126,7 @@ class PortofolioJualController extends Controller
         'harga_jual' => $request->harga_jual,
         'fee_jual_persen' => $request->fee_jual_persen,
         'close_persen' => $request->fee_jual_persen,
-        ]; 
+        ];
         */
 
         $insert = PortofolioJualModel::create([

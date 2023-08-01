@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\SubscriberModel;
 use Illuminate\Support\Facades\Http;
+use App\Models\PostModel;
 
 class ReportAPIController extends Controller
 {
@@ -96,6 +97,7 @@ class ReportAPIController extends Controller
     {
         $year = 2023;
         $id_user = Auth::id();
+        //$id_user = 12;
         $data = PortofolioBeliModel::join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
             ->select('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_beli.volume) AS total_volume_beli'), DB::raw('AVG(tb_portofolio_beli.harga_beli) AS avg_harga_beli'))
             ->where('tb_portofolio_beli.user_id', '=', $id_user)
@@ -106,6 +108,8 @@ class ReportAPIController extends Controller
         for ($i = 0; $i < count($data); $i++) {
             $id = $data[$i]['id_saham'];
             $saham = $data[$i]['nama_saham'];
+            $beforeDate = date('Y-m-d', strtotime("-1 day", strtotime(date("Y-m-d"))));
+           // $yearBefore = date('Y-m-d', strtotime($beforeDate . ' -1 year'));
             $jualReport = PortofolioJualModel::join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
                 ->select('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_jual.volume) AS total_volume_jual'), DB::raw('AVG(tb_portofolio_jual.harga_jual) AS avg_harga_jual'))
                 ->where('tb_portofolio_jual.user_id', '=', $id_user)
@@ -114,12 +118,33 @@ class ReportAPIController extends Controller
                 ->groupBy('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham')
                 ->get()->toArray();
 
+            $untung = Http::acceptJson()
+            ->withHeaders([
+                'X-API-KEY' => '1hzlCQzlW2UqjegV5GFoiS78vaW9tF'
+            ])->get('https://api.goapi.id/v1/stock/idx/' . $saham . '/historical', [
+                'to' => $beforeDate,
+                'from' => $beforeDate
+            ])->json();
+            $hargaclose = $untung['data']['results'][0]['close'];
+               // return $untung;
+
+
             if (!$jualReport) {
                 $data[$i]['total_volume_jual'] = 0;
                 $data[$i]['avg_harga_jual'] = 0;
+                $data[$i]['total_volume'] = $data[$i]['total_volume_beli'];
+                $data[$i]['keuntungan'] = ($data[$i]['total_volume']* $data[$i]['avg_harga_beli']) - ($data[$i]['total_volume']* $data[$i]['avg_harga_jual']);
+                $data[$i]['aset_sisa'] = $data[$i]['total_volume']*$data[$i]['avg_harga_beli'];
+                // $data[$i]['keuntungan'] = (string)$data[$i]['keuntungan'];
+
             } else {
                 $data[$i]['total_volume_jual'] = $jualReport[0]['total_volume_jual'];
                 $data[$i]['avg_harga_jual'] = $jualReport[0]['avg_harga_jual'];
+                $data[$i]['total_volume'] = $data[$i]['total_volume_beli']-$jualReport[0]['total_volume_jual'];
+                //$data[$i]['keuntungan'] = 0;
+                $data[$i]['keuntungan'] = ($data[$i]['total_volume'] * $data[$i]['avg_harga_beli']) - ($data[$i]['total_volume'] *$hargaclose );
+                $data[$i]['aset_sisa'] = $data[$i]['total_volume']*$data[$i]['avg_harga_beli'];
+              //  $data[$i]['keuntungan'] = (string)$data[$i]['keuntungan'];
             }
         }
 
@@ -505,6 +530,12 @@ class ReportAPIController extends Controller
             ->get()->toArray();
 
         $years = [];
+        $isSubscribed = SubscriberModel::where('id_subscriber', $id_user)->where('id_analyst', $id_user)->where('status', 'subscribed')->first();
+        if ($isSubscribed || $id_user == $id_user) {
+            $followers = SubscriberModel::where('id_analyst', $id_user)->get()->count();
+            $postCount = PostModel::where('id_user', $id_user)->get()->count();
+       // $followers = SubscriberModel::get()->count();
+        }
 
         foreach ($tahun as $year) {
             $keuntungan = [];
@@ -543,7 +574,9 @@ class ReportAPIController extends Controller
                 'year' => $years[$key]['year'],
                 'keuntungan' => $years[$key]['keuntungan'],
                 'realisasi' => $years[$key]['realisasi'],
-                'keuntunganPercent' => $percent
+                'keuntunganPercent' => $percent,
+                'followers' => $followers,
+                'postCount' => $postCount
             ];
 
             array_push($data, $arr);
@@ -557,63 +590,63 @@ class ReportAPIController extends Controller
 
 
 
-    public function getYearr(Request $request)
-    {
-        $id_user = Auth::id();
-        $tahun = PortofolioBeliModel::selectRaw('EXTRACT(YEAR FROM tanggal_beli) as tahun')
-            ->where('tb_portofolio_beli.user_id', $id_user)
-            ->groupBy(DB::raw('EXTRACT(YEAR FROM tanggal_beli)'))
-            ->get()->toArray();
+    // public function getYearr(Request $request)
+    // {
+    //     $id_user = Auth::id();
+    //     $tahun = PortofolioBeliModel::selectRaw('EXTRACT(YEAR FROM tanggal_beli) as tahun')
+    //         ->where('tb_portofolio_beli.user_id', $id_user)
+    //         ->groupBy(DB::raw('EXTRACT(YEAR FROM tanggal_beli)'))
+    //         ->get()->toArray();
 
-        $years = [];
+    //     $years = [];
 
-        foreach ($tahun as $year) {
-            $keuntungan = [];
-            $realisasi = [];
-            $dataReport = PortofolioBeliModel::whereYear('tanggal_beli', $year)
-                ->where('user_id', $id_user)
-                ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
-                ->get();
-            //dd($dataReport);
-            if ($dataReport) {
-                foreach ($dataReport as $data) {
-                    $report = $this->detailReport($year, $data->nama_saham, 1);
-                    array_push($keuntungan, $report['keuntungan']);
-                    array_push($realisasi, $report['realisasi']);
-                }
-            }
-            $pushedData = [
-                'year' => $year['tahun'],
-                'keuntungan' => array_sum($keuntungan) / count($keuntungan),
-                'realisasi' => array_sum($realisasi) / count($realisasi)
-            ];
-            array_push($years, $pushedData);
-        }
+    //     foreach ($tahun as $year) {
+    //         $keuntungan = [];
+    //         $realisasi = [];
+    //         $dataReport = PortofolioBeliModel::whereYear('tanggal_beli', $year)
+    //             ->where('user_id', $id_user)
+    //             ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
+    //             ->get();
+    //         //dd($dataReport);
+    //         if ($dataReport) {
+    //             foreach ($dataReport as $data) {
+    //                 $report = $this->detailReport($year, $data->nama_saham, 1);
+    //                 array_push($keuntungan, $report['keuntungan']);
+    //                 array_push($realisasi, $report['realisasi']);
+    //             }
+    //         }
+    //         $pushedData = [
+    //             'year' => $year['tahun'],
+    //             'keuntungan' => array_sum($keuntungan) / count($keuntungan),
+    //             'realisasi' => array_sum($realisasi) / count($realisasi)
+    //         ];
+    //         array_push($years, $pushedData);
+    //     }
 
-        //dd($years);
+    //     //dd($years);
 
-        $data = [];
+    //     $data = [];
 
-        foreach ($years as $key => $year) {
-            $percent = 0;
-            if ($key != 0) {
-                $percent = $years[$key]['keuntungan'] / $years[$key - 1]['keuntungan'];
-            }
+    //     foreach ($years as $key => $year) {
+    //         $percent = 0;
+    //         if ($key != 0) {
+    //             $percent = $years[$key]['keuntungan'] / $years[$key - 1]['keuntungan'];
+    //         }
 
-            $arr = [
-                'year' => $years[$key]['year'],
-                'keuntungan' => $years[$key]['keuntungan'],
-                'realisasi' => $years[$key]['realisasi'],
-                'keuntunganPercent' => $percent
-            ];
+    //         $arr = [
+    //             'year' => $years[$key]['year'],
+    //             'keuntungan' => $years[$key]['keuntungan'],
+    //             'realisasi' => $years[$key]['realisasi'],
+    //             'keuntunganPercent' => $percent
+    //         ];
 
-            array_push($data, $arr);
-        }
+    //         array_push($data, $arr);
+    //     }
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $data
-        ], 200);
-    }
+    //     return response()->json([
+    //         'status' => 'success',
+    //         'data' => $data
+    //     ], 200);
+    // }
 
 }

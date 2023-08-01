@@ -19,6 +19,7 @@ use App\Models\User;
 use App\Models\TagihanModel;
 use App\Models\SubscriberModel;
 use Illuminate\Support\Facades\Auth;
+use App\Models\PriceModel;
 
 class PortofolioAPIController extends Controller
 {
@@ -28,6 +29,38 @@ class PortofolioAPIController extends Controller
         $this->PortofolioBeliModel = new PortofolioBeliModel;
         $this->PortofolioJualModel = new PortofolioJualModel;
         $this->middleware('auth');
+    }
+
+    private function countSMA($data, $period)
+    {
+        $sma = array();
+        for ($i = $period; $i < count($data); $i++) {
+            $sum = 0;
+            for ($j = $i - $period; $j < $i; $j++) {
+                $sum += $data[$j];
+            }
+            $sma[$i] = $sum / $period;
+        }
+        return $sma;
+    }
+
+    private function countRSI($data, $period)
+    {
+        $rsi = array();
+        for ($i = $period; $i < count($data); $i++) {
+            $up = 0;
+            $down = 0;
+            for ($j = $i - $period; $j < $i; $j++) {
+                if ($data[$j] > $data[$j - 1]) {
+                    $up += $data[$j] - $data[$j - 1];
+                } else {
+                    $down += $data[$j - 1] - $data[$j];
+                }
+            }
+            $rs = ($up / $period) / ($down / $period);
+            $rsi[$i] = 100 - (100 / (1 + $rs));
+        }
+        return $rsi;
     }
 
     public function getAnalyst(Request $request)
@@ -200,8 +233,55 @@ class PortofolioAPIController extends Controller
         }
     }
 
-    public function getSubscribe(Request $request)
+    public function insertPlan(Request $request)
     {
+        // $id = Auth::id();
+     //   Log::info("message");($request->all);
+        // $id_analyst = PriceModel::where('id_analyst', $id)->first();
+
+        $price = $request->input('price');
+        $month = $request->input('month');
+
+        $insert = PriceModel::create([
+
+            'price' => $price,
+            'month' => $month,
+            'id_analyst' => Auth::id()
+
+        ]);
+        //$insert->save();
+        $insert->save();
+        return response()->json([
+            'status' => 'success',
+            'data' => $insert
+        ], 200);
+        // if ($insert) {
+        //   //  $insert->save();
+        //     //Log::info($request);
+        //     return response()->json(['messsage' => 'Berhasil', 'data' => $insert]);
+
+        // }
+
+
+       // return redirect('/plan/manage')->with('status', 'Plan berhasil dibuat/diubah');
+    }
+
+    public function getSubs(Request $request){
+        $id = Auth::id();
+        $status = $request->status;
+
+        try {
+            $historySubscription = SubscriberModel::where('status',$status)->where('user_id',$id)->get();
+            return response()->json(['messsage'=>'Berhasil', 'data'=>$historySubscription ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => $th
+            ]);
+        }
+    }
+
+    public function getSubscribe(Request $request){
         $id = Auth::id();
         $status = $request->status;
 
@@ -216,21 +296,21 @@ class PortofolioAPIController extends Controller
         }
     }
 
-    public function getSubscribe(Request $request)
-    {
-        $id = Auth::id();
-        $status = $request->status;
+    // public function getSubscribe(Request $request)
+    // {
+    //     $id = Auth::id();
+    //     $status = $request->status;
 
-        try {
-            $subs = SubscriberModel::where('status', $status)->where('user_id', $id)->get();
-            return response()->json(['messsage' => 'Berhasil', 'data' => $subs]);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'success' => false,
-                'message' => $th
-            ]);
-        }
-    }
+    //     try {
+    //         $subs = SubscriberModel::where('status', $status)->where('user_id', $id)->get();
+    //         return response()->json(['messsage' => 'Berhasil', 'data' => $subs]);
+    //     } catch (\Throwable $th) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => $th
+    //         ]);
+    //     }
+    // }
 
 
     public function getAnalystData(Request $request)
@@ -513,7 +593,7 @@ class PortofolioAPIController extends Controller
     }
 
 
-    public function editData(Request $request)
+    public function editDataBeli(Request $request)
     {
         try {
             $dataporto = PortofolioBeliModel::where('id_portofolio_beli', $request->id_portofolio_beli)->firstOrFail();

@@ -177,6 +177,7 @@ class TechnicalController extends Controller
         //dd(compact(['filteredData']));
         return view('landingPage/technical', compact(['filteredData']));
 
+
         //Log::info(filteredData);
     }
 
