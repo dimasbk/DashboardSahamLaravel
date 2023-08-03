@@ -327,14 +327,29 @@ class AnalystAPIController extends Controller
         //return view('landingPage/subscribe', compact(['analystData', 'prices']));
     }
 
-    public function setSubscribed($id)
+    public function setSubscribedUser($id)
     {
+
         $subscribe = SubscriberModel::where('id_subscription', $id)->first();
         $subscribe->update([
-            'status' => 'subscribed'
+            'status' => 'subscribed',
+           // 'subscribe_fee' => $request->price
         ]);
         return $subscribe;
     }
+
+    // public function setSubscribedUser($id)
+    // {
+    //     $id = Auth::id();
+    //     $subscribe = SubscriberModel::where('id_subscription', $id)->first();
+    //     $subscribe->update([
+    //         'status' => 'subscribed'
+    //     ]);
+    //     $subscribe->save();
+    //     return $subscribe;
+
+    //    // return redirect('/analyst');
+    // }
 
     public function pay(Request $request)
     {
@@ -445,6 +460,30 @@ class AnalystAPIController extends Controller
 
 
         return response()->json(['messsage' => 'Data Berhasil di Update']);
+    }
+
+    public function editProfile(Request $request)
+    {
+        //$price = PriceModel::where('id_price', $id)->firstOrFail();
+      //  return view('editPlan', compact(['price']));
+
+        $Edit = User::where('id', Auth::id())->firstOrFail();
+        $id = Auth::id();
+       // dd($Edit);
+
+
+        // $price->id_saham = $request->id_saham;
+        // $price->user_id = $id;
+        // $price->jenis_saham = $request->id_jenis_saham;
+      //  $price->user_id = $id;
+        $Edit->name = $request->name;
+       // $Edit->month = $request->month;
+       // $price->harga_beli = $request->harga_beli;
+        // $price->fee_beli_persen = $request->fee_beli_persen;
+        $Edit->save();
+
+
+        return response()->json(['messsage' => 'Profile Berhasil di Update']);
     }
 
     public function insertPlan(Request $request)

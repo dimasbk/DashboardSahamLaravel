@@ -122,7 +122,7 @@ class TechnicalAPIController extends Controller
 
             $trend = $this->trend($data);
             Log::info($trend);
-            $array = ["ticker" => "{$stock}", "MAPercentage" => "{$trend['percentage']}", "trend" => "{$trend['trendString']}", "change" => "{$trend['percentage']}", "der" => "{$der}", "ldr" => "{$ldr}"];
+            $array = ["ticker" => "{$stock}", "MAPercentage" => "{$trend['percentage']}", "trend" => "{$trend['trendString']}", "change" => "{$trend['percentage']}", "der" => "{$der}", "ldr" => "{$ldr}","startdate"=>"{$start}","enddate"=>"{$end}"];
             array_push($trends, $array);
 
         }
@@ -306,6 +306,7 @@ public function getFundamental(Request $request)
         $inputData = $input->toArray();
         $outputData = [];
         $dataFundamental = [];
+        $dataFundamentalSingkat = [];
 
         // if(!$laporan){
 
@@ -364,39 +365,54 @@ public function getFundamental(Request $request)
             } else {
                 $loan_to_depo_ratio = $output->loan_to_depo_ratio;
             }
+
+            // if ($type == null) {
+            //     $type = 0;
+            // } else {
+            //     $type = $output->type;
+            // }
             $dataOutput = array(
-                "der" => $der * 100,
-                "loan_to_depo_ratio" => $loan_to_depo_ratio * 100,
-                "annualized_roe" => $output->annualized_roe * 100,
-                "dividen" => $output->dividen,
+              //  $der => (string)$der * 100,
+                "der" => round($der * 100),
+               // implode(" ",$request->education)
+                //"tahun" => $inputData -> tahun,
+                "loan_to_depo_ratio" => round($loan_to_depo_ratio * 100),
+                "annualized_roe" => round($output->annualized_roe * 100),
+                "dividen" => round($output->dividen),
                // "id_jenis_fundamental" => $output->id_jenis_fundamental + 1,
-                "dividen_yield" => $output->dividen_yield * 100,
-                "dividen_payout_ratio" => $output->dividen_payout_ratio * 100,
-                "pbv" => $output->pbv * 100,
+                "dividen_yield" => round($output->dividen_yield * 100),
+                "dividen_payout_ratio" => round($output->dividen_payout_ratio * 100),
+                "pbv" => round($output->pbv * 100),
                 "annualized_per" => $output->annualized_per,
-                "annualized_roa" => $output->annualized_roa * 100,
-                "gpm" => $output->gpm * 100,
-                "npm" => $output->npm * 100,
-                "eer" => $output->eer * 100,
-                "ear" => $output->ear * 100,
-                "market_cap" => $output->market_cap,
-                "market_cap_asset_ratio" => $output->market_cap_asset_ratio * 100,
-                "cfo_sales_ratio" => $output->cfo_sales_ratio * 100,
-                "capex_cfo_ratio" => $output->capex_cfo_ratio * 100,
-                "market_cap_cfo_ratio" => $output->market_cap_cfo_ratio * 100,
-                "peg" => $peg * 100,
+                "annualized_roa" => round($output->annualized_roa * 100),
+                "gpm" => round($output->gpm * 100),
+                "npm" => round($output->npm * 100),
+                "eer" => round($output->eer * 100),
+                "ear" => round($output->ear * 100),
+                "market_cap" => round($output->market_cap),
+                "market_cap_asset_ratio" => round($output->market_cap_asset_ratio * 100),
+                "cfo_sales_ratio" => round($output->cfo_sales_ratio * 100),
+                "capex_cfo_ratio" => round($output->capex_cfo_ratio * 100),
+                "market_cap_cfo_ratio" => round($output->market_cap_cfo_ratio * 100),
+                "peg" => round($peg * 100),
                 "harga_saham_sum_dividen" => $output->harga_saham_sum_dividen,
 
+
+
+
             );
+           // $dataOutput = implode("''",$dataOutput);
             $fundamental = [$dataOutput, $data->toArray()];
+           // $fundamental = implode("''",$fundamental);
             //dd($fundamental);
             array_push($dataFundamental, $fundamental);
+            array_push($dataFundamentalSingkat, $inputData);
         }
 
 
         $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
-        $data = compact(['dataFundamental'], ['ticker'], ['laporan'], ['check']);
-
+        $data = compact(['dataFundamental'], ['ticker'], ['laporan'], ['check'],['dataFundamentalSingkat'],['fundamental']);
+       // $data = implode(" ",$data);
         //dd($data);
         return response()->json([
             'status' => 'success',

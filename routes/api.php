@@ -43,7 +43,7 @@ Route::post('/login', [AuthController::class, 'login']);
 //contoh param request = {'param' => 'ldr', 'comparison' => '>', 'num' => 5, 'start' => yyyy-mm-dd, 'end' => yyyy-mm-dd}
 Route::get('/search/technical/saham', [TechnicalAPIController::class, 'technical']);
 
-Route::get('/report/{year}', [ReportAPIController::class, 'report']);
+
 Route::get('/report/{user_id}', [ReportAPIController::class, 'getYear']);
 
 //contoh param request = {'from' => yyyy-mm-dd, 'to' => yyyy-mm-dd, 'user_id' => id}
@@ -57,7 +57,7 @@ Route::get('/postt', [PostAPIController::class, 'post']);
 
 
 
-
+Route::get('/emiten/fundamental/{emiten}', [TechnicalAPIController::class, 'fundamentall']);
 
 
 
@@ -71,7 +71,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('/report/{year}/{emiten}', [ReportAPIController::class, 'detailReport']);
 
-    Route::get('/portosemuaa/{emiten}', [ReportAPIController::class, 'DetailReportt']);
+    Route::get('/portosemuaa/{year}/{emiten}', [ReportAPIController::class, 'DetailReportt']);
     Route::get('/analystExisting', [AnalystAPIController::class, 'getAnalystExisting']);
     Route::get('/analyst', [AnalystAPIController::class, 'getAnalyst']);
     Route::get('/admin', [AnalystAPIController::class, 'getAdmin']);
@@ -90,10 +90,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     //Route::get('/plan/create', [AnalystAPIController::class, 'create']);
     Route::post('/addPlan', [PortofolioAPIController::class, 'insertPlan']);
     Route::post('/editPlanSendiri', [AnalystAPIController::class, 'editPlan']);
+    Route::post('/editProfile', [AnalystAPIController::class, 'editProfile']);
     Route::get('/plan/delete/{id_price}', [AnalystAPIController::class, 'delete']);
 
     Route::post('/createPayment', [AnalystAPIController::class, 'pay']);
-    Route::post('/subscribe/setPaid/{id}', [AnalystAPIController::class, 'setSubscribed']);
+    Route::post('/subscribed/setPaid/{id}', [AnalystAPIController::class, 'setSubscribedUser']);
 
     // Route::get('/reportdetail/{year}', [ReportAPIController::class, 'reportt']);
 
@@ -116,6 +117,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::post('/post/edit', [PostAPIController::class, 'edit']);
 
+
+
     //Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenDataa']);
 
     //Route::get('/emiten/{emiten}', [FundamentalAPIController::class, 'emitenDataa']);
@@ -123,7 +126,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/emiten/technical/{emiten}', [TechnicalAPIController::class, 'getChartData']);
     Route::get('/emiten/technical/chart/get', [TechnicalAPIController::class, 'technicalChart']);
     Route::get('/emiten/fundamental/chart/get', [TechnicalAPIController::class, 'getFundamental']);
-    Route::get('/emiten/fundamental/{emiten}', [TechnicalAPIController::class, 'fundamentall']);
+
 
 
 
@@ -132,6 +135,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
    // Route::get('/report', [ReportAPIController::class, 'getYearr']);
 
     Route::get('/portosemua', [ReportAPIController::class, 'reportt']);
+    Route::get('/reporthistory/{year}', [ReportAPIController::class, 'reportHistory']);
 
 
 
@@ -139,7 +143,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('/trending', [FundamentalAPIController::class, 'trend']);
 
-    Route::get('/reportku', [ReportAPIController::class, 'getYearr']);
+    Route::get('/report', [ReportAPIController::class, 'getYearr']);
+    Route::get('/reportTahunIni', [ReportAPIController::class, 'getYearTahunIni']);
 
 
    // Route::get('/portosemua', [ReportAPIController::class, 'reportt']);
