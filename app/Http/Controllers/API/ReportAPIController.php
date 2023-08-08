@@ -669,9 +669,9 @@ class ReportAPIController extends Controller
             $years[$i]['existing'] = $existing;
         }
 
-        $years[0]['year'] = 0;
-        $years[0]['keuntungan'] = 0;
-        $years[0]['realisasi'] = 0;
+        // $years[0]['year'] = 0;
+        // $years[0]['keuntungan'] = 0;
+        // $years[0]['realisasi'] = 0;
         $years[0]['keuntunganPercent'] = 0;
         $years[0]['realisasiPercent'] = 0;
         $years[0]['followers'] = $followers;
