@@ -198,6 +198,36 @@ class AnalystAPIController extends Controller
     //     ]);}
     }
 
+    public function checkUserRequest(Request $request)
+    {
+        $id_user = Auth::id();
+        // $notToFollow = SubscriberModel::where('id_subscriber', $id_user)->where('status', 'subscribed')->pluck('id_analyst')->toArray();
+        // array_push($notToFollow, $id_user);
+        // $toFollow = User::where('id_roles', 2)->whereNotIn('id', $notToFollow)->get()->toArray();
+        // $existing = SubscriberModel::where('id_subscriber', $id_user)
+        //     ->join('users', 'tb_subscription.id_analyst', '=', 'users.id')
+        //     ->get()->toArray();
+        $existing = SubscriberModel::where('id_subscriber', $id_user)
+            ->join('users', 'tb_subscription.id_analyst', '=', 'users.id')
+            ->get()->toArray();
+
+
+            $pending = RequestModel::where('user_id', $id_user)->get()->toArray();
+           // ->join('users', 'tb_subscription.id_analyst', '=', 'users.id')
+
+
+        $data = compact(['pending', 'existing']);
+
+        //dd($existing);
+        return response()->json([
+            'status' => 'success',
+            'data' => $data
+        ], 200);
+
+    }
+
+
+
     public function request()
     {
 
@@ -277,9 +307,11 @@ class AnalystAPIController extends Controller
             'data' => $data
         ], 200);
 
-
-        //return view('landingPage/analyst', $data);
     }
+
+
+
+
 
     public function plan(Request $request)
     {

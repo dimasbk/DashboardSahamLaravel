@@ -658,6 +658,10 @@ class ReportAPIController extends Controller
             $profitPercentage = (($currentYearProfit - $previousYearProfit) / abs($previousYearProfit)) * 100;
             $realisasiOercentage = (($currentYearRealisasi - $previousYearRealisasi) / abs($previousYearRealisasi)) * 100;
 
+
+            $years[$i]['year'] = 0;
+            $years[$i]['keuntungan'] = 0;
+            $years[$i]['realisasi'] = 0;
             $years[$i]['keuntunganPercent'] = $profitPercentage;
             $years[$i]['realisasiPercent'] = $realisasiOercentage;
             $years[$i]['followers'] = $followers;
@@ -665,6 +669,9 @@ class ReportAPIController extends Controller
             $years[$i]['existing'] = $existing;
         }
 
+        $years[0]['year'] = 0;
+        $years[0]['keuntungan'] = 0;
+        $years[0]['realisasi'] = 0;
         $years[0]['keuntunganPercent'] = 0;
         $years[0]['realisasiPercent'] = 0;
         $years[0]['followers'] = $followers;
