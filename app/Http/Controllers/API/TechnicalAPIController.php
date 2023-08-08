@@ -120,10 +120,50 @@ class TechnicalAPIController extends Controller
             $der = $output->der * 100;
             $ldr = $output->loan_to_depo_ratio * 100;
             $annualized_roe = $output->annualized_roe * 100;
+            $dividen = $output->dividen;
+            $dividen_yield = $output->dividen_yield * 100;
+            $dividen_payout_ratio = $output->dividen_payout_ratio * 100;
+            $pbv = $output->pbv * 100;
+            $annualized_roa = $output->annualized_roa * 100;
+            $gpm = $output->gpm * 100;
+            $npm = $output->npm * 100;
+            $eer = $output->eer * 100;
+            $ear = $output->ear * 100;
+            $market_cap = $output->market_cap;
+            $market_cap_asset_ratio = $output->market_cap_asset_ratio * 100;
+            $cfo_sales_ratio = $output->cfo_sales_ratio * 100;
+            $capex_cfo_ratio = $output->capex_cfo_ratio * 100;
+            $market_cap_cfo_ratio = $output->market_cap_cfo_ratio * 100;
+            $peg = $output->peg * 100;
+            $harga_saham_sum_dividen = $output->harga_saham_sum_dividen;
 
             $trend = $this->trend($data);
             Log::info($trend);
-            $array = ["ticker" => "{$stock}", "MAPercentage" => "{$trend['percentage']}", "trend" => "{$trend['trendString']}", "change" => "{$trend['percentage']}", "der" => "{$der}", "ldr" => "{$ldr}","annualized_roe" => "{$annualized_roe}","startdate"=>"{$start}","enddate"=>"{$end}"];
+            $array = ["ticker" => "{$stock}",
+             "MAPercentage" => "{$trend['percentage']}",
+             "trend" => "{$trend['trendString']}",
+             "change" => "{$trend['percentage']}",
+             "der" => "{$der}",
+             "ldr" => "{$ldr}",
+             "annualized_roe" => "{$annualized_roe}",
+             "dividen" => "{$dividen}",
+             "dividen_yield" => "{$dividen_yield}",
+             "dividen_payout_ratio" => "{$dividen_payout_ratio}",
+             "pbv" => "{$pbv}",
+             "annualized_roa" => "{$annualized_roa}",
+             "gpm" => "{$gpm}",
+             "npm" => "{$npm}",
+             "eer" => "{$eer}",
+             "ear" => "{$ear}",
+             "market_cap" => "{$market_cap}",
+             "market_cap_asset_ratio" => "{$market_cap_asset_ratio}",
+             "cfo_sales_ratio" => "{$cfo_sales_ratio}",
+             "capex_cfo_ratio" => "{$capex_cfo_ratio}",
+             "market_cap_cfo_ratio" => "{$market_cap_cfo_ratio}",
+             "peg" => "{$peg}",
+             "harga_saham_sum_dividen" => "{$harga_saham_sum_dividen}",
+             "startdate"=>"{$start}",
+             "enddate"=>"{$end}"];
             array_push($trends, $array);
 
         }
