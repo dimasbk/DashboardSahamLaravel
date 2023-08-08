@@ -119,10 +119,11 @@ class TechnicalAPIController extends Controller
 
             $der = $output->der * 100;
             $ldr = $output->loan_to_depo_ratio * 100;
+            $annualized_roe = $output->annualized_roe * 100;
 
             $trend = $this->trend($data);
             Log::info($trend);
-            $array = ["ticker" => "{$stock}", "MAPercentage" => "{$trend['percentage']}", "trend" => "{$trend['trendString']}", "change" => "{$trend['percentage']}", "der" => "{$der}", "ldr" => "{$ldr}","startdate"=>"{$start}","enddate"=>"{$end}"];
+            $array = ["ticker" => "{$stock}", "MAPercentage" => "{$trend['percentage']}", "trend" => "{$trend['trendString']}", "change" => "{$trend['percentage']}", "der" => "{$der}", "ldr" => "{$ldr}","annualized_roe" => "{$annualized_roe}","startdate"=>"{$start}","enddate"=>"{$end}"];
             array_push($trends, $array);
 
         }
