@@ -81,7 +81,7 @@ class ReportAPIController extends Controller
 
             if (!$jualReport) {
                 $data[$i]['total_volume_jual'] = 0;
-                $data[$i]['total_volume_beli'] = 0;
+                //$data[$i]['total_volume_beli'] = 0;
                 $data[$i]['avg_harga_jual'] = 0;
                 $data[$i]['total_volume'] = $data[$i]['total_volume_beli'];
                 $data[$i]['keuntungan'] = 100 * (($data[$i]['total_volume']*$data[$i]['avg_harga_beli'])-($data[$i]['total_volume']*$hargaclose ));
@@ -92,7 +92,7 @@ class ReportAPIController extends Controller
 
             } else {
                 $data[$i]['total_volume_jual'] = $jualReport[0]['total_volume_jual'];
-                $data[$i]['total_volume_beli'] = $jualReport[0]['total_volume_beli'];
+               // $data[$i]['total_volume_beli'] = $jualReport[0]['total_volume_beli'];
                 $data[$i]['avg_harga_jual'] = round($jualReport[0]['avg_harga_jual']);
                 $data[$i]['total_volume'] = $data[$i]['total_volume_beli']-$jualReport[0]['total_volume_jual'];
                 //$data[$i]['keuntungan'] = 0;
@@ -101,7 +101,7 @@ class ReportAPIController extends Controller
                 $data[$i]['harga_close'] = $hargaclose;
 
                 $data[$i]['total_volume_jual'] = (string)$data[$i]['total_volume_jual'];
-                $data[$i]['total_volume_beli'] = (string)$data[$i]['total_volume_beli'];
+               // $data[$i]['total_volume_beli'] = (string)$data[$i]['total_volume_beli'];
                 $data[$i]['avg_harga_jual'] = (string)$data[$i]['avg_harga_jual'];
                 $data[$i]['total_volume'] = (string)$data[$i]['total_volume'];
                 $data[$i]['keuntungan'] = (string)$data[$i]['keuntungan'];
@@ -766,8 +766,8 @@ class ReportAPIController extends Controller
 
             $arr = [
                 'year' => $years[$key]['year'],
-                'keuntungan' => $years[$key]['keuntungan'],
-                'realisasi' => $years[$key]['realisasi'],
+                'keuntungan' => $years[$key]['keuntungan'] * 100,
+                'realisasi' => $years[$key]['realisasi'] * 100,
                 'keuntunganPercent' => $percent,
                 'followers' => $followers,
                 'postCount' => $postCount
