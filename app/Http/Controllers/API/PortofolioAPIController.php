@@ -563,7 +563,8 @@ class PortofolioAPIController extends Controller
                 //     'status' => 'Menunggu Pembayaran',
                 //     'user_id' => $id,
                 // ]);
-            } else if ($reqType == 'jual') {
+            }
+            if ($reqType == 'jual') {
                 $insert = PortofolioJualModel::create([
                     'id_saham' => $saham->id_saham,
                     'user_id' => $id,
