@@ -407,7 +407,7 @@ class ReportAPIController extends Controller
         // }
         $realisasii = (string)$realisasi;
 
-        $returnData = compact(['data', 'keuntungann', 'realisasii']);
+        $returnData = compact(['data', 'keuntungann', 'realisasii', 'hargaclose']);
 
         return response()->json([
             'status' => 'success',
