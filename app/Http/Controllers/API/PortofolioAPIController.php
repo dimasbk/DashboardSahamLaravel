@@ -608,9 +608,18 @@ class PortofolioAPIController extends Controller
             $dataporto = PortofolioBeliModel::where('id_portofolio_beli', $request->id_portofolio_beli)->firstOrFail();
             // $id = Auth::id();
 
+            $total = ($request->volume * $request->harga_beli);
+
+            if ($total > 10000000){
+                $total = ((($request->volume * $request->harga_beli) * $request->fee) + ($request->volume * $request->harga_beli) + 10000)/$request->volume;
+            }else{
+                $total = ((($request->volume * $request->harga_beli) * $request->fee) + ($request->volume * $request->harga_beli))/$request->volume;
+            }
+
             $dataporto->volume = $request->volume;
             $dataporto->tanggal_beli = $request->tanggal_beli;
             $dataporto->harga_beli = $request->harga_beli;
+            $dataporto->total_beli = $request->total;
             $dataporto->save();
 
 
