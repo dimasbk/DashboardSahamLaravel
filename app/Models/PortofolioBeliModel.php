@@ -17,7 +17,8 @@ class PortofolioBeliModel extends Model
         'volume',
         'tanggal_beli',
         'harga_beli',
-        'id_sekuritas'
+        'id_sekuritas',
+        'total_beli'
     ];
 
     public $timestamps = false;

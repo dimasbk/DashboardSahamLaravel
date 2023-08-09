@@ -17,7 +17,8 @@ class PortofolioJualModel extends Model
         'tanggal_jual',
         'harga_jual',
         'id_sekuritas',
-        'close_persen'
+        'close_persen',
+        'total_jual'
     ];
     public $timestamps = false;
     protected $primaryKey = 'id_portofolio_jual';

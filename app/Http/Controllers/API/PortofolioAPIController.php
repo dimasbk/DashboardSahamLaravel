@@ -548,9 +548,10 @@ class PortofolioAPIController extends Controller
                     'jenis_saham' => $request->id_jenis_saham,
                     'volume' => $request->volume,
                     'tanggal_beli' => $request->tanggal,
-                    'harga_beli' => $total,
+                    'harga_beli' => $request->harga,
                     'fee_beli_persen' => $fee,
-                    'id_sekuritas' => $idSekuritas
+                    'id_sekuritas' => $idSekuritas,
+                    'total_beli' => $total
 
                 ]);
 
@@ -569,9 +570,10 @@ class PortofolioAPIController extends Controller
                     'jenis_saham' => $request->jenis,
                     'volume' => $request->volume,
                     'tanggal_jual' => $request->tanggal,
-                    'harga_jual' => $total,
+                    'harga_jual' => $request->harga,
                     'id_sekuritas' => $idSekuritas,
                     'close_persen' => $fee,
+                    'total_jual' => $total
                 ]);
             }
 
