@@ -169,18 +169,8 @@ class ReportAPIController extends Controller
                // return $untung;
 
 
-            if (!$jualReport) {
-                $data[$i]['total_volume_jual'] = 0;
-                $data[$i]['avg_harga_jual'] = 0;
-                $data[$i]['total_volume'] = $data[$i]['total_volume_beli'];
-                $data[$i]['keuntungan'] = 100 * (($data[$i]['total_volume']*$data[$i]['avg_harga_beli'])-($data[$i]['total_volume']*$hargaclose ));
-                $data[$i]['sisa_aset'] = 100*$data[$i]['total_volume']*$data[$i]['avg_harga_beli'];
-                $data[$i]['harga_close'] = $hargaclose;
-                $data[$i]['year'] = $year;
-                // $data[$i]['keuntungan'] = (string)$data[$i]['keuntungan'];
 
-            }
-            if ($jualReport){
+            if ($jualReport != null){
                 $data[$i]['total_volume_jual'] = $jualReport[0]['total_volume_jual'];
                 $data[$i]['avg_harga_jual'] = ($jualReport[0]['avg_harga_jual']);
                 $data[$i]['total_volume'] = $data[$i]['total_volume_beli']-$jualReport[0]['total_volume_jual'] ;
@@ -195,6 +185,17 @@ class ReportAPIController extends Controller
                 $data[$i]['keuntungan'] = (string)$data[$i]['keuntungan'];
                 $data[$i]['year'] = $year;
                // $data[$i]['sisa_aset'] = (string)$data[$i]['sisa_aset'];
+            }
+            if (!$jualReport) {
+                $data[$i]['total_volume_jual'] = 0;
+                $data[$i]['avg_harga_jual'] = 0;
+                $data[$i]['total_volume'] = $data[$i]['total_volume_beli'];
+                $data[$i]['keuntungan'] = 100 * (($data[$i]['total_volume']*$data[$i]['avg_harga_beli'])-($data[$i]['total_volume']*$hargaclose ));
+                $data[$i]['sisa_aset'] = 100*$data[$i]['total_volume']*$data[$i]['avg_harga_beli'];
+                $data[$i]['harga_close'] = $hargaclose;
+                $data[$i]['year'] = $year;
+                // $data[$i]['keuntungan'] = (string)$data[$i]['keuntungan'];
+
             }
         }
 
