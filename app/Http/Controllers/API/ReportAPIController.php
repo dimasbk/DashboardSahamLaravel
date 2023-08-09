@@ -179,7 +179,7 @@ class ReportAPIController extends Controller
                 $data[$i]['year'] = $year;
                 // $data[$i]['keuntungan'] = (string)$data[$i]['keuntungan'];
 
-            } else {
+            } else if ($jualReport){
                 $data[$i]['total_volume_jual'] = $jualReport[0]['total_volume_jual'];
                 $data[$i]['avg_harga_jual'] = ($jualReport[0]['avg_harga_jual']);
                 $data[$i]['total_volume'] = $data[$i]['total_volume_beli']-$jualReport[0]['total_volume_jual'] ;
