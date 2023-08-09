@@ -621,6 +621,7 @@ class PortofolioAPIController extends Controller
             $dataporto->volume = $request->volume;
             $dataporto->tanggal_beli = $request->tanggal_beli;
             $dataporto->harga_beli = $request->harga_beli;
+            $dataporto->id_sekuritas = $request->id_sekuritas;
             $dataporto->total_beli = $total;
             $dataporto->save();
 
