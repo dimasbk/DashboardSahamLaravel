@@ -536,9 +536,9 @@ class PortofolioAPIController extends Controller
             $total = ($request->volume * $request->harga);
 
             if ($total > 10000000){
-                $total = ((($request->volume * $request->harga) * $request->fee) + ($request->volume * $request->harga) + 10000)/$request->volume;
+                $total = ((($request->volume * $request->harga) * $request->fee/100) + ($request->volume * $request->harga) + 10000)/$request->volume;
             }else{
-                $total = ((($request->volume * $request->harga) * $request->fee) + ($request->volume * $request->harga))/$request->volume;
+                $total = ((($request->volume * $request->harga) * $request->fee/100) + ($request->volume * $request->harga))/$request->volume;
             }
             $saham = SahamModel::where('nama_saham', $request->id_saham)->first();
             if ($reqType == 'jual') {
