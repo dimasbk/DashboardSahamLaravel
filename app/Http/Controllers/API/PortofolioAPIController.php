@@ -541,6 +541,19 @@ class PortofolioAPIController extends Controller
                 $total = ((($request->volume * $request->harga) * $request->fee) + ($request->volume * $request->harga))/$request->volume;
             }
             $saham = SahamModel::where('nama_saham', $request->id_saham)->first();
+            if ($reqType == 'jual') {
+                $insert = PortofolioJualModel::create([
+                    'id_saham' => $saham->id_saham,
+                    'user_id' => $id,
+                    'jenis_saham' => $request->jenis,
+                    'volume' => $request->volume,
+                    'tanggal_jual' => $request->tanggal,
+                    'harga_jual' => $request->harga,
+                    'id_sekuritas' => $idSekuritas,
+                    'close_persen' => $fee,
+                    'total_jual' => $total
+                ]);
+            }
             if ($reqType == 'beli') {
                 $insert = PortofolioBeliModel::create([
                     'id_saham' => $saham->id_saham,
@@ -564,19 +577,7 @@ class PortofolioAPIController extends Controller
                 //     'user_id' => $id,
                 // ]);
             }
-            if ($reqType == 'jual') {
-                $insert = PortofolioJualModel::create([
-                    'id_saham' => $saham->id_saham,
-                    'user_id' => $id,
-                    'jenis_saham' => $request->jenis,
-                    'volume' => $request->volume,
-                    'tanggal_jual' => $request->tanggal,
-                    'harga_jual' => $request->harga,
-                    'id_sekuritas' => $idSekuritas,
-                    'close_persen' => $fee,
-                    'total_jual' => $total
-                ]);
-            }
+
 
 
             // $insert = PortofolioModel::create([
