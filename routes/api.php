@@ -31,7 +31,7 @@ Route::get('/subscribe/callback', [AnalystController::class, 'paymentCallback'])
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/coba', [ReportAPIController::class, 'coba']);
+//Route::get('/coba', [ReportAPIController::class, 'coba']);
 
 
 Route::get('trends', [LandingPageController::class, 'trendSaham']);
