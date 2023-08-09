@@ -345,30 +345,39 @@ class ReportAPIController extends Controller
         $data = array_merge($beli, $jual);
 
         usort($data, function ($a, $b) {
-            $tanggal_a = strtotime($a['tanggal']);
-            $tanggal_b = strtotime($b['tanggal']);
+            $tanggalA = DateTime::createFromFormat('d-m-Y', $a['tanggal']);
+            $tanggalB = DateTime::createFromFormat('d-m-Y', $b['tanggal']);
 
-            if ($tanggal_a == $tanggal_b) {
-                return 0;
-            }
-
-            return ($tanggal_a < $tanggal_b) ? -1 : 1;
+            return $tanggalA <=> $tanggalB;
         });
 
-        $beli_total = null;
-        $jual_total = null;
-        foreach ($data as $item) {
-            if ($item["tag"] == "beli") {
-                $beli_total += $item["volume"];
-            } else if ($item["tag"] == "jual") {
-                $jual_total += $item["volume"];
+        $beli_total = 0;
+        $jual_total = 0;
+        foreach ($data as $rep) {
+            if ($rep["tag"] == "beli") {
+                $beli_total += $rep["volume"];
             }
         }
+        foreach ($data as $rep) {
+            if ($rep["tag"] == "jual") {
+                $jual_total += $rep["volume"];
+            }
+        }
+        $lastDayOfYear = new DateTime("{$year}-12-31");
+
+        // Loop backwards from the last day of the year until a working day is found
+        while ($lastDayOfYear->format('N') > 5) {
+            $lastDayOfYear->modify('-1 day');
+        }
+
+        $lastWorkingDay = $lastDayOfYear->format('Y-m-d');
+
         $response = Http::acceptJson()
             ->withHeaders([
-                'X-API-KEY' => 'pCIjZsjxh8So9tFQksFPlyF6FbrM49'
-            ])->get('https://api.goapi.id/v1/stock/idx/prices', [
-                    'symbols' => $emiten
+                'X-API-KEY' => config('goapi.apikey')
+            ])->get('https://api.goapi.id/v1/stock/idx/' . $emiten . '/historical', [
+                    'to' => $lastWorkingDay,
+                    'from' => $lastWorkingDay
                 ])->json();
 
         $totalLot = ($beli_total - $jual_total) * 100;
