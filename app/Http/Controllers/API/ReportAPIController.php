@@ -720,7 +720,7 @@ class ReportAPIController extends Controller
         ], 200);
     }
 
-    public function getYearTahunIni(Request $request)
+    public function getYearTahunInii(Request $request)
     {
         $id_user = Auth::id();
         $tahun = PortofolioBeliModel::selectRaw('EXTRACT(YEAR FROM tanggal_beli) as tahun')
@@ -730,12 +730,12 @@ class ReportAPIController extends Controller
 
             $currentYear = date('Y'); // Get the current year
 
-            // $filteredArray = array_filter($tahun, function ($item) use ($currentYear) {
-            //     return $item['tahun'] == $currentYear;
-            // });
+            $filteredArray = array_filter($tahun, function ($item) use ($currentYear) {
+                return $item['tahun'] == $currentYear;
+            });
 
-           // $filteredArray = array_values($filteredArray);
-           // $tahun = $filteredArray;
+            $filteredArray = array_values($filteredArray);
+            $tahun = $filteredArray;
 
 
         $years = [];
@@ -811,6 +811,85 @@ class ReportAPIController extends Controller
 
         $data = $years;
 
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $data
+        ], 200);
+    }
+
+
+    public function getYearTahunIniCadangan(Request $request)
+    {
+        $id_user = Auth::id();
+        $tahun = PortofolioBeliModel::selectRaw('EXTRACT(YEAR FROM tanggal_beli) as tahun')
+            ->where('tb_portofolio_beli.user_id', $id_user)
+            ->groupBy(DB::raw('EXTRACT(YEAR FROM tanggal_beli)'))
+            ->get()->toArray();
+
+            $currentYear = date('Y'); // Get the current year
+
+            $filteredArray = array_filter($tahun, function ($item) use ($currentYear) {
+                return $item['tahun'] == $currentYear;
+            });
+
+            $filteredArray = array_values($filteredArray);
+            $tahun = $filteredArray;
+
+
+        $years = [];
+        $isSubscribed = SubscriberModel::where('id_subscriber', $id_user)->where('id_analyst', $id_user)->where('status', 'subscribed')->first();
+        if ($isSubscribed || $id_user == $id_user) {
+            $followers = SubscriberModel::where('id_analyst', $id_user)->get()->count();
+            $postCount = PostModel::where('id_user', $id_user)->get()->count();
+       // $followers = SubscriberModel::get()->count();
+        }
+
+        foreach ($tahun as $year) {
+            $keuntungan = [];
+            $realisasi = [];
+            $dataReport = PortofolioBeliModel::whereYear('tanggal_beli', $year)
+                ->where('user_id', $id_user)
+                ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
+                ->get();
+            //dd($dataReport);
+            if ($dataReport) {
+                foreach ($dataReport as $data) {
+                    $report = $this->detailReport($year, $data->nama_saham, 1);
+                    array_push($keuntungan, $report['keuntungan']);
+                    array_push($realisasi, $report['realisasi']);
+                }
+            }
+            $pushedData = [
+                'year' => $year['tahun'],
+                'keuntungan' => array_sum($keuntungan) / count($keuntungan),
+                'realisasi' => array_sum($realisasi) / count($realisasi)
+            ];
+            array_push($years, $pushedData);
+        }
+
+        //dd($years);
+
+        $data = [];
+
+        foreach ($years as $key => $year) {
+            $percent = 0;
+            if ($key != 0) {
+                $percent = $years[$key]['keuntungan'] / $years[$key - 1]['keuntungan'];
+            }
+
+            $arr = [
+                'year' => $years[$key]['year'],
+                'keuntungan' => $years[$key]['keuntungan'] ,
+                'realisasi' => $years[$key]['realisasi'] ,
+                'keuntunganPercent' => $percent,
+                'followers' => $followers,
+                'postCount' => $postCount
+            ];
+
+            array_push($data, $arr);
+           // $data = compact(['data', 'arr']);
+        }
 
 
         return response()->json([
