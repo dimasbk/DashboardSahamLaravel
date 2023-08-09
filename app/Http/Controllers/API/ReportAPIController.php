@@ -874,7 +874,7 @@ class ReportAPIController extends Controller
             ];
 
             array_push($data, $arr);
-            $data = compact(['data', 'arr']);
+           // $data = compact(['data', 'arr']);
         }
 
         return response()->json([
