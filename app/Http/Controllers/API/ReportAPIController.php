@@ -186,7 +186,7 @@ class ReportAPIController extends Controller
                 $data[$i]['avg_harga_jual'] = (string)$data[$i]['avg_harga_jual'];
                 $data[$i]['total_volume'] = (string)$data[$i]['total_volume'];
                 $data[$i]['keuntungan'] = (string)$data[$i]['keuntungan'];
-                $data[$i]['total_banget'] = (string)$data[$i]['total_banget'];
+               // $data[$i]['total_banget'] = (string)$data[$i]['total_banget'];
                 $data[$i]['year'] = $year;
                 $data[$i]['ayam'] = $year;
 
