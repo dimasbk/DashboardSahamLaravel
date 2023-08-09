@@ -536,9 +536,9 @@ class PortofolioAPIController extends Controller
             $total = ($request->volume * $request->harga);
 
             if ($total > 10000000){
-                $total = (($request->volume * $request->harga) * $request->fee) + ($request->volume * $request->harga) + 10000;
+                $total = ((($request->volume * $request->harga) * $request->fee) + ($request->volume * $request->harga) + 10000)/100;
             }else{
-                $total = (($request->volume * $request->harga) * $request->fee) + ($request->volume * $request->harga);
+                $total = ((($request->volume * $request->harga) * $request->fee) + ($request->volume * $request->harga))/100;
             }
             $saham = SahamModel::where('nama_saham', $request->id_saham)->first();
             if ($reqType == 'beli') {
@@ -554,14 +554,14 @@ class PortofolioAPIController extends Controller
 
                 ]);
 
-                $tagihan = TagihanModel::create([
-                    'reference' => strtoupper($unique_id),
-                    'nama_tagihan' => 'Transaksi Saham',
-                    'tgl_tagihan' => $currentDateTime,
-                    'jumlah' => $total,
-                    'status' => 'Menunggu Pembayaran',
-                    'user_id' => $id,
-                ]);
+                // $tagihan = TagihanModel::create([
+                //     'reference' => strtoupper($unique_id),
+                //     'nama_tagihan' => 'Transaksi Saham',
+                //     'tgl_tagihan' => $currentDateTime,
+                //     'jumlah' => $total,
+                //     'status' => 'Menunggu Pembayaran',
+                //     'user_id' => $id,
+                // ]);
             } else if ($reqType == 'jual') {
                 $insert = PortofolioJualModel::create([
                     'id_saham' => $saham->id_saham,
