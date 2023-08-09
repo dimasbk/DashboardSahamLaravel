@@ -898,7 +898,7 @@ class ReportAPIController extends Controller
             return $item['tahun'] != $currentYear;
         });
 
-        $filteredArray = array_values($filteredArray) + 1;
+        $filteredArray = array_values($filteredArray);
         $tahun = $filteredArray;
 
         //dd($tahun);
