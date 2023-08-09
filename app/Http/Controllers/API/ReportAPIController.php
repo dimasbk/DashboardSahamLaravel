@@ -884,7 +884,7 @@ class ReportAPIController extends Controller
     // }
 
 
-    public function getYearTahunIniCadangan(Request $request)
+    public function TahunIni(Request $request)
     {
         $id_user = Auth::id();
         $tahun = PortofolioBeliModel::selectRaw('EXTRACT(YEAR FROM tanggal_beli) as tahun')
@@ -895,7 +895,7 @@ class ReportAPIController extends Controller
         $currentYear = date('Y'); // Get the current year
 
         $filteredArray = array_filter($tahun, function ($item) use ($currentYear) {
-            return $item['tahun'] == $currentYear;
+            return $item['tahun'] != $currentYear;
         });
 
         $filteredArray = array_values($filteredArray);
@@ -958,9 +958,6 @@ class ReportAPIController extends Controller
             $realisasiOercentage = (($currentYearRealisasi - $previousYearRealisasi) / abs($previousYearRealisasi)) * 100;
 
 
-            // $years[$i]['year'] =$profitPercentage;
-            // $years[$i]['keuntungan'] =$profitPercentage;
-            // $years[$i]['realisasi'] =$profitPercentage;
             $years[$i]['keuntunganPercent'] = $profitPercentage;
             $years[$i]['realisasiPercent'] = $realisasiOercentage;
             $years[$i]['followers'] = $followers;
@@ -968,30 +965,12 @@ class ReportAPIController extends Controller
             $years[$i]['existing'] = $existing;
         }
 
-        // $years[0]['year'] = 0;
-        // $years[0]['keuntungan'] = 0;
-        // $years[0]['realisasi'] = 0;
         $years[0]['keuntunganPercent'] = 0;
         $years[0]['realisasiPercent'] = 0;
         $years[0]['followers'] = $followers;
         $years[0]['postCount'] = $postCount;
         $years[0]['existing'] = $existing;
-        // foreach ($years as $key => $year) {
-        //     $percent = 0;
-        //     if ($key != 0) {
-        //         //$percent = $years[$key]['keuntungan'] / $years[$key - 1]['keuntungan'];
-        //         $percent = $percent == 0 ? 0 : ($years[$key]['keuntungan'] / $years[$key - 1]['keuntungan']);
-        //     }
 
-        //     $arr = [
-        //         'year' => $years[$key]['year'],
-        //         'keuntungan' => $years[$key]['keuntungan'],
-        //         'realisasi' => $years[$key]['realisasi'],
-        //         'keuntunganPercent' => $percent
-        //     ];
-
-        //     array_push($data, $arr);
-        // }
 
         $data = $years;
 
