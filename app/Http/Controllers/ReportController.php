@@ -21,10 +21,10 @@ class ReportController extends Controller
 
     public function report($year)
     {
-        // $currentYear = date('Y');
-        // if ($year == $currentYear) {
-        //     return redirect('report');
-        // }
+        $currentYear = date('Y');
+        if ($year == $currentYear) {
+            return redirect('report');
+        }
 
         $data = PortofolioBeliModel::join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
             ->select('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_beli.volume) AS total_volume_beli'), DB::raw('AVG(tb_portofolio_beli.harga_beli) AS avg_harga_beli'))
