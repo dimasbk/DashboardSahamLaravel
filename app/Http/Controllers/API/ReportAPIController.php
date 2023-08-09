@@ -730,12 +730,12 @@ class ReportAPIController extends Controller
 
             $currentYear = date('Y'); // Get the current year
 
-            $filteredArray = array_filter($tahun, function ($item) use ($currentYear) {
-                return $item['tahun'] == $currentYear;
-            });
+            // $filteredArray = array_filter($tahun, function ($item) use ($currentYear) {
+            //     return $item['tahun'] == $currentYear;
+            // });
 
-            $filteredArray = array_values($filteredArray);
-            $tahun = $filteredArray;
+           // $filteredArray = array_values($filteredArray);
+           // $tahun = $filteredArray;
 
 
         $years = [];
@@ -769,28 +769,7 @@ class ReportAPIController extends Controller
             array_push($years, $pushedData);
         }
 
-        // //dd($years);
-
-        // $data = [];
-
-        // foreach ($years as $key => $year) {
-        //     $percent = 0;
-        //     if ($key != 0) {
-        //         $percent = $years[$key]['keuntungan'] / $years[$key - 1]['keuntungan'];
-        //     }
-
-        //     $arr = [
-        //         'year' => $years[$key]['year'],
-        //         'keuntungan' => $years[$key]['keuntungan'] ,
-        //         'realisasi' => $years[$key]['realisasi'] ,
-        //         'keuntunganPercent' => $percent,
-        //         'followers' => $followers,
-        //         'postCount' => $postCount
-        //     ];
-
-        //     array_push($data, $arr);
-        //    // $data = compact(['data', 'arr']);
-        // }
+        //dd($years);
 
         $profitPercentage = 0;
 
@@ -807,25 +786,12 @@ class ReportAPIController extends Controller
             $profitPercentage = (($currentYearProfit - $previousYearProfit) / abs($previousYearProfit)) * 100;
             $realisasiOercentage = (($currentYearRealisasi - $previousYearRealisasi) / abs($previousYearRealisasi)) * 100;
 
-
-            // $years[$i]['year'] =$profitPercentage;
-            // $years[$i]['keuntungan'] =$profitPercentage;
-            // $years[$i]['realisasi'] =$profitPercentage;
             $years[$i]['keuntunganPercent'] = $profitPercentage;
             $years[$i]['realisasiPercent'] = $realisasiOercentage;
-            $years[$i]['followers'] = $followers;
-            $years[$i]['postCount'] = $postCount;
-           // $years[$i]['existing'] = $existing;
         }
 
-        // $years[0]['year'] = 0;
-        // $years[0]['keuntungan'] = 0;
-        // $years[0]['realisasi'] = 0;
         $years[0]['keuntunganPercent'] = 0;
         $years[0]['realisasiPercent'] = 0;
-        $years[0]['followers'] = $followers;
-        $years[0]['postCount'] = $postCount;
-       // $years[0]['existing'] = $existing;
         // foreach ($years as $key => $year) {
         //     $percent = 0;
         //     if ($key != 0) {
@@ -844,6 +810,8 @@ class ReportAPIController extends Controller
         // }
 
         $data = $years;
+
+
 
         return response()->json([
             'status' => 'success',
