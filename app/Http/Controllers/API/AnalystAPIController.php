@@ -359,12 +359,14 @@ class AnalystAPIController extends Controller
         //return view('landingPage/subscribe', compact(['analystData', 'prices']));
     }
 
-    public function setSubscribedUser($id)
+    public function setSubscribedUser($id,Request $request)
     {
 
         $subscribe = SubscriberModel::where('id_subscription', $id)->first();
+        $expired = Carbon::today()->addMonths($request->duration)->toDateString();
         $subscribe->update([
             'status' => 'subscribed',
+            'expired' => $expired,
            // 'subscribe_fee' => $request->price
         ]);
         return $subscribe;
@@ -387,7 +389,8 @@ class AnalystAPIController extends Controller
     {
         //\Log::info("asjdhsf");
         $grossAmount = $request->price;
-        $expired = Carbon::today()->addMonths($request->duration)->toDateString();
+        $today = Carbon::today();
+        $expired = $today->addMonths($request->duration)->toDateString();
         //return $expired;
         $subscribe = SubscriberModel::create([
             'id_subscriber' => Auth::id(),
