@@ -533,6 +533,10 @@ class PortofolioAPIController extends Controller
             $reqType = $request->type;
             $idSekuritas = $request->id_sekuritas;
             $fee = $request->fee;
+            $total = (($request->volume * $request->harga) * $request->fee) + ($request->volume * $request->harga);
+            if ($total > 10000000){
+                $total = (($request->volume * $request->harga) * $request->fee) + ($request->volume * $request->harga) + 10000;
+            }
             $saham = SahamModel::where('nama_saham', $request->id_saham)->first();
             if ($reqType == 'beli') {
                 $insert = PortofolioBeliModel::create([
@@ -541,12 +545,12 @@ class PortofolioAPIController extends Controller
                     'jenis_saham' => $request->id_jenis_saham,
                     'volume' => $request->volume,
                     'tanggal_beli' => $request->tanggal,
-                    'harga_beli' => $request->harga,
+                    'harga_beli' => $total,
                     'fee_beli_persen' => $fee,
                     'id_sekuritas' => $idSekuritas
 
                 ]);
-                $total = (($request->volume * $request->harga) * $request->fee) + ($request->volume * $request->harga);
+
                 $tagihan = TagihanModel::create([
                     'reference' => strtoupper($unique_id),
                     'nama_tagihan' => 'Transaksi Saham',
@@ -562,7 +566,7 @@ class PortofolioAPIController extends Controller
                     'jenis_saham' => $request->jenis,
                     'volume' => $request->volume,
                     'tanggal_jual' => $request->tanggal,
-                    'harga_jual' => $request->harga,
+                    'harga_jual' => $total,
                     'id_sekuritas' => $idSekuritas,
                     'close_persen' => $fee,
                 ]);
