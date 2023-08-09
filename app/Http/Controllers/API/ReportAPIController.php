@@ -778,58 +778,56 @@ class ReportAPIController extends Controller
 
         //dd($years);
 
-        $profitPercentage = 0;
+        // $profitPercentage = 0;
 
-        for ($i = 1; $i < count($years); $i++) {
-            $previousYearProfit = $years[$i - 1]['keuntungan'];
-            $previousYearRealisasi = $years[$i - 1]['realisasi'];
-            $currentYearProfit = $years[$i]['keuntungan'];
-            $currentYearRealisasi = $years[$i]['realisasi'];
+        // for ($i = 1; $i < count($years); $i++) {
+        //     $previousYearProfit = $years[$i - 1]['keuntungan'];
+        //     $previousYearRealisasi = $years[$i - 1]['realisasi'];
+        //     $currentYearProfit = $years[$i]['keuntungan'];
+        //     $currentYearRealisasi = $years[$i]['realisasi'];
 
-            if ($previousYearProfit == 0) {
-                $previousYearProfit = 1;
-            }
-
-            $profitPercentage = (($currentYearProfit - $previousYearProfit) / abs($previousYearProfit)) * 100;
-            $realisasiOercentage = (($currentYearRealisasi - $previousYearRealisasi) / abs($previousYearRealisasi)) * 100;
-
-
-            // $years[$i]['year'] =$profitPercentage;
-            // $years[$i]['keuntungan'] =$profitPercentage;
-            // $years[$i]['realisasi'] =$profitPercentage;
-            $years[$i]['keuntunganPercent'] = $profitPercentage;
-            $years[$i]['realisasiPercent'] = $realisasiOercentage;
-            $years[$i]['followers'] = $followers;
-            $years[$i]['postCount'] = $postCount;
-            $years[$i]['existing'] = $existing;
-        }
-
-        // $years[0]['year'] = 0;
-        // $years[0]['keuntungan'] = 0;
-        // $years[0]['realisasi'] = 0;
-        $years[0]['keuntunganPercent'] = 0;
-        $years[0]['realisasiPercent'] = 0;
-        $years[0]['followers'] = $followers;
-        $years[0]['postCount'] = $postCount;
-        $years[0]['existing'] = $existing;
-        // foreach ($years as $key => $year) {
-        //     $percent = 0;
-        //     if ($key != 0) {
-        //         //$percent = $years[$key]['keuntungan'] / $years[$key - 1]['keuntungan'];
-        //         $percent = $percent == 0 ? 0 : ($years[$key]['keuntungan'] / $years[$key - 1]['keuntungan']);
+        //     if ($previousYearProfit == 0) {
+        //         $previousYearProfit = 1;
         //     }
 
-        //     $arr = [
-        //         'year' => $years[$key]['year'],
-        //         'keuntungan' => $years[$key]['keuntungan'],
-        //         'realisasi' => $years[$key]['realisasi'],
-        //         'keuntunganPercent' => $percent
-        //     ];
+        //     $profitPercentage = (($currentYearProfit - $previousYearProfit) / abs($previousYearProfit)) * 100;
+        //     $realisasiOercentage = (($currentYearRealisasi - $previousYearRealisasi) / abs($previousYearRealisasi)) * 100;
 
-        //     array_push($data, $arr);
+        //     $years[$i]['keuntunganPercent'] = $profitPercentage;
+        //     $years[$i]['realisasiPercent'] = $realisasiOercentage;
+        //     $years[$i]['followers'] = $followers;
+        //     $years[$i]['postCount'] = $postCount;
+        //     $years[$i]['existing'] = $existing;
         // }
 
-        $data = $years;
+        // $years[0]['keuntunganPercent'] = 0;
+        // $years[0]['realisasiPercent'] = 0;
+        // $years[0]['followers'] = $followers;
+        // $years[0]['postCount'] = $postCount;
+        // $years[0]['existing'] = $existing;
+
+        // $data = $years;
+
+        $data = [];
+
+        foreach ($years as $key => $year) {
+            $percent = 0;
+            if ($key != 0) {
+                $percent = $years[$key]['keuntungan'] / $years[$key - 1]['keuntungan'];
+            }
+
+            $arr = [
+                'year' => $years[$key]['year'],
+                'keuntungan' => $years[$key]['keuntungan'] ,
+                'realisasi' => $years[$key]['realisasi'] ,
+                'keuntunganPercent' => $percent,
+                'followers' => $followers,
+                'postCount' => $postCount
+            ];
+
+            array_push($data, $arr);
+           // $data = compact(['data', 'arr']);
+        }
 
         return response()->json([
             'status' => 'success',
