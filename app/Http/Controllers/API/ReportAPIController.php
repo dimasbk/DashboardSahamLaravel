@@ -182,7 +182,7 @@ class ReportAPIController extends Controller
             } else {
                 $data[$i]['total_volume_jual'] = $jualReport[0]['total_volume_jual'];
                 $data[$i]['avg_harga_jual'] = ($jualReport[0]['avg_harga_jual']);
-                $data[$i]['total_volume'] = $data[$i]['total_volume_beli']-$data[$i]['total_volume_jual'] ;
+                $data[$i]['total_volume'] = $data[$i]['total_volume_beli']-$jualReport[0]['total_volume_jual'] ;
                 //$data[$i]['keuntungan'] = 0;
                 $data[$i]['keuntungan'] = (100*(($data[$i]['total_volume'] *$data[$i]['avg_harga_beli'] ) - ($data[$i]['total_volume'] *$hargaclose))) ;
                 $data[$i]['sisa_aset'] = (100*($data[$i]['total_volume']*$data[$i]['avg_harga_beli']));
