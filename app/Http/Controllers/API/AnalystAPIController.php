@@ -16,6 +16,7 @@ use App\Models\RequestModel;
 use App\Models\JenisSahamModel;
 use App\Models\SekuritasModel;
 use Carbon\Carbon;
+use SebastianBergmann\Timer\Duration;
 
 class AnalystAPIController extends Controller
 {
@@ -359,14 +360,14 @@ class AnalystAPIController extends Controller
         //return view('landingPage/subscribe', compact(['analystData', 'prices']));
     }
 
-    public function setSubscribedUser($id,Request $request)
+    public function setSubscribedUser($id)
     {
 
         $subscribe = SubscriberModel::where('id_subscription', $id)->first();
-        $expired = Carbon::today()->addMonths($request->duration)->toDateString();
+       // $expired = Carbon::today()->addMonths($request->duration)->toDateString();
         $subscribe->update([
             'status' => 'subscribed',
-            'expired' => $expired,
+           // 'expired' => $expired,
            // 'subscribe_fee' => $request->price
         ]);
         return $subscribe;
