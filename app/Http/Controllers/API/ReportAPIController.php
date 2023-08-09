@@ -809,7 +809,7 @@ class ReportAPIController extends Controller
         //     array_push($data, $arr);
         // }
 
-        $data = $years;
+        $data = $pushedData;
 
 
         return response()->json([
