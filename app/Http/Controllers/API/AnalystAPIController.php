@@ -392,7 +392,7 @@ class AnalystAPIController extends Controller
         $subscribe = SubscriberModel::create([
             'id_subscriber' => Auth::id(),
             'id_analyst' => $request->id_analyst,
-            'expired' => $request->$expired,
+            'expired' => $expired,
             'status' => 'pending'
         ]);
         // Set your Merchant Server Key
