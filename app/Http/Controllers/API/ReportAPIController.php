@@ -809,7 +809,7 @@ class ReportAPIController extends Controller
         $currentYear = date('Y'); // Get the current year
 
         $filteredArray = array_filter($tahun, function ($item) use ($currentYear) {
-            return $item['tahun'] = $currentYear;
+            return $item['tahun'] == $currentYear;
         });
 
         $filteredArray = array_values($filteredArray);
@@ -874,7 +874,7 @@ class ReportAPIController extends Controller
             ];
 
             array_push($data, $arr);
-           // $data = compact(['data', 'arr']);
+            $data = compact(['data', 'arr']);
         }
 
         return response()->json([
