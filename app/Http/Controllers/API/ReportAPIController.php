@@ -720,33 +720,28 @@ class ReportAPIController extends Controller
         ], 200);
     }
 
-    public function getYearTahunInii(Request $request)
+    public function getYearTahunIni(Request $request)
     {
         $id_user = Auth::id();
         $tahun = PortofolioBeliModel::selectRaw('EXTRACT(YEAR FROM tanggal_beli) as tahun')
-            ->where('tb_portofolio_beli.user_id', Auth::id())
+            ->where('tb_portofolio_beli.user_id', $id_user)
             ->groupBy(DB::raw('EXTRACT(YEAR FROM tanggal_beli)'))
             ->get()->toArray();
 
-        $currentYear = date('Y'); // Get the current year
+            $currentYear = date('Y'); // Get the current year
 
-        $filteredArray = array_filter($tahun, function ($item) use ($currentYear) {
-            return $item['tahun'] == $currentYear;
-        });
+            $filteredArray = array_filter($tahun, function ($item) use ($currentYear) {
+                return $item['tahun'] == $currentYear;
+            });
 
-        $filteredArray = array_values($filteredArray);
-        $tahun = $filteredArray;
+            $filteredArray = array_values($filteredArray);
+            $tahun = $filteredArray;
 
-        //dd($tahun);
 
         $years = [];
-
         $isSubscribed = SubscriberModel::where('id_subscriber', $id_user)->where('id_analyst', $id_user)->where('status', 'subscribed')->first();
         if ($isSubscribed || $id_user == $id_user) {
             $followers = SubscriberModel::where('id_analyst', $id_user)->get()->count();
-            $existing = SubscriberModel::where('id_analyst', $id_user)
-            ->join('users', 'tb_subscription.id_subscriber', '=', 'users.id')
-            ->get()->toArray();
             $postCount = PostModel::where('id_user', $id_user)->get()->count();
        // $followers = SubscriberModel::get()->count();
         }
@@ -755,13 +750,13 @@ class ReportAPIController extends Controller
             $keuntungan = [];
             $realisasi = [];
             $dataReport = PortofolioBeliModel::whereYear('tanggal_beli', $year)
-                ->where('user_id', Auth::id())
+                ->where('user_id', $id_user)
                 ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
                 ->get();
             //dd($dataReport);
             if ($dataReport) {
                 foreach ($dataReport as $data) {
-                    $report = $this->detailReport($year['tahun'], $data->nama_saham, 1);
+                    $report = $this->detailReport($year, $data->nama_saham, 1);
                     array_push($keuntungan, $report['keuntungan']);
                     array_push($realisasi, $report['realisasi']);
                 }
@@ -769,44 +764,12 @@ class ReportAPIController extends Controller
             $pushedData = [
                 'year' => $year['tahun'],
                 'keuntungan' => array_sum($keuntungan) / count($keuntungan),
-                'realisasi' => array_sum($realisasi) / count($realisasi),
-                // 'followers' => $followers,
-                // 'postCount' => $postCount,
+                'realisasi' => array_sum($realisasi) / count($realisasi)
             ];
             array_push($years, $pushedData);
         }
 
         //dd($years);
-
-        // $profitPercentage = 0;
-
-        // for ($i = 1; $i < count($years); $i++) {
-        //     $previousYearProfit = $years[$i - 1]['keuntungan'];
-        //     $previousYearRealisasi = $years[$i - 1]['realisasi'];
-        //     $currentYearProfit = $years[$i]['keuntungan'];
-        //     $currentYearRealisasi = $years[$i]['realisasi'];
-
-        //     if ($previousYearProfit == 0) {
-        //         $previousYearProfit = 1;
-        //     }
-
-        //     $profitPercentage = (($currentYearProfit - $previousYearProfit) / abs($previousYearProfit)) * 100;
-        //     $realisasiOercentage = (($currentYearRealisasi - $previousYearRealisasi) / abs($previousYearRealisasi)) * 100;
-
-        //     $years[$i]['keuntunganPercent'] = $profitPercentage;
-        //     $years[$i]['realisasiPercent'] = $realisasiOercentage;
-        //     $years[$i]['followers'] = $followers;
-        //     $years[$i]['postCount'] = $postCount;
-        //     $years[$i]['existing'] = $existing;
-        // }
-
-        // $years[0]['keuntunganPercent'] = 0;
-        // $years[0]['realisasiPercent'] = 0;
-        // $years[0]['followers'] = $followers;
-        // $years[0]['postCount'] = $postCount;
-        // $years[0]['existing'] = $existing;
-
-        // $data = $years;
 
         $data = [];
 
