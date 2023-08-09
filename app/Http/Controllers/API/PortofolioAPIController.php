@@ -549,7 +549,7 @@ class PortofolioAPIController extends Controller
                     'volume' => $request->volume,
                     'tanggal_beli' => $request->tanggal,
                     'harga_beli' => $request->harga,
-                    'fee_beli_persen' => $fee,
+                    'fee' => $request->fee,
                     'id_sekuritas' => $idSekuritas,
                     'total_beli' => $total
 
