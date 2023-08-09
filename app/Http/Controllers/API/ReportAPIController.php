@@ -766,8 +766,8 @@ class ReportAPIController extends Controller
 
             $arr = [
                 'year' => $years[$key]['year'],
-                'keuntungan' => $years[$key]['keuntungan'] * 100,
-                'realisasi' => $years[$key]['realisasi'] * 100,
+                'keuntungan' => $years[$key]['keuntungan'] ,
+                'realisasi' => $years[$key]['realisasi'] ,
                 'keuntunganPercent' => $percent,
                 'followers' => $followers,
                 'postCount' => $postCount
