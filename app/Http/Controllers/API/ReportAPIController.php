@@ -976,7 +976,7 @@ class ReportAPIController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'data' => $years
+            'data' => $data
         ], 200);
     }
 
