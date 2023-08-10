@@ -413,7 +413,7 @@ class ReportAPIController extends Controller
         $hargaclose = $response['data']['results'][0]['close'];
         $avgBeli = $dataReport[0]['avg_harga_beli'];
         $avgJual = $dataReport[0]['avg_harga_jual'];
-        $keuntungan = ($totalLot * $avgBeli) - ($totalLot * $hargaclose);
+        $keuntungan = ($totalLot * $hargaclose) - ($totalLot * $avgBeli);
         $total_semua = $total_semua_beli*$beli_total - $total_semua_jual*$jual_total;
         //$data[$i]['total_banget'] = ($data[$i]['total_beli_banget']* $data[$i]['total_volume_beli']) - ($jualReport[0]['total_jual_banget']*$jualReport[0]['total_volume_jual']);
 
@@ -554,11 +554,14 @@ class ReportAPIController extends Controller
         $hargaclose = $response['data']['results'][0]['close'];
         $avgBeli = $dataReport[0]['avg_harga_beli'];
         $avgJual = $dataReport[0]['avg_harga_jual'];
-        $keuntungan = ($totalLot * $avgBeli) - ($totalLot * $hargaclose);
+        $keuntungan = ($totalLot * $hargaclose) - ($totalLot * $avgBeli);
         //dd($keuntungan);
         $keuntungann = (string)$keuntungan;
-
-        $realisasi = ($totalLot * $avgBeli) - ($totalLot * $avgJual);
+        if (!$avgJual){
+            $realisasi = ($totalLot * $avgBeli) - ($totalLot * $avgJual);
+        }
+        $realisasi = 0;
+       // $realisasi = ($totalLot * $avgBeli) - ($totalLot * $avgJual);
         if ($function === 1) {
             return compact(['keuntungan', 'realisasi']);
         }
