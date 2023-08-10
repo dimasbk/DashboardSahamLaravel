@@ -430,8 +430,11 @@ class ReportAPIController extends Controller
 
         $modal_awal =  ($total_semua_beli*$beli_total - $total_semua_jual*$jual_total);
 
-        $total_semua =  ($total_semua_beli*$beli_total - $total_semua_jual*$jual_total) + (($avgJual * $jual_total)*100);
-
+        if ($realisasi < 0){
+        $total_semua =  ($total_semua_beli*$beli_total - $total_semua_jual*$jual_total) - (($avgJual * $jual_total)*100);
+        }else{
+            $total_semua =  ($total_semua_beli*$beli_total - $total_semua_jual*$jual_total) + (($avgJual * $jual_total)*100);
+        }
         $persentase_profit = ($realisasi/$avgBeli);
 
         if ($function === 1) {
