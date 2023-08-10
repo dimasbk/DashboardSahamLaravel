@@ -395,15 +395,16 @@ class ReportAPIController extends Controller
         }
 
         $lastWorkingDay = $lastDayOfYear->format('Y-m-d');
+        $beforeDate = date('Y-m-d', strtotime("-1 day", strtotime(date("Y-m-d"))));
 
         $response = Http::acceptJson()
             ->withHeaders([
                 'X-API-KEY' => config('goapi.apikey')
             ])->get('https://api.goapi.id/v1/stock/idx/' . $emiten . '/historical', [
-                    'to' => $lastWorkingDay,
-                    'from' => $lastWorkingDay
+                    'to' => $beforeDate,
+                    'from' => $beforeDate
                 ])->json();
-        dd ($response);
+        //dd ($response);
         $totalLot = ($beli_total - $jual_total) * 100;
         $hargaclose = $response['data']['results'][0]['close'];
         $avgBeli = $dataReport[0]['avg_harga_beli'];
