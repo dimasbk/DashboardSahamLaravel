@@ -83,7 +83,7 @@ class TechnicalAPIController extends Controller
        // echo(int)$num;
         // settype($num, 'integer');
         // parseInt(num);
-        $output = DetailOutputFundamentalModel::where($request->param, $request->comparison, intval($request->num) / 100)->where('tahun', 2018)->pluck('id_output');
+        $output = DetailOutputFundamentalModel::where($request->param, $request->comparison, intval($request->num) / 100)->where('tahun', 2022)->pluck('id_output');
         $input = OutputFundamentalModel::whereIn('id_detail_output', $output)->pluck('id_input');
         $id_emiten = InputFundamentalModel::whereIn('id_input', $input)->pluck('id_saham');
         $stocks = SahamModel::whereIn('id_saham', $id_emiten)->pluck('nama_saham');
