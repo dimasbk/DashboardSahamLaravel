@@ -376,15 +376,19 @@ class ReportAPIController extends Controller
         });
 
         $beli_total = 0;
+        $total_semua_beli = 0;
         $jual_total = 0;
+        $total_semua_jual = 0;
         foreach ($data as $rep) {
             if ($rep["tag"] == "beli") {
                 $beli_total += $rep["volume"];
+                $total_semua_beli += $rep["total_beli"];
             }
         }
         foreach ($data as $rep) {
             if ($rep["tag"] == "jual") {
                 $jual_total += $rep["volume"];
+                $total_semua_jual += $rep["total_jual"];
             }
         }
         $lastDayOfYear = new DateTime("{$year}-12-31");
@@ -410,6 +414,8 @@ class ReportAPIController extends Controller
         $avgBeli = $dataReport[0]['avg_harga_beli'];
         $avgJual = $dataReport[0]['avg_harga_jual'];
         $keuntungan = ($totalLot * $avgBeli) - ($totalLot * $hargaclose);
+        $total_semua = $total_semua_beli*$beli_total - $total_semua_jual*$jual_total;
+        //$data[$i]['total_banget'] = ($data[$i]['total_beli_banget']* $data[$i]['total_volume_beli']) - ($jualReport[0]['total_jual_banget']*$jualReport[0]['total_volume_jual']);
 
 
 
@@ -419,7 +425,7 @@ class ReportAPIController extends Controller
 
         $realisasi = ($totalLot * $avgBeli) - ($totalLot * $avgJual);
         if ($function === 1) {
-            return compact(['keuntungan', 'realisasi']);
+            return compact(['keuntungan', 'realisasi', 'total_semua']);
         }
         // $realisasidetail = (object)$realisasi;
 
@@ -948,8 +954,9 @@ class ReportAPIController extends Controller
         foreach ($tahun as $year) {
             $keuntungan = [];
             $realisasi = [];
+            $total_semua =[];
             $dataReport = PortofolioBeliModel::whereYear('tanggal_beli', $year)
-                ->where('user_id', 12)
+                ->where('user_id', $id_user)
                 ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
                 ->get();
             //dd($dataReport);
@@ -959,12 +966,14 @@ class ReportAPIController extends Controller
                     //return $report;
                     array_push($keuntungan, $report['keuntungan']);
                     array_push($realisasi, $report['realisasi']);
+                    array_push($total_semua, $report['total_semua']);
                 }
             }
             $pushedData = [
                 'year' => $year['tahun'],
                 'keuntungan' => array_sum($keuntungan) / count($keuntungan),
                 'realisasi' => array_sum($realisasi) / count($realisasi),
+                'total_semua' => $total_semua
                 // 'followers' => $followers,
                 // 'postCount' => $postCount,
             ];
@@ -986,6 +995,7 @@ class ReportAPIController extends Controller
                 'keuntungan' => $years[$key]['keuntungan'] ,
                 'realisasi' => $years[$key]['realisasi'] ,
                 'keuntunganPercent' => $percent,
+                'total-semua' => $years[$key]['total_semua'] ,
                 // 'followers' => $followers,
                 // 'postCount' => $postCount
             ];
