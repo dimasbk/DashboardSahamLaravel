@@ -412,13 +412,15 @@ class ReportAPIController extends Controller
                 ])->json();
         //dd ($response);
         $totalLot = ($beli_total - $jual_total) * 100;
+        //$totalLotSemua =  $dataReport[0]['total_volume_beli'] -;
         $hargaclose = $response['data']['results'][0]['close'];
         $avgBeli = $dataReport[0]['avg_harga_beli'];
         $avgJual = $dataReport[0]['avg_harga_jual'];
         $avgTotalBeli = $dataReport[0]['avg_total_beli'];
         $avgTotalJual = $dataReport[0]['avg_total_jual'];
         $avgVolumeBeli = $dataReport[0]['avg_volume_beli'];
-        $keuntungan = ($totalLot * $hargaclose) - ($totalLot * $avgBeli);
+        // $keuntungan = ($totalLot * $hargaclose) - ($totalLot * $avgBeli)+$data[$i]['keuntungan'];
+        $keuntungan = array_sum($data[$i]['keuntungan']);
 
         //$data[$i]['total_banget'] = ($data[$i]['total_beli_banget']* $data[$i]['total_volume_beli']) - ($jualReport[0]['total_jual_banget']*$jualReport[0]['total_volume_jual']);
 
