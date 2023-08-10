@@ -437,10 +437,16 @@ class ReportAPIController extends Controller
             $realisasi =  ($realisasi_hitung_minus) +(((($avgJual - $avgBeli) * $jual_total))*100);
             $realisasi_persentase = -(((($avgJual - $avgBeli) * $jual_total))*100);
         $total_semua =  ($realisasi_hitung_minus) + ($total_semua_beli*$beli_total - $total_semua_jual*$jual_total) - (($avgJual * $jual_total)*100);
-        }else{
+        }
+        // else if ($realisasi = 0){
+
+        // }
+
+
+        else{
             $realisasi = $realisasi_hitung_plus + (((($avgJual - $avgBeli) * $jual_total))*100);
             $realisasi_persentase = (((($avgJual - $avgBeli) * $jual_total))*100);
-            $total_semua =  ($realisasi_hitung_plus) + ($total_semua_beli*$beli_total - $total_semua_jual*$jual_total) + (($avgJual * $jual_total)*100);
+            $total_semua = ($total_semua_beli*$beli_total - $total_semua_jual*$jual_total) + (($avgJual * $jual_total)*100);
         }
         $persentase_profit = ($realisasi_persentase/$avgBeli);
 
