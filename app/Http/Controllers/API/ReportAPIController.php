@@ -929,7 +929,7 @@ class ReportAPIController extends Controller
         $tahun = $filteredArray;
 
        // $tahun = ["Tahun: 2023"];
-        $tahun = ['2023'];
+       // $tahun = ['2023'];
         // $arr = [
         //     'year' => $years[$key]['year'],
         //     'keuntungan' => $years[$key]['keuntungan'] ,
