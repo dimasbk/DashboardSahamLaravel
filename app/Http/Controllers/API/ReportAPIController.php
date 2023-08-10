@@ -832,7 +832,16 @@ class ReportAPIController extends Controller
         // $filteredArray = array_values($filteredArray);
         // $tahun = $filteredArray;
        // return $tahun;
-        $tahun = ["2023"];
+       // $tahun = ["Tahun: 2023"];
+        $tahun = ['tahun' => '2023'];
+        // $arr = [
+        //     'year' => $years[$key]['year'],
+        //     'keuntungan' => $years[$key]['keuntungan'] ,
+        //     'realisasi' => $years[$key]['realisasi'] ,
+        //     'keuntunganPercent' => $percent,
+        //     // 'followers' => $followers,
+        //     // 'postCount' => $postCount
+        // ];
 
         //dd($tahun);
 
