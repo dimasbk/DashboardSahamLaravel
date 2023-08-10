@@ -421,9 +421,13 @@ class ReportAPIController extends Controller
 
         //$keuntungandetail = (object)$keuntungan;
         $keuntungann = (string)$keuntungan;
+        if (!$avgJual){
+            $realisasi = ($totalLot * $avgBeli) - ($totalLot * $avgJual);
+        }
+        $realisasi = 0;
 
 
-        $realisasi = ($totalLot * $avgBeli) - ($totalLot * $avgJual);
+
         if ($function === 1) {
             return compact(['keuntungan', 'realisasi', 'total_semua']);
         }
