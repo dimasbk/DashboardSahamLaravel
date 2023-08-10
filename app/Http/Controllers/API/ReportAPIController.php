@@ -831,7 +831,7 @@ class ReportAPIController extends Controller
 
         $filteredArray = array_values($filteredArray);
         $tahun = $filteredArray;
-        return $tahun;
+       // return $tahun;
        // $tahun = ["2023"];
 
         //dd($tahun);
@@ -898,7 +898,7 @@ class ReportAPIController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'data' => $data
+            'data' => $tahun
         ], 200);
     }
 
