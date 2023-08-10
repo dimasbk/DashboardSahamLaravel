@@ -650,11 +650,24 @@ class PortofolioAPIController extends Controller
         try {
             $dataporto = PortofolioJualModel::where('id_portofolio_jual', $request->id_portofolio_jual)->firstOrFail();
             // $id = Auth::id();
+            $fee = SekuritasModel::where('id_sekuritas', $dataporto->id_sekuritas)->first();
+           $fee = $fee->fee_jual;
 
             $dataporto->volume = $request->volume;
             $dataporto->tanggal_jual = $request->tanggal_jual;
             $dataporto->harga_jual = $request->harga_jual;
             $dataporto->id_sekuritas = $request->id_sekuritas;
+
+            $total = ($request->volume * $request->harga_jual);
+
+            if ($total > 10000000){
+                $total = ((($request->volume * $request->harga_jual) * $fee/100) + ($request->volume * $request->harga_jual) + 10000)/$request->volume;
+            }else{
+                $total = ((($request->volume * $request->harga_jual) * $fee/100) + ($request->volume * $request->harga_jual))/$request->volume;
+            }
+
+
+            $dataporto->total_jual = $total;
             $dataporto->save();
 
 
