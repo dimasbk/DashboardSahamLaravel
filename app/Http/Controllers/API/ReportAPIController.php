@@ -339,11 +339,11 @@ class ReportAPIController extends Controller
             if (!$jualReport) {
                 $dataReport[$i]['total_volume_jual'] = 0;
                 $dataReport[$i]['avg_harga_jual'] = 0;
-                $dataReport[$i]['sum_total_jual'] = 0;
+                $dataReport[$i]['avg_total_jual'] = 0;
             } else {
                 $dataReport[$i]['total_volume_jual'] = $jualReport[0]['total_volume_jual'];
                 $dataReport[$i]['avg_harga_jual'] = $jualReport[0]['avg_harga_jual'];
-                $dataReport[$i]['sum_total_jual'] = $jualReport[0]['sum_total_jual'];
+                $dataReport[$i]['avg_total_jual'] = $jualReport[0]['avg_total_jual'];
             }
         }
 
