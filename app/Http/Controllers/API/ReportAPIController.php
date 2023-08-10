@@ -329,7 +329,7 @@ class ReportAPIController extends Controller
             $id = $dataReport[$i]['id_saham'];
             $saham = $dataReport[$i]['nama_saham'];
             $jualReport = PortofolioJualModel::join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
-                ->select('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_jual.volume) AS total_volume_jual'), DB::raw('AVG(tb_portofolio_jual.harga_jual) AS avg_harga_jual'),DB::raw('SUM(tb_portofolio_jual.total_jual) AS sum_total_jual'))
+                ->select('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_jual.volume) AS total_volume_jual'), DB::raw('AVG(tb_portofolio_jual.harga_jual) AS avg_harga_jual'),DB::raw('AVG(tb_portofolio_jual.total_jual) AS avg_total_jual'))
                 ->where('tb_portofolio_jual.user_id', '=', $id_user)
                 ->where('tb_portofolio_jual.id_saham', '=', $idEmiten)
                 ->whereYear('tanggal_jual', $year)
@@ -416,7 +416,7 @@ class ReportAPIController extends Controller
         $avgBeli = $dataReport[0]['avg_harga_beli'];
         $avgJual = $dataReport[0]['avg_harga_jual'];
         $avgTotalBeli = $dataReport[0]['avg_total_beli'];
-        $sumTotalJual = $dataReport[0]['sum_total_jual'];
+        $avgTotalJual = $dataReport[0]['avg_total_jual'];
         $avgVolumeBeli = $dataReport[0]['avg_volume_beli'];
         $keuntungan = ($totalLot * $hargaclose) - ($totalLot * $avgBeli);
 
@@ -451,7 +451,7 @@ class ReportAPIController extends Controller
         else{
             $realisasi = $realisasi_hitung_plus + (((($avgJual - $avgBeli) * $jual_total))*100);
             $realisasi_persentase = (((($avgJual - $avgBeli) * $jual_total))*100);
-            $total_semua =  (($avgTotalBeli* $avgVolumeBeli) + $sumTotalJual)/100;
+            $total_semua =  $avgTotalBeli - $avgTotalJual;
             // $total_semua =  ($total_semua_beli*$beli_total - $total_semua_jual*$jual_total) + ($total_semua_jual*$jual_total);
         }
         $persentase_profit = ($realisasi_persentase/$avgBeli);
