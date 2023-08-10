@@ -301,7 +301,7 @@ class ReportAPIController extends Controller
 
     public function DetailReport($year, $emiten, $function = null) //(Request $request)
     {
-        $id_user = 12;
+        $id_user = Auth::id();
         $idEmiten = SahamModel::where('nama_saham', $emiten)->value('id_saham');
         $beli = PortofolioBeliModel::where('user_id', $id_user)
             ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
@@ -915,7 +915,7 @@ class ReportAPIController extends Controller
 
     public function luar(Request $request)
     {
-        $id_user = 12;
+        $id_user = Auth::id();
         $tahun = PortofolioBeliModel::selectRaw('EXTRACT(YEAR FROM tanggal_beli) as tahun')
             ->where('tb_portofolio_beli.user_id', $id_user)
             ->groupBy(DB::raw('EXTRACT(YEAR FROM tanggal_beli)'))
