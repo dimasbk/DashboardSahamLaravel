@@ -148,7 +148,7 @@ class ReportAPIController extends Controller
         $id_user = Auth::id();
         //$id_user = 12;
         $data = PortofolioBeliModel::join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
-            ->select('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_beli.volume) AS total_volume_beli'), DB::raw('AVG(tb_portofolio_beli.harga_beli) AS avg_harga_beli'),DB::raw('SUM(tb_portofolio_beli.total_beli) AS total_beli_banget'))
+            ->select('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_beli.volume) AS total_volume_beli'),DB::raw('AVG(tb_portofolio_beli.volume) AS avg_volume_beli'), DB::raw('AVG(tb_portofolio_beli.harga_beli) AS avg_harga_beli'),DB::raw('SUM(tb_portofolio_beli.total_beli) AS total_beli_banget'))
             ->where('tb_portofolio_beli.user_id', '=', $id_user)
             ->whereYear('tanggal_beli', $year)
             ->groupBy('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham')
@@ -211,7 +211,7 @@ class ReportAPIController extends Controller
                 $data[$i]['sisa_aset'] = ($data[$i]['total_lot']*$data[$i]['avg_harga_beli']) - ($data[$i]['total_lot']*$data[$i]['avg_harga_jual']);
                 $data[$i]['harga_close'] = $hargaclose;
                 $data[$i]['year'] = $year;
-                $data[$i]['total_banget'] = $data[$i]['total_beli_banget'];
+                $data[$i]['total_banget'] = $data[$i]['total_beli_banget']* $data[$i]['avg_volume_beli'];
                 // $data[$i]['keuntungan'] = (string)$data[$i]['keuntungan'];
 
 
