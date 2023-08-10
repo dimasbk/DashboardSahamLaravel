@@ -448,7 +448,7 @@ class ReportAPIController extends Controller
         // }
         $realisasii = (string)$realisasi;
 
-        $returnData = compact(['data', 'keuntungann', 'realisasii', 'hargaclose', 'persentase_profit']);
+        $returnData = compact(['data', 'keuntungann', 'realisasii', 'hargaclose', ]);
 
         return response()->json([
             'status' => 'success',
@@ -971,6 +971,7 @@ class ReportAPIController extends Controller
             $keuntungan = [];
             $realisasi = [];
             $total_semua =[];
+            $persentase_profit = [];
             $dataReport = PortofolioBeliModel::whereYear('tanggal_beli', $year)
                 ->where('user_id', $id_user)
                 ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
