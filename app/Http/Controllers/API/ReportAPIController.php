@@ -992,7 +992,7 @@ class ReportAPIController extends Controller
                 'keuntungan' => array_sum($keuntungan) / count($keuntungan),
                 'realisasi' => array_sum($realisasi) / count($realisasi),
                 'total_semua' => array_sum($total_semua),
-                'persentase_profit' => array_sum($persentase_profit)
+                'persentase_profit' => array_sum($persentase_profit) / count($persentase_profit),
                 // 'followers' => $followers,
                 // 'postCount' => $postCount,
             ];
