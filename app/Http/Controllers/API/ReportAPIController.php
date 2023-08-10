@@ -423,8 +423,9 @@ class ReportAPIController extends Controller
         $keuntungann = (string)$keuntungan;
         if (!$avgJual){
             $realisasi = ($totalLot * $avgBeli) - ($totalLot * $avgJual);
+        }else{
+            $realisasi = 0;
         }
-        $realisasi = 0;
 
 
 
@@ -558,10 +559,9 @@ class ReportAPIController extends Controller
         //dd($keuntungan);
         $keuntungann = (string)$keuntungan;
         if (!$avgJual){
-            $realisasi = 0;
-        }else{
-
             $realisasi = ($totalLot * $avgBeli) - ($totalLot * $avgJual);
+        }else{
+            $realisasi = 0;
         }
 
        // $realisasi = ($totalLot * $avgBeli) - ($totalLot * $avgJual);
