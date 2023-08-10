@@ -818,20 +818,21 @@ class ReportAPIController extends Controller
     public function ThisYear(Request $request)
     {
         $id_user = Auth::id();
-        // $tahun = PortofolioBeliModel::selectRaw('EXTRACT(YEAR FROM tanggal_beli) as tahun')
-        //     ->where('tb_portofolio_beli.user_id', Auth::id())
-        //     ->groupBy(DB::raw('EXTRACT(YEAR FROM tanggal_beli)'))
-        //     ->get()->toArray();
+        $tahun = PortofolioBeliModel::selectRaw('EXTRACT(YEAR FROM tanggal_beli) as tahun')
+            ->where('tb_portofolio_beli.user_id', Auth::id())
+            ->groupBy(DB::raw('EXTRACT(YEAR FROM tanggal_beli)'))
+            ->get()->toArray();
 
-        // $currentYear = date('Y'); // Get the current year
+        $currentYear = date('Y'); // Get the current year
 
-        // $filteredArray = array_filter($tahun, function ($item) use ($currentYear) {
-        //     return $item['tahun'] != $currentYear;
-        // });
+        $filteredArray = array_filter($tahun, function ($item) use ($currentYear) {
+            return $item['tahun'] != $currentYear;
+        });
 
-        // $filteredArray = array_values($filteredArray);
-        // $tahun = $filteredArray;
-        $tahun = '2023';
+        $filteredArray = array_values($filteredArray);
+        $tahun = $filteredArray;
+        return $tahun;
+       // $tahun = ["2023"];
 
         //dd($tahun);
 
