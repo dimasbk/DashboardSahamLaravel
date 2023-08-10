@@ -533,12 +533,12 @@ class PortofolioAPIController extends Controller
             $reqType = $request->type;
             $idSekuritas = $request->id_sekuritas;
             $fee = $request->fee;
-            $total = ($request->volume * $request->harga);
+            $total = 100*($request->volume * $request->harga);
 
             if ($total > 10000000){
-                $total = ((($request->volume * $request->harga) * $request->fee/100) + ($request->volume * $request->harga) + 10000)/$request->volume;
+                $total = 100*(((($request->volume * $request->harga) * $request->fee/100) + ($request->volume * $request->harga) + 10000)/$request->volume);
             }else{
-                $total = ((($request->volume * $request->harga) * $request->fee/100) + ($request->volume * $request->harga))/$request->volume;
+                $total = 100*(((($request->volume * $request->harga) * $request->fee/100) + ($request->volume * $request->harga))/$request->volume);
             }
             $saham = SahamModel::where('nama_saham', $request->id_saham)->first();
             if ($reqType == 'jual') {
@@ -619,12 +619,12 @@ class PortofolioAPIController extends Controller
             $dataporto->harga_beli = $request->harga_beli;
             $dataporto->id_sekuritas = $request->id_sekuritas;
 
-            $total = ($request->volume * $request->harga_beli);
+            $total = 100*($request->volume * $request->harga_beli);
 
             if ($total > 10000000){
-                $total = ((($request->volume * $request->harga_beli) * $fee/100) + ($request->volume * $request->harga_beli) + 10000)/$request->volume;
+                $total = 100*(((($request->volume * $request->harga_beli) * $fee/100) + ($request->volume * $request->harga_beli) + 10000)/$request->volume);
             }else{
-                $total = ((($request->volume * $request->harga_beli) * $fee/100) + ($request->volume * $request->harga_beli))/$request->volume;
+                $total = 100*(((($request->volume * $request->harga_beli) * $fee/100) + ($request->volume * $request->harga_beli))/$request->volume);
             }
 
 
@@ -658,12 +658,12 @@ class PortofolioAPIController extends Controller
             $dataporto->harga_jual = $request->harga_jual;
             $dataporto->id_sekuritas = $request->id_sekuritas;
 
-            $total = ($request->volume * $request->harga_jual);
+            $total = 100*($request->volume * $request->harga_jual);
 
             if ($total > 10000000){
-                $total = ((($request->volume * $request->harga_jual) * $fee/100) + ($request->volume * $request->harga_jual) + 10000)/$request->volume;
+                $total = 100*(((($request->volume * $request->harga_jual) * $fee/100) + ($request->volume * $request->harga_jual) + 10000)/$request->volume);
             }else{
-                $total = ((($request->volume * $request->harga_jual) * $fee/100) + ($request->volume * $request->harga_jual))/$request->volume;
+                $total = 100*(((($request->volume * $request->harga_jual) * $fee/100) + ($request->volume * $request->harga_jual))/$request->volume);
             }
 
 
