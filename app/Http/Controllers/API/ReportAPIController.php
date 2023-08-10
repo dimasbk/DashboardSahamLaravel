@@ -409,7 +409,7 @@ class ReportAPIController extends Controller
                     'from' => $beforeDate
                 ])->json();
         //dd ($response);
-        $totalLot = ($beli_total - $jual_total);
+        $totalLot = ($beli_total - $jual_total) * 100;
         $hargaclose = $response['data']['results'][0]['close'];
         $avgBeli = $dataReport[0]['avg_harga_beli'];
         $avgJual = $dataReport[0]['avg_harga_jual'];
