@@ -815,7 +815,7 @@ class ReportAPIController extends Controller
     //     ], 200);
     // }
 
-    public function TahunIni(Request $request)
+    public function ThisYear(Request $request)
     {
         $id_user = Auth::id();
         // $tahun = PortofolioBeliModel::selectRaw('EXTRACT(YEAR FROM tanggal_beli) as tahun')
