@@ -419,8 +419,7 @@ class ReportAPIController extends Controller
         $avgTotalBeli = $dataReport[0]['avg_total_beli'];
         $avgTotalJual = $dataReport[0]['avg_total_jual'];
         $avgVolumeBeli = $dataReport[0]['avg_volume_beli'];
-        // $keuntungan = ($totalLot * $hargaclose) - ($totalLot * $avgBeli)+$data[$i]['keuntungan'];
-        $keuntungan = array_sum($data[$i]['keuntungan']);
+        $keuntungan = ($totalLot * $hargaclose) - ($totalLot * $avgBeli);
 
         //$data[$i]['total_banget'] = ($data[$i]['total_beli_banget']* $data[$i]['total_volume_beli']) - ($jualReport[0]['total_jual_banget']*$jualReport[0]['total_volume_jual']);
 
@@ -1018,7 +1017,7 @@ class ReportAPIController extends Controller
             }
             $pushedData = [
                 'year' => $year['tahun'],
-                'keuntungan' => array_sum($keuntungan) / count($keuntungan),
+                'keuntungan' => array_sum($keuntungan),
                 'realisasi' => array_sum($realisasi) / count($realisasi),
                 'total_semua' => array_sum($total_semua),
                 'persentase_profit' => array_sum($persentase_profit) / count($persentase_profit),
