@@ -301,15 +301,16 @@ class ReportAPIController extends Controller
 
     public function DetailReport($year, $emiten, $function = null) //(Request $request)
     {
+        $id_user = 12;
         $idEmiten = SahamModel::where('nama_saham', $emiten)->value('id_saham');
-        $beli = PortofolioBeliModel::where('user_id', Auth::id())
+        $beli = PortofolioBeliModel::where('user_id', $id_user)
             ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
             ->join('tb_sekuritas', 'tb_portofolio_beli.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
             ->where('tb_portofolio_beli.id_saham', $idEmiten)
             ->whereYear('tanggal_beli', $year)
             ->get()->toArray();
 
-        $jual = PortofolioJualModel::where('user_id', Auth::id())
+        $jual = PortofolioJualModel::where('user_id', $id_user)
             ->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
             ->join('tb_sekuritas', 'tb_portofolio_jual.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
             ->where('tb_portofolio_jual.id_saham', $idEmiten)
@@ -318,7 +319,7 @@ class ReportAPIController extends Controller
 
         $dataReport = PortofolioBeliModel::join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
             ->select('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_beli.volume) AS total_volume_beli'), DB::raw('AVG(tb_portofolio_beli.harga_beli) AS avg_harga_beli'))
-            ->where('tb_portofolio_beli.user_id', '=', Auth::id())
+            ->where('tb_portofolio_beli.user_id', '=', $id_user)
             ->where('tb_portofolio_beli.id_saham', '=', $idEmiten)
             ->whereYear('tanggal_beli', $year)
             ->groupBy('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham')
@@ -329,7 +330,7 @@ class ReportAPIController extends Controller
             $saham = $dataReport[$i]['nama_saham'];
             $jualReport = PortofolioJualModel::join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
                 ->select('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_jual.volume) AS total_volume_jual'), DB::raw('AVG(tb_portofolio_jual.harga_jual) AS avg_harga_jual'))
-                ->where('tb_portofolio_jual.user_id', '=', Auth::id())
+                ->where('tb_portofolio_jual.user_id', '=', $id_user)
                 ->where('tb_portofolio_jual.id_saham', '=', $idEmiten)
                 ->whereYear('tanggal_jual', $year)
                 ->groupBy('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham')
@@ -943,16 +944,6 @@ class ReportAPIController extends Controller
 
         $years = [];
 
-    //     $isSubscribed = SubscriberModel::where('id_subscriber', $id_user)->where('id_analyst', $id_user)->where('status', 'subscribed')->first();
-    //     if ($isSubscribed || $id_user == $id_user) {
-    //         $followers = SubscriberModel::where('id_analyst', $id_user)->get()->count();
-    //         $existing = SubscriberModel::where('id_analyst', $id_user)
-    //         ->join('users', 'tb_subscription.id_subscriber', '=', 'users.id')
-    //         ->get()->toArray();
-    //         $postCount = PostModel::where('id_user', $id_user)->get()->count();
-    //    // $followers = SubscriberModel::get()->count();
-    //     }
-
         foreach ($tahun as $year) {
             $keuntungan = [];
             $realisasi = [];
@@ -963,7 +954,7 @@ class ReportAPIController extends Controller
             //dd($dataReport);
             if ($dataReport) {
                 foreach ($dataReport as $data) {
-                    $report = $this->detailReport($year['2023'], $data->nama_saham, 1);
+                    $report = $this->detailReport($year['tahun'], $data->nama_saham, 1);
                     array_push($keuntungan, $report['keuntungan']);
                     array_push($realisasi, $report['realisasi']);
                 }
