@@ -318,7 +318,7 @@ class ReportAPIController extends Controller
             ->get()->toArray();
 
         $dataReport = PortofolioBeliModel::join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
-            ->select('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_beli.volume) AS total_volume_beli'), DB::raw('AVG(tb_portofolio_beli.harga_beli) AS avg_harga_beli'))
+            ->select('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_beli.volume) AS total_volume_beli'), DB::raw('AVG(tb_portofolio_beli.harga_beli) AS avg_harga_beli'),DB::raw('AVG(tb_portofolio_beli.total_beli) AS avg_total_beli'))
             ->where('tb_portofolio_beli.user_id', '=', $id_user)
             ->where('tb_portofolio_beli.id_saham', '=', $idEmiten)
             ->whereYear('tanggal_beli', $year)
@@ -329,7 +329,7 @@ class ReportAPIController extends Controller
             $id = $dataReport[$i]['id_saham'];
             $saham = $dataReport[$i]['nama_saham'];
             $jualReport = PortofolioJualModel::join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
-                ->select('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_jual.volume) AS total_volume_jual'), DB::raw('AVG(tb_portofolio_jual.harga_jual) AS avg_harga_jual'))
+                ->select('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_jual.volume) AS total_volume_jual'), DB::raw('AVG(tb_portofolio_jual.harga_jual) AS avg_harga_jual'),DB::raw('AVG(tb_portofolio_jual.total_jual) AS avg_total_jual'))
                 ->where('tb_portofolio_jual.user_id', '=', $id_user)
                 ->where('tb_portofolio_jual.id_saham', '=', $idEmiten)
                 ->whereYear('tanggal_jual', $year)
@@ -413,6 +413,8 @@ class ReportAPIController extends Controller
         $hargaclose = $response['data']['results'][0]['close'];
         $avgBeli = $dataReport[0]['avg_harga_beli'];
         $avgJual = $dataReport[0]['avg_harga_jual'];
+        $avgEquityBeli = $dataReport[0]['avg_total_beli'];
+        $avgEquityJual = $dataReport[0]['avg_total_jual'];
         $keuntungan = ($totalLot * $hargaclose) - ($totalLot * $avgBeli);
 
         //$data[$i]['total_banget'] = ($data[$i]['total_beli_banget']* $data[$i]['total_volume_beli']) - ($jualReport[0]['total_jual_banget']*$jualReport[0]['total_volume_jual']);
@@ -446,7 +448,7 @@ class ReportAPIController extends Controller
         else{
             $realisasi = $realisasi_hitung_plus + (((($avgJual - $avgBeli) * $jual_total))*100);
             $realisasi_persentase = (((($avgJual - $avgBeli) * $jual_total))*100);
-            $total_semua =  ($total_semua_beli*$beli_total - $total_semua_jual*$jual_total) + ($total_semua_jual*$jual_total);
+            $total_semua = $avgEquityBeli  + $avgEquityJual;
         }
         $persentase_profit = ($realisasi_persentase/$avgBeli);
 
