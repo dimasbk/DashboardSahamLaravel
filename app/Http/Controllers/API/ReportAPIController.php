@@ -318,7 +318,7 @@ class ReportAPIController extends Controller
             ->get()->toArray();
 
         $dataReport = PortofolioBeliModel::join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
-            ->select('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_beli.volume) AS total_volume_beli'), DB::raw('SUM(tb_portofolio_beli.harga_beli) AS avg_harga_beli'))
+            ->select('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_beli.volume) AS total_volume_beli'), DB::raw('AVG(tb_portofolio_beli.harga_beli) AS avg_harga_beli'))
             ->where('tb_portofolio_beli.user_id', '=', $id_user)
             ->where('tb_portofolio_beli.id_saham', '=', $idEmiten)
             ->whereYear('tanggal_beli', $year)
@@ -446,7 +446,7 @@ class ReportAPIController extends Controller
         else{
             $realisasi = $realisasi_hitung_plus + (((($avgJual - $avgBeli) * $jual_total))*100);
             $realisasi_persentase = (((($avgJual - $avgBeli) * $jual_total))*100);
-            $total_semua = $avgBeli + $avgJual;
+            $total_semua =  ($total_semua_beli*$beli_total - $total_semua_jual*$jual_total) + ($total_semua_jual*$jual_total);
         }
         $persentase_profit = ($realisasi_persentase/$avgBeli);
 
