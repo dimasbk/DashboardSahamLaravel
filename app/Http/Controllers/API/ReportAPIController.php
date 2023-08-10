@@ -421,7 +421,7 @@ class ReportAPIController extends Controller
 
         //$keuntungandetail = (object)$keuntungan;
         $keuntungann = (string)$keuntungan;
-        if (!$dataReport[0]['avg_harga_jual']){
+        if ($dataReport[0]['avg_harga_jual'] != 0){
             $realisasi = ($totalLot * $avgBeli) - ($totalLot * $avgJual);
         }else{
             $realisasi = 0;
