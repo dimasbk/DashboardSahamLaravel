@@ -426,7 +426,7 @@ class ReportAPIController extends Controller
         // }else{
         //     $realisasi = 0;
         // }
-        $realisasi =  (((($avgJual - $avgBeli) * $jual_total))+ ($avgBeli * $beli_total)) * 100;
+        $realisasi =  (((($avgJual - $avgBeli) * $jual_total))*100)+ ($avgBeli * $beli_total);
 
         $modal_awal =  ($total_semua_beli*$beli_total - $total_semua_jual*$jual_total);
 
