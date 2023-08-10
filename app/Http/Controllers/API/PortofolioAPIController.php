@@ -667,10 +667,12 @@ class PortofolioAPIController extends Controller
             $total = 100*($request->volume * $request->harga_jual);
 
             if ($total > 10000000){
-                $total = 100*(((($request->volume * $request->harga_jual) * $fee/100) + ($request->volume * $request->harga_jual) + 10000)/$request->volume);
-            }else{
-                $total = 100*(((($request->volume * $request->harga_jual) * $fee/100) + ($request->volume * $request->harga_jual))/$request->volume);
-            }
+                // $total = 100*(((($request->volume * $request->harga) * $request->fee/100) + ($request->volume * $request->harga) + 10000)/$request->volume);
+                 $total = (100*($request->volume * $request->harga_jual)) + (($fee/100)*(100*($request->volume * $request->harga_jual))) + 10000 ;
+             }else{
+                // $total = 100*(((($request->volume * $request->harga_jual) * $request->fee/100) + ($request->volume * $request->harga_jual))/$request->volume);
+                 $total = (100*($request->volume * $request->harga_jual)) + (($fee/100)*(100*($request->volume * $request->harga_jual))) ;
+             }
 
 
             $dataporto->total_jual = $total;
