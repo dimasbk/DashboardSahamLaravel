@@ -609,10 +609,15 @@ class PortofolioAPIController extends Controller
         try {
             $dataporto = PortofolioBeliModel::where('id_portofolio_beli', $request->id_portofolio_beli)->firstOrFail();
            // $fee = PortofolioBeliModel::where('id_portofolio_beli', $request->id_portofolio_beli)->select('fee')->first();
-           $fee = SekuritasModel::where('id_sekuritas', $dataporto->id_sekuritas)->get();
+           $fee = SekuritasModel::where('id_sekuritas', $dataporto->id_sekuritas)->first();
            $fee = $fee->fee_beli;
 
             // $id = Auth::id();
+
+            $dataporto->volume = $request->volume;
+            $dataporto->tanggal_beli = $request->tanggal_beli;
+            $dataporto->harga_beli = $request->harga_beli;
+            $dataporto->id_sekuritas = $request->id_sekuritas;
 
             $total = ($request->volume * $request->harga_beli);
 
@@ -622,10 +627,7 @@ class PortofolioAPIController extends Controller
                 $total = ((($request->volume * $request->harga_beli) * $fee/100) + ($request->volume * $request->harga_beli))/$request->volume;
             }
 
-            $dataporto->volume = $request->volume;
-            $dataporto->tanggal_beli = $request->tanggal_beli;
-            $dataporto->harga_beli = $request->harga_beli;
-            $dataporto->id_sekuritas = $request->id_sekuritas;
+
             $dataporto->total_beli = $total;
             $dataporto->save();
 
