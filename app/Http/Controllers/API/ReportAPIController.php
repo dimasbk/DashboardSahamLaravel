@@ -831,21 +831,21 @@ class ReportAPIController extends Controller
 
         // $filteredArray = array_values($filteredArray);
         // $tahun = $filteredArray;
-        $tahun = ['2023'];
+        $tahun = '2023';
 
         //dd($tahun);
 
         $years = [];
 
-        $isSubscribed = SubscriberModel::where('id_subscriber', $id_user)->where('id_analyst', $id_user)->where('status', 'subscribed')->first();
-        if ($isSubscribed || $id_user == $id_user) {
-            $followers = SubscriberModel::where('id_analyst', $id_user)->get()->count();
-            $existing = SubscriberModel::where('id_analyst', $id_user)
-            ->join('users', 'tb_subscription.id_subscriber', '=', 'users.id')
-            ->get()->toArray();
-            $postCount = PostModel::where('id_user', $id_user)->get()->count();
-       // $followers = SubscriberModel::get()->count();
-        }
+    //     $isSubscribed = SubscriberModel::where('id_subscriber', $id_user)->where('id_analyst', $id_user)->where('status', 'subscribed')->first();
+    //     if ($isSubscribed || $id_user == $id_user) {
+    //         $followers = SubscriberModel::where('id_analyst', $id_user)->get()->count();
+    //         $existing = SubscriberModel::where('id_analyst', $id_user)
+    //         ->join('users', 'tb_subscription.id_subscriber', '=', 'users.id')
+    //         ->get()->toArray();
+    //         $postCount = PostModel::where('id_user', $id_user)->get()->count();
+    //    // $followers = SubscriberModel::get()->count();
+    //     }
 
         foreach ($tahun as $year) {
             $keuntungan = [];
