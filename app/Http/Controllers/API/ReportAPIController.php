@@ -831,6 +831,7 @@ class ReportAPIController extends Controller
 
         $filteredArray = array_values($filteredArray);
         $tahun = $filteredArray;
+        $tahun = ['2023'];
 
         //dd($tahun);
 
