@@ -918,7 +918,7 @@ class ReportAPIController extends Controller
             ->where('tb_portofolio_beli.user_id', Auth::id())
             ->groupBy(DB::raw('EXTRACT(YEAR FROM tanggal_beli)'))
             ->get()->toArray();
-
+            return $tahun;
         $currentYear = date('Y'); // Get the current year
 
         $filteredArray = array_filter($tahun, function ($item) use ($currentYear) {
@@ -927,7 +927,7 @@ class ReportAPIController extends Controller
 
         $filteredArray = array_values($filteredArray);
         $tahun = $filteredArray;
-        return $tahun;
+
        // $tahun = ["Tahun: 2023"];
        // $tahun = ['2023'];
         // $arr = [
