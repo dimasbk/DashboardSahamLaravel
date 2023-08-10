@@ -435,7 +435,7 @@ class ReportAPIController extends Controller
         $persentase_profit = ($realisasi/$avgBeli*100)*100;
 
         if ($function === 1) {
-            return compact(['keuntungan', 'realisasi', 'total_semua']);
+            return compact(['keuntungan', 'realisasi', 'total_semua', 'persentase_profit']);
         }
         // $realisasidetail = (object)$realisasi;
 
@@ -983,13 +983,15 @@ class ReportAPIController extends Controller
                     array_push($keuntungan, $report['keuntungan']);
                     array_push($realisasi, $report['realisasi']);
                     array_push($total_semua, $report['total_semua']);
+                    array_push($persentase_profit, $report['persentase_profit']);
                 }
             }
             $pushedData = [
                 'year' => $year['tahun'],
                 'keuntungan' => array_sum($keuntungan) / count($keuntungan),
                 'realisasi' => array_sum($realisasi) / count($realisasi),
-                'total_semua' => array_sum($total_semua)
+                'total_semua' => array_sum($total_semua),
+                'persentase_profit' => array_sum($persentase_profit)
                 // 'followers' => $followers,
                 // 'postCount' => $postCount,
             ];
@@ -1012,6 +1014,7 @@ class ReportAPIController extends Controller
                 'realisasi' => $years[$key]['realisasi'] ,
                 'keuntunganPercent' => $percent,
                 'total-semua' => $years[$key]['total_semua'] ,
+                'persentase_profit' => $years[$key]['persentase_profit']
                 // 'followers' => $followers,
                 // 'postCount' => $postCount
             ];
