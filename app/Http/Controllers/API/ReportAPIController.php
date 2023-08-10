@@ -948,7 +948,7 @@ class ReportAPIController extends Controller
             $keuntungan = [];
             $realisasi = [];
             $dataReport = PortofolioBeliModel::whereYear('tanggal_beli', $year)
-                ->where('user_id', Auth::id())
+                ->where('user_id', 12)
                 ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
                 ->get();
             //dd($dataReport);
