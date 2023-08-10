@@ -430,7 +430,7 @@ class ReportAPIController extends Controller
 
         $modal_awal =  ($total_semua_beli*$beli_total - $total_semua_jual*$jual_total);
 
-        $total_semua =  ($total_semua_beli*$beli_total - $total_semua_jual*$jual_total) + ($avgJual * $jual_total);
+        $total_semua =  ($total_semua_beli*$beli_total - $total_semua_jual*$jual_total) + (($avgJual * $jual_total)*100);
 
         if ($function === 1) {
             return compact(['keuntungan', 'realisasi', 'total_semua']);
