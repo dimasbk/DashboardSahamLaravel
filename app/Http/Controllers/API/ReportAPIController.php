@@ -429,7 +429,7 @@ class ReportAPIController extends Controller
 
 
         //$keuntungandetail = (object)$keuntungan;
-        $keuntungann = (string)$keuntungan;
+       // $keuntungan = (string)$keuntungan;
         // if ($dataReport[0]['avg_harga_jual'] != 0){
         //     $realisasi = ($totalLot * $avgBeli) - ($totalLot * $avgJual);
         // }else{
@@ -477,9 +477,9 @@ class ReportAPIController extends Controller
         // foreach ($realisasidetail as &$item) {
         //     $item['keuntungan'] = $realisasi;
         // }
-        $realisasii = (string)$realisasi;
+      //  $realisasii = (string)$realisasi;
 
-        $returnData = compact(['data', 'keuntungann', 'realisasii', 'hargaclose', ]);
+        $returnData = compact(['data', 'keuntungan', 'realisasi', 'hargaclose', ]);
 
         return response()->json([
             'status' => 'success',
