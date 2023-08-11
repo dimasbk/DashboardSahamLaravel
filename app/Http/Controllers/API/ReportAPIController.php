@@ -602,14 +602,14 @@ class ReportAPIController extends Controller
         $avgJual = $dataReport[0]['avg_harga_jual'];
         $keuntungan = ($totalLot * $avgBeli) - ($totalLot * $hargaclose);
         //dd($keuntungan);
-        $keuntungann = (string)$keuntungan;
+       // $keuntungann = (string)$keuntungan;
         // if (!$avgJual){
         //     $realisasi = ($totalLot * $avgBeli) - ($totalLot * $avgJual);
         // }else{
         //     $realisasi = 0;
         // }
         $realisasi = ($totalLot * $avgBeli) - ($totalLot * $avgJual);
-        $realisasii = (string)$realisasi;
+       // $realisasii = (string)$realisasi;
 
        // $realisasi = ($totalLot * $avgBeli) - ($totalLot * $avgJual);
         if ($function === 1) {
@@ -617,7 +617,7 @@ class ReportAPIController extends Controller
         }
         $realisasii = (string)$realisasi;
 
-        $returnData = compact(['data', 'keuntungann', 'realisasii']);
+        $returnData = compact(['data', 'keuntungan', 'realisasi']);
 
         return response()->json([
             'status' => 'success',
