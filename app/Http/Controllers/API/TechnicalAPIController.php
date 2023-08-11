@@ -461,4 +461,131 @@ public function getFundamental(Request $request)
         ], 200);
       //  return view('landingPage/fundamental', $data);
     }
+
+    public function fundamentaltabel($ticker)
+    {
+        $laporan = SubscriberModel::where('id_subscriber', Auth::id())->where('id_analyst', 7)->where('status', 'subscribed')->first();
+        $emiten = SahamModel::where('nama_saham', $ticker)->value('id_saham');
+        $input = InputFundamentalModel::where('tb_input.id_saham', $emiten)
+            ->join('tb_detail_input', 'tb_input.id_detail_input', '=', 'tb_detail_input.id_detail_input')
+            ->join('tb_saham', 'tb_input.id_saham', '=', 'tb_saham.id_saham')
+            ->latest('tahun')->get();
+
+        $inputData = $input->toArray();
+        $outputData = [];
+        $dataFundamental = [];
+        $dataFundamentalSingkat = [];
+
+        // if(!$laporan){
+
+        //     $laporan = array("status" => 'blmsubs', "ayam" => "iniayam");
+        //     // $obj = (object) $laporan;
+        //     // $abc = json_encode($obj);
+        //    // $arrayData = json_decode($laporan, true);
+        //    // $laporan = json_decode($data, true);
+        //    }
+
+
+        foreach ($input as $data) {
+            $output = OutputFundamentalModel::where('id_input', $data->id_input)
+                ->join('tb_detail_output', 'tb_output.id_detail_output', '=', 'tb_detail_output.id_output')
+                ->first();
+
+            if ($output->peg == null) {
+                $peg = 0;
+            } else {
+                $peg = $output->peg;
+            }
+
+            // if ($output->type == null) {
+            //     $type = "dwdw";
+            // } else {
+            //     $type = $output->type;
+            // }
+
+            if ($output->der == null) {
+                $der = 0;
+            } else {
+                $der = $output->der;
+            }
+
+            if ($output->simpanan == null) {
+                $simpanan = 0;
+            } else {
+                $simpanan = $output->simpanan;
+            }
+
+            if ($output->pinjaman == null) {
+                $pinjaman = 0;
+            } else {
+                $pinjaman = $output->pinjaman;
+            }
+
+            if ($output->id_jenis_fundamental == null) {
+                $id_jenis_fundamental = 2;
+            } else {
+                $id_jenis_fundamental = $output->id_jenis_fundamental;
+            }
+
+
+            if ($output->loan_to_depo_ratio == null) {
+                $loan_to_depo_ratio = 0;
+            } else {
+                $loan_to_depo_ratio = $output->loan_to_depo_ratio;
+            }
+
+            // if ($type == null) {
+            //     $type = 0;
+            // } else {
+            //     $type = $output->type;
+            // }
+            $dataOutput = array(
+              //  $der => (string)$der * 100,
+                "der" => round($der * 100),
+               // implode(" ",$request->education)
+                //"tahun" => $inputData -> tahun,
+                "loan_to_depo_ratio" => round($loan_to_depo_ratio * 100),
+                "annualized_roe" => round($output->annualized_roe * 100),
+                "dividen" => round($output->dividen),
+               // "id_jenis_fundamental" => $output->id_jenis_fundamental + 1,
+                "dividen_yield" => round($output->dividen_yield * 100),
+                "dividen_payout_ratio" => round($output->dividen_payout_ratio * 100),
+                "pbv" => round($output->pbv * 100),
+                "annualized_per" => $output->annualized_per,
+                "annualized_roa" => round($output->annualized_roa * 100),
+                "gpm" => round($output->gpm * 100),
+                "npm" => round($output->npm * 100),
+                "eer" => round($output->eer * 100),
+                "ear" => round($output->ear * 100),
+                "market_cap" => round($output->market_cap),
+                "market_cap_asset_ratio" => round($output->market_cap_asset_ratio * 100),
+                "cfo_sales_ratio" => round($output->cfo_sales_ratio * 100),
+                "capex_cfo_ratio" => round($output->capex_cfo_ratio * 100),
+                "market_cap_cfo_ratio" => round($output->market_cap_cfo_ratio * 100),
+                "peg" => round($peg * 100),
+                "harga_saham_sum_dividen" => $output->harga_saham_sum_dividen,
+
+
+
+
+            );
+           // $dataOutput = implode("''",$dataOutput);
+            $fundamental = [$dataOutput, $data->toArray()];
+           // $fundamental = implode("''",$fundamental);
+            //dd($fundamental);
+            array_push($dataFundamental, $fundamental);
+            array_push($dataFundamentalSingkat, $inputData);
+        }
+
+
+        $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
+        $data = compact(['dataFundamental']);
+       // $data = implode(" ",$data);
+        //dd($data);
+        return response()->json([
+            'status' => 'success',
+            'data' => $dataFundamental
+        ], 200);
+      //  return view('landingPage/fundamental', $data);
+    }
 }
