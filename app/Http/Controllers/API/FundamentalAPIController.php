@@ -251,11 +251,7 @@ class FundamentalAPIController extends Controller
                "harga_saham_sum_dividen" => 0,
            );
 
-           if ($input->hutang_obligasi == null) {
-            $hutang_obligasi = 0;
-        } else {
-            $hutang_obligasi = $input->hutang_obligasi;
-        }
+
 
            $check = SahamModel::where('nama_saham', $ticker)->value('id_jenis_fundamental');
            $data = compact(['inputData'], ['outputData'], ['laporan'],['ticker'], ['check'], ['post'], );
@@ -287,6 +283,12 @@ class FundamentalAPIController extends Controller
                 $loan_to_depo_ratio = 0;
             } else {
                 $loan_to_depo_ratio = $output->loan_to_depo_ratio;
+            }
+
+            if ($inputData->hutang_obligasi == null) {
+                $hutang_obligasi = 0;
+            } else {
+                $hutang_obligasi = $inputData->hutang_obligasi;
             }
 
 
