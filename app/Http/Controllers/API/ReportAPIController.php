@@ -186,6 +186,7 @@ class ReportAPIController extends Controller
                 $data[$i]['total_lot'] = ($data[$i]['total_volume_beli']-$jualReport[0]['total_volume_jual']) * 100 ;
                 //$data[$i]['keuntungan'] = 0;
                 $data[$i]['keuntungan'] =  ($data[$i]['total_lot'] *$hargaclose)-($data[$i]['total_lot'] *$data[$i]['avg_harga_beli'] ) ;
+                $data[$i]['keuntungan_total'] = array_sum($data[$i]['keuntungan']);
                 $data[$i]['sisa_aset'] = ($data[$i]['total_lot']*$data[$i]['avg_harga_beli']) - ($data[$i]['total_lot']*$data[$i]['avg_harga_jual']);
                // $data[$i]['sisa_aset'] = (100*($data[$i]['total_volume']));
                 $data[$i]['harga_close'] = $hargaclose;
@@ -207,6 +208,7 @@ class ReportAPIController extends Controller
                 $data[$i]['total_volume'] = $data[$i]['total_volume_beli'];
                 $data[$i]['total_lot'] = ($data[$i]['total_volume_beli']) * 100;
                 $data[$i]['keuntungan'] = ($data[$i]['total_lot']*$hargaclose)- ($data[$i]['total_lot']*$data[$i]['avg_harga_beli']);
+                $data[$i]['keuntungan_total'] = array_sum($data[$i]['keuntungan']);
                // $data[$i]['sisa_aset'] = 100*$data[$i]['total_lot']*$data[$i]['avg_harga_beli'];
                 $data[$i]['sisa_aset'] = ($data[$i]['total_lot']*$data[$i]['avg_harga_beli']) - ($data[$i]['total_lot']*$data[$i]['avg_harga_jual']);
                 $data[$i]['harga_close'] = $hargaclose;
