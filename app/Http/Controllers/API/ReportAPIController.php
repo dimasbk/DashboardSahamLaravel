@@ -716,7 +716,7 @@ class ReportAPIController extends Controller
             //dd($dataReport);
             if ($dataReport) {
                 foreach ($dataReport as $data) {
-                    $report = $this->detailReport($year['tahun'], $data->nama_saham, 1);
+                    $report = $this->DetailReportt($year['tahun'], $data->nama_saham, 1);
                     array_push($keuntungan, $report['keuntungan']);
                     array_push($realisasi, $report['realisasi']);
                 }
