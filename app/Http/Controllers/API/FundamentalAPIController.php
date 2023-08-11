@@ -283,10 +283,10 @@ class FundamentalAPIController extends Controller
                 $loan_to_depo_ratio = $output->loan_to_depo_ratio;
             }
 
-            if ($output->hutang_obligasi == null) {
+            if ($input->hutang_obligasi == null) {
                 $hutang_obligasi = 0;
             } else {
-                $hutang_obligasi = $output->hutang_obligasi;
+                $hutang_obligasi = $input->hutang_obligasi;
             }
             $outputData = array(
                 "der" => $der * 100,
