@@ -262,6 +262,12 @@ class FundamentalAPIController extends Controller
                 'data' => $data
             ], 200);
         }else {
+            if ($input->hutang_obligasi == null) {
+                $hutang_obligasi = 0;
+            } else {
+                $hutang_obligasi = $input->hutang_obligasi;
+            }
+
             $inputData = $input->toArray();
             $output = OutputFundamentalModel::where('id_input', $input->id_input)
                 ->join('tb_detail_output', 'tb_output.id_detail_output', '=', 'tb_detail_output.id_output')
@@ -285,11 +291,6 @@ class FundamentalAPIController extends Controller
                 $loan_to_depo_ratio = $output->loan_to_depo_ratio;
             }
 
-            // if ($inputData->hutang_obligasi == null) {
-            //     $hutang_obligasi = 0;
-            // } else {
-            //     $hutang_obligasi = $inputData->hutang_obligasi;
-            // }
 
 
             $outputData = array(
