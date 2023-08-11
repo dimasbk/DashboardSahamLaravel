@@ -491,18 +491,18 @@ class ReportAPIController extends Controller
     public function DetailReportt($year, $emiten, $function = null) //($emiten)
     {
         $currentYear = date('Y');
-        $year = $currentYear;
-        // $emiten = $request->emiten;
-        $id_user = Auth::id();
+        if ($year == $currentYear) {
+            return redirect('report');
+        }
         $idEmiten = SahamModel::where('nama_saham', $emiten)->value('id_saham');
-        $beli = PortofolioBeliModel::where('user_id', $id_user)
+        $beli = PortofolioBeliModel::where('user_id', Auth::id())
             ->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
             ->join('tb_sekuritas', 'tb_portofolio_beli.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
             ->where('tb_portofolio_beli.id_saham', $idEmiten)
             ->whereYear('tanggal_beli', $year)
             ->get()->toArray();
 
-        $jual = PortofolioJualModel::where('user_id', $id_user)
+        $jual = PortofolioJualModel::where('user_id', Auth::id())
             ->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
             ->join('tb_sekuritas', 'tb_portofolio_jual.id_sekuritas', '=', 'tb_sekuritas.id_sekuritas')
             ->where('tb_portofolio_jual.id_saham', $idEmiten)
@@ -511,7 +511,7 @@ class ReportAPIController extends Controller
 
         $dataReport = PortofolioBeliModel::join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
             ->select('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_beli.volume) AS total_volume_beli'), DB::raw('AVG(tb_portofolio_beli.harga_beli) AS avg_harga_beli'))
-            ->where('tb_portofolio_beli.user_id', '=', $id_user)
+            ->where('tb_portofolio_beli.user_id', '=', Auth::id())
             ->where('tb_portofolio_beli.id_saham', '=', $idEmiten)
             ->whereYear('tanggal_beli', $year)
             ->groupBy('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham')
@@ -522,7 +522,7 @@ class ReportAPIController extends Controller
             $saham = $dataReport[$i]['nama_saham'];
             $jualReport = PortofolioJualModel::join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
                 ->select('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_jual.volume) AS total_volume_jual'), DB::raw('AVG(tb_portofolio_jual.harga_jual) AS avg_harga_jual'))
-                ->where('tb_portofolio_jual.user_id', '=', $id_user)
+                ->where('tb_portofolio_jual.user_id', '=', Auth::id())
                 ->where('tb_portofolio_jual.id_saham', '=', $idEmiten)
                 ->whereYear('tanggal_jual', $year)
                 ->groupBy('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham')
@@ -541,7 +541,7 @@ class ReportAPIController extends Controller
         foreach ($beli as &$item) {
             $tanggal_beli = new DateTime($item['tanggal_beli']);
             $tanggal = $tanggal_beli->format('d-m-Y');
-            $item['tanggal'] = $tanggal;
+            $item["tanggal"] = $tanggal;
             $item["harga"] = $item["harga_beli"];
             $item["tag"] = 'beli';
             unset($item['harga_beli']);
@@ -561,37 +561,46 @@ class ReportAPIController extends Controller
         $data = array_merge($beli, $jual);
 
         usort($data, function ($a, $b) {
-            $tanggal_a = strtotime($a['tanggal']);
-            $tanggal_b = strtotime($b['tanggal']);
+            $tanggalA = DateTime::createFromFormat('d-m-Y', $a['tanggal']);
+            $tanggalB = DateTime::createFromFormat('d-m-Y', $b['tanggal']);
 
-            if ($tanggal_a == $tanggal_b) {
-                return 0;
-            }
-
-            return ($tanggal_a < $tanggal_b) ? -1 : 1;
+            return $tanggalA <=> $tanggalB;
         });
 
-        $beli_total = null;
-        $jual_total = null;
-        foreach ($data as $item) {
-            if ($item["tag"] == "beli") {
-                $beli_total += $item["volume"];
-            } else if ($item["tag"] == "jual") {
-                $jual_total += $item["volume"];
+        $beli_total = 0;
+        $jual_total = 0;
+        foreach ($data as $rep) {
+            if ($rep["tag"] == "beli") {
+                $beli_total += $rep["volume"];
             }
         }
+        foreach ($data as $rep) {
+            if ($rep["tag"] == "jual") {
+                $jual_total += $rep["volume"];
+            }
+        }
+        //dd($data);
+        $lastDayOfYear = new DateTime("{$year}-12-31");
+
+        // Loop backwards from the last day of the year until a working day is found
+        while ($lastDayOfYear->format('N') > 5) {
+            $lastDayOfYear->modify('-1 day');
+        }
+
+        $lastWorkingDay = $lastDayOfYear->format('Y-m-d');
+
         $response = Http::acceptJson()
             ->withHeaders([
-                'X-API-KEY' => '1hzlCQzlW2UqjegV5GFoiS78vaW9tF'
-            ])->get('https://api.goapi.id/v1/stock/idx/prices', [
-                    'symbols' => $emiten
+                'X-API-KEY' => config('goapi.apikey')
+            ])->get('https://api.goapi.id/v1/stock/idx/' . $emiten . '/historical', [
+                    'to' => $lastWorkingDay,
+                    'from' => $lastWorkingDay
                 ])->json();
-
-        $totalLot = ($beli_total - $jual_total);
+        $totalLot = ($beli_total - $jual_total) * 100;
         $hargaclose = $response['data']['results'][0]['close'];
         $avgBeli = $dataReport[0]['avg_harga_beli'];
         $avgJual = $dataReport[0]['avg_harga_jual'];
-        $keuntungan = ($totalLot * $hargaclose) - ($totalLot * $avgBeli);
+        $keuntungan = ($totalLot * $avgBeli) - ($totalLot * $hargaclose);
         //dd($keuntungan);
         $keuntungann = (string)$keuntungan;
         // if (!$avgJual){
@@ -600,6 +609,7 @@ class ReportAPIController extends Controller
         //     $realisasi = 0;
         // }
         $realisasi = ($totalLot * $avgBeli) - ($totalLot * $avgJual);
+        $realisasii = (string)$realisasi;
 
        // $realisasi = ($totalLot * $avgBeli) - ($totalLot * $avgJual);
         if ($function === 1) {
