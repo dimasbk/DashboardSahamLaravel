@@ -196,6 +196,7 @@ class ReportAPIController extends Controller
                 $data[$i]['avg_harga_jual'] = (string)$data[$i]['avg_harga_jual'];
                 $data[$i]['total_volume'] = (string)$data[$i]['total_volume'];
                 $data[$i]['keuntungan'] = (string)$data[$i]['keuntungan'];
+              //  $data[$i]['keuntungan_total'] = (string)$data[$i]['keuntungan_total'];
                // $data[$i]['total_banget'] = (string)$data[$i]['total_banget'];
                 $data[$i]['year'] = $year;
                 $data[$i]['ayam'] = $year;
@@ -208,7 +209,7 @@ class ReportAPIController extends Controller
                 $data[$i]['total_volume'] = $data[$i]['total_volume_beli'];
                 $data[$i]['total_lot'] = ($data[$i]['total_volume_beli']) * 100;
                 $data[$i]['keuntungan'] = ($data[$i]['total_lot']*$hargaclose)- ($data[$i]['total_lot']*$data[$i]['avg_harga_beli']);
-                //$data[$i]['keuntungan_total'] = array_sum($data[$i]['keuntungan']);
+               // $data[$i]['keuntungan_total'] = array_sum($data[$i]['keuntungan']);
                // $data[$i]['sisa_aset'] = 100*$data[$i]['total_lot']*$data[$i]['avg_harga_beli'];
                 $data[$i]['sisa_aset'] = ($data[$i]['total_lot']*$data[$i]['avg_harga_beli']) - ($data[$i]['total_lot']*$data[$i]['avg_harga_jual']);
                 $data[$i]['harga_close'] = $hargaclose;
