@@ -404,7 +404,7 @@ class ReportAPIController extends Controller
         }
 
         $lastWorkingDay = $lastDayOfYear->format('Y-m-d');
-        $beforeDate = date('Y-m-d', strtotime("-1 day", strtotime(date("Y-m-d"))));
+        $beforeDate = date('Y-m-d', strtotime("-2 day", strtotime(date("Y-m-d"))));
 
         $response = Http::acceptJson()
             ->withHeaders([
