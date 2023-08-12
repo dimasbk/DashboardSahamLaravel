@@ -437,6 +437,7 @@ public function getFundamental(Request $request)
                 "market_cap_cfo_ratio" => round($output->market_cap_cfo_ratio * 100),
                 "peg" => round($peg * 100),
                 "harga_saham_sum_dividen" => $output->harga_saham_sum_dividen,
+                "tahun" => $input->tahun,
 
 
 
