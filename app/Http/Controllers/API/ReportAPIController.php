@@ -9,7 +9,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use App\Models\PortofolioBeliModel;
 use App\Models\PortofolioJualModel;
-use DB;
+use DB as DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\SubscriberModel;
