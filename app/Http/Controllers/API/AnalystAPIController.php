@@ -332,6 +332,8 @@ class AnalystAPIController extends Controller
 
 
 
+
+
     public function planApi(Request $request)
     {
         $analystData = User::where('id', $request->id)->first();
@@ -341,6 +343,21 @@ class AnalystAPIController extends Controller
         return response()->json([
             'status' => 'success',
             'data' => $data
+        ], 200);
+
+
+        // return view('landingPage/plan', compact(['analystData', 'prices']));
+    }
+
+    public function namaUser(Request $request)
+    {
+        $namaUser = User::where('id', $request->id)->first();
+       // $prices = PriceModel::where('id_analyst', $request->id)->get();
+        $data = compact(['namaUser', 'prices']);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $namaUser
         ], 200);
 
 
