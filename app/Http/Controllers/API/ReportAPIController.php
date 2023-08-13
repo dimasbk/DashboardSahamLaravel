@@ -732,9 +732,9 @@ class ReportAPIController extends Controller
                 }
             }
             $pushedData = [
-                'year' => $year['tahun'],
-                'keuntungan' => array_sum($keuntungan) / count($keuntungan),
-                'realisasi' => array_sum($realisasi) / count($realisasi),
+                'year1' => $year['tahun'],
+                'keuntungan1' => array_sum($keuntungan) / count($keuntungan),
+                'realisasi1' => array_sum($realisasi) / count($realisasi),
                 // 'followers' => $followers,
                 // 'postCount' => $postCount,
             ];
