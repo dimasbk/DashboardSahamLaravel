@@ -49,7 +49,7 @@ class ReportAPIController extends Controller
         $id_user = Auth::id();
         //$id_user = 12;
         $data = PortofolioBeliModel::join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
-            ->select('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_beli.volume) AS total_volume_beli'), DB::raw('AVG(tb_portofolio_beli.harga_beli) AS avg_harga_beli'),DB::raw('SUM(tb_portofolio_beli.total_beli) AS total_beli_banget'))
+            ->select('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_beli.volume) AS total_volume_beli'), DB::raw('AVG(tb_portofolio_beli.harga_beli) AS avg_harga_beli'),DB::raw('SUM(tb_portofolio_beli.total_beli) AS total_beli_banget'), DB::raw('AVG(tb_portofolio_beli.total_beli) AS avg_total_beli'))
             ->where('tb_portofolio_beli.user_id', '=', $id_user)
             ->whereYear('tanggal_beli', $year)
             ->groupBy('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham')
@@ -61,7 +61,7 @@ class ReportAPIController extends Controller
             $beforeDate = date('Y-m-d', strtotime("-3 day", strtotime(date("Y-m-d"))));
            // $yearBefore = date('Y-m-d', strtotime($beforeDate . ' -1 year'));
            $jualReport = PortofolioJualModel::join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
-           ->select('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_jual.volume) AS total_volume_jual'), DB::raw('AVG(tb_portofolio_jual.harga_jual) AS avg_harga_jual'), DB::raw('SUM(tb_portofolio_jual.total_jual) AS total_jual_banget'))
+           ->select('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_jual.volume) AS total_volume_jual'), DB::raw('AVG(tb_portofolio_jual.harga_jual) AS avg_harga_jual'), DB::raw('SUM(tb_portofolio_jual.total_jual) AS total_jual_banget'),DB::raw('AVG(tb_portofolio_jual.total_jual) AS avg_total_jual'))
            ->where('tb_portofolio_jual.user_id', '=', $id_user)
            ->where('tb_portofolio_jual.id_saham', '=', $id)
            ->whereYear('tanggal_jual', $year)
@@ -80,6 +80,19 @@ class ReportAPIController extends Controller
 
 
                if ($jualReport != null){
+
+                foreach ($jualReport as &$item) {
+
+                    $item["tag"] = 'jual';
+
+                }
+                $jual_total = 0;
+                foreach ($jualReport as $rep) {
+                    if ($rep["tag"] == "jual") {
+                        $jual_total += $rep["volume"];
+                    // $total_semua_jual += $rep["total_jual"];
+                    }
+                }
                 $data[$i]['total_volume_jual'] = $jualReport[0]['total_volume_jual'];
                 $data[$i]['avg_harga_jual'] = ($jualReport[0]['avg_harga_jual']);
                 $data[$i]['total_volume'] = $data[$i]['total_volume_beli']-$jualReport[0]['total_volume_jual'] ;
@@ -89,7 +102,7 @@ class ReportAPIController extends Controller
                 $data[$i]['sisa_aset'] = ($data[$i]['total_lot']*$data[$i]['avg_harga_beli']) - ($data[$i]['total_lot']*$data[$i]['avg_harga_jual']);
                // $data[$i]['sisa_aset'] = (100*($data[$i]['total_volume']));
                 $data[$i]['harga_close'] = $hargaclose;
-                $data[$i]['total_banget'] = ($data[$i]['total_beli_banget']* $data[$i]['total_volume_beli']) - ($jualReport[0]['total_jual_banget']*$jualReport[0]['total_volume_jual']);
+                $data[$i]['total_banget'] = ($data[$i]['avg_total_beli']-$jualReport[0]['avg_total_jual'])/((($data[$i]['avg_harga_jual']-$data[$i]['avg_harga_beli'])*$jual_total)*100);
 
                 $data[$i]['total_volume_jual'] = (string)$data[$i]['total_volume_jual'];
                 $data[$i]['avg_harga_jual'] = (string)$data[$i]['avg_harga_jual'];
@@ -104,6 +117,7 @@ class ReportAPIController extends Controller
             if (!$jualReport) {
                 $data[$i]['total_volume_jual'] = 0;
                 $data[$i]['avg_harga_jual'] = 0;
+               // $data[$i]['realisasi'] =  (((($avgJual - $avgBeli) * $jual_total))*100);
                 $data[$i]['total_volume'] = $data[$i]['total_volume_beli'];
                 $data[$i]['total_lot'] = ($data[$i]['total_volume_beli']) * 100;
                 $data[$i]['keuntungan'] =  ($data[$i]['total_lot']*$data[$i]['avg_harga_beli'])-($data[$i]['total_lot']*$hargaclose);
@@ -111,7 +125,7 @@ class ReportAPIController extends Controller
                 $data[$i]['sisa_aset'] = ($data[$i]['total_lot']*$data[$i]['avg_harga_beli']) - ($data[$i]['total_lot']*$data[$i]['avg_harga_jual']);
                 $data[$i]['harga_close'] = $hargaclose;
                 $data[$i]['year'] = $year;
-                $data[$i]['total_banget'] = $data[$i]['total_beli_banget']* $data[$i]['total_volume_beli'];
+                $data[$i]['total_banget'] = ($data[$i]['avg_total_beli']-$jualReport[0]['avg_total_jual']);
                 // $data[$i]['keuntungan'] = (string)$data[$i]['keuntungan'];
 
 
