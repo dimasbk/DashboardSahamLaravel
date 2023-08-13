@@ -767,7 +767,7 @@ class ReportAPIController extends Controller
             $years[$i]['followers'] = $followers;
             $years[$i]['postCount'] = $postCount;
             $years[$i]['existing'] = $existing;
-            $years[$i]['user'] = $user;
+           // $years[$i]['user'] = $user;
         }
 
         // $years[0]['year'] = 0;
@@ -778,7 +778,7 @@ class ReportAPIController extends Controller
         $years[0]['followers'] = $followers;
         $years[0]['postCount'] = $postCount;
         $years[0]['existing'] = $existing;
-        $years[0]['user'] = $user;
+       // $years[0]['user'] = $user;
         // foreach ($years as $key => $year) {
         //     $percent = 0;
         //     if ($key != 0) {
