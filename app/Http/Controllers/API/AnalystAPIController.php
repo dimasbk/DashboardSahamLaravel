@@ -32,7 +32,8 @@ class AnalystAPIController extends Controller
             $profileData = User::where('id', $id)
                 ->join('tb_analyst_price', 'users.id', '=', 'tb_analyst_price.id_analyst')
                 ->first()->toArray();
-            $post = PostModel::where('id_user', $id)->take(3)->get()->toArray();
+            $post = PostModel::where('id_user', $id)->get()->toArray();
+            // $post = PostModel::where('id_user', $id)->take(3)->get()->toArray();
             $postCount = PostModel::where('id_user', $id)->get()->count();
             $portoBeli = PortofolioBeliModel::where('user_id', $id)->join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')->get()->toArray();
             $portoJual = PortofolioJualModel::where('user_id', $id)->join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')->get()->toArray();
