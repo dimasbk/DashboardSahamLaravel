@@ -503,9 +503,9 @@ class AnalystAPIController extends Controller
         //$price = PriceModel::where('id_price', $id)->firstOrFail();
       //  return view('editPlan', compact(['price']));
         $user_id = Auth::id();
-       // $Edit = User::where('id', Auth::id())->firstOrFail();
+        $Edit = User::where('id', Auth::id())->firstOrFail();
 
-        $Edit = User::where('id', $request->user_id)->firstOrFail();
+       // $Edit = User::where('id', $request->user_id)->firstOrFail();
         $id = Auth::id();
        // dd($Edit);
 
