@@ -121,9 +121,10 @@ class TechnicalAPIController extends Controller
             $input_id = InputFundamentalModel::where('tb_input.id_saham', $id_stock)
                 ->join('tb_detail_input', 'tb_input.id_detail_input', '=', 'tb_detail_input.id_detail_input')
                 ->join('tb_saham', 'tb_input.id_saham', '=', 'tb_saham.id_saham')
-                ->latest('tahun')->first();
+                ->whereIn('tb_detail_input.tahun',$tahunArray)->get();
 
-            $output = OutputFundamentalModel::where('id_input', $input_id->id_input)
+            foreach($input_id as $id){
+                $output = OutputFundamentalModel::where('id_input', $id->id_input)
                 ->join('tb_detail_output', 'tb_output.id_detail_output', '=', 'tb_detail_output.id_output')
                 ->first();
 
@@ -175,6 +176,9 @@ class TechnicalAPIController extends Controller
              "startdate"=>"{$start}",
              "enddate"=>"{$end}"];
             array_push($trends, $array);
+            }
+
+
 
         }
         $filteredData = [];
