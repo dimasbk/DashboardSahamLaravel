@@ -140,7 +140,7 @@ class ReportAPIController extends Controller
         ], 200);
     }
 
-    public function reportt(Request $request)
+    public function reporttku(Request $request)
     {
         $currentYear = date('Y');
         $year = $currentYear;
