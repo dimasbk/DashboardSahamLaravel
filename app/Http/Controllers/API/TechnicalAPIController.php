@@ -138,6 +138,7 @@ class TechnicalAPIController extends Controller
         $id_emiten = InputFundamentalModel::whereIn('id_input', $input)->pluck('id_saham');
         $stocks = SahamModel::whereIn('id_saham', $id_emiten)->pluck('nama_saham');
         //dd($stocks);
+        return $input;
         //$stocks = ['BBCA', 'BRIS', 'GOTO', 'ANTM', 'ACES', 'ROTI'];
         foreach ($stocks as $stock) {
             Log::info("1");
