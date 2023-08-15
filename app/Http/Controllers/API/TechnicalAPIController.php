@@ -188,14 +188,14 @@ class TechnicalAPIController extends Controller
             }
         } else if ($request->trend == 'empty') {
             Log::info("5");
-            $filteredData[] = $trends;
-            // foreach ($trends as $item) {
-            //     Log::info("6");
-            //     if ($item['trend'] === 'uptrend',$item1['trend'] === 'uptrend') {
-            //         Log::info("7");
-            //         $filteredData[] = $item;
-            //     }
-            // }
+           // $filteredData[] = $trends;
+            foreach ($trends as $item) {
+                // Log::info("6");
+                // if ($item['trend'] === 'uptrend',$item1['trend'] === 'uptrend') {
+                //     Log::info("7");
+                    $filteredData[] = $item;
+              //  }
+            }
         } else {
             foreach ($trends as $item) {
                 Log::info("8");
