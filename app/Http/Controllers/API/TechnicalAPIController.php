@@ -83,7 +83,16 @@ class TechnicalAPIController extends Controller
        // echo(int)$num;
         // settype($num, 'integer');
         // parseInt(num);
-        $output = DetailOutputFundamentalModel::where($request->param, $request->comparison, intval($request->num) / 100)->where('tahun', 2022)->pluck('id_output');
+        $tahun_awal = $request->tahun_awal;
+        $carbonDate = Carbon::parse($tahun_awal);
+        $tahun_awal_carbon = $carbonDate->year;
+        $tahun_akhir = $request->tahun_akhir;
+
+        $carbonDate1 = Carbon::parse($tahun_akhir);
+        $tahun_akhir_carbon = $carbonDate1->year;
+        $tahunArray = range($tahun_awal_carbon, $tahun_akhir_carbon);
+
+        $output = DetailOutputFundamentalModel::where($request->param, $request->comparison, intval($request->num) / 100)->whereIn('tahun', $tahunArray)->pluck('id_output');
         $input = OutputFundamentalModel::whereIn('id_detail_output', $output)->pluck('id_input');
         $id_emiten = InputFundamentalModel::whereIn('id_input', $input)->pluck('id_saham');
         $stocks = SahamModel::whereIn('id_saham', $id_emiten)->pluck('nama_saham');
