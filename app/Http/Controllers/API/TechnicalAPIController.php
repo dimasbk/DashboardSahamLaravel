@@ -147,6 +147,7 @@ class TechnicalAPIController extends Controller
             $market_cap_cfo_ratio = $output->market_cap_cfo_ratio * 100;
             $peg = $output->peg * 100;
             $harga_saham_sum_dividen = $output->harga_saham_sum_dividen;
+            $tahun = $output->tahun;
 
             $trend = $this->trend($data);
             Log::info($trend);
@@ -174,7 +175,8 @@ class TechnicalAPIController extends Controller
              "peg" => "{$peg}",
              "harga_saham_sum_dividen" => "{$harga_saham_sum_dividen}",
              "startdate"=>"{$start}",
-             "enddate"=>"{$end}"];
+             "enddate"=>"{$end}",
+             "tahun"=>"{$tahun}"];
             array_push($trends, $array);
             }
 
