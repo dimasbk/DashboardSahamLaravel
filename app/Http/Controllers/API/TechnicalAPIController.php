@@ -186,6 +186,15 @@ class TechnicalAPIController extends Controller
                     $filteredData[] = $item;
                 }
             }
+        } else if ($request->trend == 'empty') {
+            Log::info("5");
+            foreach ($trends as $item) {
+                Log::info("6");
+                if ($item['trend'] === 'empty') {
+                    Log::info("7");
+                    $filteredData[] = $item;
+                }
+            }
         } else {
             foreach ($trends as $item) {
                 Log::info("8");
