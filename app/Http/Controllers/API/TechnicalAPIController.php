@@ -223,7 +223,8 @@ class TechnicalAPIController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'data' => $filteredData
+            'data' => $filteredData,
+            'tahun' => $tahunArray
         ], 200);
         //Log::info(filteredData);
     }
