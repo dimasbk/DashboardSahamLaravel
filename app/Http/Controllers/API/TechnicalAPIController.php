@@ -96,6 +96,7 @@ class TechnicalAPIController extends Controller
 
         $output = null;
 
+        return $request->type;
         if(isset($request->param_der)){
             if(isset($output)){
                 $output = DetailOutputFundamentalModel::where($request->param_der, $request->comparison_der, intval($request->num_der) / 100)
