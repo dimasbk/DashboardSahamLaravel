@@ -138,7 +138,7 @@ class TechnicalAPIController extends Controller
         $id_emiten = InputFundamentalModel::whereIn('id_input', $input)->pluck('id_saham');
         $stocks = SahamModel::whereIn('id_saham', $id_emiten)->pluck('nama_saham');
         //dd($stocks);
-        return $input;
+        //return $input;
         //$stocks = ['BBCA', 'BRIS', 'GOTO', 'ANTM', 'ACES', 'ROTI'];
         foreach ($stocks as $stock) {
             Log::info("1");
@@ -162,11 +162,12 @@ class TechnicalAPIController extends Controller
             $input_id = InputFundamentalModel::where('tb_input.id_saham', $id_stock)
                 ->join('tb_detail_input', 'tb_input.id_detail_input', '=', 'tb_detail_input.id_detail_input')
                 ->join('tb_saham', 'tb_input.id_saham', '=', 'tb_saham.id_saham')
-                ->whereIn('tb_detail_input.tahun',$tahunArray)->get();
+                ->whereIn('tb_input.id_input',$input)->get();
 
             foreach($input_id as $id){
                 $output = OutputFundamentalModel::where('id_input', $id->id_input)
                 ->join('tb_detail_output', 'tb_output.id_detail_output', '=', 'tb_detail_output.id_output')
+                ->where('type', $request->type)
                 ->first();
 
             $der = $output->der * 100;
