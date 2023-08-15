@@ -61,6 +61,8 @@ Route::get('/postt', [PostAPIController::class, 'post']);
 Route::get('/emiten/fundamental/{emiten}', [TechnicalAPIController::class, 'fundamentall']);
 Route::get('/emiten/fundatabel/{emiten}', [TechnicalAPIController::class, 'fundamentaltabel']);
 
+Route::get('/porto/semua/ya', [ReportAPIController::class, 'reporttkuloh']);
+
 
 
 
