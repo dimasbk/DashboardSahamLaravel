@@ -100,11 +100,13 @@ class TechnicalAPIController extends Controller
             if(isset($output)){
                 $output = DetailOutputFundamentalModel::where($request->param_der, $request->comparison_der, intval($request->num_der) / 100)
                     ->whereIn('tahun', $tahunArray)
+                    ->where('type', $request->type)
                     ->whereIn('id_output_detail', $output)
                     ->pluck('id_output');
             }else{
                 $output = DetailOutputFundamentalModel::where($request->param_der, $request->comparison_der, intval($request->num_der) / 100)
                     ->whereIn('tahun', $tahunArray)
+                    ->where('type', $request->type)
                     ->pluck('id_output');
             }
         }
@@ -113,11 +115,13 @@ class TechnicalAPIController extends Controller
             if(isset($output)){
                 $output = DetailOutputFundamentalModel::where($request->param_ldr, $request->comparison_ldr, intval($request->num_ldr) / 100)
                     ->whereIn('tahun', $tahunArray)
+                    ->where('type', $request->type)
                     ->whereIn('id_output_detail', $output)
                     ->pluck('id_output');
             }else{
                 $output = DetailOutputFundamentalModel::where($request->param_ldr, $request->comparison_ldr, intval($request->num_ldr) / 100)
                     ->whereIn('tahun', $tahunArray)
+                    ->where('type', $request->type)
                     ->pluck('id_output');
             }
         }
