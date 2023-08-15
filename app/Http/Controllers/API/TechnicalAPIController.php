@@ -132,7 +132,7 @@ class TechnicalAPIController extends Controller
         //     ->whereIn('id_output_detail', $output)
         //     ->pluck('id_output');
         // }
-            return $output;
+         //   return $output;
         //$output = DetailOutputFundamentalModel::where($request->param, $request->comparison, intval($request->num) / 100)->whereIn('tahun', $tahunArray)->pluck('id_output');
         $input = OutputFundamentalModel::whereIn('id_detail_output', $output)->pluck('id_input');
         $id_emiten = InputFundamentalModel::whereIn('id_input', $input)->pluck('id_saham');
