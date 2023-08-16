@@ -125,10 +125,7 @@ class TechnicalAPIController extends Controller
                     ->pluck('id_output');
             }
 
-            return $apa = DetailOutputFundamentalModel::where($der[0], $der[1], intval($der[2]) / 100)
-                ->whereIn('tahun', $tahunArray)
-                ->where('type', $request->type)
-                ->toSql();
+            return $output;
         }
 
         if (isset($request->param_ldr)) {
