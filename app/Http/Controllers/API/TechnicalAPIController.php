@@ -125,7 +125,7 @@ class TechnicalAPIController extends Controller
                     ->pluck('id_output');
             }
 
-            return $output;
+            return $output->toSql();
         }
 
         if (isset($request->param_ldr)) {
