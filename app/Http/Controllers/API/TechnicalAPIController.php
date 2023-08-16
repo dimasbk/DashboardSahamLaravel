@@ -95,21 +95,31 @@ class TechnicalAPIController extends Controller
 
 
         $output = null;
-        $der = explode(",", $request->param_der);
-        $gpm = explode(",", $request->param_gpm);
-        $npm = explode(",", $request->param_npm);
 
-        return $der;
+        $der = $request->param_der;
+        if (isset($der)) {
+            $der = explode(",", $der);
+        }
 
-        if (isset($request->param_der)) {
+        $gpm = $request->param_gpm;
+        if (isset($gpm)) {
+            $gpm = explode(",", $gpm);
+        }
+
+        $npm = $request->param_npm;
+        if (isset($npm)) {
+            $npm = explode(",", $npm);
+        }
+
+        if (isset($der)) {
             if (isset($output)) {
-                $output = DetailOutputFundamentalModel::where($request->param_der, $request->comparison_der, intval($request->num_der) / 100)
+                $output = DetailOutputFundamentalModel::where($der[0], $der[1], intval($der[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->whereIn('id_output', $output)
                     ->pluck('id_output');
             } else {
-                $output = DetailOutputFundamentalModel::where($request->param_der, $request->comparison_der, intval($request->num_der) / 100)
+                $output = DetailOutputFundamentalModel::where($der[0], $der[1], intval($der[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->pluck('id_output');
@@ -221,30 +231,30 @@ class TechnicalAPIController extends Controller
             }
         }
 
-        if (isset($request->param_gpm)) {
+        if (isset($gpm)) {
             if (isset($output)) {
-                $output = DetailOutputFundamentalModel::where($request->param_gpm, $request->comparison_gpm, intval($request->num_gpm) / 100)
+                $output = DetailOutputFundamentalModel::where($gpm[0], $gpm[1], intval($gpm[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->whereIn('id_output', $output)
                     ->pluck('id_output');
             } else {
-                $output = DetailOutputFundamentalModel::where($request->param_gpm, $request->comparison_gpm, intval($request->num_gpm) / 100)
+                $output = DetailOutputFundamentalModel::where($gpm[0], $gpm[1], intval($gpm[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->pluck('id_output');
             }
         }
 
-        if (isset($request->param_npm)) {
+        if (isset($npm)) {
             if (isset($output)) {
-                $output = DetailOutputFundamentalModel::where($request->param_npm, $request->comparison_npm, intval($request->num_npm) / 100)
+                $output = DetailOutputFundamentalModel::where($npm[0], $npm[1], intval($npm[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->whereIn('id_output', $output)
                     ->pluck('id_output');
             } else {
-                $output = DetailOutputFundamentalModel::where($request->param_npm, $request->comparison_npm, intval($request->num_npm) / 100)
+                $output = DetailOutputFundamentalModel::where($npm[0], $npm[1], intval($npm[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->pluck('id_output');
