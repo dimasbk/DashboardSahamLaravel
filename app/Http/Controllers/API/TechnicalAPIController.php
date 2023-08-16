@@ -99,7 +99,7 @@ class TechnicalAPIController extends Controller
         $gpm = $request->gpm;
         $npm = $request->npm;
 
-        return $der;
+        return $request->all();
 
         if (isset($request->param_der)) {
             if (isset($output)) {
