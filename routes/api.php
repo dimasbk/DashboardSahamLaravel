@@ -43,6 +43,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 //contoh param request = {'param' => 'ldr', 'comparison' => '>', 'num' => 5, 'start' => yyyy-mm-dd, 'end' => yyyy-mm-dd}
 Route::get('/search/technical/saham', [TechnicalAPIController::class, 'technical']);
+Route::get('/search/technicallama/saham', [TechnicalAPIController::class, 'technical_lama']);
 
 
 Route::get('/report/{user_id}', [ReportAPIController::class, 'getYear']);

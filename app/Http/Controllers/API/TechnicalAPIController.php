@@ -526,6 +526,166 @@ class TechnicalAPIController extends Controller
         //Log::info(filteredData);
     }
 
+
+    public function technical_lama(Request $request )
+    {
+        $trends = [];
+        $year = explode('-', '2068-06-15');
+       // echo(int)$num;
+        // settype($num, 'integer');
+        // parseInt(num);
+        $start = $request->start;
+        $carbonDate = Carbon::parse($start);
+        $start = $carbonDate->year;
+
+        $end = $request->end;
+
+        $carbonDate1 = Carbon::parse($end);
+        $end = $carbonDate1->year;
+        $tahunArray = range($start, $end);
+
+        $output = DetailOutputFundamentalModel::where($request->param, $request->comparison, intval($request->num) / 100)->whereIn('tahun', $tahunArray)->pluck('id_output');
+        $input = OutputFundamentalModel::whereIn('id_detail_output', $output)->pluck('id_input');
+        $id_emiten = InputFundamentalModel::whereIn('id_input', $input)->pluck('id_saham');
+        $stocks = SahamModel::whereIn('id_saham', $id_emiten)->pluck('nama_saham');
+        //dd($stocks);
+        //$stocks = ['BBCA', 'BRIS', 'GOTO', 'ANTM', 'ACES', 'ROTI'];
+        foreach ($stocks as $stock) {
+            Log::info("1");
+            //$today = date("Y-m-d");
+            $end = $request->end;
+            $start = $request->start;
+            $response = Http::acceptJson()
+                ->withHeaders([
+                    'X-API-KEY' => '1hzlCQzlW2UqjegV5GFoiS78vaW9tF'
+                ])->get('https://api.goapi.id/v1/stock/idx/' . $stock . '/historical', [
+                        'to' => $end,
+                        'from' => $start
+                    ])->json();
+
+            $data = $response['data']['results'];
+            $startPrice = $data[count($data) - 1]['close'];
+            $endPrice = $data[0]['close'];
+
+            $id_stock = SahamModel::where('nama_saham', $stock)->value('id_saham');
+
+            $input_id = InputFundamentalModel::where('tb_input.id_saham', $id_stock)
+                ->join('tb_detail_input', 'tb_input.id_detail_input', '=', 'tb_detail_input.id_detail_input')
+                ->join('tb_saham', 'tb_input.id_saham', '=', 'tb_saham.id_saham')
+                ->whereIn('tb_detail_input.tahun',$tahunArray)->get();
+
+            foreach($input_id as $id){
+                $output = OutputFundamentalModel::where('id_input', $id->id_input)
+                ->join('tb_detail_output', 'tb_output.id_detail_output', '=', 'tb_detail_output.id_output')
+                ->first();
+
+            $der = $output->der * 100;
+            $ldr = $output->loan_to_depo_ratio * 100;
+            $annualized_roe = $output->annualized_roe * 100;
+            $dividen = $output->dividen;
+            $dividen_yield = $output->dividen_yield * 100;
+            $dividen_payout_ratio = $output->dividen_payout_ratio * 100;
+            $pbv = $output->pbv * 100;
+            $annualized_roa = $output->annualized_roa * 100;
+            $gpm = $output->gpm * 100;
+            $npm = $output->npm * 100;
+            $eer = $output->eer * 100;
+            $ear = $output->ear * 100;
+            $market_cap = $output->market_cap;
+            $market_cap_asset_ratio = $output->market_cap_asset_ratio * 100;
+            $cfo_sales_ratio = $output->cfo_sales_ratio * 100;
+            $capex_cfo_ratio = $output->capex_cfo_ratio * 100;
+            $market_cap_cfo_ratio = $output->market_cap_cfo_ratio * 100;
+            $peg = $output->peg * 100;
+            $harga_saham_sum_dividen = $output->harga_saham_sum_dividen;
+            $tahun = $output->tahun;
+
+            $trend = $this->trend($data);
+            Log::info($trend);
+            $array = ["ticker" => "{$stock}",
+             "MAPercentage" => "{$trend['percentage']}",
+             "trend" => "{$trend['trendString']}",
+             "change" => "{$trend['percentage']}",
+             "der" => "{$der}",
+             "ldr" => "{$ldr}",
+             "annualized_roe" => "{$annualized_roe}",
+             "dividen" => "{$dividen}",
+             "dividen_yield" => "{$dividen_yield}",
+             "dividen_payout_ratio" => "{$dividen_payout_ratio}",
+             "pbv" => "{$pbv}",
+             "annualized_roa" => "{$annualized_roa}",
+             "gpm" => "{$gpm}",
+             "npm" => "{$npm}",
+             "eer" => "{$eer}",
+             "ear" => "{$ear}",
+             "market_cap" => "{$market_cap}",
+             "market_cap_asset_ratio" => "{$market_cap_asset_ratio}",
+             "cfo_sales_ratio" => "{$cfo_sales_ratio}",
+             "capex_cfo_ratio" => "{$capex_cfo_ratio}",
+             "market_cap_cfo_ratio" => "{$market_cap_cfo_ratio}",
+             "peg" => "{$peg}",
+             "harga_saham_sum_dividen" => "{$harga_saham_sum_dividen}",
+             "startdate"=>"{$start}",
+             "enddate"=>"{$end}",
+             "tahun"=>"{$tahun}"];
+            array_push($trends, $array);
+            }
+
+
+
+        }
+        $filteredData = [];
+        if ($request->trend == 'uptrend') {
+            Log::info("2");
+            foreach ($trends as $item) {
+                Log::info("3");
+                if ($item['trend'] === 'uptrend') {
+                    Log::info("4");
+                    $filteredData[] = $item;
+                }
+            }
+        } else if ($request->trend == 'downtrend') {
+            Log::info("5");
+            foreach ($trends as $item) {
+                Log::info("6");
+                if ($item['trend'] === 'downtrend') {
+                    Log::info("7");
+                    $filteredData[] = $item;
+                }
+            }
+        } else if ($request->trend == 'empty') {
+            Log::info("5");
+           // $filteredData[] = $trends;
+            foreach ($trends as $item) {
+                // Log::info("6");
+                // if ($item['trend'] === 'uptrend',$item1['trend'] === 'uptrend') {
+                //     Log::info("7");
+                    $filteredData[] = $item;
+              //  }
+            }
+        } else {
+            foreach ($trends as $item) {
+                Log::info("8");
+                if ($item['trend'] === 'sideways') {
+                    Log::info("9");
+                    $filteredData[] = $item;
+                }
+            }
+        }
+        Log::info($filteredData);
+
+        //return $filteredData;
+        //dd(compact(['filteredData']));
+        // return view('landingPage/technical', compact(['filteredData']));
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $filteredData,
+            'tahun' => $tahunArray
+        ], 200);
+        //Log::info(filteredData);
+    }
+
     public function getChartData(Request $request, $emiten)
     {
         $start = $request->start;
