@@ -124,6 +124,8 @@ class TechnicalAPIController extends Controller
                     ->where('type', $request->type)
                     ->pluck('id_output');
             }
+
+            return $output;
         }
 
         if (isset($request->param_ldr)) {
