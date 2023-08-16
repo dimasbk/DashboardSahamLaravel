@@ -101,7 +101,7 @@ class TechnicalAPIController extends Controller
                 $output = DetailOutputFundamentalModel::where($request->param_der, $request->comparison_der, intval($request->num_der) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
-                    ->whereIn('id_output_detail', $output)
+                    ->whereIn('id_output', $output)
                     ->pluck('id_output');
             }else{
                 $output = DetailOutputFundamentalModel::where($request->param_der, $request->comparison_der, intval($request->num_der) / 100)
@@ -116,7 +116,7 @@ class TechnicalAPIController extends Controller
                 $output = DetailOutputFundamentalModel::where($request->param_ldr, $request->comparison_ldr, intval($request->num_ldr) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
-                    ->whereIn('id_output_detail', $output)
+                    ->whereIn('id_output', $output)
                     ->pluck('id_output');
             }else{
                 $output = DetailOutputFundamentalModel::where($request->param_ldr, $request->comparison_ldr, intval($request->num_ldr) / 100)
@@ -131,7 +131,7 @@ class TechnicalAPIController extends Controller
                 $output = DetailOutputFundamentalModel::where($request->param_annualized_roe, $request->comparison_annualized_roe, intval($request->num_annualized_roe) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
-                    ->whereIn('id_output_detail', $output)
+                    ->whereIn('id_output', $output)
                     ->pluck('id_output');
             }else{
                 $output = DetailOutputFundamentalModel::where($request->param_annualized_roe, $request->comparison_annualized_roe, intval($request->num_annualized_roe) / 100)
@@ -146,7 +146,7 @@ class TechnicalAPIController extends Controller
                 $output = DetailOutputFundamentalModel::where($request->param_dividen, $request->comparison_dividen, intval($request->num_dividen) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
-                    ->whereIn('id_output_detail', $output)
+                    ->whereIn('id_output', $output)
                     ->pluck('id_output');
             }else{
                 $output = DetailOutputFundamentalModel::where($request->param_dividen, $request->comparison_dividen, intval($request->num_dividen) / 100)
@@ -161,7 +161,7 @@ class TechnicalAPIController extends Controller
                 $output = DetailOutputFundamentalModel::where($request->param_dividen_yield, $request->comparison_dividen_yield, intval($request->num_dividen_yield) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
-                    ->whereIn('id_output_detail', $output)
+                    ->whereIn('id_output', $output)
                     ->pluck('id_output');
             }else{
                 $output = DetailOutputFundamentalModel::where($request->param_dividen_yield, $request->comparison_dividen_yield, intval($request->num_dividen_yield) / 100)
@@ -176,7 +176,7 @@ class TechnicalAPIController extends Controller
                 $output = DetailOutputFundamentalModel::where($request->param_dividen_payout_ratio, $request->comparison_dividen_payout_ratio, intval($request->num_dividen_payout_ratio) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
-                    ->whereIn('id_output_detail', $output)
+                    ->whereIn('id_output', $output)
                     ->pluck('id_output');
             }else{
                 $output = DetailOutputFundamentalModel::where($request->param_dividen_payout_ratio, $request->comparison_dividen_payout_ratio, intval($request->num_dividen_payout_ratio) / 100)
@@ -191,7 +191,7 @@ class TechnicalAPIController extends Controller
                 $output = DetailOutputFundamentalModel::where($request->param_pbv, $request->comparison_pbv, intval($request->num_pbv) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
-                    ->whereIn('id_output_detail', $output)
+                    ->whereIn('id_output', $output)
                     ->pluck('id_output');
             }else{
                 $output = DetailOutputFundamentalModel::where($request->param_pbv, $request->comparison_pbv, intval($request->num_pbv) / 100)
@@ -206,7 +206,7 @@ class TechnicalAPIController extends Controller
                 $output = DetailOutputFundamentalModel::where($request->param_annualized_roa, $request->comparison_annualized_roa, intval($request->num_annualized_roa) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
-                    ->whereIn('id_output_detail', $output)
+                    ->whereIn('id_output', $output)
                     ->pluck('id_output');
             }else{
                 $output = DetailOutputFundamentalModel::where($request->param_annualized_roa, $request->comparison_annualized_roa, intval($request->num_annualized_roa) / 100)
@@ -221,7 +221,7 @@ class TechnicalAPIController extends Controller
                 $output = DetailOutputFundamentalModel::where($request->param_gpm, $request->comparison_gpm, intval($request->num_gpm) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
-                    ->whereIn('id_output_detail', $output)
+                    ->whereIn('id_output', $output)
                     ->pluck('id_output');
             }else{
                 $output = DetailOutputFundamentalModel::where($request->param_gpm, $request->comparison_gpm, intval($request->num_gpm) / 100)
@@ -236,7 +236,7 @@ class TechnicalAPIController extends Controller
                 $output = DetailOutputFundamentalModel::where($request->param_npm, $request->comparison_npm, intval($request->num_npm) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
-                    ->whereIn('id_output_detail', $output)
+                    ->whereIn('id_output', $output)
                     ->pluck('id_output');
             }else{
                 $output = DetailOutputFundamentalModel::where($request->param_npm, $request->comparison_npm, intval($request->num_npm) / 100)
@@ -251,7 +251,7 @@ class TechnicalAPIController extends Controller
                 $output = DetailOutputFundamentalModel::where($request->param_eer, $request->comparison_eer, intval($request->num_eer) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
-                    ->whereIn('id_output_detail', $output)
+                    ->whereIn('id_output', $output)
                     ->pluck('id_output');
             }else{
                 $output = DetailOutputFundamentalModel::where($request->param_eer, $request->comparison_eer, intval($request->num_eer) / 100)
@@ -266,7 +266,7 @@ class TechnicalAPIController extends Controller
                 $output = DetailOutputFundamentalModel::where($request->param_ear, $request->comparison_ear, intval($request->num_ear) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
-                    ->whereIn('id_output_detail', $output)
+                    ->whereIn('id_output', $output)
                     ->pluck('id_output');
             }else{
                 $output = DetailOutputFundamentalModel::where($request->param_ear, $request->comparison_ear, intval($request->num_ear) / 100)
@@ -280,7 +280,7 @@ class TechnicalAPIController extends Controller
                 $output = DetailOutputFundamentalModel::where($request->param_market_cap, $request->comparison_market_cap, intval($request->num_market_cap) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
-                    ->whereIn('id_output_detail', $output)
+                    ->whereIn('id_output', $output)
                     ->pluck('id_output');
             }else{
                 $output = DetailOutputFundamentalModel::where($request->param_market_cap, $request->comparison_market_cap, intval($request->num_market_cap) / 100)
@@ -294,7 +294,7 @@ class TechnicalAPIController extends Controller
                 $output = DetailOutputFundamentalModel::where($request->param_market_cap_asset_ratio, $request->comparison_market_cap_asset_ratio, intval($request->num_market_cap_asset_ratio) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
-                    ->whereIn('id_output_detail', $output)
+                    ->whereIn('id_output', $output)
                     ->pluck('id_output');
             }else{
                 $output = DetailOutputFundamentalModel::where($request->param_market_cap_asset_ratio, $request->comparison_market_cap_asset_ratio, intval($request->num_market_cap_asset_ratio) / 100)
@@ -308,7 +308,7 @@ class TechnicalAPIController extends Controller
                 $output = DetailOutputFundamentalModel::where($request->param_cfo_sales_ratio, $request->comparison_cfo_sales_ratio, intval($request->num_cfo_sales_ratio) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
-                    ->whereIn('id_output_detail', $output)
+                    ->whereIn('id_output', $output)
                     ->pluck('id_output');
             }else{
                 $output = DetailOutputFundamentalModel::where($request->param_cfo_sales_ratio, $request->comparison_cfo_sales_ratio, intval($request->num_cfo_sales_ratio) / 100)
@@ -322,7 +322,7 @@ class TechnicalAPIController extends Controller
                 $output = DetailOutputFundamentalModel::where($request->param_capex_cfo_ratio, $request->comparison_capex_cfo_ratio, intval($request->num_capex_cfo_ratio) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
-                    ->whereIn('id_output_detail', $output)
+                    ->whereIn('id_output', $output)
                     ->pluck('id_output');
             }else{
                 $output = DetailOutputFundamentalModel::where($request->param_capex_cfo_ratio, $request->comparison_capex_cfo_ratio, intval($request->num_capex_cfo_ratio) / 100)
@@ -336,7 +336,7 @@ class TechnicalAPIController extends Controller
                 $output = DetailOutputFundamentalModel::where($request->param_market_cap_cfo_ratio, $request->comparison_market_cap_cfo_ratio, intval($request->num_market_cap_cfo_ratio) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
-                    ->whereIn('id_output_detail', $output)
+                    ->whereIn('id_output', $output)
                     ->pluck('id_output');
             }else{
                 $output = DetailOutputFundamentalModel::where($request->param_market_cap_cfo_ratio, $request->comparison_market_cap_cfo_ratio, intval($request->num_market_cap_cfo_ratio) / 100)
@@ -350,7 +350,7 @@ class TechnicalAPIController extends Controller
                 $output = DetailOutputFundamentalModel::where($request->param_peg, $request->comparison_peg, intval($request->num_peg) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
-                    ->whereIn('id_output_detail', $output)
+                    ->whereIn('id_output', $output)
                     ->pluck('id_output');
             }else{
                 $output = DetailOutputFundamentalModel::where($request->param_peg, $request->comparison_peg, intval($request->num_peg) / 100)
@@ -364,7 +364,7 @@ class TechnicalAPIController extends Controller
                 $output = DetailOutputFundamentalModel::where($request->param_harga_saham_sum_dividen, $request->comparison_harga_saham_sum_dividen, intval($request->num_harga_saham_sum_dividen) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
-                    ->whereIn('id_output_detail', $output)
+                    ->whereIn('id_output', $output)
                     ->pluck('id_output');
             }else{
                 $output = DetailOutputFundamentalModel::where($request->param_harga_saham_sum_dividen, $request->comparison_harga_saham_sum_dividen, intval($request->num_harga_saham_sum_dividen) / 100)
