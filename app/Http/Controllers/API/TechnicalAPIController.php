@@ -544,7 +544,7 @@ class TechnicalAPIController extends Controller
         $end = $carbonDate1->year;
         $tahunArray = range($start, $end);
 
-        $output = DetailOutputFundamentalModel::where($request->param, $request->comparison, intval($request->num) / 100)->whereIn('tahun', $tahunArray)->pluck('id_output');
+        $output = DetailOutputFundamentalModel::where($request->param, $request->comparison, intval($request->num) / 100)->whereIn('tahun', $tahunArray)->where('type', $request->type)->pluck('id_output');
         $input = OutputFundamentalModel::whereIn('id_detail_output', $output)->pluck('id_input');
         $id_emiten = InputFundamentalModel::whereIn('id_input', $input)->pluck('id_saham');
         $stocks = SahamModel::whereIn('id_saham', $id_emiten)->pluck('nama_saham');
@@ -575,9 +575,9 @@ class TechnicalAPIController extends Controller
                 ->whereIn('tb_detail_input.tahun',$tahunArray)->get();
 
             foreach($input_id as $id){
-                $output = OutputFundamentalModel::where('id_input', $id->id_input)->where('type', $request->type)
+                $output = OutputFundamentalModel::where('id_input', $id->id_input)
                 ->join('tb_detail_output', 'tb_output.id_detail_output', '=', 'tb_detail_output.id_output')
-
+                ->where('type', $request->type)
                 ->first();
 
             $der = $output->der * 100;
