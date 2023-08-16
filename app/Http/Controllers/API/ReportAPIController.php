@@ -58,7 +58,7 @@ class ReportAPIController extends Controller
         for ($i = 0; $i < count($data); $i++) {
             $id = $data[$i]['id_saham'];
             $saham = $data[$i]['nama_saham'];
-            $beforeDate = date('Y-m-d', strtotime("-2 day", strtotime(date("Y-m-d"))));
+            $beforeDate = date('Y-m-d', strtotime("-1 day", strtotime(date("Y-m-d"))));
            // $yearBefore = date('Y-m-d', strtotime($beforeDate . ' -1 year'));
            $jualReport = PortofolioJualModel::join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
            ->select('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_jual.volume) AS total_volume_jual'), DB::raw('AVG(tb_portofolio_jual.harga_jual) AS avg_harga_jual'), DB::raw('SUM(tb_portofolio_jual.total_jual) AS total_jual_banget'))
@@ -157,7 +157,7 @@ class ReportAPIController extends Controller
         for ($i = 0; $i < count($data); $i++) {
             $id = $data[$i]['id_saham'];
             $saham = $data[$i]['nama_saham'];
-            $beforeDate = date('Y-m-d', strtotime("-2 day", strtotime(date("Y-m-d"))));
+            $beforeDate = date('Y-m-d', strtotime("-1 day", strtotime(date("Y-m-d"))));
            // $yearBefore = date('Y-m-d', strtotime($beforeDate . ' -1 year'));
             $jualReport = PortofolioJualModel::join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
                 ->select('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_jual.volume) AS total_volume_jual'), DB::raw('AVG(tb_portofolio_jual.harga_jual) AS avg_harga_jual'), DB::raw('SUM(tb_portofolio_jual.total_jual) AS total_jual_banget'))
@@ -261,7 +261,7 @@ class ReportAPIController extends Controller
         for ($i = 0; $i < count($data); $i++) {
             $id = $data[$i]['id_saham'];
             $saham = $data[$i]['nama_saham'];
-            $beforeDate = date('Y-m-d', strtotime("-2 day", strtotime(date("Y-m-d"))));
+            $beforeDate = date('Y-m-d', strtotime("-1 day", strtotime(date("Y-m-d"))));
            // $yearBefore = date('Y-m-d', strtotime($beforeDate . ' -1 year'));
             $jualReport = PortofolioJualModel::join('tb_saham', 'tb_portofolio_jual.id_saham', '=', 'tb_saham.id_saham')
                 ->select('tb_portofolio_jual.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_jual.volume) AS total_volume_jual'), DB::raw('AVG(tb_portofolio_jual.harga_jual) AS avg_harga_jual'), DB::raw('SUM(tb_portofolio_jual.total_jual) AS total_jual_banget'))
@@ -508,7 +508,7 @@ class ReportAPIController extends Controller
         }
 
         $lastWorkingDay = $lastDayOfYear->format('Y-m-d');
-        $beforeDate = date('Y-m-d', strtotime("-2 day", strtotime(date("Y-m-d"))));
+        $beforeDate = date('Y-m-d', strtotime("-1 day", strtotime(date("Y-m-d"))));
 
         $response = Http::acceptJson()
             ->withHeaders([
