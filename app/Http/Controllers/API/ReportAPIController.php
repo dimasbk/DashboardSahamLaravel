@@ -524,7 +524,7 @@ class ReportAPIController extends Controller
         $avgBeli = $dataReport[0]['avg_harga_beli'];
         $avgJual = $dataReport[0]['avg_harga_jual'];
         $avgTotalBeli = $dataReport[0]['avg_total_beli'];
-        $avgTotalJual = $dataReport[0]['avg_total_jual'];
+        $avgTotalJual = $dataReport[$i]['avg_total_jual'];
         $avgVolumeBeli = $dataReport[0]['avg_volume_beli'];
         $keuntungan = ($totalLot * $hargaclose) - ($totalLot * $avgBeli);
 
