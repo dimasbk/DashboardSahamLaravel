@@ -101,6 +101,41 @@ class TechnicalAPIController extends Controller
             $der = explode(",", $der);
         }
 
+        $loan_to_depo_ratio = $request->param_loan_to_depo_ratio;
+        if (isset($loan_to_depo_ratio)) {
+            $loan_to_depo_ratio = explode(",", $loan_to_depo_ratio);
+        }
+
+        $annualized_roe = $request->param_annualized_roe;
+        if (isset($annualized_roe)) {
+            $annualized_roe = explode(",", $annualized_roe);
+        }
+
+        $dividen = $request->param_dividen;
+        if (isset($dividen)) {
+            $dividen = explode(",", $dividen);
+        }
+
+        $dividen_yield = $request->param_dividen_yield;
+        if (isset($dividen_yield)) {
+            $dividen_yield = explode(",", $dividen_yield);
+        }
+
+        $dividen_payout_ratio = $request->param_dividen_payout_ratio;
+        if (isset($dividen_payout_ratio)) {
+            $dividen_payout_ratio = explode(",", $dividen_payout_ratio);
+        }
+
+        $pbv = $request->param_pbv;
+        if (isset($pbv)) {
+            $pbv = explode(",", $pbv);
+        }
+
+        $annualized_roa = $request->param_annualized_roa;
+        if (isset($annualized_roa)) {
+            $annualized_roa = explode(",", $annualized_roa);
+        }
+
         $gpm = $request->param_gpm;
         if (isset($gpm)) {
             $gpm = explode(",", $gpm);
@@ -110,6 +145,56 @@ class TechnicalAPIController extends Controller
         if (isset($npm)) {
             $npm = explode(",", $npm);
         }
+
+        $eer = $request->param_eer;
+        if (isset($eer)) {
+            $eer = explode(",", $eer);
+        }
+
+        $ear = $request->param_ear;
+        if (isset($ear)) {
+            $ear = explode(",", $ear);
+        }
+
+        $market_cap = $request->param_market_cap;
+        if (isset($market_cap)) {
+            $market_cap = explode(",", $market_cap);
+        }
+
+        $market_cap_asset_ratio = $request->param_market_cap_asset_ratio;
+        if (isset($market_cap_asset_ratio)) {
+            $market_cap_asset_ratio = explode(",", $market_cap_asset_ratio);
+        }
+
+        $cfo_sales_ratio = $request->param_cfo_sales_ratio;
+        if (isset($cfo_sales_ratio)) {
+            $cfo_sales_ratio = explode(",", $cfo_sales_ratio);
+        }
+
+        $capex_cfo_ratio = $request->param_capex_cfo_ratio;
+        if (isset($capex_cfo_ratio)) {
+            $capex_cfo_ratio = explode(",", $capex_cfo_ratio);
+        }
+
+        $market_cap_cfo_ratio = $request->param_market_cap_cfo_ratio;
+        if (isset($market_cap_cfo_ratio)) {
+            $market_cap_cfo_ratio = explode(",", $market_cap_cfo_ratio);
+        }
+
+        $peg = $request->param_peg;
+        if (isset($peg)) {
+            $peg = explode(",", $peg);
+        }
+
+        $harga_saham_sum_dividen = $request->param_harga_saham_sum_dividen;
+        if (isset($harga_saham_sum_dividen)) {
+            $harga_saham_sum_dividen = explode(",", $harga_saham_sum_dividen);
+        }
+
+        // $npm = $request->param_npm;
+        // if (isset($npm)) {
+        //     $npm = explode(",", $npm);
+        // }
 
         if (isset($der)) {
             if (isset($output)) {
@@ -128,109 +213,123 @@ class TechnicalAPIController extends Controller
            // return $output;
         }
 
-        if (isset($request->param_ldr)) {
+        if (isset($loan_to_depo_ratio)) {
             if (isset($output)) {
-                $output = DetailOutputFundamentalModel::where($request->param_ldr, $request->comparison_ldr, intval($request->num_ldr) / 100)
+                $output = DetailOutputFundamentalModel::where($loan_to_depo_ratio[0], $loan_to_depo_ratio[1], intval($loan_to_depo_ratio[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->whereIn('id_output', $output)
                     ->pluck('id_output');
             } else {
-                $output = DetailOutputFundamentalModel::where($request->param_ldr, $request->comparison_ldr, intval($request->num_ldr) / 100)
+                $output = DetailOutputFundamentalModel::where($loan_to_depo_ratio[0], $loan_to_depo_ratio[1], intval($loan_to_depo_ratio[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->pluck('id_output');
             }
+
+           // return $output;
         }
 
-        if (isset($request->param_annualized_roe)) {
+        if (isset($annualized_roe)) {
             if (isset($output)) {
-                $output = DetailOutputFundamentalModel::where($request->param_annualized_roe, $request->comparison_annualized_roe, intval($request->num_annualized_roe) / 100)
+                $output = DetailOutputFundamentalModel::where($annualized_roe[0], $annualized_roe[1], intval($annualized_roe[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->whereIn('id_output', $output)
                     ->pluck('id_output');
             } else {
-                $output = DetailOutputFundamentalModel::where($request->param_annualized_roe, $request->comparison_annualized_roe, intval($request->num_annualized_roe) / 100)
+                $output = DetailOutputFundamentalModel::where($annualized_roe[0], $annualized_roe[1], intval($annualized_roe[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->pluck('id_output');
             }
+
+           // return $output;
         }
 
-        if (isset($request->param_dividen)) {
+        if (isset($dividen)) {
             if (isset($output)) {
-                $output = DetailOutputFundamentalModel::where($request->param_dividen, $request->comparison_dividen, intval($request->num_dividen) / 100)
+                $output = DetailOutputFundamentalModel::where($dividen[0], $dividen[1], intval($dividen[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->whereIn('id_output', $output)
                     ->pluck('id_output');
             } else {
-                $output = DetailOutputFundamentalModel::where($request->param_dividen, $request->comparison_dividen, intval($request->num_dividen) / 100)
+                $output = DetailOutputFundamentalModel::where($dividen[0], $dividen[1], intval($dividen[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->pluck('id_output');
             }
+
+           // return $output;
         }
 
-        if (isset($request->param_dividen_yield)) {
+        if (isset($dividen_yield)) {
             if (isset($output)) {
-                $output = DetailOutputFundamentalModel::where($request->param_dividen_yield, $request->comparison_dividen_yield, intval($request->num_dividen_yield) / 100)
+                $output = DetailOutputFundamentalModel::where($dividen_yield[0], $dividen_yield[1], intval($dividen_yield[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->whereIn('id_output', $output)
                     ->pluck('id_output');
             } else {
-                $output = DetailOutputFundamentalModel::where($request->param_dividen_yield, $request->comparison_dividen_yield, intval($request->num_dividen_yield) / 100)
+                $output = DetailOutputFundamentalModel::where($dividen_yield[0], $dividen_yield[1], intval($dividen_yield[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->pluck('id_output');
             }
+
+           // return $output;
         }
 
-        if (isset($request->param_dividen_payout_ratio)) {
+        if (isset($dividen_payout_ratio)) {
             if (isset($output)) {
-                $output = DetailOutputFundamentalModel::where($request->param_dividen_payout_ratio, $request->comparison_dividen_payout_ratio, intval($request->num_dividen_payout_ratio) / 100)
+                $output = DetailOutputFundamentalModel::where($dividen_payout_ratio[0], $dividen_payout_ratio[1], intval($dividen_payout_ratio[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->whereIn('id_output', $output)
                     ->pluck('id_output');
             } else {
-                $output = DetailOutputFundamentalModel::where($request->param_dividen_payout_ratio, $request->comparison_dividen_payout_ratio, intval($request->num_dividen_payout_ratio) / 100)
+                $output = DetailOutputFundamentalModel::where($dividen_payout_ratio[0], $dividen_payout_ratio[1], intval($dividen_payout_ratio[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->pluck('id_output');
             }
+
+           // return $output;
         }
 
-        if (isset($request->param_pbv)) {
+        if (isset($pbv)) {
             if (isset($output)) {
-                $output = DetailOutputFundamentalModel::where($request->param_pbv, $request->comparison_pbv, intval($request->num_pbv) / 100)
+                $output = DetailOutputFundamentalModel::where($pbv[0], $pbv[1], intval($pbv[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->whereIn('id_output', $output)
                     ->pluck('id_output');
             } else {
-                $output = DetailOutputFundamentalModel::where($request->param_pbv, $request->comparison_pbv, intval($request->num_pbv) / 100)
+                $output = DetailOutputFundamentalModel::where($pbv[0], $pbv[1], intval($pbv[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->pluck('id_output');
             }
+
+           // return $output;
         }
 
-        if (isset($request->param_annualized_roa)) {
+        if (isset($annualized_roa)) {
             if (isset($output)) {
-                $output = DetailOutputFundamentalModel::where($request->param_annualized_roa, $request->comparison_annualized_roa, intval($request->num_annualized_roa) / 100)
+                $output = DetailOutputFundamentalModel::where($annualized_roa[0], $annualized_roa[1], intval($annualized_roa[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->whereIn('id_output', $output)
                     ->pluck('id_output');
             } else {
-                $output = DetailOutputFundamentalModel::where($request->param_annualized_roa, $request->comparison_annualized_roa, intval($request->num_annualized_roa) / 100)
+                $output = DetailOutputFundamentalModel::where($annualized_roa[0], $annualized_roa[1], intval($annualized_roa[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->pluck('id_output');
             }
+
+           // return $output;
         }
 
         if (isset($gpm)) {
@@ -246,6 +345,8 @@ class TechnicalAPIController extends Controller
                     ->where('type', $request->type)
                     ->pluck('id_output');
             }
+
+           // return $output;
         }
 
         if (isset($npm)) {
@@ -261,135 +362,426 @@ class TechnicalAPIController extends Controller
                     ->where('type', $request->type)
                     ->pluck('id_output');
             }
+
+           // return $output;
         }
 
-        if (isset($request->param_eer)) {
+        if (isset($eer)) {
             if (isset($output)) {
-                $output = DetailOutputFundamentalModel::where($request->param_eer, $request->comparison_eer, intval($request->num_eer) / 100)
+                $output = DetailOutputFundamentalModel::where($eer[0], $eer[1], intval($eer[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->whereIn('id_output', $output)
                     ->pluck('id_output');
             } else {
-                $output = DetailOutputFundamentalModel::where($request->param_eer, $request->comparison_eer, intval($request->num_eer) / 100)
+                $output = DetailOutputFundamentalModel::where($eer[0], $eer[1], intval($eer[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->pluck('id_output');
             }
+
+           // return $output;
         }
 
-        if (isset($request->param_ear)) {
+        if (isset($ear)) {
             if (isset($output)) {
-                $output = DetailOutputFundamentalModel::where($request->param_ear, $request->comparison_ear, intval($request->num_ear) / 100)
+                $output = DetailOutputFundamentalModel::where($ear[0], $ear[1], intval($ear[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->whereIn('id_output', $output)
                     ->pluck('id_output');
             } else {
-                $output = DetailOutputFundamentalModel::where($request->param_ear, $request->comparison_ear, intval($request->num_ear) / 100)
+                $output = DetailOutputFundamentalModel::where($ear[0], $ear[1], intval($ear[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->pluck('id_output');
             }
+
+           // return $output;
         }
-        if (isset($request->param_market_cap)) {
+
+        if (isset($market_cap)) {
             if (isset($output)) {
-                $output = DetailOutputFundamentalModel::where($request->param_market_cap, $request->comparison_market_cap, intval($request->num_market_cap) / 100)
+                $output = DetailOutputFundamentalModel::where($market_cap[0], $market_cap[1], intval($market_cap[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->whereIn('id_output', $output)
                     ->pluck('id_output');
             } else {
-                $output = DetailOutputFundamentalModel::where($request->param_market_cap, $request->comparison_market_cap, intval($request->num_market_cap) / 100)
+                $output = DetailOutputFundamentalModel::where($market_cap[0], $market_cap[1], intval($market_cap[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->pluck('id_output');
             }
+
+           // return $output;
         }
-        if (isset($request->param_market_cap_asset_ratio)) {
+
+        if (isset($market_cap_asset_ratio)) {
             if (isset($output)) {
-                $output = DetailOutputFundamentalModel::where($request->param_market_cap_asset_ratio, $request->comparison_market_cap_asset_ratio, intval($request->num_market_cap_asset_ratio) / 100)
+                $output = DetailOutputFundamentalModel::where($market_cap_asset_ratio[0], $market_cap_asset_ratio[1], intval($market_cap_asset_ratio[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->whereIn('id_output', $output)
                     ->pluck('id_output');
             } else {
-                $output = DetailOutputFundamentalModel::where($request->param_market_cap_asset_ratio, $request->comparison_market_cap_asset_ratio, intval($request->num_market_cap_asset_ratio) / 100)
+                $output = DetailOutputFundamentalModel::where($market_cap_asset_ratio[0], $market_cap_asset_ratio[1], intval($market_cap_asset_ratio[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->pluck('id_output');
             }
+
+           // return $output;
         }
-        if (isset($request->param_cfo_sales_ratio)) {
+
+        if (isset($cfo_sales_ratio)) {
             if (isset($output)) {
-                $output = DetailOutputFundamentalModel::where($request->param_cfo_sales_ratio, $request->comparison_cfo_sales_ratio, intval($request->num_cfo_sales_ratio) / 100)
+                $output = DetailOutputFundamentalModel::where($cfo_sales_ratio[0], $cfo_sales_ratio[1], intval($cfo_sales_ratio[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->whereIn('id_output', $output)
                     ->pluck('id_output');
             } else {
-                $output = DetailOutputFundamentalModel::where($request->param_cfo_sales_ratio, $request->comparison_cfo_sales_ratio, intval($request->num_cfo_sales_ratio) / 100)
+                $output = DetailOutputFundamentalModel::where($cfo_sales_ratio[0], $cfo_sales_ratio[1], intval($cfo_sales_ratio[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->pluck('id_output');
             }
+
+           // return $output;
         }
-        if (isset($request->param_capex_cfo_ratio)) {
+
+        if (isset($capex_cfo_ratio)) {
             if (isset($output)) {
-                $output = DetailOutputFundamentalModel::where($request->param_capex_cfo_ratio, $request->comparison_capex_cfo_ratio, intval($request->num_capex_cfo_ratio) / 100)
+                $output = DetailOutputFundamentalModel::where($capex_cfo_ratio[0], $capex_cfo_ratio[1], intval($capex_cfo_ratio[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->whereIn('id_output', $output)
                     ->pluck('id_output');
             } else {
-                $output = DetailOutputFundamentalModel::where($request->param_capex_cfo_ratio, $request->comparison_capex_cfo_ratio, intval($request->num_capex_cfo_ratio) / 100)
+                $output = DetailOutputFundamentalModel::where($capex_cfo_ratio[0], $capex_cfo_ratio[1], intval($capex_cfo_ratio[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->pluck('id_output');
             }
+
+           // return $output;
         }
-        if (isset($request->param_market_cap_cfo_ratio)) {
+
+        if (isset($market_cap_cfo_ratio)) {
             if (isset($output)) {
-                $output = DetailOutputFundamentalModel::where($request->param_market_cap_cfo_ratio, $request->comparison_market_cap_cfo_ratio, intval($request->num_market_cap_cfo_ratio) / 100)
+                $output = DetailOutputFundamentalModel::where($market_cap_cfo_ratio[0], $market_cap_cfo_ratio[1], intval($market_cap_cfo_ratio[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->whereIn('id_output', $output)
                     ->pluck('id_output');
             } else {
-                $output = DetailOutputFundamentalModel::where($request->param_market_cap_cfo_ratio, $request->comparison_market_cap_cfo_ratio, intval($request->num_market_cap_cfo_ratio) / 100)
+                $output = DetailOutputFundamentalModel::where($market_cap_cfo_ratio[0], $market_cap_cfo_ratio[1], intval($market_cap_cfo_ratio[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->pluck('id_output');
             }
+
+           // return $output;
         }
-        if (isset($request->param_peg)) {
+
+        if (isset($peg)) {
             if (isset($output)) {
-                $output = DetailOutputFundamentalModel::where($request->param_peg, $request->comparison_peg, intval($request->num_peg) / 100)
+                $output = DetailOutputFundamentalModel::where($peg[0], $peg[1], intval($peg[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->whereIn('id_output', $output)
                     ->pluck('id_output');
             } else {
-                $output = DetailOutputFundamentalModel::where($request->param_peg, $request->comparison_peg, intval($request->num_peg) / 100)
+                $output = DetailOutputFundamentalModel::where($peg[0], $peg[1], intval($peg[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->pluck('id_output');
             }
+
+           // return $output;
         }
-        if (isset($request->param_harga_saham_sum_dividen)) {
+
+        if (isset($harga_saham_sum_dividen)) {
             if (isset($output)) {
-                $output = DetailOutputFundamentalModel::where($request->param_harga_saham_sum_dividen, $request->comparison_harga_saham_sum_dividen, intval($request->num_harga_saham_sum_dividen) / 100)
+                $output = DetailOutputFundamentalModel::where($harga_saham_sum_dividen[0], $harga_saham_sum_dividen[1], intval($harga_saham_sum_dividen[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->whereIn('id_output', $output)
                     ->pluck('id_output');
             } else {
-                $output = DetailOutputFundamentalModel::where($request->param_harga_saham_sum_dividen, $request->comparison_harga_saham_sum_dividen, intval($request->num_harga_saham_sum_dividen) / 100)
+                $output = DetailOutputFundamentalModel::where($harga_saham_sum_dividen[0], $harga_saham_sum_dividen[1], intval($harga_saham_sum_dividen[2]) / 100)
                     ->whereIn('tahun', $tahunArray)
                     ->where('type', $request->type)
                     ->pluck('id_output');
             }
+
+           // return $output;
         }
+
+
+        // if (isset($request->param_ldr)) {
+        //     if (isset($output)) {
+        //         $output = DetailOutputFundamentalModel::where($request->param_ldr, $request->comparison_ldr, intval($request->num_ldr) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->whereIn('id_output', $output)
+        //             ->pluck('id_output');
+        //     } else {
+        //         $output = DetailOutputFundamentalModel::where($request->param_ldr, $request->comparison_ldr, intval($request->num_ldr) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->pluck('id_output');
+        //     }
+        // }
+
+        // if (isset($request->param_annualized_roe)) {
+        //     if (isset($output)) {
+        //         $output = DetailOutputFundamentalModel::where($request->param_annualized_roe, $request->comparison_annualized_roe, intval($request->num_annualized_roe) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->whereIn('id_output', $output)
+        //             ->pluck('id_output');
+        //     } else {
+        //         $output = DetailOutputFundamentalModel::where($request->param_annualized_roe, $request->comparison_annualized_roe, intval($request->num_annualized_roe) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->pluck('id_output');
+        //     }
+        // }
+
+        // if (isset($request->param_dividen)) {
+        //     if (isset($output)) {
+        //         $output = DetailOutputFundamentalModel::where($request->param_dividen, $request->comparison_dividen, intval($request->num_dividen) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->whereIn('id_output', $output)
+        //             ->pluck('id_output');
+        //     } else {
+        //         $output = DetailOutputFundamentalModel::where($request->param_dividen, $request->comparison_dividen, intval($request->num_dividen) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->pluck('id_output');
+        //     }
+        // }
+
+        // if (isset($request->param_dividen_yield)) {
+        //     if (isset($output)) {
+        //         $output = DetailOutputFundamentalModel::where($request->param_dividen_yield, $request->comparison_dividen_yield, intval($request->num_dividen_yield) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->whereIn('id_output', $output)
+        //             ->pluck('id_output');
+        //     } else {
+        //         $output = DetailOutputFundamentalModel::where($request->param_dividen_yield, $request->comparison_dividen_yield, intval($request->num_dividen_yield) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->pluck('id_output');
+        //     }
+        // }
+
+        // if (isset($request->param_dividen_payout_ratio)) {
+        //     if (isset($output)) {
+        //         $output = DetailOutputFundamentalModel::where($request->param_dividen_payout_ratio, $request->comparison_dividen_payout_ratio, intval($request->num_dividen_payout_ratio) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->whereIn('id_output', $output)
+        //             ->pluck('id_output');
+        //     } else {
+        //         $output = DetailOutputFundamentalModel::where($request->param_dividen_payout_ratio, $request->comparison_dividen_payout_ratio, intval($request->num_dividen_payout_ratio) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->pluck('id_output');
+        //     }
+        // }
+
+        // if (isset($request->param_pbv)) {
+        //     if (isset($output)) {
+        //         $output = DetailOutputFundamentalModel::where($request->param_pbv, $request->comparison_pbv, intval($request->num_pbv) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->whereIn('id_output', $output)
+        //             ->pluck('id_output');
+        //     } else {
+        //         $output = DetailOutputFundamentalModel::where($request->param_pbv, $request->comparison_pbv, intval($request->num_pbv) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->pluck('id_output');
+        //     }
+        // }
+
+        // if (isset($request->param_annualized_roa)) {
+        //     if (isset($output)) {
+        //         $output = DetailOutputFundamentalModel::where($request->param_annualized_roa, $request->comparison_annualized_roa, intval($request->num_annualized_roa) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->whereIn('id_output', $output)
+        //             ->pluck('id_output');
+        //     } else {
+        //         $output = DetailOutputFundamentalModel::where($request->param_annualized_roa, $request->comparison_annualized_roa, intval($request->num_annualized_roa) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->pluck('id_output');
+        //     }
+        // }
+
+        // if (isset($gpm)) {
+        //     if (isset($output)) {
+        //         $output = DetailOutputFundamentalModel::where($gpm[0], $gpm[1], intval($gpm[2]) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->whereIn('id_output', $output)
+        //             ->pluck('id_output');
+        //     } else {
+        //         $output = DetailOutputFundamentalModel::where($gpm[0], $gpm[1], intval($gpm[2]) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->pluck('id_output');
+        //     }
+        // }
+
+        // if (isset($npm)) {
+        //     if (isset($output)) {
+        //         $output = DetailOutputFundamentalModel::where($npm[0], $npm[1], intval($npm[2]) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->whereIn('id_output', $output)
+        //             ->pluck('id_output');
+        //     } else {
+        //         $output = DetailOutputFundamentalModel::where($npm[0], $npm[1], intval($npm[2]) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->pluck('id_output');
+        //     }
+        // }
+
+        // if (isset($request->param_eer)) {
+        //     if (isset($output)) {
+        //         $output = DetailOutputFundamentalModel::where($request->param_eer, $request->comparison_eer, intval($request->num_eer) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->whereIn('id_output', $output)
+        //             ->pluck('id_output');
+        //     } else {
+        //         $output = DetailOutputFundamentalModel::where($request->param_eer, $request->comparison_eer, intval($request->num_eer) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->pluck('id_output');
+        //     }
+        // }
+
+        // if (isset($request->param_ear)) {
+        //     if (isset($output)) {
+        //         $output = DetailOutputFundamentalModel::where($request->param_ear, $request->comparison_ear, intval($request->num_ear) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->whereIn('id_output', $output)
+        //             ->pluck('id_output');
+        //     } else {
+        //         $output = DetailOutputFundamentalModel::where($request->param_ear, $request->comparison_ear, intval($request->num_ear) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->pluck('id_output');
+        //     }
+        // }
+        // if (isset($request->param_market_cap)) {
+        //     if (isset($output)) {
+        //         $output = DetailOutputFundamentalModel::where($request->param_market_cap, $request->comparison_market_cap, intval($request->num_market_cap) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->whereIn('id_output', $output)
+        //             ->pluck('id_output');
+        //     } else {
+        //         $output = DetailOutputFundamentalModel::where($request->param_market_cap, $request->comparison_market_cap, intval($request->num_market_cap) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->pluck('id_output');
+        //     }
+        // }
+        // if (isset($request->param_market_cap_asset_ratio)) {
+        //     if (isset($output)) {
+        //         $output = DetailOutputFundamentalModel::where($request->param_market_cap_asset_ratio, $request->comparison_market_cap_asset_ratio, intval($request->num_market_cap_asset_ratio) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->whereIn('id_output', $output)
+        //             ->pluck('id_output');
+        //     } else {
+        //         $output = DetailOutputFundamentalModel::where($request->param_market_cap_asset_ratio, $request->comparison_market_cap_asset_ratio, intval($request->num_market_cap_asset_ratio) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->pluck('id_output');
+        //     }
+        // }
+        // if (isset($request->param_cfo_sales_ratio)) {
+        //     if (isset($output)) {
+        //         $output = DetailOutputFundamentalModel::where($request->param_cfo_sales_ratio, $request->comparison_cfo_sales_ratio, intval($request->num_cfo_sales_ratio) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->whereIn('id_output', $output)
+        //             ->pluck('id_output');
+        //     } else {
+        //         $output = DetailOutputFundamentalModel::where($request->param_cfo_sales_ratio, $request->comparison_cfo_sales_ratio, intval($request->num_cfo_sales_ratio) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->pluck('id_output');
+        //     }
+        // }
+        // if (isset($request->param_capex_cfo_ratio)) {
+        //     if (isset($output)) {
+        //         $output = DetailOutputFundamentalModel::where($request->param_capex_cfo_ratio, $request->comparison_capex_cfo_ratio, intval($request->num_capex_cfo_ratio) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->whereIn('id_output', $output)
+        //             ->pluck('id_output');
+        //     } else {
+        //         $output = DetailOutputFundamentalModel::where($request->param_capex_cfo_ratio, $request->comparison_capex_cfo_ratio, intval($request->num_capex_cfo_ratio) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->pluck('id_output');
+        //     }
+        // }
+        // if (isset($request->param_market_cap_cfo_ratio)) {
+        //     if (isset($output)) {
+        //         $output = DetailOutputFundamentalModel::where($request->param_market_cap_cfo_ratio, $request->comparison_market_cap_cfo_ratio, intval($request->num_market_cap_cfo_ratio) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->whereIn('id_output', $output)
+        //             ->pluck('id_output');
+        //     } else {
+        //         $output = DetailOutputFundamentalModel::where($request->param_market_cap_cfo_ratio, $request->comparison_market_cap_cfo_ratio, intval($request->num_market_cap_cfo_ratio) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->pluck('id_output');
+        //     }
+        // }
+        // if (isset($request->param_peg)) {
+        //     if (isset($output)) {
+        //         $output = DetailOutputFundamentalModel::where($request->param_peg, $request->comparison_peg, intval($request->num_peg) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->whereIn('id_output', $output)
+        //             ->pluck('id_output');
+        //     } else {
+        //         $output = DetailOutputFundamentalModel::where($request->param_peg, $request->comparison_peg, intval($request->num_peg) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->pluck('id_output');
+        //     }
+        // }
+        // if (isset($request->param_harga_saham_sum_dividen)) {
+        //     if (isset($output)) {
+        //         $output = DetailOutputFundamentalModel::where($request->param_harga_saham_sum_dividen, $request->comparison_harga_saham_sum_dividen, intval($request->num_harga_saham_sum_dividen) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->whereIn('id_output', $output)
+        //             ->pluck('id_output');
+        //     } else {
+        //         $output = DetailOutputFundamentalModel::where($request->param_harga_saham_sum_dividen, $request->comparison_harga_saham_sum_dividen, intval($request->num_harga_saham_sum_dividen) / 100)
+        //             ->whereIn('tahun', $tahunArray)
+        //             ->where('type', $request->type)
+        //             ->pluck('id_output');
+        //     }
+        // }
 
 
         // if(isset($request->param_div)){
