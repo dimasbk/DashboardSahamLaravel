@@ -577,6 +577,7 @@ class TechnicalAPIController extends Controller
             foreach($input_id as $id){
                 $output = OutputFundamentalModel::where('id_input', $id->id_input)
                 ->join('tb_detail_output', 'tb_output.id_detail_output', '=', 'tb_detail_output.id_output')
+                ->where('type', $request->type)
                 ->first();
 
             $der = $output->der * 100;
