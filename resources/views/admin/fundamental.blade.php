@@ -351,7 +351,7 @@
                         </div>
                         <div class="form-group">
                             <label>
-                                <input type="radio" name="kuartal" value="">
+                                <input type="radio" name="kuartal" value="tahunan">
                                 Tahunan
                             </label>
                             <label>
