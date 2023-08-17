@@ -548,11 +548,8 @@ class ReportAPIController extends Controller
         // }
         $realisasi_hitung_minus =  -(((($avgJual) * $jual_total))*100);
         $realisasi_hitung_plus =  (((($avgBeli) * $jual_total))*100);
-        if ($avgJual != null){
-        $realisasi =  $totalLot * $avgBeli;
-        } if ($avgJual == null){
-            $realisasi = 0;
-        }
+        $realisasi =  (((($avgJual - $avgBeli) * $jual_total))*100);
+
 
         $modal_awal =  ($total_semua_beli*$beli_total - $total_semua_jual*$jual_total);
 
@@ -560,17 +557,23 @@ class ReportAPIController extends Controller
            // $realisasi =  ($realisasi_hitung_minus) +(((($avgJual - $avgBeli) * $jual_total))*100);
             $realisasi_persentase = -(((($avgJual - $avgBeli) * $jual_total))*100);
         //$total_semua =  ($realisasi_hitung_minus) + ($total_semua_beli*$beli_total - $total_semua_jual*$jual_total) - (($avgJual * $jual_total)*100);
-        $total_semua =  $avgTotalBeli - $avgTotalJual;
+
         }
         // else if ($realisasi = 0){
 
         // }
+        if ($avgJual != null){
+            $total_semua =  $totalLot - $avgBeli;
+        }
+        if($avgJual == null){
+            $total_semua = 0;
+        }
 
 
         else{
            // $realisasi = $realisasi_hitung_plus + (((($avgJual - $avgBeli) * $jual_total))*100);
             $realisasi_persentase = (((($avgJual - $avgBeli) * $jual_total))*100);
-            $total_semua =  ($avgTotalBeli - $avgTotalJual) + $realisasi ;
+           // $total_semua =  ($avgTotalBeli - $avgTotalJual) + $realisasi ;
             // $total_semua =  ($total_semua_beli*$beli_total - $total_semua_jual*$jual_total) + ($total_semua_jual*$jual_total);
         }
         $persentase_profit = ($realisasi/$total_semua) * 100;
