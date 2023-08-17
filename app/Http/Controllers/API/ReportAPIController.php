@@ -548,8 +548,11 @@ class ReportAPIController extends Controller
         // }
         $realisasi_hitung_minus =  -(((($avgJual) * $jual_total))*100);
         $realisasi_hitung_plus =  (((($avgBeli) * $jual_total))*100);
+        if ($avgJual != null){
         $realisasi =  $totalLot * $avgBeli;
-
+        } if ($avgJual == null){
+            $realisasi = 0;
+        }
 
         $modal_awal =  ($total_semua_beli*$beli_total - $total_semua_jual*$jual_total);
 
