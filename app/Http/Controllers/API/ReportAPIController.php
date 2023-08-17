@@ -464,6 +464,7 @@ class ReportAPIController extends Controller
             $item['tanggal'] = $tanggal;
             $item["harga"] = $item["harga_beli"];
             $item["tag"] = 'beli';
+            $item["fee"] = 'beli';
             unset($item['harga_beli']);
             unset($item['tanggal_beli']);
         }
