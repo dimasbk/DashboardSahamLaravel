@@ -491,19 +491,19 @@ class ReportAPIController extends Controller
         $total_semua_beli = 0;
         $jual_total = 0;
         $total_semua_jual = 0;
-        $fee = 0;
+        $fee_ku = 0;
         foreach ($data as $rep) {
             if ($rep["tag"] == "beli") {
                 $beli_total += $rep["volume"];
                 $total_semua_beli += $rep["total_beli"];
-                $fee += $rep["fee_beli"];
+                $fee_ku += $rep["fee_beli"];
             }
         }
         foreach ($data as $rep) {
             if ($rep["tag"] == "jual") {
                 $jual_total += $rep["volume"];
                 $total_semua_jual += $rep["total_jual"];
-                $fee += $rep["fee_jual"];
+                $fee_ku += $rep["fee_jual"];
             }
         }
         $lastDayOfYear = new DateTime("{$year}-12-31");
