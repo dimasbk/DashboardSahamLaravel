@@ -555,7 +555,7 @@ class PortofolioAPIController extends Controller
                     'id_sekuritas' => $idSekuritas,
                     'close_persen' => $fee,
                     'total_jual' => $total,
-                    'feeku' => $request->fee,
+                    'feeku' => $request->feeku,
                 ]);
             }
             if ($reqType == 'beli') {
@@ -568,7 +568,7 @@ class PortofolioAPIController extends Controller
                     'harga_beli' => $request->harga,
                     //'fee' => $request->fee,
                     'id_sekuritas' => $idSekuritas,
-                    'total_beli' => $total,'feeku' => $request->fee,
+                    'total_beli' => $total,'feeku' => $request->feeku,
 
                 ]);
 
