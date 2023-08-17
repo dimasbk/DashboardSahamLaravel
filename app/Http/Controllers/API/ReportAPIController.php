@@ -563,7 +563,7 @@ class ReportAPIController extends Controller
 
         // }
         if ($avgJual != null){
-            $total_semua =  $totalLot - $avgBeli;
+            $total_semua =  $totalLot * $avgBeli;
         }
         if($avgJual == null){
             $total_semua = 0;
@@ -1176,7 +1176,7 @@ class ReportAPIController extends Controller
                 'keuntungan' => $years[$key]['keuntungan'] ,
                 'realisasi' => $years[$key]['realisasi'] ,
                 'keuntunganPercent' => $percent,
-                'total-semua' => $years[$key]['total_semua'] ,
+                'total_semua' => $years[$key]['total_semua'] ,
                 'persentase_profit' => $years[$key]['persentase_profit']
                 // 'followers' => $followers,
                 // 'postCount' => $postCount
