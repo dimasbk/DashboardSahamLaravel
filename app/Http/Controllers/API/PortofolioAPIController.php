@@ -555,7 +555,7 @@ class PortofolioAPIController extends Controller
                     'id_sekuritas' => $idSekuritas,
                     'close_persen' => $fee,
                     'total_jual' => $total,
-                    'fee' => $fee,
+                    'fee' => $request->fee,
                 ]);
             }
             if ($reqType == 'beli') {
