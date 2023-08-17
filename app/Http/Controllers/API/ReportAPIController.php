@@ -205,7 +205,7 @@ class ReportAPIController extends Controller
 
                // $data[$i]['sisa_aset'] = (string)$data[$i]['sisa_aset'];
             }
-            if (!$jualReport) {
+            if ($jualReport == null) {
                 $data[$i]['total_volume_jual'] = 0;
                 $data[$i]['avg_harga_jual'] = 0;
                 $data[$i]['profit_jual'] = 0;
