@@ -627,12 +627,14 @@ class PortofolioAPIController extends Controller
 
 
 
+
             if ($total > 10000000){
-                // $total = 100*(((($request->volume * $request->harga) * $request->fee/100) + ($request->volume * $request->harga) + 10000)/$request->volume);
-                 $total = (100*($request->volume * $request->harga_beli)) + (($fee/100)*(100*($request->volume * $request->harga_beli))) + 10000 ;
+
+                // $total = (100*($request->volume * $request->harga)) + (($request->fee/100)*(100*($request->volume * $request->harga))) + 10000 ;
+                 $total = (100*($request->volume * $request->harga_beli)) ;
              }else{
-                // $total = 100*(((($request->volume * $request->harga_beli) * $request->fee/100) + ($request->volume * $request->harga_beli))/$request->volume);
-                 $total = (100*($request->volume * $request->harga_beli)) + (($fee/100)*(100*($request->volume * $request->harga_beli))) ;
+                 $total = (100*($request->volume * $request->harga_beli));
+                // $total = (100*($request->volume * $request->harga)) + (($request->fee/100)*(100*($request->volume * $request->harga))) ;
              }
 
 
@@ -668,12 +670,21 @@ class PortofolioAPIController extends Controller
 
             $total = 100*($request->volume * $request->harga_jual);
 
-            if ($total > 10000000){
-                // $total = 100*(((($request->volume * $request->harga) * $request->fee/100) + ($request->volume * $request->harga) + 10000)/$request->volume);
-                 $total = (100*($request->volume * $request->harga_jual)) + (($fee/100)*(100*($request->volume * $request->harga_jual))) + 10000 ;
+            // if ($total > 10000000){
+            //     // $total = 100*(((($request->volume * $request->harga) * $request->fee/100) + ($request->volume * $request->harga) + 10000)/$request->volume);
+            //      $total = (100*($request->volume * $request->harga_jual)) + (($fee/100)*(100*($request->volume * $request->harga_jual))) + 10000 ;
+            //  }else{
+            //     // $total = 100*(((($request->volume * $request->harga_jual) * $request->fee/100) + ($request->volume * $request->harga_jual))/$request->volume);
+            //      $total = (100*($request->volume * $request->harga_jual)) + (($fee/100)*(100*($request->volume * $request->harga_jual))) ;
+            //  }
+
+             if ($total > 10000000){
+
+                // $total = (100*($request->volume * $request->harga)) + (($request->fee/100)*(100*($request->volume * $request->harga))) + 10000 ;
+                 $total = (100*($request->volume * $request->harga_jual)) ;
              }else{
-                // $total = 100*(((($request->volume * $request->harga_jual) * $request->fee/100) + ($request->volume * $request->harga_jual))/$request->volume);
-                 $total = (100*($request->volume * $request->harga_jual)) + (($fee/100)*(100*($request->volume * $request->harga_jual))) ;
+                 $total = (100*($request->volume * $request->harga_jual));
+                // $total = (100*($request->volume * $request->harga)) + (($request->fee/100)*(100*($request->volume * $request->harga))) ;
              }
 
 
