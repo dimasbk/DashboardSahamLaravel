@@ -566,7 +566,7 @@ class ReportAPIController extends Controller
             $total_semua =  $totalLot * $avgBeli;
         }
         if($avgJual == null){
-            $total_semua = 1;
+            $total_semua = $totalLot * $avgBeli;
         }
 
 
