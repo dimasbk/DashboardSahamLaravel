@@ -190,12 +190,14 @@ class ReportAPIController extends Controller
                 $data[$i]['sisa_aset'] = ($data[$i]['total_lot']*$data[$i]['avg_harga_beli']) - ($data[$i]['total_lot']*$data[$i]['avg_harga_jual']);
                // $data[$i]['sisa_aset'] = (100*($data[$i]['total_volume']));
                 $data[$i]['harga_close'] = $hargaclose;
-                $data[$i]['total_banget'] = ($data[$i]['total_beli_banget']) - ($jualReport[0]['total_jual_banget']);
+                $data[$i]['total_banget'] = ($data[$i]['total_lot']*$data[$i]['avg_harga_beli']);
+                $data[$i]['profit_jual'] =  (($jualReport[0]['avg_harga_jual'] - $data[$i]['avg_harga_beli'])*$jualReport[0]['total_volume_jual'])*100;
 
                 $data[$i]['total_volume_jual'] = (string)$data[$i]['total_volume_jual'];
                 $data[$i]['avg_harga_jual'] = (string)$data[$i]['avg_harga_jual'];
                 $data[$i]['total_volume'] = (string)$data[$i]['total_volume'];
                 $data[$i]['keuntungan'] = (string)$data[$i]['keuntungan'];
+                $data[$i]['profit_jual'] = (string)$data[$i]['profit_jual'];
               //  $data[$i]['keuntungan_total'] = (string)$data[$i]['keuntungan_total'];
                // $data[$i]['total_banget'] = (string)$data[$i]['total_banget'];
                 $data[$i]['year'] = $year;
@@ -203,9 +205,10 @@ class ReportAPIController extends Controller
 
                // $data[$i]['sisa_aset'] = (string)$data[$i]['sisa_aset'];
             }
-            if (!$jualReport) {
+            if ($jualReport == null) {
                 $data[$i]['total_volume_jual'] = 0;
                 $data[$i]['avg_harga_jual'] = 0;
+                $data[$i]['profit_jual'] = 0;
                 $data[$i]['total_volume'] = $data[$i]['total_volume_beli'];
                 $data[$i]['total_lot'] = ($data[$i]['total_volume_beli']) * 100;
                 $data[$i]['keuntungan'] = ($data[$i]['total_lot']*$hargaclose)- ($data[$i]['total_lot']*$data[$i]['avg_harga_beli']);
@@ -214,7 +217,7 @@ class ReportAPIController extends Controller
                 $data[$i]['sisa_aset'] = ($data[$i]['total_lot']*$data[$i]['avg_harga_beli']) - ($data[$i]['total_lot']*$data[$i]['avg_harga_jual']);
                 $data[$i]['harga_close'] = $hargaclose;
                 $data[$i]['year'] = $year;
-                $data[$i]['total_banget'] = $data[$i]['total_beli_banget'];
+                $data[$i]['total_banget'] = ($data[$i]['total_lot']*$data[$i]['avg_harga_beli']);
                 // $data[$i]['keuntungan'] = (string)$data[$i]['keuntungan'];
 
 
@@ -461,6 +464,7 @@ class ReportAPIController extends Controller
             $item['tanggal'] = $tanggal;
             $item["harga"] = $item["harga_beli"];
             $item["tag"] = 'beli';
+            $item["fee"] = 'beli';
             unset($item['harga_beli']);
             unset($item['tanggal_beli']);
         }
@@ -488,16 +492,19 @@ class ReportAPIController extends Controller
         $total_semua_beli = 0;
         $jual_total = 0;
         $total_semua_jual = 0;
+        $fee_ku = 0;
         foreach ($data as $rep) {
             if ($rep["tag"] == "beli") {
                 $beli_total += $rep["volume"];
                 $total_semua_beli += $rep["total_beli"];
+                $fee_ku += $rep["fee_beli"];
             }
         }
         foreach ($data as $rep) {
             if ($rep["tag"] == "jual") {
                 $jual_total += $rep["volume"];
                 $total_semua_jual += $rep["total_jual"];
+                $fee_ku += $rep["fee_jual"];
             }
         }
         $lastDayOfYear = new DateTime("{$year}-12-31");
@@ -550,17 +557,23 @@ class ReportAPIController extends Controller
            // $realisasi =  ($realisasi_hitung_minus) +(((($avgJual - $avgBeli) * $jual_total))*100);
             $realisasi_persentase = -(((($avgJual - $avgBeli) * $jual_total))*100);
         //$total_semua =  ($realisasi_hitung_minus) + ($total_semua_beli*$beli_total - $total_semua_jual*$jual_total) - (($avgJual * $jual_total)*100);
-        $total_semua =  $avgTotalBeli - $avgTotalJual;
+
         }
         // else if ($realisasi = 0){
 
         // }
+        if ($avgJual != null){
+            $total_semua =  $totalLot * $avgBeli;
+        }
+        if($avgJual == null){
+            $total_semua = $totalLot * $avgBeli;
+        }
 
 
         else{
            // $realisasi = $realisasi_hitung_plus + (((($avgJual - $avgBeli) * $jual_total))*100);
             $realisasi_persentase = (((($avgJual - $avgBeli) * $jual_total))*100);
-            $total_semua =  ($avgTotalBeli - $avgTotalJual) + $realisasi ;
+           // $total_semua =  ($avgTotalBeli - $avgTotalJual) + $realisasi ;
             // $total_semua =  ($total_semua_beli*$beli_total - $total_semua_jual*$jual_total) + ($total_semua_jual*$jual_total);
         }
         $persentase_profit = ($realisasi/$total_semua) * 100;
@@ -583,7 +596,7 @@ class ReportAPIController extends Controller
         // }
       //  $realisasii = (string)$realisasi;
 
-        $returnData = compact(['data', 'keuntungan', 'realisasi', 'hargaclose', ]);
+        $returnData = compact(['data', 'keuntungan', 'realisasi', 'hargaclose', 'total_semua']);
 
         return response()->json([
             'status' => 'success',
@@ -1163,7 +1176,7 @@ class ReportAPIController extends Controller
                 'keuntungan' => $years[$key]['keuntungan'] ,
                 'realisasi' => $years[$key]['realisasi'] ,
                 'keuntunganPercent' => $percent,
-                'total-semua' => $years[$key]['total_semua'] ,
+                'total_semua' => $years[$key]['total_semua'] ,
                 'persentase_profit' => $years[$key]['persentase_profit']
                 // 'followers' => $followers,
                 // 'postCount' => $postCount
