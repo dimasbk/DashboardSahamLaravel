@@ -145,7 +145,7 @@ class ReportAPIController extends Controller
         $currentYear = date('Y');
         $year = $currentYear;
        // $year = 2023;
-        $id_user = 12;
+        $id_user = Auth::id();
         //$id_user = 12;
         $data = PortofolioBeliModel::join('tb_saham', 'tb_portofolio_beli.id_saham', '=', 'tb_saham.id_saham')
             ->select('tb_portofolio_beli.id_saham', 'tb_saham.nama_saham', DB::raw('SUM(tb_portofolio_beli.volume) AS total_volume_beli'),DB::raw('AVG(tb_portofolio_beli.volume) AS avg_volume_beli'), DB::raw('AVG(tb_portofolio_beli.harga_beli) AS avg_harga_beli'),DB::raw('SUM(tb_portofolio_beli.total_beli) AS total_beli_banget'),DB::raw('AVG(tb_portofolio_beli.total_beli) AS avg_total_beli_banget'))
